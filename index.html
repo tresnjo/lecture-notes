@@ -3,87 +3,261 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
+/* ── Tokens ─────────────────────────────────────── */
 :root {
-  --bg: #f6f4ef;
-  --bg-surface: #ffffff;
-  --bg-elevated: #edeae3;
-  --text: #1c1b18;
-  --text-muted: #5e5a53;
-  --border: #d8d2c5;
-  --accent: #877B31;
-  --accent-l: #b5a54a;
-  --accent-dim: #c8bc7a;
-  --accent-bg: #f2edd8;
-  --blue: #4a6fa5;
-  --green: #4a7a5a;
+  --bg:          #ffffff;
+  --bg-surface:  #ffffff;
+  --bg-elevated: #f5f4f2;
+  --text:        #1a1917;
+  --text-muted:  #68655e;
+  --border:      #dedad2;
+
+  --accent:    #c0890b;   /* amber gold */
+  --accent-l:  #d9a826;
+  --accent-bg: #fdf6e3;
+
+  --def:    #1e5b8c;   /* royal blue  — definitions */
+  --def-bg: #ebf4ff;
+  --thm:    #5b3a9e;   /* purple      — theorems */
+  --thm-bg: #f3eeff;
+  --ex:     #1e7a56;   /* forest green— exercises */
+  --ex-bg:  #ebfaf3;
+  --rmk:    #68655e;   /* muted       — remarks */
+  --rmk-bg: #f7f5f0;
+
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #1a1a1a; --bg-surface: #242424; --bg-elevated: #2d2d2d;
-    --text: #d4cfc4; --text-muted: #6e6a62; --border: #383838;
-    --accent: #877B31; --accent-l: #b5a54a; --accent-dim: #4a4420;
-    --accent-bg: #252310; --blue: #6a90c5; --green: #6a9a7a;
+    --bg: #18171a; --bg-surface: #211f25; --bg-elevated: #2a2830;
+    --text: #e0dbd4; --text-muted: #7a7570; --border: #37343e;
+    --accent: #c0890b; --accent-l: #d9a826; --accent-bg: #261e08;
+    --def: #5ba0d0; --def-bg: #0e1f30;
+    --thm: #9b7cd8; --thm-bg: #1e1630;
+    --ex:  #4fb88a; --ex-bg:  #0d2a1e;
+    --rmk: #7a7570; --rmk-bg: #242230;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #1a1a1a; --bg-surface: #242424; --bg-elevated: #2d2d2d;
-  --text: #d4cfc4; --text-muted: #6e6a62; --border: #383838;
-  --accent: #877B31; --accent-l: #b5a54a; --accent-dim: #4a4420;
-  --accent-bg: #252310; --blue: #6a90c5; --green: #6a9a7a;
+  --bg: #18171a; --bg-surface: #211f25; --bg-elevated: #2a2830;
+  --text: #e0dbd4; --text-muted: #7a7570; --border: #37343e;
+  --accent: #c0890b; --accent-l: #d9a826; --accent-bg: #261e08;
+  --def: #5ba0d0; --def-bg: #0e1f30;
+  --thm: #9b7cd8; --thm-bg: #1e1630;
+  --ex:  #4fb88a; --ex-bg:  #0d2a1e;
+  --rmk: #7a7570; --rmk-bg: #242230;
   color-scheme: dark;
 }
+
+/* ── Reset & base ────────────────────────────────── */
 *{box-sizing:border-box}
-body{margin:0;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:15.5px;
+  line-height:1.72;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
 
-/* Layout */
-#app{display:flex;min-height:100vh}
-.sidebar{width:230px;flex-shrink:0;background:var(--bg-surface);border-right:1px solid var(--border);padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
-.sidebar-brand{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);padding:0 18px 14px;border-bottom:1px solid var(--border);margin-bottom:10px}
-.sidebar-nav{list-style:none;margin:0;padding:0}
-.sidebar-nav li a{display:block;padding:7px 18px;color:var(--text-muted);text-decoration:none;font-size:13px;line-height:1.4;border-left:2px solid transparent;cursor:pointer;transition:all .12s}
-.sidebar-nav li a:hover{color:var(--text);background:var(--bg-elevated)}
-.sidebar-nav li a.active{color:var(--accent-l);border-left-color:var(--accent);background:var(--accent-bg);font-weight:500}
-.main{flex:1;min-width:0;padding:44px max(24px,env(safe-area-inset-right,0px)) 80px max(24px,env(safe-area-inset-left,0px));max-width:800px}
-.topic-header{margin-bottom:32px;padding-bottom:18px;border-bottom:1px solid var(--border)}
-.topic-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
-.topic-title{font-family:'Crimson Pro',Georgia,serif;font-size:34px;font-weight:600;color:var(--text);line-height:1.2;margin:0}
+/* ── Top navigation bar ──────────────────────────── */
+#topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--bg-surface);
+  border-bottom:1px solid var(--border);
+  padding:0 max(16px,env(safe-area-inset-left,0px));
+}
+#topbar-inner{
+  max-width:860px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:0;
+}
+#topbar-brand{
+  font-size:11.5px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  white-space:nowrap;
+  padding:12px 16px 12px 0;
+  border-right:1px solid var(--border);
+  margin-right:12px;
+  flex-shrink:0;
+}
+#topbar-tabs{
+  display:flex;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  gap:0;
+}
+#topbar-tabs::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex-shrink:0;
+  background:none;
+  border:none;
+  border-bottom:3px solid transparent;
+  padding:11px 13px;
+  font-size:12.5px;
+  font-family:inherit;
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:all .15s;
+  white-space:nowrap;
+  line-height:1;
+}
+.tab-btn:hover{color:var(--text);background:var(--bg-elevated)}
+.tab-btn.active{
+  color:var(--accent);
+  border-bottom-color:var(--accent);
+  font-weight:600;
+}
 
-/* Typography */
-.topic-content h2{font-family:'Crimson Pro',Georgia,serif;font-size:22px;font-weight:600;color:var(--text);margin:34px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
-.topic-content h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin:24px 0 8px}
+/* Mobile select fallback */
+#mobile-select{display:none}
+
+/* ── Main content area ───────────────────────────── */
+#main{
+  max-width:800px;
+  margin:0 auto;
+  padding:40px max(20px,env(safe-area-inset-right,0px)) 80px max(20px,env(safe-area-inset-left,0px));
+}
+
+/* ── Topic header ────────────────────────────────── */
+.topic-header{margin-bottom:36px;padding-bottom:20px;border-bottom:2px solid var(--border)}
+.topic-label{
+  font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:6px;
+}
+.topic-title{
+  font-family:'Crimson Pro',Georgia,serif;
+  font-size:36px;font-weight:600;color:var(--text);
+  line-height:1.15;margin:0;text-wrap:balance;
+}
+
+/* ── Content typography ──────────────────────────── */
+.topic-content h2{
+  font-family:'Crimson Pro',Georgia,serif;
+  font-size:23px;font-weight:600;color:var(--text);
+  margin:40px 0 10px;padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+}
+.topic-content h3{
+  font-size:11px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--text-muted);margin:28px 0 10px;
+}
+.topic-content h4{
+  font-family:'Crimson Pro',Georgia,serif;
+  font-size:18px;font-weight:600;color:var(--text);margin:24px 0 8px;
+}
 .topic-content p{line-height:1.75;margin:0 0 13px;color:var(--text)}
-.topic-content ul,.topic-content ol{padding-left:22px;margin:0 0 13px}
-.topic-content li{line-height:1.7;margin-bottom:3px}
+.topic-content ul,.topic-content ol{padding-left:24px;margin:0 0 13px}
+.topic-content li{line-height:1.7;margin-bottom:4px}
+.topic-content code{
+  font-family:'JetBrains Mono',monospace;font-size:0.85em;
+  background:var(--bg-elevated);padding:1px 5px;border-radius:3px;
+}
+.topic-content blockquote{
+  border-left:3px solid var(--border);margin:16px 0;
+  padding:4px 16px;color:var(--text-muted);
+}
+hr,.lecture-sep{border:none;border-top:1px solid var(--border);margin:28px 0}
 
-/* Cards */
-.card{background:var(--bg-surface);border:1px solid var(--border);border-radius:7px;padding:16px 20px;margin:16px 0}
-.card-def{border-left:3px solid var(--accent)}
-.card-thm{border-left:3px solid var(--blue)}
-.card-ex{border-left:3px solid var(--green)}
-.card-label{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px}
-.card-def .card-label{color:var(--accent)}
-.card-thm .card-label{color:var(--blue)}
-.card-ex .card-label{color:var(--green)}
+/* ── Callout cards ───────────────────────────────── */
+.card{
+  border-radius:8px;padding:14px 18px;margin:18px 0;
+  border:1px solid var(--border);
+  page-break-inside:avoid;
+}
+.card-def{background:var(--def-bg);border-color:color-mix(in srgb,var(--def) 25%,var(--border))}
+.card-thm{background:var(--thm-bg);border-color:color-mix(in srgb,var(--thm) 25%,var(--border))}
+.card-ex {background:var(--ex-bg); border-color:color-mix(in srgb,var(--ex)  25%,var(--border))}
+.card-remark{background:var(--rmk-bg);border-color:var(--border)}
 
-/* Component wrapper */
-.comp-wrap{background:var(--bg-surface);border:1px solid var(--border);border-radius:9px;padding:20px 22px;margin:20px 0;overflow-x:auto}
-.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 14px}
+.card-label{
+  font-size:11px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.card-def .card-label{color:var(--def)}
+.card-thm .card-label{color:var(--thm)}
+.card-ex  .card-label{color:var(--ex)}
+.card-remark .card-label{color:var(--rmk)}
 
-/* Buttons */
-.btn{background:var(--bg-elevated);border:1px solid var(--border);color:var(--text);padding:5px 11px;border-radius:5px;cursor:pointer;font-size:12.5px;font-family:inherit;transition:all .12s}
+/* Strip margin from first/last child inside a card */
+.card > p:first-of-type{margin-top:0}
+.card > p:last-child{margin-bottom:0}
+
+/* ── Visualization wrappers ──────────────────────── */
+.comp-wrap{
+  background:var(--bg-surface);border:1px solid var(--border);
+  border-radius:10px;padding:20px 22px;margin:24px 0;overflow-x:auto;
+}
+.comp-title{
+  font-size:11px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--text-muted);margin:0 0 12px;
+}
+.comp-desc{
+  font-size:13.5px;color:var(--text-muted);line-height:1.6;margin-bottom:14px;
+  padding-bottom:12px;border-bottom:1px solid var(--border);
+}
+
+/* ── Cross-reference links ───────────────────────── */
+.xref{
+  font-size:.88em;vertical-align:.05em;
+  color:var(--def);background:var(--def-bg);
+  padding:1px 6px;border-radius:3px;text-decoration:none;cursor:pointer;
+  font-weight:500;white-space:nowrap;
+}
+.xref:hover{text-decoration:underline}
+
+/* ── Buttons ─────────────────────────────────────── */
+.btn{
+  background:var(--bg-elevated);border:1px solid var(--border);
+  color:var(--text);padding:5px 12px;border-radius:5px;cursor:pointer;
+  font-size:12.5px;font-family:inherit;transition:all .12s;
+}
 .btn:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent-l)}
 .btn.active{background:var(--accent-bg);border-color:var(--accent);color:var(--accent-l)}
 
-/* Mobile */
-.mobile-nav{display:none;padding:12px 16px;background:var(--bg-surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
-.mobile-nav select{width:100%;padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:14px;font-family:inherit}
+/* ── Range sliders ───────────────────────────────── */
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;
+  height:4px;border-radius:2px;
+  background:linear-gradient(to right,var(--accent) 0%,var(--accent) var(--pct,50%),var(--border) var(--pct,50%),var(--border) 100%);
+  outline:none;cursor:pointer;margin:8px 0;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg-surface);
+  box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:pointer;
+}
+input[type=range]::-moz-range-thumb{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg-surface);cursor:pointer;
+}
+.slider-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+.slider-row label{font-size:12.5px;color:var(--text-muted);min-width:80px;white-space:nowrap}
+.slider-val{font-size:12.5px;color:var(--text-muted);min-width:40px;text-align:right}
+
+/* ── Responsive ──────────────────────────────────── */
 @media(max-width:680px){
-  .sidebar{display:none}
-  .mobile-nav{display:block}
-  .main{padding:20px 16px 60px}
-  .topic-title{font-size:26px}
+  #topbar-tabs{display:none}
+  #mobile-select{
+    display:block;padding:8px 0;
+  }
+  #mobile-select select{
+    width:100%;padding:8px 10px;
+    background:var(--bg-elevated);border:1px solid var(--border);
+    color:var(--text);border-radius:6px;font-size:14px;font-family:inherit;
+  }
+  #main{padding:20px 16px 60px}
+  .topic-title{font-size:28px}
 }
 </style>
 
@@ -116,6 +290,16 @@ function Btn({onClick, children, active, style}) {
   return h('button', {onClick, className: 'btn' + (active?' active':''), style}, children);
 }
 
+// Cross-reference helper — sets topic via global callback
+window._navToTopic = null; // set by App
+function XRef({tid, label}) {
+  return h('span', {
+    className: 'xref',
+    onClick: () => { if(window._navToTopic) window._navToTopic(tid); }
+  }, label);
+}
+
+
 // ── CantorSet ──────────────────────────────────────────────────────────────
 function CantorSet() {
   const [lvl, setLvl] = useState(3);
@@ -132,10 +316,14 @@ function CantorSet() {
         h('rect', {key:`${n}-${i}`, x:a*(W-2*PX)+PX, y:n*R+2, width:Math.max(0,(b-a)*(W-2*PX)), height:R-6, fill:AC, rx:1.5})
       ))
     ),
-    h('div',{style:{display:'flex',gap:10,marginTop:10,justifyContent:'center',alignItems:'center'}},
-      h(Btn,{onClick:()=>setLvl(Math.max(0,lvl-1))},'−'),
-      h('span',{style:{fontSize:12,color:'var(--text-muted)'}},`Level ${lvl} (${Math.pow(2,lvl)} segments)`),
-      h(Btn,{onClick:()=>setLvl(Math.min(7,lvl+1))},'+')
+    h('div',{style:{marginTop:12}},
+      h('div',{className:'slider-row'},
+        h('label',null,`Level ${lvl}`),
+        h('input',{type:'range',min:0,max:7,value:lvl,
+          style:{'--pct':(lvl/7*100)+'%'},
+          onInput:ev=>setLvl(+ev.target.value)}),
+        h('span',{className:'slider-val'},`${Math.pow(2,lvl)} segs`)
+      )
     )
   );
 }
@@ -170,10 +358,14 @@ function DevilsStaircase() {
       h('text',{x:PX-5,y:PY+4,textAnchor:'end',fontSize:10,fill:'var(--text-muted)'},'1'),
       h('path',{d:pts,fill:'none',stroke:AC,strokeWidth:2})
     ),
-    h('div',{style:{display:'flex',gap:10,marginTop:10,justifyContent:'center',alignItems:'center'}},
-      h(Btn,{onClick:()=>setLvl(Math.max(1,lvl-1))},'− precision'),
-      h('span',{style:{fontSize:12,color:'var(--text-muted)'}},`n = ${lvl}`),
-      h(Btn,{onClick:()=>setLvl(Math.min(9,lvl+1))},'+  precision')
+    h('div',{style:{marginTop:12}},
+      h('div',{className:'slider-row'},
+        h('label',null,'Precision'),
+        h('input',{type:'range',min:1,max:9,value:lvl,
+          style:{'--pct':((lvl-1)/8*100)+'%'},
+          onInput:ev=>setLvl(+ev.target.value)}),
+        h('span',{className:'slider-val'},`n = ${lvl}`)
+      )
     )
   );
 }
@@ -204,10 +396,12 @@ function ShiftedCantor() {
       h('text',{x:W/2,y:H-6,textAnchor:'middle',fontSize:11,fill:'var(--text-muted)'},`F_C(x − ${alpha.toFixed(2)})`)
     ),
     h('div',{style:{marginTop:10}},
-      h('div',{style:{display:'flex',gap:10,marginBottom:6,alignItems:'center',justifyContent:'center'}},
-        h(Btn,{onClick:()=>setLvl(Math.max(1,lvl-1))},'− n'),
-        h('span',{style:{fontSize:12,color:'var(--text-muted)'}},`n=${lvl}`),
-        h(Btn,{onClick:()=>setLvl(Math.min(8,lvl+1))},'+  n')
+      h('div',{className:'slider-row',style:{marginBottom:6}},
+        h('label',null,'Precision'),
+        h('input',{type:'range',min:1,max:8,value:lvl,
+          style:{'--pct':((lvl-1)/7*100)+'%'},
+          onInput:ev=>setLvl(+ev.target.value)}),
+        h('span',{className:'slider-val'},`n = ${lvl}`)
       ),
       h('label',{style:{fontSize:12,color:'var(--text-muted)',display:'block',marginBottom:3}},`α = ${alpha.toFixed(2)}`),
       h('input',{type:'range',min:-100,max:100,value:Math.round(alpha*100),
@@ -294,9 +488,11 @@ function Exercise45() {
     ),
     h('div',{style:{display:'flex',gap:14,marginTop:8,fontSize:12,color:'var(--text-muted)',alignItems:'center',flexWrap:'wrap'}},
       h('span',null,h('span',{style:{color:ACL+'bb'}},'─ '),`f(x)  `,h('span',{style:{color:AC}},'─ '),`φₙ (n=${n})`),
-      h('div',{style:{display:'flex',gap:7,marginLeft:'auto'}},
-        h(Btn,{onClick:()=>setN(Math.max(1,n-1))},'−'),
-        h(Btn,{onClick:()=>setN(Math.min(8,n+1))},'+')
+      h('div',{style:{display:'flex',gap:8,alignItems:'center',marginLeft:'auto'}},
+        h('label',{style:{fontSize:12,color:'var(--text-muted)'}},`n = ${n}`),
+        h('input',{type:'range',min:1,max:8,value:n,
+          style:{'--pct':((n-1)/7*100)+'%',width:100},
+          onInput:ev=>setN(+ev.target.value)})
       )
     )
   );
@@ -306,76 +502,101 @@ function Exercise45() {
 function LebesgueInfimum() {
   const [n, setN] = useState(3);
   const [mode, setMode] = useState('below');
-  const CAP=18, D=Math.pow(2,n);
-  function f(x) { return x<=0?CAP:Math.min(CAP,1/Math.sqrt(x)); }
-  function phiB(x) { const v=1/Math.sqrt(x); if(!isFinite(v)||v>=CAP) return CAP; return Math.floor(v*D)/D; }
-  function phiA(x) { const v=1/Math.sqrt(x); if(!isFinite(v)||v>=CAP) return CAP; return Math.min(CAP,Math.ceil(v*D)/D); }
-  const phi = mode==='below'?phiB:phiA;
-  const W=520,H=270,PX=36,PY=22;
-  const iW=W-2*PX, iH=H-2*PY;
-  const dom=[0.005,2], NP=400;
-  const xs = Array.from({length:NP+1},(_,i)=>dom[0]+(i/NP)*(dom[1]-dom[0]));
-  const fVals=xs.map(x=>f(x)), pVals=xs.map(x=>phi(x));
-  function toPath(vals,col) {
-    const d=vals.map((y,i)=>`${i===0?'M':'L'}${(PX+(xs[i]-dom[0])/(dom[1]-dom[0])*iW).toFixed(1)},${(PY+(1-y/CAP)*iH).toFixed(1)}`).join(' ');
-    return h('path',{d,fill:'none',stroke:col,strokeWidth:2});
-  }
-  return h('div',null,
-    h('div',{style:{display:'flex',gap:7,marginBottom:12}},
-      h(Btn,{onClick:()=>setMode('below'),active:mode==='below'},'φₙ from below'),
-      h(Btn,{onClick:()=>setMode('above'),active:mode==='above'},'φₙ from above')
-    ),
-    h('svg',{viewBox:`0 0 ${W} ${H}`,style:{width:'100%',maxWidth:W,display:'block',margin:'0 auto'}},
-      h('line',{x1:PX,y1:PY,x2:PX,y2:PY+iH,stroke:'var(--text-muted)',strokeWidth:1}),
-      h('line',{x1:PX,y1:PY+iH,x2:PX+iW,y2:PY+iH,stroke:'var(--text-muted)',strokeWidth:1}),
-      toPath(fVals, ACL+'70'),
-      toPath(pVals, AC),
-      h('text',{x:PX+iW,y:PY+iH+14,textAnchor:'end',fontSize:10,fill:'var(--text-muted)'},'x=2'),
-      h('text',{x:PX,y:PY+iH+14,fontSize:10,fill:'var(--text-muted)'},'x≈0')
-    ),
-    h('div',{style:{display:'flex',gap:14,marginTop:8,fontSize:12,color:'var(--text-muted)',alignItems:'center',flexWrap:'wrap'}},
-      h('span',null,h('span',{style:{color:ACL+'bb'}},'─ '),`f(x)=1/√x  `,h('span',{style:{color:AC}},'─ '),`φ_${n} (${mode})`),
-      h('div',{style:{display:'flex',gap:7,marginLeft:'auto'}},
-        h(Btn,{onClick:()=>setN(Math.max(1,n-1))},'−'),
-        h('span',{style:{minWidth:30,textAlign:'center'}},n),
-        h(Btn,{onClick:()=>setN(Math.min(7,n+1))},'+')
-      )
-    )
-  );
-}
+  const D = Math.pow(2, n);
+  // Lebesgue range-partition: level k gets height k/D (below) or (k+1)/D (above)
+  // For f(x)=1/sqrt(x): level k ↔ x ∈ ((D/(k+1))², (D/k)²]
+  const YMAX = 7, domEnd = 1.6;
+  const W = 560, H = 320, PX = 44, PY = 28;
+  const iW = W-2*PX, iH = H-2*PY;
+  function sx(x){ return PX + (x/domEnd)*iW; }
+  function sy(y){ return PY + (1 - y/YMAX)*iH; }
 
-// ── FunctionSeriesChap4 ────────────────────────────────────────────────────
-function FunctionSeriesChap4() {
-  const [ni, setNi] = useState(1);
-  const [ki, setKi] = useState(2);
-  const NVALS=[0.5,1,2], KVALS=[1,2,4,8,16,32];
-  const nv=NVALS[ni], kv=KVALS[ki];
-  function fk(x) { if(x<0) return 0; const t=1-x/kv; return t<0?0:Math.pow(x,nv)*Math.pow(t,kv); }
-  function fLim(x) { return x<0?0:Math.pow(x,nv)*Math.exp(-x); }
-  const W=520,H=270,PX=36,PY=22;
-  const iW=W-2*PX,iH=H-2*PY;
-  const domEnd=Math.min(kv*1.6,30), NP=400;
-  const xs=Array.from({length:NP+1},(_,i)=>i/NP*domEnd);
-  const fkV=xs.map(x=>Math.max(0,fk(x))), flV=xs.map(x=>fLim(x));
-  const yMax=Math.max(...fkV,...flV)||1;
-  function toPath(vals,col,dash) {
-    const d=vals.map((y,i)=>`${i===0?'M':'L'}${(PX+xs[i]/domEnd*iW).toFixed(1)},${(PY+(1-y/yMax)*iH).toFixed(1)}`).join(' ');
-    return h('path',{d,fill:'none',stroke:col,strokeWidth:2,strokeDasharray:dash||''});
+  // Build step rectangles from range partition
+  const rects = [];
+  const infBoundary = 1/(YMAX*YMAX); // x where f(x)=YMAX
+  for (let k = 1; k <= YMAX*D + D; k++) {
+    const xR = Math.pow(D/k, 2);
+    const xL = Math.pow(D/(k+1), 2);
+    const visR = Math.min(domEnd, xR);
+    const visL = Math.max(0, xL);
+    if (visR <= visL || visR <= 0 || visL >= domEnd) continue;
+    const h = mode === 'below' ? k/D : (k+1)/D;
+    if (h > YMAX) continue; // in infinite region, shown separately
+    rects.push({ xL: visL, xR: visR, h: Math.min(h, YMAX) });
   }
-  return h('div',null,
-    h('div',{style:{display:'flex',gap:7,marginBottom:10,flexWrap:'wrap',alignItems:'center'}},
-      h('span',{style:{fontSize:12,color:'var(--text-muted)'}},'n:'),
-      NVALS.map((v,i)=>h(Btn,{key:i,onClick:()=>setNi(i),active:ni===i},`${v}`)),
-      h('span',{style:{fontSize:12,color:'var(--text-muted)',marginLeft:8}},'k:'),
-      KVALS.map((v,i)=>h(Btn,{key:i,onClick:()=>setKi(i),active:ki===i},`${v}`))
+
+  // Smooth curve: 1/sqrt(x) from infBoundary to domEnd
+  const curveStart = Math.max(infBoundary, 0.0005);
+  const curvePts = Array.from({length:200}, (_,i) => {
+    const x = curveStart + (domEnd - curveStart)*i/199;
+    return sx(x) + ',' + sy(Math.min(YMAX, 1/Math.sqrt(x)));
+  });
+
+  // X-axis labels
+  const xTicks = [0, 0.4, 0.8, 1.2, 1.6];
+  const yTicks = [0, 2, 4, 6];
+
+  const col = mode === 'below' ? '#2563eb' : '#ea580c';
+  const fillCol = mode === 'below' ? 'rgba(37,99,235,0.25)' : 'rgba(234,88,12,0.25)';
+
+  return h('div', null,
+    h('div', {style:{display:'flex',gap:8,marginBottom:14,alignItems:'center',flexWrap:'wrap'}},
+      h(Btn, {onClick:()=>setMode('below'), active:mode==='below'}, 'φₙ from below'),
+      h(Btn, {onClick:()=>setMode('above'), active:mode==='above'}, 'φₙ from above'),
+      h('div', {style:{display:'flex',gap:8,alignItems:'center',marginLeft:'auto'}},
+        h('label', {style:{fontSize:12,color:'var(--text-muted)'}}, `n = ${n}`),
+        h('input', {type:'range', min:1, max:6, value:n,
+          style:{'--pct':((n-1)/5*100)+'%', width:100},
+          onInput: ev => setN(+ev.target.value)})
+      )
     ),
-    h('svg',{viewBox:`0 0 ${W} ${H}`,style:{width:'100%',maxWidth:W,display:'block',margin:'0 auto'}},
-      h('line',{x1:PX,y1:PY,x2:PX,y2:PY+iH,stroke:'var(--text-muted)',strokeWidth:1}),
-      h('line',{x1:PX,y1:PY+iH,x2:PX+iW,y2:PY+iH,stroke:'var(--text-muted)',strokeWidth:1}),
-      toPath(fkV, AC),
-      toPath(flV, ACL+'80','5,3'),
-      h('text',{x:PX+iW-4,y:PY+14,textAnchor:'end',fontSize:10,fill:AC},`f_k, k=${kv}`),
-      h('text',{x:PX+iW-4,y:PY+28,textAnchor:'end',fontSize:10,fill:ACL+'aa'},'x^n·e^{-x} (limit)')
+    h('svg', {viewBox:`0 0 ${W} ${H}`, style:{width:'100%',maxWidth:W,display:'block',margin:'0 auto'}},
+      h('defs', null,
+        h('pattern', {id:'infhatch', width:5, height:5, patternUnits:'userSpaceOnUse', patternTransform:'rotate(45)'},
+          h('line', {x1:0, y1:0, x2:0, y2:5, stroke:'#ef4444', strokeWidth:1.5}))
+      ),
+      // Infinite region shading [0, infBoundary]
+      h('rect', {x:sx(0), y:PY, width:Math.max(2, sx(infBoundary)-sx(0)), height:iH,
+        fill:'url(#infhatch)', opacity:0.35}),
+      h('rect', {x:sx(0), y:PY, width:Math.max(2, sx(infBoundary)-sx(0)), height:iH,
+        fill:'none', stroke:'#ef4444', strokeWidth:1}),
+      h('text', {x:(sx(0)+sx(infBoundary))/2, y:PY+iH/2-10, textAnchor:'middle',
+        fontSize:10, fill:'#dc2626', fontWeight:'600'}, '→∞'),
+      h('text', {x:(sx(0)+sx(infBoundary))/2, y:PY+iH/2+4, textAnchor:'middle',
+        fontSize:9, fill:'#dc2626'}, 'singular'),
+      // Grid lines
+      ...yTicks.map(v => h('line', {key:'gy'+v, x1:PX, y1:sy(v), x2:PX+iW, y2:sy(v),
+        stroke:'var(--border)', strokeWidth:0.5, strokeDasharray:'3,3'})),
+      // Step rectangles
+      ...rects.map((r,i) => h('rect', {key:i,
+        x:sx(r.xL)+0.5, y:sy(r.h),
+        width: Math.max(1, sx(r.xR)-sx(r.xL)-1),
+        height: iH - (sy(r.h) - PY),
+        fill: fillCol, stroke: col, strokeWidth:0.5})),
+      // Smooth curve
+      h('polyline', {points: curvePts.join(' '), fill:'none',
+        stroke:'var(--text)', strokeWidth:2, opacity:0.7}),
+      // Axes
+      h('line', {x1:PX, y1:PY+iH, x2:PX+iW, y2:PY+iH, stroke:'var(--text-muted)', strokeWidth:1}),
+      h('line', {x1:PX, y1:PY, x2:PX, y2:PY+iH, stroke:'var(--text-muted)', strokeWidth:1}),
+      // X-axis ticks
+      ...xTicks.map(v => h('g', {key:'x'+v},
+        h('line', {x1:sx(v), y1:PY+iH, x2:sx(v), y2:PY+iH+4, stroke:'var(--text-muted)', strokeWidth:1}),
+        h('text', {x:sx(v), y:PY+iH+14, textAnchor:'middle', fontSize:10, fill:'var(--text-muted)'}, v))),
+      // Y-axis ticks
+      ...yTicks.map(v => h('g', {key:'y'+v},
+        h('line', {x1:PX-4, y1:sy(v), x2:PX, y2:sy(v), stroke:'var(--text-muted)', strokeWidth:1}),
+        h('text', {x:PX-6, y:sy(v)+4, textAnchor:'end', fontSize:10, fill:'var(--text-muted)'}, v))),
+      // Axis labels
+      h('text', {x:PX+iW/2, y:H-4, textAnchor:'middle', fontSize:11, fill:'var(--text-muted)'}, 'x'),
+      h('text', {x:12, y:PY+iH/2, textAnchor:'middle', fontSize:11, fill:'var(--text-muted)',
+        transform:`rotate(-90,12,${PY+iH/2})`}, '1/√x')
+    ),
+    h('div', {style:{marginTop:8, fontSize:12, color:'var(--text-muted)', lineHeight:1.6}},
+      h('span', {style:{color:col}}, '■ '),
+      `Step function φ_${n} (${mode}) — ${rects.length} visible levels. `,
+      h('span', {style:{color:'#dc2626'}}, '▪ '),
+      `Red region (x < ${infBoundary.toFixed(4)}): f(x) > ${YMAX}, beyond display cap.`
     )
   );
 }
@@ -468,53 +689,53 @@ function CoveringLemma() {
   );
 }
 
-// ── BmDerivative ───────────────────────────────────────────────────────────
-function BmDerivative() {
-  const [eps, setEps] = useState(0.05);
-  const [bm, setBm] = useState([]);
-  const [db, setDb] = useState([]);
-  function normal() {
-    let u,v,s;
-    do{u=Math.random()*2-1;v=Math.random()*2-1;s=u*u+v*v;}while(s>=1||s===0);
-    return u*Math.sqrt(-2*Math.log(s)/s);
+
+// ── TopicContent — renders html with inline viz-slots ─────────────────────────
+function TopicContent({html, comps}) {
+  // Map component name → comp entry
+  const compMap = {};
+  comps.forEach(c => { compMap[c.C.name] = c; });
+
+  // Split html at viz-slot markers
+  const parts = [];
+  const markerRe = /<div class="viz-slot" data-comp="([^"]+)"><\/div>/g;
+  let last = 0, m;
+  while ((m = markerRe.exec(html)) !== null) {
+    if (m.index > last) parts.push({t:'html', v: html.slice(last, m.index)});
+    parts.push({t:'comp', name: m[1]});
+    last = m.index + m[0].length;
   }
-  function deriv(bm,e) {
-    const N=bm.length, en=Math.max(1,Math.round(e*N));
-    return bm.map((_,i)=>{const j=Math.min(N-1,i+en),k=Math.max(0,i-en);return(bm[j]-bm[k])/(2*e);});
-  }
-  function newPath() {
-    const N=1000, dt=1/N; const path=[0];
-    for(let i=1;i<N;i++) path.push(path[i-1]+normal()*Math.sqrt(dt));
-    setBm(path); setDb(deriv(path,eps));
-  }
-  function chEps(d){const ne=parseFloat(Math.max(0.01,Math.min(0.2,eps+d)).toFixed(2));setEps(ne);if(bm.length)setDb(deriv(bm,ne));}
-  useEffect(()=>{newPath();},[]);
-  const W=520,H=100,PX=20,PY=16;
-  const iW=W-2*PX,iH=H-2*PY;
-  function Chart({pts,col,lbl}) {
-    if(!pts.length) return h('div',{style:{height:H+20}});
-    const mn=Math.min(...pts),mx=Math.max(...pts),sp=(mx-mn)||1;
-    const d=pts.map((v,i)=>`${i===0?'M':'L'}${(PX+i/(pts.length-1)*iW).toFixed(1)},${(PY+(1-(v-mn)/sp)*iH).toFixed(1)}`).join(' ');
-    return h('div',{style:{marginBottom:6}},
-      h('div',{style:{fontSize:11,color:'var(--text-muted)',marginBottom:2}},lbl),
-      h('svg',{viewBox:`0 0 ${W} ${H}`,style:{width:'100%',display:'block'}},
-        h('line',{x1:PX,y1:PY+iH/2,x2:PX+iW,y2:PY+iH/2,stroke:'var(--border)',strokeWidth:1}),
-        h('path',{d,fill:'none',stroke:col,strokeWidth:1.5})
+  if (last < html.length) parts.push({t:'html', v: html.slice(last)});
+
+  const hasSlots = parts.some(p => p.t === 'comp');
+
+  if (!hasSlots) {
+    // No inline slots: render html then all comps at bottom (old behavior)
+    return h(React.Fragment, null,
+      h('div', {className:'topic-content', dangerouslySetInnerHTML:{__html: html}}),
+      ...comps.map((c,i) =>
+        h('div', {key:i, className:'comp-wrap'},
+          h('div', {className:'comp-title'}, c.label),
+          c.desc ? h('div', {className:'comp-desc'}, c.desc) : null,
+          h(c.C)
+        )
       )
     );
   }
-  return h('div',null,
-    h(Chart,{pts:bm,col:ACL,lbl:'B(t) — Brownian motion sample path'}),
-    h(Chart,{pts:db,col:'#c06060',lbl:`Δ_ε B(t) = [B(t+ε)−B(t−ε)]/(2ε),  ε = ${eps}`}),
-    h('div',{style:{display:'flex',gap:9,marginTop:9,alignItems:'center',flexWrap:'wrap'}},
-      h(Btn,{onClick:()=>chEps(-0.01)},'ε −'),
-      h('span',{style:{fontSize:12,color:'var(--text-muted)',minWidth:50}},`ε = ${eps}`),
-      h(Btn,{onClick:()=>chEps(+0.01)},'ε +'),
-      h(Btn,{onClick:newPath,style:{marginLeft:8}},'↺ New path')
-    ),
-    h('div',{style:{marginTop:8,fontSize:11.5,color:'var(--text-muted)'}},
-      `As ε→0 the differences blow up — B(t) is nowhere differentiable a.s.`
-    )
+
+  return h(React.Fragment, null,
+    ...parts.map((part, i) => {
+      if (part.t === 'html') {
+        return h('div', {key:i, className:'topic-content', dangerouslySetInnerHTML:{__html: part.v}});
+      }
+      const c = compMap[part.name];
+      if (!c) return null;
+      return h('div', {key:i, className:'comp-wrap'},
+        h('div', {className:'comp-title'}, c.label),
+        c.desc ? h('div', {className:'comp-desc'}, c.desc) : null,
+        h(c.C)
+      );
+    })
   );
 }
 
@@ -550,8 +771,8 @@ const TOPICS = [
 <p><strong>Convince yourself that it is the smallest indeed</strong></p>
 <p>An example of this is the following: Take \\(X = \\{1,2,3\\}\\) and \\(\\mathcal E = \\{\\{1\\}\\}\\). We need to find all \\(\\sigma\\)-algebras on \\(X\\) containing \\(\\mathcal E\\). Remember that the number of possible \\(\\sigma\\)-algebras on a set \\(X\\) is given by the Bell number (in this case 5). From our previous exercise, we know only two contain \\(\\{1\\}\\), i.e. \\(\\mathcal F_1 = \\{\\emptyset, \\{1\\}, \\{2,3\\}, X\\}\\) and \\(\\mathcal F_2 = \\mathcal P(X)\\). Intersecting them all, we have \\(\\sigma(\\mathcal E) = \\mathcal F_1 \\cup \\mathcal F_2 = \\mathcal F_1\\).</p>
 <p><strong>Question</strong>: This kind of construction of generating a smallest \\(\\sigma\\)-algebra is done from the outside. You can also construct it from the inside, but that is more complicated. The idea is to first close the set under complementation, and then take countable intersections, then close under complementation with those new sets, and repeat. This differs from constructing a topology from a collection of subsets, where it suffices to first close under finite intersections followed by arbitrary unions. The reason for this is that we demand closure under complements, so that the union of two sets A and B, followed by the complement, produces \\(A^c \\cap B^c\\) which is a new type of set (an intersection) we did not have before, so we need to close under unions again.</p>
-<div class="card card-def"><div class="card-label">Open set</div><p>An open set in \\(\\mathbb{R}\\): \\(O\\) is open if for all \\(x \\in O\\), there exists \\(\\epsilon > 0\\) so that \\((x - \\epsilon, x + \\epsilon) \\subseteq O\\). [!CARD] Definition 3.5 — Borel algebra</p>
-<p>[!definition] The \\(\\sigma\\)-algebra generated by the open subsets of \\(\\mathbb{R}\\) is called the <strong>Borel \\(\\sigma\\)-algebra</strong> of \\(\\mathbb{R}\\) and is denoted by \\(\\mathcal{B}\\). The sets in \\(\\mathcal{B}\\) are called <strong>Borel sets</strong>. [!exercise] Exercise 3.5 Show that \\(\\mathcal{B}\\) is also <strong>(1)</strong> the \\(\\sigma\\)-algebra generated by the open intervals and <strong>(2)</strong> the \\(\\sigma\\)-algebra generated by the closed intervals.</p>
+<div class="card card-def"><div class="card-label">Open set</div><p>An open set in \\(\\mathbb{R}\\): \\(O\\) is open if for all \\(x \\in O\\), there exists \\(\\epsilon > 0\\) so that \\((x - \\epsilon, x + \\epsilon) \\subseteq O\\). Definition 3.5 — Borel algebra</p>
+<p>The \\(\\sigma\\)-algebra generated by the open subsets of \\(\\mathbb{R}\\) is called the <strong>Borel \\(\\sigma\\)-algebra</strong> of \\(\\mathbb{R}\\) and is denoted by \\(\\mathcal{B}\\). The sets in \\(\\mathcal{B}\\) are called <strong>Borel sets</strong>. Exercise 3.5 Show that \\(\\mathcal{B}\\) is also <strong>(1)</strong> the \\(\\sigma\\)-algebra generated by the open intervals and <strong>(2)</strong> the \\(\\sigma\\)-algebra generated by the closed intervals.</p>
 <p>To prove (1), let \\(\\mathcal E\\) be the family of all open subsets of the real line, whereas \\(\\mathcal E'\\) is the family of all open intervals of the real line. It is clear that \\(\\mathcal E' \\subseteq \\mathcal E\\) since an open interval is a special case of an open subset. By monoticity, it thus follows \\(\\sigma(\\mathcal E') \\subseteq \\sigma(\\mathcal E) = \\mathcal B\\). What remains is to prove that \\(\\sigma(\\mathcal E) \\subseteq \\sigma(\\mathcal E')\\) to prove that the algebras are identical. This holds IF \\(\\mathcal E \\subseteq \\sigma(\\mathcal E')\\), since by monoticity you would have \\(\\sigma(\\mathcal E) \\subseteq \\sigma(\\sigma(\\mathcal E')) = \\sigma(\\mathcal E')\\). Since \\(\\mathcal E\\) is the family of all open subsets of the real line, this amounts to proving that every open set lies in \\(\\sigma(\\mathcal E')\\), i.e. every open set is a countable union of open intervals. To prove this statement, we need to show that for an arbitrary open set \\(\\mathcal O \\subseteq \\mathbb R\\) we can write it as a countable union. In particular, let \\(x\\in \\mathcal o\\), then since the subset is open, we have \\((x-\\epsilon, x+\\epsilon)\\subseteq \\mathcal O\\) for some \\(\\epsilon\\). We can always find some rationals \\(a,b \\in \\mathbb Q\\) such that \\(x\\in (a,b)\\subseteq(x-\\epsilon, x+ \\epsilon) \\subseteq \\mathcal O\\). So every \\(x\\) is contained in some open interval with rational endpoints, this means that \\(\\mathcal O = \\bigcup \\{(a,b): a,b\\in \\mathbb Q, (a,b)\\subseteq O\\}\\) which is a countable union as \\(\\mathbb Q \\times \\mathbb Q\\) is countable (countably many pairs of rationals, and thus countably many intervals).</p>
 <p>To prove (2), let \\(\\mathcal E''\\) be the family of all closed intervals of the real line. We proceed similarly as before, since the complement of a closed interval is open, it is an element of \\(\\mathcal B\\). Thus the collection of all closed intervals are contained within \\(\\mathcal B\\), i.e. \\(\\mathcal E'' \\subseteq \\mathcal B\\), which by monoticity gives \\(\\sigma(\\mathcal E'') \\subseteq \\mathcal B\\). To prove the reverse direction, IF we have \\(\\mathcal E \\subseteq \\sigma(\\mathcal E'')\\) it follows by monoticity that \\(\\sigma(\\mathcal E) = \\mathcal B \\subseteq \\sigma(\\mathcal E'')\\) and thus we have proven they are identical (contained in each other). The IF statement amounts to showing that any open subset can be written as the countable union of sets of closed intervals. Since we already know that any open subset can be written as countable union of sets of open intervals, it suffices to construct an open interval from a union of closed intervals i.e. \\[(a_n, b_n) = \\bigcup_{k=1}^\\infty [a_n + 1/k, b_n - 1/k]\\]</p></div>
 <p>Most sets (and very likely all sets) that you have seen are Borel sets. There are other notions of sets "being closed under certain operations" which turn out to be useful. Here are two such.</p>
@@ -563,11 +784,11 @@ const TOPICS = [
 <p><strong>(c)</strong> \\(E_1 \\subseteq E_2 \\subseteq E_3 \\subseteq \\cdots\\) and \\(E_i \\in \\mathcal{D}\\) for all \\(i\\) imply \\(\\bigcup_i E_i \\in \\mathcal{D}\\).</p>
 <p>(Note that a \\(\\mathcal{D}\\)-system is closed under complementation. The way to see this is that \\(X \\in \\mathcal D\\), so taking \\(F = X\\) and \\(E  \\subseteq X\\) (which is also contained in \\(\\mathcal D\\)) we have \\(X \\setminus E = E^c\\) by definition.</p></div>
 <p>Note that definition 3.7 above is a weaker structure than a \\(\\sigma\\)-algebra (which is closed under ALL countable unions) whereas \\(\\mathcal D\\)-systems are only closed under increasing countable unions.</p>
-<div class="card card-thm"><div class="card-label">Theorem 3.8 \\(\\sigma\\)-algebra iff \\(\\pi\\) and \\(\\lambda\\)-system.</div><p>If \\(\\mathcal{M}\\) is a collection of subsets of a set \\(X\\), then \\(\\mathcal{M}\\) is a \\(\\sigma\\)-algebra if and only if \\(\\mathcal{M}\\) is a \\(\\pi\\)-system and a \\(\\mathcal{D}\\)-system [!exercise] Exercise 3.6: Prove Theorem 3.8.</p>
+<div class="card card-thm"><div class="card-label">Theorem 3.8 \\(\\sigma\\)-algebra iff \\(\\pi\\) and \\(\\lambda\\)-system.</div><p>If \\(\\mathcal{M}\\) is a collection of subsets of a set \\(X\\), then \\(\\mathcal{M}\\) is a \\(\\sigma\\)-algebra if and only if \\(\\mathcal{M}\\) is a \\(\\pi\\)-system and a \\(\\mathcal{D}\\)-system Exercise 3.6: Prove Theorem 3.8.</p>
 <p>To prove it, first assume \\(\\mathcal M\\) is a \\(\\sigma\\)-algebra, then we know from exercise 3.1 that it is closed under finite intersections, and is thus also a \\(\\pi\\)-system. Similarly,we know the algebra also contains \\(X\\). Furthermore, if \\(E, F \\in \\mathcal M\\) and \\(\\mathcal E \\subseteq \\mathcal F\\) then \\(F \\setminus E = F\\cap E^c \\in \\mathcal M\\) as \\(E^c\\) also in the algebra by complementation, and it is closed under finite intersections as shown in exercise 3.1. Finally, as the \\(\\sigma\\)-algebra is closed under countable intersections, it follows that (c) is also satisifed. Hence it is also a \\(\\mathcal D\\)-system.</p>
 <p>We are left with proving the reverse statement, namely that if \\(\\mathcal M\\) is a \\(\\pi \\ \\& \\ \\mathcal D\\)-system, then it is also a \\(\\sigma\\)-algebra. Note that the D-system provides us with \\(X\\), and since its closed under complementation also it provides us with the empty set and thus we are left to show that we have closure under countable unions. We have so far not used the \\(\\pi\\)-system at all, so it has to enter here. Take \\(A, B \\in \\mathcal M\\) whose complements are contained in \\(M\\) by the D-system property. By the \\(\\pi\\)-system property,  it is closed under finite intersections, thus the union \\(A \\cup B = (A^c \\cap B^c)^c \\in \\mathcal M\\) by De Morgan. As shown in exercise 3.1, this extends to any finite union using proof by induction. We are left to show that it extends to an arbitrary countable union of \\(A_1,A_2,... \\in \\mathcal M\\). We would ideally want to use the \\(D\\)-system property (c) for this, but to do so, we first need to convert the countable set into an increasing set so that we can apply (c). We can do so by defining the countable series \\(B_n = \\bigcup_{i=1}^n A_n\\) where \\(B_1 \\subseteq B_2\\) etc... Since each \\(B_n\\) is contained in \\(\\mathcal M\\) by finite unions just shown, it follows by property (c) of the D-system that \\(\\bigcup_i A_i = \\bigcup_i B_i \\in \\mathcal M\\)</p></div>
 <p>Given a collection \\(\\mathcal{E}\\) of subsets of \\(X\\), we have previously defined \\(\\sigma(\\mathcal{E})\\) as the smallest \\(\\sigma\\)-algebra containing \\(\\mathcal{E}\\). We do something similar here.</p>
-<div class="card card-def"><div class="card-label">Definition 3.9. Generated \\(\\pi\\) and \\(\\lambda\\) system</div><p>We let \\(\\pi(\\mathcal{E})\\) (\\(\\mathcal{D}(\\mathcal{E})\\)) be the smallest \\(\\pi\\)-system (\\(\\mathcal{D}\\)-system) containing \\(\\mathcal{E}\\). [!exercise] Exercise 3.7 Show that these exist and how to construct them. Define \\(\\pi(\\mathcal E) = \\bigcap_{\\mathfrak p  : \\mathfrak p \\supseteq \\mathcal E} \\mathfrak p\\) where \\(\\mathfrak p\\) is a \\(\\pi\\)-system containing \\(\\mathcal E\\). To show that it is a \\(\\pi\\)-system, we just have to check that it is closed under finite intersections. For this, take \\(E_1, E_2 \\in \\pi(\\mathcal E)\\), clearly \\(E_1, E_2 \\in \\mathfrak p\\) \\(\\forall \\mathfrak p\\) and since \\(\\mathfrak p\\) is a \\(\\pi\\)-system, it is closed under finite intersections and thus \\(E_1 \\cap E_2 \\in \\mathfrak p\\) for every \\(\\mathfrak p\\) and thus \\(E_1 \\cap E_2 \\in \\bigcap_{\\mathfrak p  : \\mathfrak p \\supseteq \\mathcal E} \\mathfrak p\\).</p></div>
+<div class="card card-def"><div class="card-label">Definition 3.9. Generated \\(\\pi\\) and \\(\\lambda\\) system</div><p>We let \\(\\pi(\\mathcal{E})\\) (\\(\\mathcal{D}(\\mathcal{E})\\)) be the smallest \\(\\pi\\)-system (\\(\\mathcal{D}\\)-system) containing \\(\\mathcal{E}\\). Exercise 3.7 Show that these exist and how to construct them. Define \\(\\pi(\\mathcal E) = \\bigcap_{\\mathfrak p  : \\mathfrak p \\supseteq \\mathcal E} \\mathfrak p\\) where \\(\\mathfrak p\\) is a \\(\\pi\\)-system containing \\(\\mathcal E\\). To show that it is a \\(\\pi\\)-system, we just have to check that it is closed under finite intersections. For this, take \\(E_1, E_2 \\in \\pi(\\mathcal E)\\), clearly \\(E_1, E_2 \\in \\mathfrak p\\) \\(\\forall \\mathfrak p\\) and since \\(\\mathfrak p\\) is a \\(\\pi\\)-system, it is closed under finite intersections and thus \\(E_1 \\cap E_2 \\in \\mathfrak p\\) for every \\(\\mathfrak p\\) and thus \\(E_1 \\cap E_2 \\in \\bigcap_{\\mathfrak p  : \\mathfrak p \\supseteq \\mathcal E} \\mathfrak p\\).</p></div>
 <p>The next theorem is a very important tool, called <strong>Dynkin's \\(\\pi\\)-\\(\\lambda\\) Theorem</strong> (a \\(\\mathcal{D}\\)-system is sometimes called a \\(\\lambda\\)-system).</p>
 <div class="card card-thm"><div class="card-label">Theorem 3.10 — Dynkin's \\(\\pi\\)-\\(\\lambda\\) Theorem</div><p>If \\(\\mathcal{I}\\) is a \\(\\pi\\)-system, then \\[\\mathcal{D}(\\mathcal{I}) = \\sigma(\\mathcal{I})\\] In other words, the smallest Dynkin-system generated by the \\(\\pi\\)-system is the same as the \\(\\sigma\\)-algebra generated by the \\(\\pi\\)-system.</p></div>
 <hr class="lecture-sep">
@@ -584,7 +805,7 @@ const TOPICS = [
 <p>Note that we never assumed \\(A\\) was an element of the \\(\\sigma\\)-algebra.  See https://www.youtube.com/watch?v=5bZMCLnI_p4 for a good explanation. A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.</p>
 <div class="card card-def"><div class="card-label">Definition 3.16 — Almost Everywhere / Almost Surely</div></div>
 <p>For example, taking \\(X\\) to be the closed interval from 0 to 1 and \\(\\mathcal M\\) the Borel \\(\\sigma\\)-algebra on that set with Lebesgue measure. It turns out that the property that \\(x\\) is irrational (i.e. the property that it fails corresponds to \\(x\\) being a rational which has measure zero) holds almost everywhere.</p>
-<div class="card card-def"><div class="card-label">Definition. Finite measure space</div><p>[!CARD]  \\(\\sigma\\)-finite measure space [!definition] A measure space is called \\(\\sigma\\)-finite if there exists subsets \\(A_1,A_2,...\\) so that \\(X = \\bigcup_i A_i\\) with \\(\\mu(A_i) < \\infty \\forall i\\).</p></div>
+<div class="card card-def"><div class="card-label">Definition. Finite measure space</div><p>\\(\\sigma\\)-finite measure space A measure space is called \\(\\sigma\\)-finite if there exists subsets \\(A_1,A_2,...\\) so that \\(X = \\bigcup_i A_i\\) with \\(\\mu(A_i) < \\infty \\forall i\\).</p></div>
 <p>\\(\\sigma\\)-finite is a weaker condition, it only demands that the subsets which make up \\(X\\) have finite measure. Finite is a stronger condition, which demands that the full set \\(X\\) has finite measure.</p>
 <div class="card card-ex"><div class="card-label">Exercise 3.10</div><p><strong>1.</strong> Show Lebesgue measure on \\(\\mathbb{R}\\) is \\(\\sigma\\)-finite.</p>
 <p>Take \\(X = \\mathbb R\\). We know that \\(A_n = (-n, n)\\) is a Borel set (all open intervals are Borel sets). The measure is always finite for a fixed \\(n\\), given by \\(2n\\). Similarly, we know that \\(\\bigcup_i A_i = \\mathbb R\\). Just take any \\(x\\in \\mathbb R\\), then there exists an \\(N\\) such that \\(N> |x|\\) such that \\(x \\in A_N\\), thus \\(\\mathbb R\\) with Lebesgue measure is \\(\\sigma\\)-finite.  <strong>2.</strong> Can one take the \\(A_i\\)'s in the definition of \\(\\sigma\\)-finiteness to be disjoint?</p>
@@ -620,9 +841,7 @@ const TOPICS = [
 <p>As additional comments: the first inequality is guaranteed by the definition of the infimum. It tells us that we can cover \\(A_j\\) arbitrarily close. In the second line, we first  use that \\(\\bigcup A_j \\subseteq \\bigcup_{ij} I^j_i\\) and \\(\\mu^\\star\\) is the infimum over all covers, we get the first inequality. Ther est follows trivially.</p></div>
 <h4>Step 3</h4>
 <p>OK! Now we both defined the outer measure, the Lebesgue outer measure and proved that it is indeed an outer measure. Now we need to show that the Lebesgue outer measure of an interval is given the length of the interval.</p>
-<div class="card card-thm"><div class="card-label">Theorem 3.23. The Lebesgue outer measure returns length for intervals</div><details class="proof"><summary>Proof</summary><p><strong>It suffices to show this for closed intervals</strong>. This statement follows by monotonicity and the fact that any other interval type can be squeezed between closed intervals. Take for example \\((a,b)\\), then for \\(\\epsilon >0\\) we have \\[[a+\\epsilon, b-\\epsilon]\\subseteq(a,b)\\subseteq[a,b]\\]and using monotonicity of the outer measure and taking the limit as \\(\\epsilon\\rightarrow 0\\) gives us the sought result.  To prove \\(\\mu^\\star(I) = |I|\\), we show that \\(\\leq\\) and \\(\\geq\\) inequalities hold. \\(\\leq\\): Take \\(\\epsilon > 0\\), then \\([a,b]\\subseteq(a-\\epsilon, b+\\epsilon)\\) and hence \\(\\mu^\\star([a,b]) \\leq b-a+2\\epsilon \\Rightarrow \\mu^\\star([a,b]) \\leq (b-a)\\). Now \\(\\geq:\\) We want to show \\[\\mu^\\star([a,b]) = \\inf \\{ \\sum_i |I_i|: [a,b]\\subseteq \\bigcup_i I_i\\} \\geq b-a\\] Assume \\([a,b] \\subseteq \\bigcup_{i=1}^N I_i\\) by compactness (the closed interval is a subset of R that is closed and bounded). Then we need to show that \\[b-a \\leq \\sum_{i=1}^N |I_i|\\]To show this, we build a chain of intervals in the following way</p>
-<p>Then clearly</p>
-<p>And since \\(b_k > b\\) and \\(a_1 < a\\) and the terms in last term are positive this gives desired inequality.</p></details></div>
+<div class="card card-thm"><div class="card-label">Theorem 3.23. The Lebesgue outer measure returns length for intervals</div></div>
 <h4>Step 4</h4>
 <p>Now we defined the outer measure, introduced the Lebesgue outer measure (and proved that it indeed is an outer measure) and that the measure evaluated on finite intervals gives the length of the interval. Now enters step 4, where we apply Caratheodory's theorem.</p>
 <div class="card card-def"><div class="card-label">Definition 3.24 — \\(\\mu^\\star\\)-Measurable Sets</div><p>If \\(\\mu^\\star\\) is an outer measure on \\(X\\), we call a subset \\(A \\subseteq X\\) <strong>\\(\\mu^\\star\\)-measurable</strong> if for all \\(E \\subseteq X\\):</p>
@@ -702,8 +921,8 @@ const TOPICS = [
 <p>Since we are given that \\(\\mathcal I\\) is a \\(\\pi\\)-system, we can apply Dynkin's \\(\\pi-\\lambda\\) theorem to state  \\[\\mathcal{D}(\\mathcal{I}) = \\sigma(\\mathcal{I})\\] Remember now that \\(\\mathcal D(\\mathcal I)\\) is the <em>smallest</em> \\(\\lambda\\)-system containing \\(\\mathcal I\\), and since we showed that D (also a \\(\\lambda\\)-system) contains \\(\\mathcal I\\), we must have \\(\\sigma(\\mathcal{I}) = \\mathcal D(\\mathcal I) \\subseteq \\mathcal D\\).  This completes the proof.</p>
 <h4>3.7 Nonmeasurable sets</h4>
 <p>It is natural to ask if \\(\\mathcal M\\) (the set of all \\(\\mu^\\star\\)-measurable sets) contains all sets, that is, whether all sets are Lebesgue measurable. It will turn out that \\(\\mathcal M\\) can not be everything (assuming the axiom of choice), in particular, it will fail countable additivity under disjoint sets.</p>
-<div class="card card-remark"><div class="card-label">Does \\(\\mathcal M\\) (the set of all \\(\\mu^\\star\\)-measurable sets)  contain all sets, that is, whether all sets are Lebesgue measurable?</div><p>No, there are constructions like the Vitali set which is not Lebesgue measurable (assuming axiom of choice).  [!CARD] Theorem 3.27 Non-existence of translation invariant measure on R.</p>
-<div class="card card-thm"><div class="card-label">There does not exist a translation invariant measure on all subsets of R which gives length for intervals.</div><p><strong>Proof</strong> Assume \\(\\mu\\) is such a measure. Then, define an equivalence relation on \\([0,1]\\) where we identify \\(x \\sim y\\) if \\(x-y \\in \\mathbb Q\\). The equivalence class of \\(x\\) is then given by all points shifted by some rational contained in \\([0,1]\\), i.e. \\[[x] = \\{x + q: q \\in \\mathbb Q\\} \\cap [0,1]\\]  Since the rationals are countable, \\([x]\\) is countable, but the number of equivalence classes is uncountable since the reals are uncountable. Let \\(A\\) consist of one element from each equivalence class (<strong>this assumes the axiom of choice, meaning if you have an infinite number of sets, the axiom says you can still make a single choice from every single set at the same time</strong>). This set is known as the <em>Vitali set</em>. We ask ourselves what \\(\\mu(A)\\) is. We will see that we will arrive at a contradiction. Step 1: \\(\\mu(A) > 0\\). We first claim: \\[[0,1] \\subseteq \\bigcup_{q \\in [-1,1] \\cap \\mathbb{Q}} (A + q)\\] To see this, take \\(x\\in[0,1]\\) and \\(y \\in A\\) with \\(x-y \\in \\mathbb Q\\), then \\(x = y + (X-y) \\in A + (x-y)\\) but since \\(x-y \\in [-1, 1] \\cap Q\\), we obtain (4). Assuming the measure is translation invariant however means \\(\\mu(A+q) = \\mu(A)\\), therefore if \\(\\mu(A) = 0\\) and countable additivity, the measure of the RHS of \\((4)\\) would be 0, but this can not be since \\(\\mu\\) of the LHS is 1. Hence \\(\\mu(A) > 1\\) at least, since \\([0,1]\\) is a subset. Step 2: \\(\\mu(A) = 0\\). Clearly we have that \\[\\bigcup_{q \\in [0,1] \\cap \\mathbb{Q}} (A + q) \\subseteq[0,2]\\] Note that the sets in the union of the LHS are disjoint. Assume some \\(u \\in A + q_1\\) and in \\(A + q_2\\) we would have \\(u = a_1 + q_1 = a_2 + q_2\\) with \\(a_1, a_2 \\in A\\), then \\(a_1-a_2 = q_1-q_2 \\in \\mathbb Q\\) which would imply that \\(a_1 \\sim a_2\\). But remember that the Vitali set only contains a single element from the equivalence class, and thus we arrive at a contradiction. Each term therefore has measure \\(\\mu(A)\\). We therefore have an infinite sum of \\(\\mu(A)\\), which if \\(\\mu(A)>0\\) diverges to infinity. Since the RHS has measure \\(2\\), this is clearly a contradiction. The two steps give us a contraction. QED.</p></div></div>
+<div class="card card-remark"><div class="card-label">Does \\(\\mathcal M\\) (the set of all \\(\\mu^\\star\\)-measurable sets)  contain all sets, that is, whether all sets are Lebesgue measurable?</div><p>No, there are constructions like the Vitali set which is not Lebesgue measurable (assuming axiom of choice).  Theorem 3.27 Non-existence of translation invariant measure on R.</p>
+<div class="card card-thm"><div class="card-label">There does not exist a translation invariant measure on all subsets of R which gives length for intervals.</div></div></div>
 `
 },
 {
@@ -716,7 +935,7 @@ const TOPICS = [
   ],
   html:`
 <h2>Banach-Tarski paradox</h2>
-<div class="card card-remark"><div class="card-label">Does there exist a translation invariant and <em>finitely</em> additive measure on all subsets of R?</div><p>Yes, a translation invariant and finitely additive measures exist in R and. In R^2 translation invariance refers to all isometries of space and assigns standard volume to squares. Actually, one needs to go to 3 dimensions to obtain Banach-Tarski paradoxes.  [!CARD] Briefly explain the Banach-Tarski paradox. No translation invariant and finitely additive measure exists on all subsets of \\(R^3\\). Assuming instead, by contradiction, that the statement is true, you can construct a finite decomposition of a ball into disjoint subsets which can be put together two yield two identical copies of the original ball (this decomposition is the ingredient in the proof and is mathematically possible), leading to a \\(1=2\\) situation. The paradox lies in the fact that intuitively speaking, we expect that that moving the parts around would preserve the volume, except here the subsets are chosen carefully such that their volumes are not preserved, in fact, you can nto define volumes of the considered substes.</p></div>
+<div class="card card-remark"><div class="card-label">Does there exist a translation invariant and <em>finitely</em> additive measure on all subsets of R?</div><p>Yes, a translation invariant and finitely additive measures exist in R and. In R^2 translation invariance refers to all isometries of space and assigns standard volume to squares. Actually, one needs to go to 3 dimensions to obtain Banach-Tarski paradoxes.  Briefly explain the Banach-Tarski paradox. No translation invariant and finitely additive measure exists on all subsets of \\(R^3\\). Assuming instead, by contradiction, that the statement is true, you can construct a finite decomposition of a ball into disjoint subsets which can be put together two yield two identical copies of the original ball (this decomposition is the ingredient in the proof and is mathematically possible), leading to a \\(1=2\\) situation. The paradox lies in the fact that intuitively speaking, we expect that that moving the parts around would preserve the volume, except here the subsets are chosen carefully such that their volumes are not preserved, in fact, you can nto define volumes of the considered substes.</p></div>
 <h4>Other important constructions of measures</h4>
 <div class="card card-def"><div class="card-label">Definition — Premeasure</div><p>If \\(X\\) is a set and \\(\\mathcal{A}\\) is an algebra on \\(X\\), a function \\(\\mu_0 : \\mathcal{A} \\to [0, \\infty]\\) is called a <strong>premeasure</strong> if:</p>
 <ol><li>\\(\\mu_0(\\emptyset) = 0\\)</li></ol>
@@ -739,25 +958,25 @@ const TOPICS = [
 <div class="card card-ex"><div class="card-label">Exercise 3.14</div><ol><li>Verify the middle equality of \\((6)\\) in detail:</li></ol>
 <p>\\[\\lim_{s \\downarrow t} \\mu([0,s]) = \\mu([0,t])\\]</p>
 <ol><li>Show that \\(F\\) is not necessarily left continuous, and moreover that:</li></ol>
-<p>\\[F(t) - \\lim_{s \\uparrow t} F(s) = \\mu(\\{t\\})\\] [!CARD] Proposition 3.31 — Borel Measure from CDF</p>
+<p>\\[F(t) - \\lim_{s \\uparrow t} F(s) = \\mu(\\{t\\})\\] Proposition 3.31 — Borel Measure from CDF</p>
 <div class="card card-thm"><div class="card-label">Theorem</div><p>Let \\(F\\) be a nonneg­ative, weakly increasing and right continuous function on \\([0,1]\\) mapping into \\([0, \\infty)\\). Then there exists a unique finite Borel measure \\(\\mu\\) on \\([0,1]\\) satisfying: \\[F(x) := \\mu([0,x])\\]</p></div></div>
 <p>The proposition tells us that given a distribution function, we have an associated measure.</p>
 <p>It turns out that if \\(F(x) = x\\), we get the Lebesgue measure. The \\(F\\) corresponding to a measure \\(\\mu\\) will be denoted by \\(F_\\mu\\) (prop 3.30) and the \\(\\mu\\) corresponding to a given \\(F\\) as above will be denoted by \\(\\mu_F\\) (prop 3.31)</p>
 <h4>The Cantor set, the Cantor ternary function and the Cantor measure</h4>
 <p>The Cantor set is constructed by splitting the \\([0,1]\\) interval in three intervals, and removnig the middle third. The process is then repeated for the two intervals, each time removnig the middle third from each of the intervals from the previous set. \\(C_n\\) then consists of \\(2^n\\) disjoint closed intervals, each of length \\(1/3^n\\). The Cantor set is defined to be \\[C\\equiv \\bigcap_n C_n\\] \`\`<code>jsx: <CantorSet /> </code>\`\`</p>
-<div class="card card-thm"><div class="card-label">Proposition 3.33. Mention four properties of the Cantor set</div></div>
+<div class="card card-thm"><div class="card-label">Proposition 3.33. Mention four properties of the Cantor set</div></div><div class=\"viz-slot\" data-comp=\"CantorSet\"><\/div>
 <p>Any closed set in R without isolated points is uncountable, and thus the Cantor set is uncountable by proposition 3.33.</p>
 <p>Proof of prop 3.33:</p>
 <ol><li>Since it is closed, it must be nonempty compact set by elementary topology.</li><li>Since \\(C_n\\) consists of \\(2^n\\) disjoint closed intervals of length \\(1/3^n\\), the \\(C_n\\) has Lebesgue measure \\((2/3)^n\\) and thus \\(C\\) has Lebesgue measure 0.</li><li><strong>TODO: show that it has no isolated points</strong></li></ol>
 <p>We now want to define the Cantor ternary function, or Devil's staircase. The idea is to create a function with \\(f(0) = 0, f(1) = 1, f' = 0\\) that is increasing (and also demand it to be continuous!!). The Cantor ternary function \\(F_c\\) is defined as the limit of the sequence of function \\((f_n)\\) with \\(f_0(x) = x\\) and \\(f_1\\) constant \\(1/2\\) on middle interval and otherwise linear, \\(f_2\\) will be constant \\(1/4\\) on \\((1/9, 2/9)\\) and constant 1/2 on \\((1/2, 2/3)\\) and constant \\(3/4\\) on \\((7/9, 8/9)\\), and otherwise linear.</p>
 <p>\`\`<code>jsx: <DevilsStaircase /> </code>\`\`</p>
-<div class="card card-thm"><div class="card-label">Theorem 3.34 — Cantor Ternary Function</div><p>The sequence \\((f_n)\\) converges uniformly to a (necessarily continuous) limit function \\(F_C\\), which we call the <strong>Cantor ternary function</strong>. [!CARD] Corollary 3.35 — Properties of the Cantor Ternary Function</p>
-<p>[!theorem] <strong>(a)</strong> \\(F_C\\) is a weakly increasing function on \\([0,1]\\) with \\(F_C(0) = 0\\) and \\(F_C(1) = 1\\) <strong>(b)</strong> \\(F_C\\) is continuous. <strong>(c)</strong> \\(F_C' = 0\\) (Lebesgue)-a.e. on \\([0,1]\\).</p></div>
+<div class="card card-thm"><div class="card-label">Theorem 3.34 — Cantor Ternary Function</div><p>The sequence \\((f_n)\\) converges uniformly to a (necessarily continuous) limit function \\(F_C\\), which we call the <strong>Cantor ternary function</strong>. Corollary 3.35 — Properties of the Cantor Ternary Function</p>
+<p><strong>(a)</strong> \\(F_C\\) is a weakly increasing function on \\([0,1]\\) with \\(F_C(0) = 0\\) and \\(F_C(1) = 1\\) <strong>(b)</strong> \\(F_C\\) is continuous. <strong>(c)</strong> \\(F_C' = 0\\) (Lebesgue)-a.e. on \\([0,1]\\).</p></div><div class=\"viz-slot\" data-comp=\"DevilsStaircase\"><\/div>
 <h4>Proof of Corollary 3.35</h4>
 <p>Since each \\(f_n\\) is 0 at 0 and 1 and weakly increasing, the same is true for the limit \\(F_C\\). It is continuous by theorem 3.34. Take \\(x\\notin C\\), then there is an \\(n\\) such that \\(x \\notin C_n\\) since \\(C = \\bigcap_n C_n\\), in which case \\(f_n\\) is constant in an interval around \\(x\\) (since it corresponds to a point that was removed in the construction of the Cantor set, and those intervals where assigned to be constant). Since \\(f_n\\) is constant on that interval, it follows that \\(f_m\\) is also constant on that interval for all \\(m\\geq n\\), and this is it certainly true for \\(F_c\\) and hence \\(F_C'(x) = 0\\). Since \\(x \\notin C\\) implies \\(F'_c(x) = 0\\) we have that \\(m\\{x\\in[0,1]:F'_c(x) \\neq 0\\}=m(C) = 0\\) since \\(C\\) has Lebesgue measure 0, but this is just the definition of the property  \\(F'_c(x) = 0\\) being true Lebesgue-a.e., thus (c) follows.</p>
 <hr>
 <p>We may now define the Cantor Ternary measure denoted by \\(\\mu_C\\) as follows \\[\\mu_C([0,x])\\equiv F_c(x)\\]using proposition 3.31 since \\(F_C\\) is continuous, weakly increasing and non-negative.</p>
-<div class="card card-thm"><div class="card-label">Theorem 3.36. Properties of the Cantor ternary measure.</div><p>\\(\\mu_C\\) is a continuous measure and where \\(\\mu_C(C) = 1, \\mu_C(C^c) = 0\\).</p></div>
+<div class="card card-thm"><div class="card-label">Theorem 3.36. Properties of the Cantor ternary measure.</div><p>\\(\\mu_C\\) is a continuous measure and where \\(\\mu_C(C) = 1, \\mu_C(C^c) = 0\\).</p></div><div class=\"viz-slot\" data-comp=\"ShiftedCantor\"><\/div><div class=\"viz-slot\" data-comp=\"CantorDensityViz\"><\/div>
 <p>To gain intuition for this result, note that \\[\\mu_C(C^c) = \\mu_C([0,1] \\setminus C) = \\mu_C(\\bigcup_{\\mathrm{removed \\ intervals}}) = \\sum_{\\mathrm{removed \\ intervals}} \\mu_C(I_k) = 0\\]where we used the fact that the intervals we removed are disjoint, and specifically, \\(F_c\\) is constant at each removed interval. Hence \\(\\mu(C) = 1\\).</p>
 <p>The fact that it is continuous follows from the fact that \\(F_c\\) is continuous (both left- and right continuous). And since it is also left-continuous, this implies that there are no atoms and thus the measure space is complete.</p>
 <h4>The Borel-Cantelli lemma (section 3.12)</h4>
@@ -779,10 +998,9 @@ const TOPICS = [
   comps:[
     {C:Exercise45, label:'Simple Function Approximation'},
     {C:LebesgueInfimum, label:'Approximating 1/√x from Below/Above'},
-    {C:FunctionSeriesChap4, label:'Function Series: f_k → x^n e^{−x}'},
   ],
   html:`
-<p>The Lebesgue integral makes a simple but essential modification to the construction of the Riemann integral. We remind ourselves that Riemann integration relies on partitioning the domain into very small intervals, and summing up R function evaluated for some points residing within those intervals, and taking the limit as the intervals gets smaller (hoping of course that the limit exists). If the limit does exist, the function is called Riemann integrable.</p>
+<p>The Lebesgue integral (building on <a class="xref" onclick="if(window._navToTopic)window._navToTopic('foundations')">measure theory, Topic 1</a>) makes a simple but essential modification to the construction of the Riemann integral. We remind ourselves that Riemann integration relies on partitioning the domain into very small intervals, and summing up R function evaluated for some points residing within those intervals, and taking the limit as the intervals gets smaller (hoping of course that the limit exists). If the limit does exist, the function is called Riemann integrable.</p>
 <p>The key <strong>shift in perspective</strong> is:</p>
 <blockquote><p><strong>Riemann integration cares about how a function behaves on intervals; Lebesgue integration cares about how large the sets are on which the function takes each value.</strong></p></blockquote>
 <div class="card card-thm"><div class="card-label">Theorem 4.1. A bounded function is RI iff...</div><p>If \\(f\\) is a bounded function, then \\(f\\) is RI iff the set \\(\\{x: f\\  \\text{is not continous at}\\  x\\}\\) has Lebesgue measure 0.</p></div>
@@ -799,30 +1017,30 @@ const TOPICS = [
 <p><strong>(b)</strong> \\(f(A\\cap B) \\subseteq f(A) \\cap f(B)\\)</p>
 <p><strong>(c)</strong></p>
 <p><strong>(d)</strong> Same as <strong>(c)</strong>, but where we assume f is surjective?</p></div>
-<div class="card card-thm"><div class="card-label">Proposition 4.6 (Sum of measurable functions and product of measurable functions)</div><p><strong>Proof</strong> A map \\(h\\) is called measurable if \\(h^{-1}(B) \\in \\mathcal M\\) \\(\\forall B\\). Now take \\(h=f+g\\), then \\((f+g)^{-1}((\\alpha, \\infty)) =\\{x: (f+g)(x) >\\alpha\\} \\in \\mathcal M\\) \\(\\forall \\alpha \\in \\mathbb R\\). In other words, it suffices to check whether the rays \\((\\alpha, \\infty\\)) are contained in \\(\\mathcal M\\)- Note that the set can be written as \\[\\bigcup_{q\\in \\mathbb Q}( \\{x: f(x) > q\\} \\cap \\{x: g(x) > \\alpha - q\\})\\] (the containment is shown in the lecture notes).  Each piece on the RHS is in \\(\\mathcal M\\) since \\(f,g\\) are measurable, and thus their intersection is also in \\(\\mathcal M\\). The right side is thus a countable union of measurable sets which is thus in \\(\\mathcal M\\). As for \\(fg\\) we have \\[fg = 1/2((f+g)^2 - f^2 - g^2)\\]As it is trivial that the negated function is measurable, and we already know that the sum of two measurable functions is measurable, it suffices to show that \\(h=f^2\\) is also measurable. Again we have that \\[(f^2)^{-1}(B) = \\{x: f^2(x) > \\alpha\\} \\in \\mathcal M\\] \\(\\forall \\alpha \\in \\mathbb R\\). Note that for \\(\\alpha \\leq 0\\) we have that the preimage is simply \\(X\\). For \\(\\alpha \\geq 0\\) we have \\[\\{x: f^2(x) > \\alpha\\} = \\{x : f(x) > \\alpha^{1/2}\\} \\cup  \\{x : f(x) < -\\alpha^{1/2}\\}\\] which is a union of two measurable two sets (assuming \\(f\\) is measurable), which is still measurable.</p></div>
+<div class="card card-thm"><div class="card-label">Proposition 4.6 (Sum of measurable functions and product of measurable functions)</div></div>
 <p>Note that the composition of two Lebesgue measurable functions is not Lebesgue measurable necessarily (this is a consequence of the fact the Borel sigma algebra is contained (without equality) in the Lebesgue measurable \\(\\sigma\\)-algebra).</p>
 <p><strong>Notation:</strong> \\(\\overline{\\mathbb R} = \\mathbb R \\cup \\{-\\infty, +\\infty\\}\\).</p>
 <div class="card card-ex"><div class="card-label">Exercise 4.3. Show that if \\((X, \\mathcal M)\\rightarrow \\overline R\\) is measurable, then \\(\\{x\\in X : f(x) = \\infty\\} \\in \\mathcal M\\).</div><p>We have that \\(\\{x = f(x) = \\infty \\} = \\bigcap_n \\{x: f(x) > n\\}\\) and since each \\({f > n} \\in \\mathcal M\\) by measurability of \\(f\\), and \\(\\mathcal M\\) is closed under countable intersections, it follows that the result is in \\(\\mathcal M\\).</p></div>
 <p>We want limits of measurable functions to be measurable. From now on, we restrict to real-valued measurable functions.</p>
-<div class="card card-thm"><div class="card-label">Proposition 4.7. Supremum of sequence of measurable functions is measurable.</div><p>If \\((f_n)_n\\) is a sequence of measurable functions, then \\(\\sup_j f_j\\) is a measurable function where \\[(\\sup_j f_j) (x) := \\sup_j (f_j(x))\\]with the same definition for \\(\\inf_j f_j\\). The proof follows by defining \\(\\tilde f := (\\sup_j f_j)(x)\\) and \\(\\{x \\in X: \\tilde f(x) > \\alpha\\} \\in \\mathcal M\\) \\(\\forall \\alpha \\in \\mathbb R\\). Clearly if \\(\\tilde f(x) > \\alpha\\) then there exists some \\(j\\) (or multiple) where \\(f_j(x) > \\alpha\\), hence we have \\[\\{x \\in X: \\tilde f(x) > \\alpha\\} = \\bigcup_j \\{x \\in X: f_j(x) > \\alpha\\}\\]which is a possibly countable union of measurable sets, and thus it is a measurable function. The proof for the infimum is identical, except we replace the union with intersection over all \\(j\\). [!exercise] Exercise 4.4 Verify the above equality of sets. Would it hold if we replaced the \\(>\\) with \\(\\geq\\)? The containment can be proven easily, for example if \\(x\\in LHS\\) then it is clear there exists a \\(j\\) such that \\(f_j(x) > \\alpha\\) and thus \\(x \\in \\{x \\in X: f_j(x) > \\alpha\\} \\subseteq RHS\\). As for the opposite containment, there exists some \\(j_0\\) such that \\(f_{j_0}(x) > \\alpha\\), by the definition of the supremum we have \\(\\tilde f(x) = (\\sup_j f_j)(x) \\geq f_{j_0}(x) > \\alpha\\) and hence \\(x\\in LHS\\). Note that strict inequality is needed, since it guarantees we can find a \\(j_0\\). A concrete counterexample is</p></div>
+<div class="card card-thm"><div class="card-label">Proposition 4.7. Supremum of sequence of measurable functions is measurable.</div><p>If \\((f_n)_n\\) is a sequence of measurable functions, then \\(\\sup_j f_j\\) is a measurable function where \\[(\\sup_j f_j) (x) := \\sup_j (f_j(x))\\]with the same definition for \\(\\inf_j f_j\\). The proof follows by defining \\(\\tilde f := (\\sup_j f_j)(x)\\) and \\(\\{x \\in X: \\tilde f(x) > \\alpha\\} \\in \\mathcal M\\) \\(\\forall \\alpha \\in \\mathbb R\\). Clearly if \\(\\tilde f(x) > \\alpha\\) then there exists some \\(j\\) (or multiple) where \\(f_j(x) > \\alpha\\), hence we have \\[\\{x \\in X: \\tilde f(x) > \\alpha\\} = \\bigcup_j \\{x \\in X: f_j(x) > \\alpha\\}\\]which is a possibly countable union of measurable sets, and thus it is a measurable function. The proof for the infimum is identical, except we replace the union with intersection over all \\(j\\). Exercise 4.4 Verify the above equality of sets. Would it hold if we replaced the \\(>\\) with \\(\\geq\\)? The containment can be proven easily, for example if \\(x\\in LHS\\) then it is clear there exists a \\(j\\) such that \\(f_j(x) > \\alpha\\) and thus \\(x \\in \\{x \\in X: f_j(x) > \\alpha\\} \\subseteq RHS\\). As for the opposite containment, there exists some \\(j_0\\) such that \\(f_{j_0}(x) > \\alpha\\), by the definition of the supremum we have \\(\\tilde f(x) = (\\sup_j f_j)(x) \\geq f_{j_0}(x) > \\alpha\\) and hence \\(x\\in LHS\\). Note that strict inequality is needed, since it guarantees we can find a \\(j_0\\). A concrete counterexample is</p></div>
 <p>The above example shows that</p>
 <p>because a supremum does not necessarily have to be attained.</p>
 <p>So far we have shown that the supremum of a sequence of measurable functions is measurable. Now we will take it a step further, and define the measurability of the \\(\\limsup\\) of a sequence of measurable functions.</p>
 <div class="card card-thm"><div class="card-label">Proposition 4.8 — Measurability of \\(\\limsup\\) of Functions</div><p>If \\(f_1, f_2, \\ldots\\) is a sequence of measurable functions, then \\(\\limsup_j f_j\\) is a measurable function, where: \\[\\left(\\limsup_j f_j\\right)(x) := \\limsup_j (f_j(x))\\]</p>
 <p>In particular, if \\((f_k)\\) converges to \\(f_\\infty\\) pointwise, then \\(f_\\infty\\) is measurable. <strong>Proof</strong> We have that \\(\\lim\\sup_j f_j = \\inf_k(\\sup_{n\\geq k} f_n)\\) where \\(\\sup_{n\\geq k} f_n \\equiv g_k\\) are measurable functions by proposition 4.7. We also know that the infimum of a sequence of measurable functions is measurable by the same proposition, hence we are done.</p></div>
 <p>We will now proceed with introducing simple functions. That we also introduced in Lecture 2 - Probability theory#^2d6d5f but in a probabilistic context. The definition is identical, but the indicator function is no longer interpreted as a Bernoulli random variable.</p>
-<div class="card card-def"><div class="card-label">Definition 4.9 — Simple function</div><p>A simple function on a measurable space is a function of the form \\(f(x) = \\sum c_i I_{E_i}\\) where \\(c_i \\in \\mathbb R\\) and\\(E_i\\) are pairwise disjonit sets in \\(\\mathcal M\\), with \\(I_{E_1}\\) being the indicator function of \\(E_i\\).</p></div>
+<div class="card card-def"><div class="card-label">Definition 4.9 — Simple function</div><p>A simple function on a measurable space is a function of the form \\(f(x) = \\sum c_i I_{E_i}\\) where \\(c_i \\in \\mathbb R\\) and\\(E_i\\) are pairwise disjonit sets in \\(\\mathcal M\\), with \\(I_{E_1}\\) being the indicator function of \\(E_i\\).</p></div><div class=\"viz-slot\" data-comp=\"Exercise45\"><\/div>
 <p>Simple functions can approximate any measurable function pointwise.</p>
 <hr class="lecture-sep">
-<div class="card card-remark"><div class="card-label">True or false? Simple functions can approximate any measurable function pointwise.</div><p>True, see exercise 4.5 [!exercise] Exercise 4.5</p>
+<div class="card card-remark"><div class="card-label">True or false? Simple functions can approximate any measurable function pointwise.</div><p>True, see exercise 4.5 Exercise 4.5</p>
 <p>Show that if \\((X,\\mathcal M)\\) is a measurable space and \\(f:X\\to[0,\\infty]\\) is measurable, then there exists a sequence \\((\\phi_n)\\) of simple functions with \\(0\\le\\phi_1\\le\\phi_2\\le\\cdots\\) such that \\(\\phi_n\\to f\\) pointwise. Moreover, show (or observe) that \\(\\phi_n\\to f\\) <em>uniformly</em> on any set where \\(f\\) is bounded. <em>Hint: break up the \\(y\\)-axis.</em></p></div>
 <p><strong>Lecture solution.</strong> <strong>Construction.</strong> For each \\(n\\), chop \\([0,2^n)\\) into \\(2^n\\cdot2^n=2^{2n}\\) pieces of width \\(\\tfrac1{2^n}\\) each, and round \\(f(x)\\) <em>down</em> to the left endpoint of whichever piece it lands in (capping at \\(2^n\\) once \\(f(x)\\) gets that large):\\[\\phi_n(x):=\\sum_{k=0}^{2^{2n}-1}\\frac{k}{2^n}\\,\\mathbf 1_{\\left\\{x:f(x)\\in\\left[\\frac{k}{2^n},\\frac{k+1}{2^n}\\right)\\right\\}}\\ +\\ 2^n\\,\\mathbf 1_{\\{x:f(x)\\ge2^n\\}}.\\] That is: replace \\(f(x)\\) by \\(f\\big(\\tfrac{k}{2^n}\\big)\\) where \\(\\tfrac{k}{2^n}\\) is the closest grid point to \\(f(x)\\) <strong>from below</strong>, i.e. \\(\\tfrac{k}{2^n}\\le f(x)\\). Each \\(\\phi_n\\) is simple: the sets \\(\\big\\{x:f(x)\\in[\\tfrac{k}{2^n},\\tfrac{k+1}{2^n})\\big\\}\\) (\\(k=0,\\dots,2^{2n}-1\\)) and \\(\\{x:f(x)\\ge2^n\\}\\) are disjoint, measurable (preimages of Borel sets under the measurable \\(f\\)), and cover \\(X\\) (since \\(f\\ge0\\)). <strong>Monotonicity, \\(\\phi_n\\le\\phi_{n+1}\\).</strong> Going from resolution \\(n\\) to \\(n+1\\), every grid interval of width \\(\\tfrac1{2^n}\\) splits into two of width \\(\\tfrac1{2^{n+1}}\\), and rounding down onto a finer grid can only land on an equal-or-larger value than rounding down onto the coarser one; the cap also rises, from \\(2^n\\) to \\(2^{n+1}\\). So \\(\\phi_n(x)\\le\\phi_{n+1}(x)\\) for every \\(x\\). <strong>Pointwise convergence.</strong> Fix \\(x\\). If \\(f(x)<\\infty\\), then once \\(2^n>f(x)\\), \\(\\phi_n(x)\\) sits within \\(\\tfrac1{2^n}\\) of \\(f(x)\\) (that's the grid width), so \\(\\phi_n(x)\\to f(x)\\). If \\(f(x)=\\infty\\), then \\(\\phi_n(x)=2^n\\to\\infty=f(x)\\) for every \\(n\\). <strong>Uniform convergence on bounded sets.</strong> If \\(f\\le M\\) on some set \\(S\\), then for every \\(n\\) with \\(2^n>M\\), <em>every</em> \\(x\\in S\\) satisfies \\(f(x)<2^n\\), so \\(\\phi_n(x)\\) is within \\(\\tfrac1{2^n}\\) of \\(f(x)\\) — a bound depending only on \\(n\\), not on \\(x\\). Hence \\(\\phi_n\\to f\\) uniformly on \\(S\\).</p>
 <p>\`\`<code>jsx: <Exercise45 /> </code>\`\`</p>
 <h4>The Lebesgue integral and convergence theorems</h4>
 <p>Before we proceed, we consider the class of nonnegative measurable functions \\[L^+((X, \\mathcal M, m)) = \\{f: X\\rightarrow [0,\\infty], \\text{f is measurable}\\}\\]</p>
-<div class="card card-def"><div class="card-label">The Lebesgue integral for nonnegative simple functions</div><p>Let \\(\\phi(x)\\) be a simple function in \\(L^+((X, \\mathcal M, m))\\) \\[\\phi(x) = \\sum_{i=1}^n c_i I_{E_i}\\]with \\(c_i \\geq 0 \\forall i\\). The integral is then defined \\[\\int \\phi(x) dm(x) = \\sum_{i=1}^n c_i m(E_I)\\] [!CARD] Integral of nonnegative simple function over specified region</p>
-<p>[!definition] If \\(\\phi\\) is a simple function in \\(L^+((X, \\mathcal M, m))\\) and \\(A \\in \\mathcal M\\) we define \\[\\int_A \\phi(x) dm(x) = \\int \\phi(x) \\mathbb I_A dm(x)\\] where we note that the integrand on the RHS is a simple function and hence the integral is defined. [!CARD] Proposition 4.12. Four properties which hold for the integral of nonnegative simple functions.</p>
-<p>[!theorem] Let \\(\\phi, \\psi\\) be simple nonnegative functions, then the following holds. (a) \\(\\int c\\phi(x) dm(x) = c\\int \\phi(x) dm(x)\\) \\(\\forall c \\geq 0\\). (b) \\(\\int (\\phi(x) + \\psi(x)) dm(x) = \\int \\phi(x) dm(x) + \\int \\psi(x) dm(x)\\). (c)\\(\\phi \\leq \\psi\\) implies that \\(\\int \\phi(x) dm(x) \\leq \\int \\psi(x) dm(x)\\) (d) The mapping from \\(\\mathcal M\\) to \\([0,\\infty]\\) given by \\(A\\rightarrow \\int_A \\phi(x) dm(x)\\) is a measure on \\(\\mathcal M\\). <strong>Proof</strong> (a) through (c) are straightforward by applying the definition. We prove (d).</p></div>
+<div class="card card-def"><div class="card-label">The Lebesgue integral for nonnegative simple functions</div><p>Let \\(\\phi(x)\\) be a simple function in \\(L^+((X, \\mathcal M, m))\\) \\[\\phi(x) = \\sum_{i=1}^n c_i I_{E_i}\\]with \\(c_i \\geq 0 \\forall i\\). The integral is then defined \\[\\int \\phi(x) dm(x) = \\sum_{i=1}^n c_i m(E_I)\\] Integral of nonnegative simple function over specified region</p>
+<p>If \\(\\phi\\) is a simple function in \\(L^+((X, \\mathcal M, m))\\) and \\(A \\in \\mathcal M\\) we define \\[\\int_A \\phi(x) dm(x) = \\int \\phi(x) \\mathbb I_A dm(x)\\] where we note that the integrand on the RHS is a simple function and hence the integral is defined. Proposition 4.12. Four properties which hold for the integral of nonnegative simple functions.</p>
+<p>Let \\(\\phi, \\psi\\) be simple nonnegative functions, then the following holds. (a) \\(\\int c\\phi(x) dm(x) = c\\int \\phi(x) dm(x)\\) \\(\\forall c \\geq 0\\). (b) \\(\\int (\\phi(x) + \\psi(x)) dm(x) = \\int \\phi(x) dm(x) + \\int \\psi(x) dm(x)\\). (c)\\(\\phi \\leq \\psi\\) implies that \\(\\int \\phi(x) dm(x) \\leq \\int \\psi(x) dm(x)\\) (d) The mapping from \\(\\mathcal M\\) to \\([0,\\infty]\\) given by \\(A\\rightarrow \\int_A \\phi(x) dm(x)\\) is a measure on \\(\\mathcal M\\). <strong>Proof</strong> (a) through (c) are straightforward by applying the definition. We prove (d).</p></div><div class=\"viz-slot\" data-comp=\"LebesgueInfimum\"><\/div>
 <p>Note that \\[\\int (\\phi(x) - \\psi(x) ) dm(x) = \\int \\phi(x) dm(x) - \\int \\psi(x) dm(x)\\]iff at least one of the integrals on the RHS is defined. This is different from property (b) in proposition 4.12 since in this case, we are integrating nonnegative functions which may lead to a \\(\\infty - \\infty\\) situation which is not necessarily defined (whereas \\(\\infty + \\infty\\) is).</p>
 <p>We are now ready to define the integral for all functions in \\(L^+((X, \\mathcal M, m))\\).  We will use the idea that we can approximate a measurable function by simple functions.</p>
 <div class="card card-def"><div class="card-label">The integral for nonnegative measurable functions</div><p>If \\(f \\in L^+((X, \\mathcal M, m))\\) we define \\[\\int f(x) dm(x) = \\sup\\{ \\int \\phi(x) dm(x): 0 \\leq \\phi \\leq f, \\phi \\ \\mathrm{simple}\\}\\]which can certainly become infinity.</p></div>
@@ -835,14 +1053,14 @@ const TOPICS = [
 <h4>Convergence theorems</h4>
 <div class="card card-remark"><div class="card-label">Mention the three convergence theorems discussed in the course for exchanging the limit with the Lebesgue integral.</div><p>The monotone convergence theorem, the Lebesgue dominated convergence theorem, and Fatou's lemma.</p></div>
 <p>In what follows, we discuss three important convergence theorems which answer the question on when the limit and the integral operations commute. The first two, the monotone and dominated Lebesgue convergence theorem, tells us that it is possible to do so under certain restrictions on the sequence of measurable functions.</p>
-<div class="card card-def"><div class="card-label">Theorem 4.14. Monotone convergence theorem</div><p><strong>Proof</strong> To prove the \\(\\geq\\) we first realize that \\(\\int f_n dm\\) is increasing and hence a limit. For the same reason \\(\\int f dm \\geq \\int f_n dm\\) for every \\(n\\) we also have \\(\\int f_dm \\geq \\lim \\int f_n dm\\). To prove the reverse inequality, we first start by the definition of \\(\\int f dm\\) which is that for every simple function \\(\\phi \\leq f\\) we have \\[\\int \\phi dm \\leq \\lim_{n\\rightarrow \\infty} \\int f_n dm\\]. Now fix the simple function and let \\(\\alpha < 1\\) and define \\(E_n := \\{x: f_n(x) \\geq \\alpha \\phi(x)\\}\\) and observe that \\(E_1 \\subseteq E_2...\\) from the fact that \\(f_n(x)\\) is increasing, and \\(X = \\bigcup_n E_n\\). For every \\(n\\) we now have \\[\\int f_n dm \\geq \\int f_n 1_{E_n} dm \\geq \\alpha \\phi 1_{E_n} dm = \\alpha \\int_{E_n} \\phi dm\\] and let \\(n\\rightarrow \\infty\\) and use that for a fixed nonnegative simple function \\(A\\rightarrow \\int_A \\phi dm\\) is a measure, now we have an increasing sequence of sets for which we evaluate this measure whose union is \\(X\\), using continuity from below of meaures, we have that \\(\\lim_{n\\rightarrow \\infty} \\int f_n dm \\geq \\alpha \\int \\phi dm\\) which holds for all \\(\\alpha < 1\\).</p></div>
+<div class="card card-def"><div class="card-label">Theorem 4.14. Monotone convergence theorem</div></div>
 <p>We now discuss three additional examples for when the MCT can be applied, and whether additional assumptions need to be imposed.</p>
-<div class="card card-remark"><div class="card-label">Can the MCT be applied for a non-negative decreasing sequence of measurable functions?</div><p>Yes, but under additional assumptions. If \\(f_1 \\geq f_2 \\geq ...\\) and non-negative, converging to \\(f\\), define \\(g_n = f_1 - f_n\\) then \\(g_n \\geq 0\\) and \\(g_n\\) is increasing since \\(f_n\\) is decreasing and \\(g_n \\rightarrow f_1 - f\\) pw., thus we have by MCT \\[\\int g_n d\\mu \\rightarrow \\int (f_1 - f) d\\mu\\] meaning \\[\\int f_1 d\\mu - \\int f_n d\\mu \\rightarrow \\int f_1 d\\mu - \\int f d\\mu\\] which assuming \\(\\int f_1 d\\mu < \\infty\\) we have \\[\\int f_n d\\mu \\rightarrow \\int f d\\mu\\]. For example, if we have \\(f_n = 1_{[n, \\infty]}\\) with Lebesgue measure, this clearly fails (despite being non-negative, decreasing, pw limit of \\(0\\)). An example where it works is \\(f_n = 1/n 1_{[0,1]}\\) which is decreasing, nonnegative, has pw limit of \\(0\\) and where \\(\\int f_n dm = 1/n \\rightarrow 0\\) and that is the same as \\(\\int 0 dm = 0\\).   [!CARD] Can the MCT be applied to negative increasing sequence of measurable functions? Yes, but other additional assumptions. Suppose there exists a \\(g\\) such that \\(f_n \\geq -g\\), then \\(h_n := f_n + g \\geq 0\\) and is clearly increasing since \\(f_n\\) is increasing, so applying MCT to \\(h_n\\) we have \\(\\int f_n d\\mu + \\int g d\\mu \\rightarrow \\int f d\\mu + \\int g d\\mu\\) for which we ahve \\(\\int f_n dm \\rightarrow \\int f dm\\) if \\(\\int g dm < \\infty\\).  [!CARD] Can the MCT be applied to negative decreasing sequence of measurable functions? Yes, without additional assumptions. Just define \\(h_n = -f_n\\) which becomes a positive increasing sequence of measurable functions.</p></div>
+<div class="card card-remark"><div class="card-label">Can the MCT be applied for a non-negative decreasing sequence of measurable functions?</div><p>Yes, but under additional assumptions. If \\(f_1 \\geq f_2 \\geq ...\\) and non-negative, converging to \\(f\\), define \\(g_n = f_1 - f_n\\) then \\(g_n \\geq 0\\) and \\(g_n\\) is increasing since \\(f_n\\) is decreasing and \\(g_n \\rightarrow f_1 - f\\) pw., thus we have by MCT \\[\\int g_n d\\mu \\rightarrow \\int (f_1 - f) d\\mu\\] meaning \\[\\int f_1 d\\mu - \\int f_n d\\mu \\rightarrow \\int f_1 d\\mu - \\int f d\\mu\\] which assuming \\(\\int f_1 d\\mu < \\infty\\) we have \\[\\int f_n d\\mu \\rightarrow \\int f d\\mu\\]. For example, if we have \\(f_n = 1_{[n, \\infty]}\\) with Lebesgue measure, this clearly fails (despite being non-negative, decreasing, pw limit of \\(0\\)). An example where it works is \\(f_n = 1/n 1_{[0,1]}\\) which is decreasing, nonnegative, has pw limit of \\(0\\) and where \\(\\int f_n dm = 1/n \\rightarrow 0\\) and that is the same as \\(\\int 0 dm = 0\\).   Can the MCT be applied to negative increasing sequence of measurable functions? Yes, but other additional assumptions. Suppose there exists a \\(g\\) such that \\(f_n \\geq -g\\), then \\(h_n := f_n + g \\geq 0\\) and is clearly increasing since \\(f_n\\) is increasing, so applying MCT to \\(h_n\\) we have \\(\\int f_n d\\mu + \\int g d\\mu \\rightarrow \\int f d\\mu + \\int g d\\mu\\) for which we ahve \\(\\int f_n dm \\rightarrow \\int f dm\\) if \\(\\int g dm < \\infty\\).  Can the MCT be applied to negative decreasing sequence of measurable functions? Yes, without additional assumptions. Just define \\(h_n = -f_n\\) which becomes a positive increasing sequence of measurable functions.</p></div>
 <p>Two immediate corollaries of the MCT are now stated.</p>
 <div class="card card-thm"><div class="card-label">Corollary 4.15. Linearity of Lebesgue integral for nonnegative measurable functions.</div><p>\\[\\int (f_1+f_2)dm = \\int f_1 dm + \\int f_2 dm\\] Proof: Choose \\(\\phi_n\\) and \\(\\psi_n\\) to be increasing simple functions to \\(f_1\\) and \\(f_2\\), then \\(\\phi_n + \\psi_n\\) is a sequence of simple functions increasing towards \\(f_1+f_2\\)</p>
-<p>where in the middle step we used the linearity over simple functions, and the MCT in the outer most equalities. [!CARD] Corollary 4.16. Exchanging infinite sum and Lebesgue integral.</p>
-<p>[!theorem] If \\(f_1, f_2,...\\) in \\(L^+((X, \\mathcal M, m))\\) then \\[\\int (\\sum_{i=1}^\\infty f_i) dm = \\sum_{i=1}^\\infty (\\int f_i dm)\\] <strong>Proof</strong> By the corollary above, we have for every \\(N\\) that \\[\\int (\\sum_{i=1}^N f_i) dm = \\sum_{i=1}^N (\\int f_i dm)\\]where we want to let \\(N\\rightarrow \\infty\\), the RHS goes to \\(\\sum_{i=1}^\\infty (\\int f_i dm)\\) while the LHS goes to \\(\\int (\\sum_{i=1}^\\infty f_i)\\) by the MCT. Note that \\(g_N := (\\sum_{i=1}^N f_i)\\) defines a sequence of increasing nonnegative measurable functions (since sum of measurable functions is measurable), and whose pointwise limit is precisely \\((\\sum_{i=1}^\\infty f_i)\\)  (which is also measurable by proposition 4.8 from Courses/Integration theory/Lecture notes/Lecture 5 - Preliminaries for integration theory for which we can thus apply the MCT. [!CARD] Proposition 4.17. Lebesgue integral zero for nonnegative measurable functions equivalence.</p>
-<p>[!theorem] If \\(f\\in L^+((X, \\mathcal M ,m))\\) then \\[\\int fdm = 0\\] iff \\(f=0\\) a.e. The proof is provided in the lecture notes. We remind ourselves that the measurable functions taken into consideration are positive, i.e. \\(f\\rightarrow [0,\\infty]\\).</p></div>
+<p>where in the middle step we used the linearity over simple functions, and the MCT in the outer most equalities. Corollary 4.16. Exchanging infinite sum and Lebesgue integral.</p>
+<p>If \\(f_1, f_2,...\\) in \\(L^+((X, \\mathcal M, m))\\) then \\[\\int (\\sum_{i=1}^\\infty f_i) dm = \\sum_{i=1}^\\infty (\\int f_i dm)\\] <strong>Proof</strong> By the corollary above, we have for every \\(N\\) that \\[\\int (\\sum_{i=1}^N f_i) dm = \\sum_{i=1}^N (\\int f_i dm)\\]where we want to let \\(N\\rightarrow \\infty\\), the RHS goes to \\(\\sum_{i=1}^\\infty (\\int f_i dm)\\) while the LHS goes to \\(\\int (\\sum_{i=1}^\\infty f_i)\\) by the MCT. Note that \\(g_N := (\\sum_{i=1}^N f_i)\\) defines a sequence of increasing nonnegative measurable functions (since sum of measurable functions is measurable), and whose pointwise limit is precisely \\((\\sum_{i=1}^\\infty f_i)\\)  (which is also measurable by proposition 4.8 from Courses/Integration theory/Lecture notes/Lecture 5 - Preliminaries for integration theory for which we can thus apply the MCT. Proposition 4.17. Lebesgue integral zero for nonnegative measurable functions equivalence.</p>
+<p>If \\(f\\in L^+((X, \\mathcal M ,m))\\) then \\[\\int fdm = 0\\] iff \\(f=0\\) a.e. The proof is provided in the lecture notes. We remind ourselves that the measurable functions taken into consideration are positive, i.e. \\(f\\rightarrow [0,\\infty]\\).</p></div>
 <p>Note that the above proposition also implies that if \\(f = h-g\\) then \\(h=g\\) almost everywhere, that is to say, they are equivalent modulo the nullset \\[m(\\{x \\in X : h(x) \\neq g(x)\\}) =0\\]</p>
 <div class="card card-thm"><div class="card-label">Fatou's lemma</div></div>
 <p>Fatou's lemma is the best we can do with minimal assumptions about \\(f_n\\).</p>
@@ -883,7 +1101,7 @@ const TOPICS = [
 <p>The lemma essentially says that the set of points where \\(f_n(x)\\) converge to \\(f(x)\\) constitutes a measurable set. <strong>Proof</strong>. See lecture notes. The definition of the limit is that \\(\\forall m \\exists k : \\forall k \\geq n ,|f_n(x) - f(x)| < 1/m\\), which can be written as \\[\\{x: f_n(x)\\rightarrow f(x)\\} = \\bigcap_{m=1}^\\infty \\bigcup_{k=1}^\\infty \\bigcap_{n\\geq k} \\{x: |f_n(x)-f(x)| < 1/m\\}\\]where the set to which we apply countable set operations to is measurable as difference of measurable functions is measurable, and the absolute value of a measurable function is zero. Thus the end result is in \\(\\mathcal M\\).</p>
 <div class="card card-ex"><div class="card-label">Exercise 4.8. Modify the proof of the above result to prove that \\(\\{x: f_n(x) \\ \\text{converges to a finite value}\\} \\in \\mathcal M\\).</div><p>The definition says that \\(\\exists L:\\forall m > 0\\) \\(\\exists N\\) such that \\(\\forall n \\geq N: |f_n(x) -L| < 1/m\\). Note that if we naively translate this into language of set theory, we would need an uncountable union over the \\(L\\)'s, and \\(\\sigma\\)-algebras are not necessarily closed under uncountable set-theoretic operations. Instead, we can make use of the Cauchy criterion, and write the statement and instead write \\(\\forall m \\in \\mathbb N \\exists k \\in \\mathbb N : \\forall p,q \\geq k : |f_p(x)-f_q(x)| < 1/m\\) for which we simply have \\[\\{x: f_n(x) \\text{converges to a finite value}\\} = \\bigcap_{m=1}^\\infty \\bigcup_{k=1}^\\infty \\bigcap_{p,q\\geq k} \\{x: |f_p(x)-f_q(x)| < 1/m\\}\\] which again is a countable union of measurable sets, hence measurable.</p></div>
 <div class="card card-def"><div class="card-label">Convergence a.e. and in measure</div><p>If the sequence \\((f_n)\\) and \\(f\\) are measurable functions on \\((X, \\mathcal M, m)\\), then we say (i) \\(f_n\\) converges to \\(f\\) a.e. if \\[m(\\{x: f_n(x) \\nrightarrow f(x)\\}) = 0\\] (in other words, the set of points which do not converge to \\(f\\) have measure zero). (ii) \\(f_n\\) converges to \\(f\\) in <em>measure</em> if \\(\\forall \\epsilon > 0\\) we have \\[\\lim_{n\\rightarrow \\infty} m(\\{x: |f_n(x) - f(x)| > \\epsilon\\}) = 0\\]</p></div>
-<p>These two notions in probability theory are called almost sure and convergence in probability (we are familiar from this from the course in stochatic calculus!)  In the various convergence theorems we have encountered so far, e.g. LDC, one only demands convergence a.e. In fact, one only requires convergence in measure in the LDC.</p>
+<p>These two notions in probability theory are called almost sure and convergence in probability (we are familiar from this from the course in stochatic calculus!)  In the various convergence theorems we have encountered so far, e.g. <a class="xref" onclick="if(window._navToTopic)window._navToTopic('integration')">LDC (Topic 3)</a>, one only demands convergence a.e. In fact, one only requires convergence in measure in the LDC.</p>
 <div class="card card-thm"><div class="card-label">Proposition 4.25 — Relation between convergence in measure and a.e.</div><p>Relation between convergence in measure and  convergence a.e. with examples.</p>
 <ol><li>There is an example where convergence almost everywhere (a.e.) occurs but not convergence in measure.</li></ol>
 <hr>
@@ -896,18 +1114,18 @@ const TOPICS = [
 <p>A nice construction is the typewriter sequence. See also https://math.stackexchange.com/questions/1412091/the-typewriter-sequence \\[f_n(x) = \\mathbb 1_{[\\frac{n-2^k}{2^k}, \\frac{n-2^k + 1}{2^k}]}\\]: where \\(k = \\lfloor \\log_2 n\\rfloor\\) It converges to \\(0\\) in measure as for any \\(\\epsilon > 0\\) we have that \\(\\{f_n > \\epsilon\\} = \\{f_n = 1\\}\\) which has length \\(1/2^k\\) at stage \\(k\\) and clearly goes to zero in limit as \\(k\\rightarrow \\infty\\). But it does not converge a.e. since at very stage \\(k\\) there is an interval that eventually hits the point.</p>
 <ol><li>Convergence in measure implies that there exists a subsequence for which one has convergence a.e</li></ol>
 <hr>
-<p>In light of the typewriter sequence above, we can certainly select a subsequence of this sequence such that it converges a.e., in particular in such a way that the intervals are not moving but rather zooming in on for example \\(x=1/2\\). This statement is proven more formally in the lecture notes. [!exercise] Exercise 4.10</p>
+<p>In light of the typewriter sequence above, we can certainly select a subsequence of this sequence such that it converges a.e., in particular in such a way that the intervals are not moving but rather zooming in on for example \\(x=1/2\\). This statement is proven more formally in the lecture notes. Exercise 4.10</p>
 <p>Assume that \\(f_n\\) converges in measure to \\(f\\) and \\(g_n\\) converges in measure to \\(g\\).</p>
 <p><strong>(a)</strong> Show that \\(f_n + g_n\\) converges in measure to \\(f+g\\)</p>
 <p><strong>(b)</strong> Show that \\(f_n g_n\\) converges in measure to \\(fg\\) if the underlying measure space is finite. To prove this, we use the inequality \\[\\epsilon< |f_n g_n - fg| = |(f_n-f)(g_n-g) + f(g_n-g) +g(f_n-f)| \\leq|(f_n-f)(g_n-g)| + |f||(g_n-g)| + |g||(f_n-f)|\\] Following the same structure as the proof in (b), this is the same as demanding that either term \\(A, B\\) or \\(C\\) are at least \\(\\epsilon /3\\) large. For term \\(A\\), we have \\(|(f_n-f)(g_n-g)>\\epsilon/3\\) where \\(m(\\{x: |(f_n-f)(g_n-g)>\\epsilon/3\\}) \\leq m(\\{x: |(f_n-f)|>\\sqrt{\\epsilon/3}\\}) + m(\\{x: |(g_n-g)|>\\sqrt{\\epsilon/3}\\})\\) where both terms tend to \\(0\\) since \\(f_n\\rightarrow f, g_n\\rightarrow g\\) in measure. Now we focus on terms B and C. We only discuss term B as the idea for term C is identical. Note that it does not suffice to say \\(f\\) is bounded, but we can make it bounded modulo a set of small measure. In particular, using the fact that the measure space is finite, we can find an \\(M\\) such that \\(m(\\{|f|>M\\}) < \\delta/2\\) for a fixed \\(\\delta\\) and thus we may write analagously that \\(m(\\{x: |f||(g_n-g)| > \\epsilon/3\\})\\leq m(\\{x: |f| > M\\}) + m(\\{x: |g_n-g| > \\frac{\\epsilon}{3m}\\})\\) and thus the first term can be made arbitrarily small, whereas the second term vanishes. The same argument holds for the second term. Thus we have that the terms are bounded by \\(\\delta\\) in total, which can be taken to the limit of \\(0\\) and thus by the squeeze theorem we have the sought statement.</p>
 <p><strong>(c)</strong> Show that (b) does not necessarily hold if the underlying measure space is infinite. To make it more explicit on where we use measure-finiteness, we claim that \\(m(|f|>M)\\rightarrow 0\\) as \\(M\\rightarrow \\infty\\). To see why, define \\(E_m = \\{x: |f| >M\\}\\), then \\(E_1 \\supseteq E_2 \\supseteq E_3\\) etc and \\(\\bigcap E_M = \\emptyset\\) Now since \\(E_1 \\subseteq X\\) and \\(\\mu(X) < \\infty\\) we have \\(\\mu(E_1) < \\infty\\) and using contunity from below we can write \\(\\mu(E_M) \\rightarrow \\mu(\\bigcap E_m) = 0\\), and thus we can choose \\(M\\) sufficiently large such that \\(m(|f| > M) < \\delta\\). (b) does not necessarily hold if the measure space is infinite, as we can no longer control terms B and C to be arbitrarily small as we did before.</p>
 <p><strong>(d)</strong> What happens in (a)–(b) if we change convergence in measure to convergence a.e. everywhere, including in the assumptions? Take \\(A = \\{x: f_n(x) \\rightarrow f(x)\\}\\) and \\(B = \\{x: g_n(x) \\rightarrow g(x)\\}\\) then \\(\\mu(X \\setminus A) = 0\\) and \\(\\mu(X\\setminus B)\\) therefore  \\(\\mu(X \\setminus (A \\cap B)) \\leq \\mu(X \\setminus A) + \\mu(X \\setminus B) = 0\\) and since \\(x\\in A \\cap B\\) implies \\(f_n(x) \\rightarrow f(x)\\) and \\(g_n(x) \\rightarrow g(x)\\) we have by ordinary limit laws \\(f_n+g_n \\rightarrow f+g\\). Same argument holds for (b) by ordinary product limit, and no assumption about finiteness is needed.</p></div>
-<div class="card card-thm"><div class="card-label">Egoroff's theorem</div></div>
+<div class="card card-thm"><div class="card-label">Theorem — Egoroff&#x27;s Theorem</div><p>Let \((X, \mathcal{M}, m)\) be a <strong>finite</strong> measure space with \(m(X) &lt; \infty\). Suppose \(f_n \to f\) almost everywhere on \(X\), where each \(f_n\) and \(f\) are measurable. Then for every \(\epsilon &gt; 0\) there exists a measurable set \(E \subseteq X\) with \[m(E) &lt; \epsilon\] such that \(f_n \to f\) <em>uniformly</em> on \(X \setminus E\).</p><p>In other words: a.e. convergence on a finite measure space can be promoted to <em>almost uniform</em> convergence — uniform convergence except on an arbitrarily small set.</p></div>
 <p>It tells us that we will have uniform convergence except on a small set. This is useful in probability theory (which is the canonical example of a finite measure space). It tells us that we can pick an arbitrarily small set for which on the remaining good set \\(E^c\\), convergence is uniform. We can thus promote the state of pw or a.e. convergence to the statement of uniform convergence on an arbitrarily large region. In this sense, finite measure spaces are well-behaved.</p>
 <div class="card card-remark"><div class="card-label">Can you come up with an example of a sequence of measurable functions converging to \\(f\\) that is not measurable?</div><p><em>Pointwise everywhere</em>: No, if it converges pw to some function \\(f\\), then it is also measurable.  <em>Pointwise a.e.</em>  If \\(f_n \\rightarrow f\\) a.e, then \\(f\\) is only specified modulo any nullset. On a complete measure space, \\(f\\) is still measurable since subsets of nullsets are all measurable by completeness. But on incomplete measure spaces \\(f\\) is not necessarily measurable. For example, pick any non-measurable subset \\(E\\) of a nullset, and let \\(f_n = 0\\forall n\\), then \\(f_n \\rightarrow 1_E\\) a.e. but \\(1_E\\) is not measurable.</p></div>
 <h4>Markov and Chebyshev inequalities</h4>
-<div class="card card-thm"><div class="card-label">Markov's inequality</div><p>Let \\(f\\) be a nonnegative measurable function on \\((X, \\mathcal M, m)\\), then \\(\\forall \\alpha >0\\) one has \\[m(\\{x: f(x) \\geq \\alpha \\}) \\leq \\frac{\\int f dm}{\\alpha}\\] <strong>Proof</strong> \\[\\int f dm =\\int f I_{x:f(x) \\geq \\alpha} dm + \\int f I_{x:f(x) < \\alpha} dm \\geq \\alpha \\int I_{x:f(x) \\geq \\alpha} dm = \\alpha m(\\{ x:f(x) \\geq \\alpha\\})\\] [!CARD] Chebyshev's inequality</p>
-<p>[!theorem] Let \\(f\\) be a measurable function on \\((X, \\mathcal M, m)\\) with \\(\\int |f| dm < \\infty\\), then for any \\(\\alpha > 0\\) one has \\[m(\\{x:|f(x) - \\int f dm| \\geq \\alpha\\}) \\leq \\frac{\\int (f- \\int f dm)^2 dm}{\\alpha^2}\\] The proof follows by applying Markov's inequality to the nonnegative function \\((f(x)-\\int f dm)^2\\).</p></div>
+<div class="card card-thm"><div class="card-label">Markov's inequality</div><p>Let \\(f\\) be a nonnegative measurable function on \\((X, \\mathcal M, m)\\), then \\(\\forall \\alpha >0\\) one has \\[m(\\{x: f(x) \\geq \\alpha \\}) \\leq \\frac{\\int f dm}{\\alpha}\\] <strong>Proof</strong> \\[\\int f dm =\\int f I_{x:f(x) \\geq \\alpha} dm + \\int f I_{x:f(x) < \\alpha} dm \\geq \\alpha \\int I_{x:f(x) \\geq \\alpha} dm = \\alpha m(\\{ x:f(x) \\geq \\alpha\\})\\] Chebyshev's inequality</p>
+<p>Let \\(f\\) be a measurable function on \\((X, \\mathcal M, m)\\) with \\(\\int |f| dm < \\infty\\), then for any \\(\\alpha > 0\\) one has \\[m(\\{x:|f(x) - \\int f dm| \\geq \\alpha\\}) \\leq \\frac{\\int (f- \\int f dm)^2 dm}{\\alpha^2}\\] The proof follows by applying Markov's inequality to the nonnegative function \\((f(x)-\\int f dm)^2\\).</p></div>
 <p>From a probabilistic view, the Chebyshev inequality has both the mean and variance baked in it, whereas the Markov inequality only has the mean baked into it. So we may therefore expect to get tighter bounds on the probabilities if we apply Chebyshev (assuming we also have the information about the variance). We can extend the above to higher moments by applying Markov's inequality to the nonnegative function \\(|f(x) - \\int f dm|^p\\) and taking \\(\\alpha = \\epsilon^p\\).</p>
 <div class="card card-thm"><div class="card-label">Hölder's inequality</div><p>Let \\((X, \\mathcal M, \\mu)\\) be a measure space and \\(p,q \\in [1,\\infty]\\) with \\(1/p + 1/q = 1\\), then for all measurable functions \\(f,g\\) on \\(X\\) \\[||fg||_1 \\leq ||f||_p ||g||_q\\]</p></div>
 `
@@ -919,15 +1137,15 @@ const TOPICS = [
 <p>Our goal of this new chapter is to, given two measure spaces, define a product of them. For the product space, we should obviously use (\\(X\\times Y\\)). For the \\(\\sigma\\)-algebra, it should be the smallest which contains the so-called "rectangles" \\[\\mathcal R = \\{A \\times B : A \\in \\mathcal M, B \\in \\mathcal N\\}\\]whose \\(\\sigma\\)-algebra \\(\\mathcal M \\otimes \\mathcal N \\equiv \\sigma(\\mathcal R)\\) we denote as \\(\\mathcal M \\otimes \\mathcal N\\). It is clear that if we did have a product measure, then it should satisfy \\[(\\mu \\times \\nu)(A \\times B) = \\mu(A) \\nu(B) \\qquad \\forall A \\in \\mathcal M, B \\in \\mathcal N\\]</p>
 <div class="card card-thm"><div class="card-label">Theorem 5.1 - Existence of product measures</div><p>There exists a measure \\(\\mu \\times \\nu\\) on the measurable space \\((X\\times Y, \\mathcal M \\otimes \\mathcal N)\\) such that</p>
 <p>\\[> > (\\mu \\times \\nu)(A \\times B) = \\mu(A)\\nu(B). \\]</p>
-<p>Moreover, \\(\\mu\\times\\nu\\) is the unique measure satisfying these properties if both \\(\\mu,\\nu\\) are \\(\\sigma\\)-finite. [!CARD] Definition 5.2 — Sections</p>
-<p>[!definition] If \\(E\\subseteq X \\times Y\\), the \\(x\\)-section of \\(E\\) is</p>
+<p>Moreover, \\(\\mu\\times\\nu\\) is the unique measure satisfying these properties if both \\(\\mu,\\nu\\) are \\(\\sigma\\)-finite. Definition 5.2 — Sections</p>
+<p>If \\(E\\subseteq X \\times Y\\), the \\(x\\)-section of \\(E\\) is</p>
 <p>\\[E_x := \\{y\\in Y : (x,y) \\in E\\}\\]</p>
 <p>and the \\(y\\)-section of \\(E\\) is</p>
-<p>\\[E^y := \\{x \\in X : (x,y) \\in E\\}\\] [!CARD] Definition 5.3 — Sections of functions</p>
-<p>[!definition] If \\(f : X \\times Y \\rightarrow \\mathbb{R}\\), we let for a fixed \\(x\\in X\\)</p>
+<p>\\[E^y := \\{x \\in X : (x,y) \\in E\\}\\] Definition 5.3 — Sections of functions</p>
+<p>If \\(f : X \\times Y \\rightarrow \\mathbb{R}\\), we let for a fixed \\(x\\in X\\)</p>
 <p>\\[f_x: Y \\rightarrow \\mathbb{R} \\quad \\text{given by} \\quad f_x(y) := f(x,y)\\]</p>
 <p>and for a fixed \\(y\\in Y\\)</p>
-<p>\\[f^y: X \\rightarrow \\mathbb{R} \\quad \\text{given by} \\quad f^y(x) := f(x,y)\\] [!exercise] Exercise 5.1 Check that if \\(f = I_E\\) then \\(f_x = 1_{E_x}\\) Recall that the \\(x\\)-section of \\(E\\subseteq X \\times Y\\) is given by \\(E_x := \\{y \\in Y : (x,y) \\in E\\}\\). Now fix \\(x \\in X\\), the claim is that \\((1_E)_x = 1_{E_x}\\). Let \\(y\\in Y\\) then by definition 5.3 we have \\(f_x(y) = 1_E(x,y)\\) now if \\((x,y) \\in E\\) then \\(y\\in E_x\\) and \\(1_E(x,y)= 1_{E_x}(y) = 1\\). If \\((x,y) \\notin E\\) then \\(1_E(x,y) = 0 = 1_{E_x}\\) since \\(y\\notin E_x\\). Thus \\(f_x = 1_{E_x}\\).</p></div>
+<p>\\[f^y: X \\rightarrow \\mathbb{R} \\quad \\text{given by} \\quad f^y(x) := f(x,y)\\] Exercise 5.1 Check that if \\(f = I_E\\) then \\(f_x = 1_{E_x}\\) Recall that the \\(x\\)-section of \\(E\\subseteq X \\times Y\\) is given by \\(E_x := \\{y \\in Y : (x,y) \\in E\\}\\). Now fix \\(x \\in X\\), the claim is that \\((1_E)_x = 1_{E_x}\\). Let \\(y\\in Y\\) then by definition 5.3 we have \\(f_x(y) = 1_E(x,y)\\) now if \\((x,y) \\in E\\) then \\(y\\in E_x\\) and \\(1_E(x,y)= 1_{E_x}(y) = 1\\). If \\((x,y) \\notin E\\) then \\(1_E(x,y) = 0 = 1_{E_x}\\) since \\(y\\notin E_x\\). Thus \\(f_x = 1_{E_x}\\).</p></div>
 <div class="card card-thm"><div class="card-label">Proposition 5.4. Sections of measurable sets are measurable and sections of functions are measurable.</div><p><strong>(i)</strong> If \\(E \\in \\mathcal{M} \\otimes \\mathcal{N}\\) then for all \\(x\\in X\\), \\[E_x \\in \\mathcal{N}\\] and for all \\(y\\in Y\\), \\[E^y \\in \\mathcal{M}\\]</p>
 <p><strong>(ii)</strong> If \\(f: X \\times Y \\rightarrow \\mathbb{R}\\) is \\(\\mathcal{M}\\otimes \\mathcal{N}\\)-measurable, then for all \\(x\\in X\\), \\(f_x\\) is \\(\\mathcal{N}\\)-measurable and for all \\(y \\in Y\\), \\(f^y\\) is \\(\\mathcal{M}\\)-measurable.</p></div>
 <h4>Proving proposition <em>5.4(i)</em>:</h4>
@@ -977,15 +1195,15 @@ const TOPICS = [
   id:'probability', num:6, title:'Probability Theory',
   comps:[],
   html:`
-<div class="card card-def"><div class="card-label">Probability space</div></div>
+<div class="card card-def"><div class="card-label">Probability space</div><p>A <strong>probability space</strong> is a triple \\((\\Omega, \\mathcal{F}, P)\\) where:</p><ul><li>\\(\\Omega\\) is the <em>sample space</em> — the set of all possible outcomes.</li><li>\\(\\mathcal{F} \\subseteq 2^{\\Omega}\\) is a <em>\\(\\sigma\\)-algebra</em> of <strong>events</strong>, closed under complements and countable unions.</li><li>\\(P: \\mathcal{F} \\to [0,1]\\) is a <em>probability measure</em> satisfying \\(P(\\Omega) = 1\\) and countable additivity.</li></ul></div>
 <p>\\(\\Omega\\) is our set of outcomes of some random experiment, \\(\\mathcal M\\) is the set of events to which we will assign a probability, and \\(P(A)\\) is the probability that an event occurs.</p>
 <p>Note that a probability space thus automatically qualifies as finite, and therefore also \\(\\sigma\\)-finite. This means that we can apply properties of the probability measure such as continuity from above without having to think twice.</p>
-<div class="card card-def"><div class="card-label">Random variable</div></div>
+<div class="card card-def"><div class="card-label">Random variable</div><p>A <strong>random variable</strong> is a measurable function \\(X: (\\Omega, \\mathcal{F}) \\to (\\mathbb{R}, \\mathcal{B})\\) where \\(\\mathcal{B}\\) is the Borel \\(\\sigma\\)-algebra on \\(\\mathbb{R}\\).</p><p>Measurability means: for every Borel set \\(B \\subseteq \\mathbb{R}\\), the preimage \\(X^{-1}(B) = \\{\\Omega: X(\\omega) \\in B\\} \\in \\mathcal{F}\\).</p></div>
 <p>A random variable is not random as it is just a function, but if the input \\(\\omega\\) is random, then certainly \\(X(\\omega)\\) is random. Hence we call it a random variable.</p>
-<div class="card card-def"><div class="card-label">Expectation</div></div>
-<div class="card card-def"><div class="card-label">Distribution / Law of a Random Variable</div></div>
+<div class="card card-def"><div class="card-label">Expectation</div><p>The <strong>expectation</strong> (or mean) of a random variable \\(X\\) is the Lebesgue integral with respect to \\(P\\):\\[E[X] = \\int_{\\Omega} X(\\omega)\\, dP(\\omega) = \\int_{\\mathbb{R}} x\\, d\\mu_X(x)\\]For nonneg \\(X\\), \\(E[X] = \\int X\\, dP \\in [0, +\\infty]\\). For general \\(X\\), define \\(E[X] = E[X^+] - E[X^-]\\) when at least one is finite, where \\(X^+ = \\max(X, 0)\\) and \\(X^- = \\max(-X, 0)\\).</p></div>
+<div class="card card-def"><div class="card-label">Distribution / Law of a Random Variable</div><p>The <strong>distribution</strong> (or <strong>law</strong>) of a random variable \\(X: \\Omega \\to \\mathbb{R}\\) is the <strong>pushforward measure</strong>\\[\\mu_X = P \\circ X^{-1}\\]defined on the Borel sets of \\(\\mathbb{R}\\) by \\(\\mu_X(B) = P(X^{-1}(B)) = P(\\{X \\in B\\})\\).</p><p>The <strong>CDF</strong> of \\(X\\) is \\(F_X(t) = P(X \\leq t) = \\mu_X((-\\infty, t])\\). The distribution completely characterises the probabilistic behaviour of \\(X\\).</p></div>
 <p>Note that we demand \\(X\\) to be measurable, hence the preimage of \\(A\\subseteq R\\) is contained in \\(\\mathcal M\\) and we can thus assign a meaningful probability to that event.</p>
-<div class="card card-def"><div class="card-label">Independent random variables</div></div>
+<div class="card card-def"><div class="card-label">Independent random variables</div><p>Random variables \\(X_1, \\ldots, X_n\\) on \\((\\Omega, \\mathcal{F}, P)\\) are <strong>independent</strong> if for all Borel sets \\(B_1, \\ldots, B_n \\subseteq \\mathbb{R}\\):\\[P(X_1 \\in B_1, \\ldots, X_n \\in B_n) = \\prod_{i=1}^n P(X_i \\in B_i)\\]Equivalently, the joint distribution factorises: \\(\\mu_{(X_1,\\ldots,X_n)} = \\mu_{X_1} \\otimes \\cdots \\otimes \\mu_{X_n}\\). An infinite family \\(\\{X_i\\}\\) is independent if every finite subfamily is.</p></div>
 <p>In other words, if we take the intersection of the preimages of our Borel sets (which we know is also an element of the sigma-algebra \\(\\mathcal M\\)), which we can think of as the probability of all events happening simultaneously, is the same as evaluating the probability for each event, i.e. joint probability factorizes into marginals.</p>
 <div class="card card-def"><div class="card-label">Infinite collection of independent random variables</div></div>
 <h2>The law of large numbers</h2>
@@ -1030,16 +1248,16 @@ const TOPICS = [
 <p>Some remarks that follow from the definition:</p>
 <ul><li>A measure is a signed measure.</li><li>If \\(\\mu_1, \\mu_2\\) are finite measures (or at least one is finite) then \\(\\mu_1-\\mu_2\\) is a signed measure.</li><li>Condition (ii) is there to avoid having \\(\\infty - \\infty\\). For example if \\(A, B\\) are disjoint sets where \\(\\nu(A) = \\infty\\) and \\(\\nu(B) = -\\infty\\) then \\(\\nu(A \\bigcup B)\\) is undefined.</li></ul>
 <p>So far, a signed measure can feel somewhat uncomfortable, especially if we have made ourselves comfortable with the idea that a measure is something that assigns volumes to sets. However, it differences of measures turn out to be very common, and a difference of (finite) measures produces a signed measure, as seen in the exercise that follows.</p>
-<div class="card card-ex"><div class="card-label">If \\(\\mu_1, \\mu_2\\) are finite measures (or at least one is finite), then the difference \\(\\mu_1-\\mu_2\\) is a signed measure.</div><p><strong>Proof</strong> Properties (i) and (ii) are clearly satisfied. Let \\(\\Delta \\mu := \\mu_1 - \\mu_2\\), then we have \\[\\Delta \\mu (\\bigcup_i A_i) = \\mu_1(\\bigcup_i A_i) - \\mu_2(\\bigcup_i A_i) = \\sum_i \\mu_1(A_i) - \\sum_i \\mu_2(A_i) = \\sum_i (\\mu_1 - \\mu_2)(A_i) = \\sum_i \\Delta \\mu(A_i)\\] where subtracting the series is only possible if at least one of them is finite (ok by assumption). Finally, when the LHS is finite, and at least one of measures is finite (say \\(\\mu_1\\)) we have \\(\\sum_i \\mu_1(A_i) < \\infty\\) since \\(A_i\\subseteq X\\) are disjoint and thus \\[\\sum_i |\\Delta \\mu(A_i) |\\leq \\sum_i \\mu_1(A_i) + \\sum_i \\mu_2(A_i) < \\infty\\] and thus it converges absolutely.</p></div>
+<div class="card card-ex"><div class="card-label">If \\(\\mu_1, \\mu_2\\) are finite measures (or at least one is finite), then the difference \\(\\mu_1-\\mu_2\\) is a signed measure.</div></div>
 <p>It turns out that every signed measure has the form \\(\\mu_1 - \\mu_2\\), both being measures with at least one being finite. This is the <strong>Jordan Decomposition Theorem</strong>. Before that, we first prove the Hahn Decomposition Theorem.</p>
-<div class="card card-def"><div class="card-label">Definition 7.2. A positive and negative set.</div><p>[!CARD] Verify the statement "\\(A\\) being a positive set is a strictly stronger statement than \\(\\nu(A)\\geq 0\\)" with an example [!exercise] For example if we take \\[\\nu(A) = \\int_A (2x-1)dx\\] on \\(([0,1], \\mathcal B_[0,1])\\) then \\(\\nu([0,1]) = 0\\geq 0\\) whereas \\(\\nu([0, 1/2]) = -1/4 < 0\\). Thus being a positive set is a stronger statement. [!CARD] Two facts about signed measures. (i) Continuity from below and above for measures applies to signed measures. (ii) A measurable subset of a positive set is a positive set, and a countable union of positive set is a positive set. [!CARD] Theorem 7.3 (Hahn Decomposition Theorem) [!theorem] If \\(\\nu\\) is a signed measure on \\((X, \\mathcal M)\\) then \\(X\\) can be partitioned into two sets \\(P, N \\in \\mathcal M\\) (meaning \\(P \\cup N = X, P \\cap N = \\emptyset\\)) with \\(P\\) being a positive set and \\(N\\) a negative set. There is "almost uniqueness" in that if \\((P', N')\\) is another such partition, then \\(P \\Delta P'\\) and \\(N\\Delta N'\\) are each null sets.</p></div>
+<div class="card card-def"><div class="card-label">Definition 7.2. A positive and negative set.</div><p>Verify the statement "\\(A\\) being a positive set is a strictly stronger statement than \\(\\nu(A)\\geq 0\\)" with an example For example if we take \\[\\nu(A) = \\int_A (2x-1)dx\\] on \\(([0,1], \\mathcal B_[0,1])\\) then \\(\\nu([0,1]) = 0\\geq 0\\) whereas \\(\\nu([0, 1/2]) = -1/4 < 0\\). Thus being a positive set is a stronger statement. Two facts about signed measures. (i) Continuity from below and above for measures applies to signed measures. (ii) A measurable subset of a positive set is a positive set, and a countable union of positive set is a positive set. Theorem 7.3 (Hahn Decomposition Theorem) If \\(\\nu\\) is a signed measure on \\((X, \\mathcal M)\\) then \\(X\\) can be partitioned into two sets \\(P, N \\in \\mathcal M\\) (meaning \\(P \\cup N = X, P \\cap N = \\emptyset\\)) with \\(P\\) being a positive set and \\(N\\) a negative set. There is "almost uniqueness" in that if \\((P', N')\\) is another such partition, then \\(P \\Delta P'\\) and \\(N\\Delta N'\\) are each null sets.</p></div>
 <p>By definition we have \\(A \\Delta B = (A \\setminus B) \\cup (B \\setminus A)\\) which are the points which belong to exactly one of the two sets \\(A\\) and \\(B\\). In other words, given a <em>signed measure space</em>, we can cleanly partition our \\(X\\) into a positive and negative measurable part, and this decomposition is unique up to nullsets.</p>
-<div class="card card-remark"><div class="card-label">Give a simple example of a Hahn decomposition.</div><p>Consider \\(([0,1], \\mathcal B_{[0,1]})\\) with \\(m\\) being the Lebesgue measure and take \\(\\nu(A) := m(A \\cap [0, 3/4]) - m(A \\cap (3/4, 1])\\).  The Hahn decomposition is then given by \\(([0, 3/4], (3/4, 1])\\). A different decomposition is given by \\(P' = [0, 3/4)\\) and \\(N' = [3/4, 1]\\) since it is still a valid partition of \\([0,1]\\) and \\(P'\\Delta[0, 3/4] = \\{3/4\\}\\) which is a nullset.  Another example is for example \\(P' = [0,3/4]\\bigcup C\\) with \\(C\\) being the Cantor set and \\(N' = (3/4, 1] \\setminus C\\) which still partitions \\([0,1]\\) since \\[[0,3/4]\\cup C \\cup (3/4, 1] \\cap C^c = [0,1]\\] and they are disjoint and \\(P'\\Delta[0,3/4] = C\\) which is still a nullset.  [!CARD] Lemma 7.4. Existence of positive subset.</p>
+<div class="card card-remark"><div class="card-label">Give a simple example of a Hahn decomposition.</div><p>Consider \\(([0,1], \\mathcal B_{[0,1]})\\) with \\(m\\) being the Lebesgue measure and take \\(\\nu(A) := m(A \\cap [0, 3/4]) - m(A \\cap (3/4, 1])\\).  The Hahn decomposition is then given by \\(([0, 3/4], (3/4, 1])\\). A different decomposition is given by \\(P' = [0, 3/4)\\) and \\(N' = [3/4, 1]\\) since it is still a valid partition of \\([0,1]\\) and \\(P'\\Delta[0, 3/4] = \\{3/4\\}\\) which is a nullset.  Another example is for example \\(P' = [0,3/4]\\bigcup C\\) with \\(C\\) being the Cantor set and \\(N' = (3/4, 1] \\setminus C\\) which still partitions \\([0,1]\\) since \\[[0,3/4]\\cup C \\cup (3/4, 1] \\cap C^c = [0,1]\\] and they are disjoint and \\(P'\\Delta[0,3/4] = C\\) which is still a nullset.  Lemma 7.4. Existence of positive subset.</p>
 <div class="card card-thm"><div class="card-label">Let \\(\\nu\\) be a signed measure on \\((X, \\mathcal M, \\nu)\\) which does not take the value \\(\\infty\\). If \\(\\nu(A) > 0\\), then there exists a measurable \\(B \\subseteq A\\) where \\(\\nu(B) > 0\\) and \\(B\\) is a positive set.</div></div></div>
 <p>Take for example \\(X = \\{1,2,3\\}\\) and \\(\\mathcal M = 2^X\\) then take \\(\\nu(\\{1\\}) = 3\\) and \\(\\nu(\\{2\\}) = -1\\) and same for \\(3\\). Then \\(\\nu(X) = 1>0\\) but \\(\\{2\\}\\subseteq X\\) and \\(\\nu(\\{2\\}) = -1\\), thus \\(X\\) is not a positive set, although it has positive measure. But if we take \\(B = \\{1\\}\\) then indeed we have a subset which is also a positive set. From this perspective it makes sense, the positive and negative parts of \\(A\\) may give a positive contribution, but we can find a subset of these which only contribute positively. We can do this using a greedy algorithm, by just at each stage remove the most negative measurable subsets, define that as our new subset, remove the negative measurable subsets, and repeat until the resulting subset is positive.</p>
 <p>For example take \\(([0,1], \\mathcal B_{[0,1]})\\) with \\(\\nu(A) = \\int_A (2x-1) dm(x)\\). If we take \\(A = [1/4, 1]\\) then \\(\\nu(A) > 0\\) but it is not a positive set since the density \\(2x-1 < 0\\) on \\([1/4, 1/2)\\), so why just not remove that interval and define \\(B = [1/2,1]\\subseteq A\\) which is measurable and also a positive set.</p>
 <p>This is different from the two facts we mentioned earlier. The lemma says that we only know that the measure of \\(A\\) is positive, not that it is a positive set. However, it does guarantee that we can always find a subset of \\(A\\) which is positive.</p>
-<div class="card card-def"><div class="card-label">Definition 7.5. Mutually singular measures.</div><p>[!CARD] Theorem 7.6. (Jordan decomposition theorem). [!theorem] If \\(\\nu\\) is a signed measure on \\((X, \\mathcal M)\\), then there exists unique measures \\(\\nu^+\\) and \\(\\nu^-\\) so that \\(\\nu^+ \\perp \\nu^-\\) and \\[\\nu = \\nu^+ - \\nu^-\\]</p></div>
+<div class="card card-def"><div class="card-label">Definition 7.5. Mutually singular measures.</div><p>Theorem 7.6. (Jordan decomposition theorem). If \\(\\nu\\) is a signed measure on \\((X, \\mathcal M)\\), then there exists unique measures \\(\\nu^+\\) and \\(\\nu^-\\) so that \\(\\nu^+ \\perp \\nu^-\\) and \\[\\nu = \\nu^+ - \\nu^-\\]</p></div>
 <p>The measure \\(\\nu^+ + \\nu^-\\) is called the total variation of \\(\\nu\\) and is denoted by \\(|\\nu|\\). The Jordan decomposition theorem is essentially a corollary of the Hahn decomposition theorem where we define \\(\\nu^\\pm\\) as the restriction of \\(\\nu\\) to \\(P\\) (+) \\(N\\) (-) respectively. This is similiar to the decomposition of a function \\[f(x) = \\max(f(x), 0) - \\max(-f(x), 0) \\equiv f^+(x) - f^-(x)\\] <strong>Example:</strong></p>
 <p>Why is \\(\\nu(A) = \\int_A (2x-1) dx\\) a signed measure?</p>
 <ul><li>\\(\\nu(\\emptyset) = 0\\)</li><li>Since \\(2x-1\\) is bounded on \\([0,1]\\), it is a finite signed measure and thus never takes \\(\\pm \\infty\\).</li><li>Countable additivity follows from the fact that the integral and infinite sum can be interchanged by the Lebesgue dominated convergence theorem. \\[\\nu(\\bigcup_i A_i) = \\int f 1_A dx = \\int \\lim_{n\\rightarrow \\infty} f \\cdot 1_{\\bigcup_{i=1}^n A_i}\\]</li></ul>
@@ -1051,7 +1269,7 @@ const TOPICS = [
 <p>Note that it does not mean that \\(\\nu \\leq \\mu\\) or vice versa. For example if we have \\(\\mu\\) is the Lebesgue measure on \\([0,1]\\) and \\(\\nu\\) is two times the Lebesgue measure on the same interval, we have both \\(\\nu << \\mu\\) and \\(\\mu << \\nu\\).</p>
 <div class="card card-remark"><div class="card-label">Construct a simple example of a measure absolutely continuous wrt to \\(\\mu\\).</div><p>Consider a measure space \\((X, \\mathcal M, \\mu)\\) and a function \\(f\\in L^+((X, \\mathcal M, \\mu))\\) then take \\[\\nu(A) := \\int_A f(x) d\\mu(x) \\tag{1}\\] Proving that it is a measure can be done by defining \\(g_n : = f 1_{\\bigcup_{i=1}^n A_i}\\) which forms an increasing sequence of measurable functions that converge to \\(f \\cdot 1_{\\bigcup_i A_i}\\) pw which allows us to apply the MCT \\[\\nu\\left(\\bigcup_i A_i\\right) = \\int f \\cdot \\mathbf{1}_{\\bigcup_i A_i} \\, d\\mu = \\int \\lim_{n\\to\\infty} g_n \\, d\\mu \\underbrace{=}_{\\text{MCT}} \\lim_{n\\to\\infty} \\int g_n \\, d\\mu = \\lim_{n\\to\\infty} \\sum_{i=1}^n \\int_{A_i} f \\, d\\mu = \\sum_{i=1}^\\infty \\nu(A_i)\\] If \\(\\mu(A) = 0\\), then \\(\\nu(A) = \\int_A f d\\mu = 0\\) and thus \\(\\nu << \\mu\\).</p></div>
 <p>(1) is often simply just denoted by \\(f\\mu\\). In fact, any measure which is absolutely continuous with respect to \\(\\mu\\) has this form assuming \\(\\sigma\\)-finiteness.</p>
-<div class="card card-thm"><div class="card-label">Theorem 7.8. (The Radon-Nikodym theorem)</div><p>Morever, \\(f_0\\) is unique in the sense that if \\(g_0\\) is another such function, then \\[\\mu(\\{x:f_0(x) \\neq g_0(x)\\})=0\\]In other words \\(\\mu\\) is defined up to a \\(\\mu\\)-null set. Thus any two \\(f_0, g_0\\) agree \\(\\mu\\)-a.e. [!CARD] Remarks about Radon-Nikodym's theorem</p>
+<div class="card card-thm"><div class="card-label">Theorem 7.8. (<a class="xref" onclick="if(window._navToTopic)window._navToTopic('signed')">The Radon-Nikodym theorem (Topic 7)</a>)</div><p>Morever, \\(f_0\\) is unique in the sense that if \\(g_0\\) is another such function, then \\[\\mu(\\{x:f_0(x) \\neq g_0(x)\\})=0\\]In other words \\(\\mu\\) is defined up to a \\(\\mu\\)-null set. Thus any two \\(f_0, g_0\\) agree \\(\\mu\\)-a.e. Remarks about Radon-Nikodym's theorem</p>
 <ol><li>We call \\(f_0\\) in the above theorem for the Radon-Nikodym derivative of \\(\\nu\\) with respect to \\(\\mu\\).</li><li>If \\(\\mu\\) is Lebesgue measure on \\((R, \\mathcal B)\\) and \\(\\nu\\) is the distribution of a random variable which is absolutely continuous with respect to \\(\\mu\\), then \\(f_0\\) is simply the probability density function from elementary probability.</li><li>The theorem is false in general without the \\(\\sigma\\)-finite assumption on \\(\\mu\\).</li><li>It turns out that \\(\\sigma\\)-finiteness on \\(\\nu\\) is not needed provided that \\(f_0\\) is allowed to take the value \\(\\infty\\).</li></ol></div>
 <p>Note that the CDF can always be defined from the distribution of our RV by simply defining \\[F_X(x) = \\mu_X(-\\infty, x) = P(X^{-1}(-\\infty, x))\\]whereas the PDF of a R.V. is only defined if it is absolutely continuous wrt to the Lebesgue measure. This also means that given a CDF \\(F\\) (which satisfies the properties) there is an associated finite unique Borel measure, and from that unique Borel measure we can construct an associated R.V. which obeys that law. Unfortunately, even though it is finite and thus \\(\\sigma\\)-finite, it is not necessarily absolutely continuous and we can thus not always find an associated pdf.</p>
 <p>It turns out that the idea that we can associate to a CDF a RV is useful for simulating random variables with a specified distribution. The idea is to generate \\(U \\sim \\mathcal U(0,1)\\) and then generate \\(X \\sim  F_X^{-1}(U)\\). This, of course, requires a closed-form expression for \\(F^{-1}\\), which is not always so trivial. (see <strong>simulation via CDF</strong>) https://data140.org/textbook/content/chapter-16/simulation-via-the-cdf/. One way to do generate normal \\((\\mu, \\sigma^2)\\) R.V. is by starting from \\(U \\sim \\mathcal U(0,1)\\) and apply \\(Z= \\Phi^{-1}(U)\\) which has standard normal distribution, and finally let \\(X = \\sigma Z + \\mu\\).</p>
@@ -1089,17 +1307,16 @@ const TOPICS = [
 {
   id:'differentiation', num:8, title:'Differentiation Theory',
   comps:[
-    {C:CoveringLemma, label:'Interactive Covering Lemma'},
+    {C:CoveringLemma, label:'Vitali Covering Lemma', desc:'Given a finite collection of balls in \\\\(\\\\mathbb{R}^n\\\\), the greedy algorithm picks the largest remaining ball, then eliminates every other ball that intersects it. The result is a disjoint sub-collection \\\\(\\\\{B_j\\\\}\\\\) such that every original ball is contained in the 3-fold dilation \\\\(3B_j\\\\) of some selected ball. This \\\\(3\\\\times\\\\) factor is sharp. Press "Next Step" to run the algorithm.'},
     {C:CoveringFactor, label:'Why the Factor 3?'},
-    {C:BmDerivative, label:'Brownian Motion — Nowhere Differentiable'},
   ],
   html:`
 <p>We now start a new chapter which will study differentiation in \\(\\mathbb R^n\\). In the mid 19th century, mathematicians were attempting to prove that continuous functions must be differentiable at some point. Then entered the Weierstrass function (continuous nowhere differentiable function). Most continuous functions are in fact nowhere differentiable in two senses.</p>
 <ol><li>Topological sense: set of nowhere differentiable functions contains a dense \\(G_\\delta\\)</li><li>Measure-theoretic (or probabilistic) sense: natural probability measure on the space of continuous functions known as Brownian motion, and it is the case that almost every function with respect to this measure is nowhere differentiable.</li></ol>
-<div class="card card-thm"><div class="card-label">Simple theorem.</div><p>[!CARD] The fundamental theorem of calculus [!theorem] First fundamental theorem of calculus: if \\(f\\) is a continous function on \\([a,b]\\)d \\[F(x) = \\int_a^x f(t) dt\\] then \\[F'(x) = x \\forall x.\\] Second fundamental theorem of calculus: If \\(f\\) is a continuously differentiable function on \\([a,b]\\) then \\[\\int_a^b f'(x) dx = f(b) - f(a)\\]</p></div>
+<div class="card card-thm"><div class="card-label">Simple theorem.</div><p>The fundamental theorem of calculus First fundamental theorem of calculus: if \\(f\\) is a continous function on \\([a,b]\\)d \\[F(x) = \\int_a^x f(t) dt\\] then \\[F'(x) = x \\forall x.\\] Second fundamental theorem of calculus: If \\(f\\) is a continuously differentiable function on \\([a,b]\\) then \\[\\int_a^b f'(x) dx = f(b) - f(a)\\]</p></div>
 <p>We first discuss the first fundamental theorem, and argue that it cannot possibly hold for all measurable bounded functions. If \\(f\\) is continuous function and \\(g\\) any <em>measurable function</em> which agrees with \\(f\\) a.e., then we have \\[\\int_a^x f(t) dt = \\int_a^x g(t) dt\\]for every \\(x\\), hence for every \\(x\\) we have \\[\\left( \\int_a^x g(t) dt\\right)'(x) = f(x)\\] and therefore \\[\\left( \\int_a^x g(t) dt\\right)'(x) = g(x)\\]will fail at every point where \\(f(x) \\neq g(x)\\). However, we do have  \\[\\left( \\int_a^x g(t) dt\\right)'(x) = g(x) \\ \\mathrm{a.e.}\\]So the most we can hope for a bounded measurable \\(f\\) is that the first fundamental theorem holds at a.e. \\(x\\). We will show this and generalize it to higher dimensions, which we will be called Lebesgue's differentiation theorem.</p>
 <p>Note that continuous functions are also measurable. To see this, take \\(U \\subseteq \\mathbb R\\) then \\[f^{-1}(U)\\]must be open by continuity. And since open sets in \\([a,b]\\) are Borel sets. Since the Borel algebra is generated by all open sets of the real line, we have that the preimage of any Borel set is also in \\(\\mathcal B_{[a,b]}\\) so \\(f\\) is measurable. But not every measurable function is continuous.</p>
-<div class="card card-remark"><div class="card-label">Explain how the FFTOC needs to change when allowing \\(f\\) to be bounded measurable instead of continuous.</div><p>We want to generalize the first FTOC to state it for general bounded measurable functions \\(f\\). We arrive at the conclusion that \\(F'(x) =f(x)\\) for a.e. \\(x\\) instead. In a sense, by forcing \\(f\\) to be continuous, we are picking out a unique element of the equivalence class formed by all measurable functions differing only by a nullset.  [!CARD] Give an example for when the SFTOC fails. Take \\(f\\) to be the Cantor ternary function, which we know has derivative lebesgue a.e. \\(0\\), and thus \\[0 = F_c(1)-F_c(0) = 1\\]which is a contradiction. It turns out that when it holds is connect to the concept of absolute continuity. In fact, for it to hold we would need \\(f\\) to be absolutely continuous on \\([a,b]\\), which is to say, loosely speaking, that \\(f\\) can not climb on sets of measure zero (which is precisely what the Cantor function does).</p></div>
+<div class="card card-remark"><div class="card-label">Explain how the FFTOC needs to change when allowing \\(f\\) to be bounded measurable instead of continuous.</div><p>We want to generalize the first FTOC to state it for general bounded measurable functions \\(f\\). We arrive at the conclusion that \\(F'(x) =f(x)\\) for a.e. \\(x\\) instead. In a sense, by forcing \\(f\\) to be continuous, we are picking out a unique element of the equivalence class formed by all measurable functions differing only by a nullset.  Give an example for when the SFTOC fails. Take \\(f\\) to be the <a class="xref" onclick="if(window._navToTopic)window._navToTopic('cantor')">Cantor ternary function (Topic 2)</a>, which we know has derivative lebesgue a.e. \\(0\\), and thus \\[0 = F_c(1)-F_c(0) = 1\\]which is a contradiction. It turns out that when it holds is connect to the concept of absolute continuity. In fact, for it to hold we would need \\(f\\) to be absolutely continuous on \\([a,b]\\), which is to say, loosely speaking, that \\(f\\) can not climb on sets of measure zero (which is precisely what the Cantor function does).</p></div>
 <h4>Approximations by sets and by continuous functions</h4>
 <p>The Borel \\(\\sigma\\)-algebra on \\(\\mathbb R^n\\), denoted by \\(\\mathcal B^n\\) can be described as generated by open sets in \\(\\mathbb R^n\\) or as the product \\(\\sigma\\)-algebra coming from \\((\\mathbb R, \\mathcal B)\\).</p>
 <div class="card card-thm"><div class="card-label">Let \\(m\\) be the Lebesgue on \\(\\mathbb R^n\\).</div><ol><li>For any Borel set \\(E \\subseteq \\mathbb R^n\\) we have \\[m(E) = \\sup\\{ m(K) : K \\subseteq E, K \\mathrm{compact}\\}\\]</li><li>If \\(f\\in L^1(\\mathbb R^n, \\mathcal B^n, m)\\) and \\(\\epsilon > 0\\), then there exists a continuous function \\(g\\) on \\(\\mathbb R^n\\) so that \\[\\int_{\\mathbb R^n} |f(x) - g(x)| dm(x) < \\epsilon\\]</li></ol></div>
@@ -1113,8 +1330,8 @@ const TOPICS = [
 <div class="card card-remark"><div class="card-label">Give an example of a Borel measure which is regular, and one that is non-regular.</div><p>Regular: the Lebesgue measure. Non-regular: the counting measure.</p></div>
 <h4>8.4 A covering lemma</h4>
 <div class="card card-thm"><div class="card-label">Theorem 8.6. A simple covering lemma.</div></div>
-<p><strong>Proof</strong> Let \\(B_1\\) be the largest of \\(A_1,...,A_k\\). Remove all remaining \\(A_i\\)'s which intersect \\(B_1\\). Let \\(B_2\\) be the largest of the remaining \\(A_i\\)'s. Remove all remaining \\(A_i\\)'s which intersect \\(B_2\\). Let \\(B_3\\) be largest of remaining ... and continue until no \\(A_j\\)'s are left. This produces \\(B_1, ..., B_l\\) which are disjoint by construction.</p>
-<p>\`\`<code>jsx: <CoveringLemma /> </code>\`\`</p>
+
+<p></p>
 <p><strong>Claim</strong> If \\(A_i\\) is NOT in the final list, then for some \\(j\\) we have \\[A_i \\subseteq B_j^\\star\\] where \\(^\\star\\) denotes the ball concentric with \\(B_j\\) but three times the radius. Since \\(A_i\\) was not chosen, it must have intersected one of the \\(B_j\\)'s. The first \\(B_j\\) it intersects must be as large as \\(A_i\\) since otherwise we would have chosen \\(A_i\\) instead. We must therefore have \\[r(A_i) \\leq r(B_j)\\] and since they intersect, we have \\[d(\\mathrm{center}(A_i), \\mathrm{center}(B_j)) < r(A_i) + r(B_j)\\]Thus for any point \\(x\\in A_i\\) we have \\[d(x, \\mathrm{center}(B_j)) \\leq d(x, \\mathrm{center}(A_i)) + d(\\mathrm{center}(A_i), \\mathrm{center}(B_j)) < 2r(A_i) + r(B_j) < 3r(B_j)\\] You can think of this as three contributions depending on</p>
 <p>\`\`<code>jsx: <CoveringFactor/> </code>\`\`</p>
 <p>In the case where \\(A_i\\) was selected, then \\(A_i = B_j\\) for some j, then \\(B_j \\subseteq B_j^\\star\\) trivially. But if it was eliminated, we had that \\(A_i \\subseteq B_j^\\star\\), so every \\(A_i\\) is contained in <em>some</em> \\(B_j^\\star\\), meaning \\[\\bigcup_i A_i \\subseteq \\bigcup_j B_j^\\star\\]</p>
@@ -1122,25 +1339,25 @@ const TOPICS = [
 <div class="card card-thm"><div class="card-label">Theorem 8.7. A covering lemma.</div></div>
 <p>Before constructing the proof, we notice two differences between this covering lemma and the simpler covering lemma. First of all, there is no assumption about the collection \\(\\mathcal C\\) being finite. The conclusion is about \\(c\\) and not \\(m(U)\\) too.</p>
 <p>Since \\(c < m(U)\\), by theorem 8.3(i) we can choose \\(K \\subseteq U\\) compact s.t. \\(m(K) > c\\). A compact set has finite subcover, meaning we can take \\(A_1,...,A_m \\in \\mathcal C\\) that cover \\(K\\). Now we repeat the same steps as before, choosing \\(B_1\\) being among those of maximal size, then choose \\(B_2\\) among these to have maximal size but disjoint from \\(B_1\\), and repeating. The claim is identical as before, meaning if \\(A_i\\) is NOT in the final list, then for some \\(j\\) we have \\[A_i \\subseteq B_j^\\star\\] where \\(^\\star\\) denotes the ball concentric with \\(B_j\\) but three times the radius. Since \\(A_i\\) was not chosen, it must have intersected one of the \\(B_j\\)'s. Unlike before however, the measure is bounded by a factor of \\(3^n\\) instead. \\[c < m(K) < m(\\bigcup_{j=1}^k B_j^\\star) \\leq \\sum_{j=1}^k m(B_j^\\star) = 3^n \\sum_{j=1}^k m(B_j)\\] as desired.</p>
+<div class="viz-slot" data-comp="CoveringLemma"></div>
+<div class="viz-slot" data-comp="CoveringFactor"></div>
 <hr class="lecture-sep">
 <p>In what follows, we will denote \\(B(x,r)\\) the open ball centered at \\(x\\) with radius \\(r\\).</p>
-<div class="card card-def"><div class="card-label">Definition 8.8. Locally integrable.</div><p>[!CARD] What is the containment relationship between \\(L^1\\) and \\(L^1_\\mathrm{loc}\\)? Clearly if \\(f\\in L^1\\) then it is also in \\(L^1_\\mathrm{loc}\\) since \\[\\int_K |f| dm \\leq \\int_{\\mathbb R^n} |f| dm < \\infty\\]Thus \\[L^1(\\mathbb R^n) \\subseteq \\mathbb L^1_\\mathrm{loc}(\\mathbb R^n)\\] [!CARD] Give an example of a function not in \\(L^1\\) but in \\(L^1_\\mathrm{loc}\\). For example \\(f(x) = 1\\) on \\(\\mathbb R^1\\) is not in \\(L^1\\) but it is in \\(L^1_\\mathrm{loc}\\).</p></div>
+<div class="card card-def"><div class="card-label">Definition 8.8. Locally integrable.</div><p>What is the containment relationship between \\(L^1\\) and \\(L^1_\\mathrm{loc}\\)? Clearly if \\(f\\in L^1\\) then it is also in \\(L^1_\\mathrm{loc}\\) since \\[\\int_K |f| dm \\leq \\int_{\\mathbb R^n} |f| dm < \\infty\\]Thus \\[L^1(\\mathbb R^n) \\subseteq \\mathbb L^1_\\mathrm{loc}(\\mathbb R^n)\\] Give an example of a function not in \\(L^1\\) but in \\(L^1_\\mathrm{loc}\\). For example \\(f(x) = 1\\) on \\(\\mathbb R^1\\) is not in \\(L^1\\) but it is in \\(L^1_\\mathrm{loc}\\).</p></div>
 <p>For \\(f\\in L_\\mathrm{loc}^1\\), \\(x\\in \\mathbb R^n\\), and \\(r > 0\\) we define \\[A_r f(x) = \\frac{1}{m(B(x,r))} \\int_{B(x,r)} f(y) dm(y)\\]which is simply the average of \\(f\\) over the ball around \\(x\\) with radius \\(r\\). This can be seen interpreted as the mean value of \\(f\\) over the ball centered around \\(x\\) with radius \\(r\\).</p>
 <p>Some additional remarks:</p>
 <ol><li>If \\(f\\) is continuous at \\(x\\), it is easy to see that \\[\\lim_{r\\rightarrow 0} A_r f(x) = f(x)\\]</li><li>This cannot occur for all \\(f\\) since if we modify it at a single point, it would fail there. Take for example \\(\\tilde f(x) =1\\) but \\(\\tilde f(y) = 0, y \\neq x\\), then the limit becomes \\(0\\) as \\(r\\rightarrow 0\\) whereas the LHS is \\(1\\).</li></ol>
-<div class="card card-remark"><div class="card-label">Given \\[A_r f(x) = \\frac{1}{m(B(x,r))} \\int_{B(x,r)} f(y) dm(y)\\] what can we say about \\(\\lim_{r\\rightarrow 0 } A_rf(x)\\)?</div><p>If it is continuous we have \\(A_rf(x) = f(x)\\). But in general it is not true since we can modify \\(f\\) at a single point and arrive at a contradiction.  [!CARD] Definition 8.9. Hardy-Littlewood Maximal function.</p>
+<div class="card card-remark"><div class="card-label">Given \\[A_r f(x) = \\frac{1}{m(B(x,r))} \\int_{B(x,r)} f(y) dm(y)\\] what can we say about \\(\\lim_{r\\rightarrow 0 } A_rf(x)\\)?</div><p>If it is continuous we have \\(A_rf(x) = f(x)\\). But in general it is not true since we can modify \\(f\\) at a single point and arrive at a contradiction.  Definition 8.9. Hardy-Littlewood Maximal function.</p>
 <div class="card card-def"><div class="card-label">If \\(f\\in L^1_\\mathrm{loc}(\\mathbb R^n)\\), then the Hardy-Littlewood maximal function \\(Hf\\) is defined by \\[Hf(x) := \\sup_{r> 0} A_r|f|(x)\\]</div></div>
-<p>[!CARD] Show that the Hardy-Littlewood maximal function \\(Hf(x)\\) is a measurable function. Since \\((x,r) \\rightarrow A_r f(x)\\) is continuous in \\(r,x\\), it is also measurable, and the supremum over measurable functions is also measurable, and thus \\(Hf\\) is also measurable function.</p></div>
+<p>Show that the Hardy-Littlewood maximal function \\(Hf(x)\\) is a measurable function. Since \\((x,r) \\rightarrow A_r f(x)\\) is continuous in \\(r,x\\), it is also measurable, and the supremum over measurable functions is also measurable, and thus \\(Hf\\) is also measurable function.</p></div>
 <p>This functions essentially computes the average over the absolute value of \\(f\\) over all radii, and picks the largest such average amongst those radii. It is therefore a "measure" of the local average of \\(|f|\\).</p>
 <p>One can verify that \\(Hf\\) is a measurable function by noting  \\[(Hf)^{-1}(\\alpha, \\infty) =\\bigcup_{r>0} (A_r|f|)^{-1}\\{(\\alpha, \\infty)\\}\\]where \\(A_rf\\) is a continuous function for \\(f\\in L^1_\\mathrm{loc}\\), and thus we have preimages of open sets under continuous functions which are still continuous, and thus a union of open sets.</p>
 <div class="card card-ex"><div class="card-label">Exercise 8.1. Verify that for \\(f\\in L^1(\\mathbb R^n)\\) we have that \\(\\forall x\\) the following \\[\\lim_{r\\rightarrow \\infty} A_r|f|(x)=0\\]</div><p>Solution: By definition we have that \\[\\lim_{r\\rightarrow \\infty} A_r|f|(x) = \\lim_{r\\rightarrow \\infty} \\frac{1}{m(B(x,r))} \\int_{B(x,r)} |f(y)| dm(y)\\]Now using the fact that \\(f\\in L^1\\) we have that \\[\\frac{1}{m(B(x,r))} \\int_{B(x,r)} |f(y)| dm(y) \\leq \\int_{\\mathbb R^n} |f(y)| dm(y)  < \\infty\\] for any \\(r > 0\\) and \\(x\\in\\mathbb R^n\\). We therefore have \\[0\\leq A_r|f|(x) \\leq \\frac{||f||_{L^1}}{\\omega_n r^n} \\rightarrow_{r\\rightarrow \\infty} 0\\] as desired by the squeeze theorem.</p></div>
-<div class="card card-thm"><div class="card-label">Theorem 8.10. (Hardy-Littlewood Maximal Theorem).</div><details class="proof"><summary>Proof</summary><p>Let \\(E_\\alpha = \\{x: Hf(x) > \\alpha\\}\\).  For each \\(x\\in E_\\alpha\\) there exists \\(r_x > 0\\) so that \\[A_{r_x}|f|(x) > \\alpha\\] by the definition of the supremum. With this, we can for each \\(x\\) have an associated open ball, and we may denote this collection of open balls as \\(\\mathcal C\\). Given \\(c < m(\\bigcup_{x\\in E_a} B(r, r_x))\\), we can use the covering lemma from Lecture 12 - 3-times covering lemma to find \\(x_1, ..., x_k\\) in \\(E_\\alpha\\) so that \\(k\\) balls \\(\\{B(x_i, r_{x_i})\\}\\) are disjoint and \\[\\frac{c}{3^n} \\leq \\sum_{i=1}^k m(B(x_i, r_{x_i}))\\] However, by our choice of \\(r_x\\)'s, i.e. \\(A_{r_{x_i}}|f|(x_i) > \\alpha\\), we have \\[\\frac{c}{3^n} \\leq \\sum_{i=1}^k m(B(x_i, r_{x_i})) \\leq \\sum_{i=1}^k \\frac{1}{\\alpha}\\int_{B(x_i, r_{x_i})} |f|(x) dm(x) \\leq \\frac{1}{\\alpha} \\int |f|(x) dm(x)\\]where the last inequality follows from the disjointness of the balls. Since this holds \\(\\forall c < m(E_\\alpha)\\), we also have \\[m(E_\\alpha) \\leq \\frac{3^n}{\\alpha} \\int |f|dm\\] as desired.</p></details>
-<p>[!CARD] What is the intuition behind the Hardy-Littlewood maximal theorem? It tells us that the worst-case local average can only be large at individual points, since as \\(\\alpha \\rightarrow \\infty\\) the RHS tends to zero. The theorem says that if \\(f\\in L^1\\), the total mass of \\(f\\) is finite, the theorem says you can't have large local averages everywhere, it has to be spread out.</p></div>
+<div class="card card-thm"><div class="card-label">Theorem 8.10. (Hardy-Littlewood Maximal Theorem).</div>
+<p>What is the intuition behind the Hardy-Littlewood maximal theorem? It tells us that the worst-case local average can only be large at individual points, since as \\(\\alpha \\rightarrow \\infty\\) the RHS tends to zero. The theorem says that if \\(f\\in L^1\\), the total mass of \\(f\\) is finite, the theorem says you can't have large local averages everywhere, it has to be spread out.</p></div>
 <hr class="lecture-sep">
-<div class="card card-thm"><div class="card-label">Theorem 8.11. The differentiation theorem for functions.</div><details class="proof"><summary>Proof</summary><p>It suffices to show this a.e. point in \\([- N, N]^n\\). If it holds for every N, it also holds for the full \\(\\mathbb R^n\\) since countable union of nullset is still a nullset. Therefore we may assume \\(f\\) is 0 outside of \\([-N-1, N+1]^n\\) since we are anyways taking the limit as \\(r\\rightarrow 0\\) in the end, in which case we have that \\(f\\in L^1(\\mathbb R^n)\\). This will be needed when we apply Hardy-Littlewoods maximal theorem.  For any \\(\\alpha >  0\\) let \\[E_\\alpha = \\{ x : \\limsup_{r\\rightarrow 0} |A_rf(x) - f(x)| > \\alpha\\}\\]If we can show that \\(m(E_\\alpha)  =0\\) for each \\(\\alpha\\), then this implies the theorem since the set of points where the conclusion of the theorem fails is equal to \\(\\bigcup_n E_{1/n}\\) which then also has measure zero (which is just the definition of the statement being true a.e.)</p>
-<p>It is not obvious a priori that \\(E_\\alpha\\) is Lebesgue measurable, however we will show it is contained inside a measurable sets of arbitrarily small measure, and its outer measure is thus zero and by completeness it will be Lebesgue measurable.</p>
-<p>Now fix \\(\\alpha > 0\\) and show \\(m(E_\\alpha) = 0\\). Fix \\(\\epsilon > 0\\). By theorem 8.3 we can find a continuous integrable function \\(g\\) such that \\[\\int_{\\mathbb R^n} |f(x) -g(x)| dm(x) < \\epsilon\\] and thus\\(f-g \\in L^1(\\mathbb R^N\\)). Observe that \\[\\limsup_{r\\rightarrow 0}|A_r f(x) - f(x)| \\leq \\limsup_{r\\rightarrow 0}|A_r(f-g)(x)| + \\limsup_{r\\rightarrow 0}|A_rg(x) - g(x)| + \\limsup_{r\\rightarrow 0}|g(x) - f(x)|\\] by the triangle inequality. The first term is at most \\(H(f-g)(x)\\), and the second term is zero since the theorem is easily checked for continuous functions. Hence \\[\\limsup_{r\\rightarrow 0}|A_r f(x) - f(x)| \\leq H(f-g)(x) + |g(x)-f(x)|\\]If the first term is larger than \\(\\alpha\\), then at least one of the terms on the RHS have to be larger than \\(\\alpha/2\\), i.e. \\[E_\\alpha \\subseteq \\{x: H(f-g)(x) > \\alpha/2\\} \\cup \\{x: |g(x) - f(x)| > \\alpha/2\\}\\] which is the union of two measurable sets, being preimages of measurable functions of Borel sets, and thus the outer measure and Lebesgue measure agree (being measurable) Hence \\[m^\\star(E_\\alpha) \\leq m^\\star(U) = m(\\{x: H(f-g)(x) > \\alpha/2\\}) +m( \\{x: |g(x) - f(x)| > \\alpha/2\\})\\] Using theorem 8.10 for the first term and Markov's inequality for the second we obtain \\[m(E_\\alpha) \\leq \\frac{2)(3)^n}{\\alpha} \\epsilon + \\frac{2}{\\alpha}\\epsilon\\]And since \\(\\epsilon > 0\\) arbitrary and the outer measure of \\(E_\\alpha\\) is zero, and the measure space is complete, \\(E_\\alpha\\) is also Lebesgue measurable with measure \\(m(E_\\alpha) = 0\\).</p></details>
-<p>[!CARD] Explain how the usual notion of derivative in 1 dimension comes about from the Lebesgue differentiation theorem. Take the ball \\(B(x,r) = (x-r, x+r)\\) has measure \\(2r\\), so \\[\\lim_{r\\rightarrow 0} A_r f(x) = \\frac{1}{2r}\\int_{x-r}^{x+r} f(y) dy = \\lim_{r\\rightarrow 0} \\frac{1}{2r}(F(x+r)-F(x-r)).\\]</p></div>
+<div class="card card-thm"><div class="card-label">Theorem 8.11. The differentiation theorem for functions.</div>
+<p>Explain how the usual notion of derivative in 1 dimension comes about from the Lebesgue differentiation theorem. Take the ball \\(B(x,r) = (x-r, x+r)\\) has measure \\(2r\\), so \\[\\lim_{r\\rightarrow 0} A_r f(x) = \\frac{1}{2r}\\int_{x-r}^{x+r} f(y) dy = \\lim_{r\\rightarrow 0} \\frac{1}{2r}(F(x+r)-F(x-r)).\\]</p></div>
 <p>What the above theorem tells us is that for any locally integrable function \\(f\\), one has for Lebesgue a.e. \\(x\\): \\[\\lim_{r\\to 0} \\frac{1}{m(B(x,r))} \\int_{B(x,r)} (f(y) - f(x))\\, dm(y) = 0\\]</p>
 <p>This might be due to some cancellation. The following stronger result shows that this is not the case.</p>
 <div class="card card-remark"><div class="card-label">Theorem 8.12: Lebesgue points</div><p>For any locally integrable function \\(f\\), one has for Lebesgue a.e. \\(x\\): \\[\\lim_{r\\to 0} \\frac{1}{m(B(x,r))} \\int_{B(x,r)} |f(y) - f(x)|\\, dm(y) = 0\\]</p>
@@ -1148,48 +1365,48 @@ const TOPICS = [
 <p>The Lebesgue points of a function \\(f\\) are therefore interpreted as points where \\(f\\) does not oscillate too much, in an average sense. Finally, theorem 8.12 is a stronger version of theorem 8.11, and will allow us to replace balls by other types of sets (see corollary 8.14).</p>
 <div class="card card-def"><div class="card-label">Definition 8.13: Shrinks Nicely</div><p>A collection of Borel sets \\(\\{E_r\\}_{0<r\\leq 1}\\) is said to <strong>shrink nicely</strong> to \\(x\\) if for all \\(r \\in (0,1]\\):</p>
 <ol><li>\\(E_r \\subseteq B(x,r)\\)</li><li>There exists \\(\\alpha > 0\\) such that \\(m(E_r) \\geq \\alpha\\, m(B(x,r))\\) for all \\(r\\).</li></ol>
-<p>The second condition says that each \\(E_r\\) occupies a substantial proportion of \\(B(x,r)\\). Note there is no requirement that \\(x \\in E_r\\). [!CARD] Give examples of sets which shrink nicely. Take the half-ball, which has \\(\\alpha = 1/2\\), a cube which has \\(\\alpha = (2/\\pi)^n\\), an annulus with \\(E_r = B(x,r) \\setminus B(x,r/2)\\) with \\(\\alpha = 1-1/2^n\\) etc... Note that the annulus does not contain \\(x\\). [!CARD] Give examples of nicely shrinking sets in \\(R^1\\) and how we can obtain variants of the difference quotient.SS</p>
-<p>[!CARD]  Corollary 8.14: Lebesgue Points and Nicely Shrinking Sets</p>
-<p>[!theorem] Let \\(f\\) be locally integrable. If \\(x \\in \\mathcal{L}_f\\) (and hence for \\(m\\)-a.e. \\(x\\)) and \\(\\{E_r\\}_{0<r\\leq 1}\\) are Borel sets shrinking nicely to \\(x\\), then: \\[\\lim_{r\\to 0} \\frac{1}{m(E_r)} \\int_{E_r} |f(y) - f(x)|\\, dm(y) = 0\\] and \\[\\lim_{r\\to 0} \\frac{1}{m(E_r)} \\int_{E_r} f(y)\\, dm(y) = f(x)\\]</p></div>
+<p>The second condition says that each \\(E_r\\) occupies a substantial proportion of \\(B(x,r)\\). Note there is no requirement that \\(x \\in E_r\\). Give examples of sets which shrink nicely. Take the half-ball, which has \\(\\alpha = 1/2\\), a cube which has \\(\\alpha = (2/\\pi)^n\\), an annulus with \\(E_r = B(x,r) \\setminus B(x,r/2)\\) with \\(\\alpha = 1-1/2^n\\) etc... Note that the annulus does not contain \\(x\\). Give examples of nicely shrinking sets in \\(R^1\\) and how we can obtain variants of the difference quotient.SS</p>
+<p>Corollary 8.14: Lebesgue Points and Nicely Shrinking Sets</p>
+<p>Let \\(f\\) be locally integrable. If \\(x \\in \\mathcal{L}_f\\) (and hence for \\(m\\)-a.e. \\(x\\)) and \\(\\{E_r\\}_{0<r\\leq 1}\\) are Borel sets shrinking nicely to \\(x\\), then: \\[\\lim_{r\\to 0} \\frac{1}{m(E_r)} \\int_{E_r} |f(y) - f(x)|\\, dm(y) = 0\\] and \\[\\lim_{r\\to 0} \\frac{1}{m(E_r)} \\int_{E_r} f(y)\\, dm(y) = f(x)\\]</p></div>
 <p>As a special case if \\(f\\in L^1([0,1])\\) and letting \\(E_r(x) = [x, x+r]\\) one has \\[(\\int_0^x f(t) dm(t))'(x) =f(x)\\] for a.e. x.</p>
 <div class="card card-thm"><div class="card-label">Theorem 8.15: Differentiation Theorem for Measures</div><p>\\[\\lim_{r\\to 0} \\frac{\\nu(B(x,r))}{m(B(x,r))}\\] exists and equals \\(f(x)\\) for Lebesgue a.e. \\(x\\).</p>
 <p><strong>Remark:</strong> If \\(\\nu \\ll m\\), this reduces to Theorem 8.11.</p></div>
 <p>The intuition for the above result is that \\(\\nu_s(N^c) = 0\\) and \\(m(N)=0\\) (by singularity), so \\(\\nu_s\\) puts all its mass on \\(N\\), which is a Lebesgue null set. Thus, the ratio tells us that if we zoom into the measure \\(\\nu\\) by looking at how much mass it puts in a tiny ball around \\(x\\), normalized by the volume, we recover the density \\(f\\) at almost every point.</p>
 <p>It turns out we can generalize the above theorem to nicely shrinking sets.</p>
 <div class="card card-thm"><div class="card-label">Corollary 8.16: Differentiation for Measures over Nicely Shrinking Sets</div><p>Let \\(\\nu\\) be a regular Borel measure on \\(\\mathbb{R}^n\\) whose Lebesgue decomposition with respect to Lebesgue measure is given by \\(\\nu = \\nu_s + fm\\). Then for Lebesgue a.e. \\(x\\), if \\(\\{E_r\\}_{0<r\\leq 1}\\) are Borel sets shrinking nicely to \\(x\\), then \\[\\lim_{r\\to 0} \\frac{\\nu(E_r)}{m(E_r)} = f(x)\\]</p>
-<p>[!CARD] Theorem 9.1 Right continuous function has finite derivative. [!theorem] Let \\(F\\) be a right continuous increasing function on \\([0,1]\\). Then \\(F\\) has a finite derivative at Lebesgue a.e. \\(x\\).</p></div>
+<p>Theorem 9.1 Right continuous function has finite derivative. Let \\(F\\) be a right continuous increasing function on \\([0,1]\\). Then \\(F\\) has a finite derivative at Lebesgue a.e. \\(x\\).</p></div>
 `
 },
 {
   id:'bv', num:9, title:'BV Functions, AC & FTC',
   comps:[],
   html:`
-<div class="card card-def"><div class="card-label">Total variation, bounded variation and unbounded variation.</div><p>We say \\(f\\) is of bounded variation on \\([a,b]\\) if \\(TV_{[a,b]}f < \\infty\\) and of unbounded variation otherwise. [!CARD] State some remarks about the TV. (i) If \\(f\\) is monotonically increasing, then \\(TV_{[a,b]}(f) = f(b) - f(a)\\) (ii) \\(TV_{[a,b]}(-f) = TV_{[a,b]}(f)\\) (iii) If \\(f\\) is the indicator function of the rationals, then \\(f\\) is of unbounded variation on every (nontrivial) interval. [!exercise] Exercise 9.1 <strong>(a) Check the remarks above.</strong></p>
+<div class="card card-def"><div class="card-label">Total variation, bounded variation and unbounded variation.</div><p>We say \\(f\\) is of bounded variation on \\([a,b]\\) if \\(TV_{[a,b]}f < \\infty\\) and of unbounded variation otherwise. State some remarks about the TV. (i) If \\(f\\) is monotonically increasing, then \\(TV_{[a,b]}(f) = f(b) - f(a)\\) (ii) \\(TV_{[a,b]}(-f) = TV_{[a,b]}(f)\\) (iii) If \\(f\\) is the indicator function of the rationals, then \\(f\\) is of unbounded variation on every (nontrivial) interval. Exercise 9.1 <strong>(a) Check the remarks above.</strong></p>
 <p>(i) follows from the definition and using the result a telescoping sum, (ii) also follows from the definition and (iii) For any interval, the rationals and irrationals are dense. So we can choose the points to alternate bw rationals and irrationals. Then each term gives 1, and the sum becomes \\(n\\). Since we can do this for arbitrarily large \\(n\\) the supremum over all partitions is \\(\\infty\\).</p>
 <p><strong>(b) If \\(f\\) has continuous derivative, then it is of bounded variation.</strong> For this, we use the mean value theorem which states that \\(|f(x_i) - f(x_{i-1})| = |f'(\\xi_i)|(x_i - x_{i-1})\\) for some \\(\\xi_i \\in (x_{i-1}, x_i)\\). Each term can be bounded above by \\(\\sup_{x\\in[a,b]} |f'(x)| := M\\) since \\(f\\) has continuous derivative on a compact set, thus the whole sum is always bounded by \\(M(b-a) < \\infty\\).</p>
 <p><strong>(c) If \\(f\\) is Lipschitz continuous, then it is of bounded variation.</strong> If \\(f\\) is Lipschitz continuous, then \\(|f(x_i) - f(x_{i-1})| \\leq C |x_i - x_{i-1}|\\) and so again the sum becomes bounded by \\(C(b-a)\\).  <strong>(d)</strong> <strong>Show that if f has a continuous derivative then \\[TV_{[a,b]} f= \\int_0^1 |f'(x)| dx\\]</strong> From the result in (b) we have already shown that \\(TV_{[a,b]} f \\leq \\int_a^b |f'(x)| dx\\) since we were able to show that \\(|f(x_i) - f(x_{i-1})| = |\\int_{x_{i-1}}^{x_i} f'(x) dx| \\leq \\int_{x_{i-1}}^{x_i}| f'(x)| dx\\), summing we get \\[\\sum_i^n |f(x_i) - f(x_{i-1})|  \\leq \\int_a^b |f'(x) dx\\]which after the supremum gives us the \\(\\leq\\) result. We are left with showing the \\(\\geq\\) part. Since \\(|f'|\\) is continuous, it is RI and thus the RI sums converge to the integral. For any \\(\\epsilon > 0\\) there exists a partition fine enough such that \\[\\sum_i |f'(\\xi_i)|(x_i - x_{i-1})| \\geq \\int_a^b |f'(x)| dx - \\epsilon\\]In particular we choose \\(\\xi_i\\) to be the one given by MVT and thus \\[sum_i |f'(\\xi_i)|(x_i - x_{i-1})| = \\sum_i^n |f(x_i) - f(x_{i-1})| \\leq TV_{[a,b]}(f)\\] which means \\[TV_{[a,b]}(f) \\geq \\int_a^b |f'(x)| dx - \\epsilon\\]And since \\(\\epsilon\\) arbitrary we are done.</p>
 <p><strong>(e) Show that the continuous function \\(f(x) = x \\cos(\\pi/2x)\\) defined to be 0 at 0 is of unbounded variation on \\([0,1]\\) but of bounded variation on \\([\\epsilon, 1]\\) \\(\\forall \\epsilon > 0\\).</strong> We may construct the following partition \\(x_0 = 0, x_1 = 1/n, x_2 = /(n-1), ..., x_n = 1\\) then clearly whenever we evaluate two consecutive \\(\\cos(\\pi/2x_i)\\) and \\(\\cos(\\pi /2x_{i-1})\\), one of them will be 1 and the other zero. Thus we are effectively computing a partition of the form \\(\\sum_k x_{k} = \\sum 1/k\\) which we know diverges as we make the partition ever so finer. For the interval \\([\\epsilon, 1]\\), \\(f\\) has continuous derivative and thus by (b) it also has bounded variation.</p></div>
-<div class="card card-remark"><div class="card-label">Give an example of a function with bounded and unbounded variation.</div><p>Take \\(f(x) = x \\cos(\\pi/2x)\\) on \\([0,1]\\) and \\([\\epsilon, 1]\\). In the latter, it has continuous derivative and thus it has also bounded variation. Another example of a function of unbounded variation is the indicator function on every nontrivial interval, or Brownian motion. [!CARD]  Theorem 9.3 \\(f\\) is of bounded variation iff...</p>
+<div class="card card-remark"><div class="card-label">Give an example of a function with bounded and unbounded variation.</div><p>Take \\(f(x) = x \\cos(\\pi/2x)\\) on \\([0,1]\\) and \\([\\epsilon, 1]\\). In the latter, it has continuous derivative and thus it has also bounded variation. Another example of a function of unbounded variation is the indicator function on every nontrivial interval, or Brownian motion. Theorem 9.3 \\(f\\) is of bounded variation iff...</p>
 <div class="card card-thm"><div class="card-label">\\(f\\) is of bounded variation if and only if there exist increasing functions \\(g,h\\) so that \\(f = g-h\\)</div></div></div>
-<p>There is a one-to-one correspondence between signed measures and right-continuous functions of bounded variation, which we discuss hereafter.</p>
-<div class="card card-remark"><div class="card-label">Define the so-called Lebesgue-Stieltjes integral of a function \\(r\\) with respect to \\(f\\).</div><p>\\[\\int r(x) df(X) := \\int r(x) d\\mu_g(x) - \\int r(x) d\\mu_h(x)\\] where \\(g,h\\) are increasing and \\(\\mu_g, \\mu_h\\) are the measures associated to \\(g,h\\). If \\(f\\) is not of bounded variation, then \\(\\int r(x) df(x)\\) is not defined. When \\(f\\) is continuously differentiable, we also have \\[\\int r(x) df(x) = \\int r(x) f'(x) dx\\] [!CARD] Definition 9.4. Absolutely continuous function.</p>
+<p>There is a one-to-one correspondence between signed measures and right-continuous <a class="xref" onclick="if(window._navToTopic)window._navToTopic('differentiation')">differentiation theory (Topic 8)</a> underlies our study of functions of bounded variation, which we discuss hereafter.</p>
+<div class="card card-remark"><div class="card-label">Define the so-called Lebesgue-Stieltjes integral of a function \\(r\\) with respect to \\(f\\).</div><p>\\[\\int r(x) df(X) := \\int r(x) d\\mu_g(x) - \\int r(x) d\\mu_h(x)\\] where \\(g,h\\) are increasing and \\(\\mu_g, \\mu_h\\) are the measures associated to \\(g,h\\). If \\(f\\) is not of bounded variation, then \\(\\int r(x) df(x)\\) is not defined. When \\(f\\) is continuously differentiable, we also have \\[\\int r(x) df(x) = \\int r(x) f'(x) dx\\] Definition 9.4. Absolutely continuous function.</p>
 <div class="card card-def"><div class="card-label">\\(f : [0,1] \\rightarrow \\mathbb{R}\\) is absolutely continuous if for all \\(\\epsilon > 0\\), there exists \\(\\delta > 0\\) so that if \\(0 \\leq x_1 < y_1 < x_2 < y_2 < \\ldots < x_n < y_n \\leq 1\\) and \\[\\sum_{i=1}^n (y_i - x_i) < \\delta\\], then \\[\\sum_{i=1}^n |f(y_i) - f(x_i)| < \\epsilon\\]</div></div>
-<p>[!CARD] What is the intuition about absolute continuity, loosely speaking? Absolute continuity tells us that if the total length is small, then the total variation also has to be small. Since a nullset has arbitrarily small covers, the total variation of \\(f\\) over any nullset must be zero.</p>
+<p>What is the intuition about absolute continuity, loosely speaking? Absolute continuity tells us that if the total length is small, then the total variation also has to be small. Since a nullset has arbitrarily small covers, the total variation of \\(f\\) over any nullset must be zero.</p>
 <blockquote><p>The idea loosely speaking is that the function cannot increase on a set of measure zero. This is why the Cantor ternary function fails to be absolutely continuous.</p></blockquote>
-<p>[!CARD] What is the relationship between continuity, uniform continuity and absolute continuity on compact intervals? Absolute continuity implies continuity (take \\(n=1\\) in the definition of absolute continuity) and hence uniform continuity on compact intervals.  [!CARD] Exercise 9.2 Show that the Cantor ternary function \\(f_C\\) is not absolutely continuous.</p>
+<p>What is the relationship between continuity, uniform continuity and absolute continuity on compact intervals? Absolute continuity implies continuity (take \\(n=1\\) in the definition of absolute continuity) and hence uniform continuity on compact intervals.  Exercise 9.2 Show that the Cantor ternary function \\(f_C\\) is not absolutely continuous.</p>
 <div class="card card-ex"><div class="card-label">For each \\(n\\), let \\([x_1, y_1], \\ldots, [x_{2^n}, y_{2^n}]\\) be the \\(2^n\\) closed intervals remaining at stage \\(n\\) of the Cantor set construction, ordered left to right. Then:</div><p>\\[\\sum_{i=1}^{2^n} (y_i - x_i) = \\left(\\frac{2}{3}\\right)^n \\to 0\\] so for large enough \\(n\\), the total length is less than any given \\(\\delta\\). However, since \\(f_C\\) is constant on each removed middle-third interval and monotone increasing, all variation of \\(f_C\\) occurs on the remaining intervals, giving: \\[\\sum_{i=1}^{2^n} |f_C(y_i) - f_C(x_i)| = f_C(1) - f_C(0) = 1\\] Taking \\(\\epsilon = 1/2\\), no matter how small \\(\\delta > 0\\) is, we can find \\(n\\) large enough so that the total length \\((2/3)^n < \\delta\\) yet the total variation equals \\(1 > \\epsilon\\). Therefore \\(f_C\\) is not absolutely continuous.</p></div>
-<p>[!CARD] Proposition 9.5. Absolute continuity of a function.</p>
+<p>Proposition 9.5. Absolute continuity of a function.</p>
 <div class="card card-thm"><div class="card-label">Let \\(f\\) be a nonnegative right-continuous increasing function on \\([0,1]\\) with \\(f(0) = 0\\). Then \\(f\\) is absolutely continuous if and only if \\(\\mu_f << m\\) where \\(m\\) is the Lebesgue measure.</div></div></div>
 <p>This is consistent with the result for Cantor ternary function (which is n.n. right continuous and increasing). The corresponding Cantor ternary measure (which again is a unique finite Borel measure) where \\(\\mu_C(C) = 1\\) and \\(m(C) = 0\\) so clearly \\(\\mu_C\\) is not absolutely continuous wrt to \\(m\\). By contrapositive, \\(F_c\\) is therefore not absolutely continuous.</p>
 <div class="card card-thm"><div class="card-label">Proposition 9.6. Absolute continuity implies bounded variation.</div></div>
 <h4>The fundamental theorem of calculus</h4>
 <p>If \\(f:[0,1] \\rightarrow \\mathbb R\\) is increasing, does \\[\\int_0^1 f'(x) dx = f(1) - f(0) ?\\] Recall that an increasing function has a derivative a.e (thm 9.1).</p>
-<div class="card card-thm"><div class="card-label">The fundamental theorem of calculus for monotone increasing functions.</div><p>[!CARD] <strong>Theorem 9.8.</strong> Let \\(f\\) be a nonneg right-continuous monotone increasing function on \\([0,1]\\) with \\(f(0) = 0\\). Let \\(\\mu_f\\) be the associated measure on \\([0,1]\\) and consider the Lebesgue decomposition \\(\\mu_f = \\mu_s + \\mu_{ac}\\) with respect to Lebesgue measure. Then:</p>
+<div class="card card-thm"><div class="card-label">The fundamental theorem of calculus for monotone increasing functions.</div><p><strong>Theorem 9.8.</strong> Let \\(f\\) be a nonneg right-continuous monotone increasing function on \\([0,1]\\) with \\(f(0) = 0\\). Let \\(\\mu_f\\) be the associated measure on \\([0,1]\\) and consider the Lebesgue decomposition \\(\\mu_f = \\mu_s + \\mu_{ac}\\) with respect to Lebesgue measure. Then:</p>
 <ol><li>The Radon-Nikodym derivative of \\(\\mu_{ac}\\) with respect to Lebesgue measure is given by \\(f'\\).</li></ol>
 <ol><li>\\(\\mu_{ac}[0,1] = \\int_0^1 f'(x)\\, dx\\).</li></ol>
 <ol><li>\\(f\\) is absolutely continuous if and only if \\(\\int_0^1 f'(x)\\, dx = f(1) - f(0)\\). (So the second FTC holds if and only if \\(f\\) is absolutely continuous.)</li></ol>
 <ol><li>\\(\\mu_f\\) is singular if and only if \\(f'(x) = 0\\) a.e.</li></ol>
-<p>[!CARD] Give an example of a singular measure. From theorem 9.8, we have that \\(\\mu_C\\) is singular iff \\(F'_C(x) = 0\\) lebesgue a.e., which we know is strue. So the Cantor measure is a singular measure.</p></div>
+<p>Give an example of a singular measure. From theorem 9.8, we have that \\(\\mu_C\\) is singular iff \\(F'_C(x) = 0\\) lebesgue a.e., which we know is strue. So the Cantor measure is a singular measure.</p></div>
 `
 },
 ];
@@ -1202,49 +1419,60 @@ function App() {
   const contentRef = useRef(null);
   const topic = TOPICS.find(t=>t.id===tid)||TOPICS[0];
 
+  // Expose nav for cross-references
+  window._navToTopic = (id) => { setTid(id); window.scrollTo({top:0,behavior:'smooth'}); };
+
   useEffect(()=>{
     if(window.MathJax && contentRef.current) {
       window.MathJax.typesetPromise([contentRef.current]).catch(()=>{});
     }
   },[tid]);
 
-  function navTo(ev, id) { ev.preventDefault(); setTid(id); window.scrollTo(0,0); }
+  function navTo(id) { setTid(id); window.scrollTo({top:0,behavior:'smooth'}); }
 
-  return h('div',{id:'app'},
-    // Mobile nav
-    h('div',{className:'mobile-nav'},
-      h('select',{value:tid, onChange:ev=>setTid(ev.target.value)},
-        TOPICS.map(t=>h('option',{key:t.id,value:t.id},`${t.num}. ${t.title}`))
+  return h('div',null,
+    // ── Top navigation bar ──
+    h('div',{id:'topbar'},
+      h('div',{id:'topbar-inner'},
+        h('div',{id:'topbar-brand'},'Integration Theory'),
+        h('div',{id:'topbar-tabs'},
+          TOPICS.map(t=>h('button',{
+            key:t.id,
+            className:'tab-btn'+(tid===t.id?' active':''),
+            onClick:()=>navTo(t.id)
+          },`${t.num}. ${t.title}`))
+        ),
+        h('div',{id:'mobile-select'},
+          h('select',{value:tid, onChange:ev=>navTo(ev.target.value)},
+            TOPICS.map(t=>h('option',{key:t.id,value:t.id},`${t.num}. ${t.title}`))
+          )
+        )
       )
     ),
-    // Sidebar
-    h('nav',{className:'sidebar'},
-      h('div',{className:'sidebar-brand'},'Integration Theory'),
-      h('ul',{className:'sidebar-nav'},
-        TOPICS.map(t=>h('li',{key:t.id},
-          h('a',{className:tid===t.id?'active':'',href:'#',onClick:ev=>navTo(ev,t.id)},
-            `${t.num}. ${t.title}`)
-        ))
-      )
-    ),
-    // Main content
-    h('main',{className:'main'},
+    // ── Main content ──
+    h('main',{id:'main'},
       h('div',{className:'topic-header'},
-        h('div',{className:'topic-label'},`Topic ${topic.num}`),
+        h('div',{className:'topic-label'},`Topic ${topic.num} of ${TOPICS.length}`),
         h('h1',{className:'topic-title'},topic.title)
       ),
       h('div',{ref:contentRef},
-        h('div',{className:'topic-content',dangerouslySetInnerHTML:{__html:topic.html}}),
-        ...topic.comps.map((c,i)=>
-          h('div',{key:i,className:'comp-wrap'},
-            h('p',{className:'comp-title'},c.label),
-            h(c.C)
-          )
-        )
+        h(TopicContent, {html: topic.html, comps: topic.comps})
+      ),
+      // ── Topic nav footer ──
+      h('div',{style:{marginTop:48,paddingTop:20,borderTop:'1px solid var(--border)',display:'flex',justifyContent:'space-between',gap:16,flexWrap:'wrap'}},
+        (()=>{const idx=TOPICS.findIndex(t=>t.id===tid);
+          return [
+            idx>0 ? h('button',{className:'btn',onClick:()=>navTo(TOPICS[idx-1].id),style:{maxWidth:'48%',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},
+              `← ${TOPICS[idx-1].num}. ${TOPICS[idx-1].title}`) : h('span'),
+            idx<TOPICS.length-1 ? h('button',{className:'btn',onClick:()=>navTo(TOPICS[idx+1].id),style:{maxWidth:'48%',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',marginLeft:'auto'}},
+              `${TOPICS[idx+1].num}. ${TOPICS[idx+1].title} →`) : h('span')
+          ];
+        })()
       )
     )
   );
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+
 </script>
