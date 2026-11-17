@@ -144,6 +144,7 @@ Interactive: approximating $f$ from below by the simple functions $\phi_n$.
 Before we proceed, we consider the class of nonnegative measurable functions $$L^+((X, \mathcal M, m)) = \{f: X\rightarrow [0,\infty], \text{f is measurable}\}$$
 
 ::: {#r-6-1 .callout-note .definition-box}
+
 #### Definition 6.1 — The Lebesgue integral for nonnegative simple functions
 
 Let $\phi(x)$ be a simple function in $L^+((X, \mathcal M, m))$
@@ -151,12 +152,14 @@ $$\phi(x) = \sum_{i=1}^n c_i I_{E_i}$$with $c_i \geq 0 \forall i$. The integral 
 :::
 
 ::: {#r-6-2 .callout-note .definition-box}
+
 #### Definition 6.2 — Integral of nonnegative simple function over specified region
 
 If $\phi$ is a simple function in $L^+((X, \mathcal M, m))$ and $A \in \mathcal M$ we define $$\int_A \phi(x) dm(x) = \int \phi(x) \mathbb I_A dm(x)$$ where we note that the integrand on the RHS is a simple function and hence the integral is defined.
 :::
 
 ::: {#r-6-3 .callout-important .proposition-box}
+
 #### Proposition 6.3 — Four properties which hold for the integral of nonnegative simple functions
 
 Let $\phi, \psi$ be simple nonnegative functions, then the following holds.
@@ -166,6 +169,7 @@ Let $\phi, \psi$ be simple nonnegative functions, then the following holds.
 (d) The mapping from $\mathcal M$ to $[0,\infty]$ given by $A\rightarrow \int_A \phi(x) dm(x)$ is a measure on $\mathcal M$.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 (a) through (c) are straightforward by applying the definition. We prove (d). $\square$
@@ -177,6 +181,7 @@ Note that $$\int (\phi(x) - \psi(x) ) dm(x) = \int \phi(x) dm(x) - \int \psi(x) 
 We are now ready to define the integral for all functions in $L^+((X, \mathcal M, m))$.  We will use the idea that we can approximate a measurable function by simple functions. 
 
 ::: {#r-6-4 .callout-note .definition-box}
+
 #### Definition 6.4 — The integral for nonnegative measurable functions
 
 If $f \in L^+((X, \mathcal M, m))$ we define
@@ -338,11 +343,13 @@ It can be straightforwardly verified that properties (a)-(c) from [Proposition 6
 In what follows, we discuss three important convergence theorems which answer the question on when the limit and the integral operations commute. The first two, the monotone and dominated Lebesgue convergence theorem, tells us that it is possible to do so under certain restrictions on the sequence of measurable functions. 
 
 ::: {#r-6-5 .callout-important .theorem-box}
+
 #### Theorem 6.5 — Monotone convergence theorem
 
 Given a measure space, let $(f_n)$ be a sequence of functions in $L^+((X, \mathcal M, m))$ satisfying $$0 \leq f_1 \leq f_2 \leq ...$$ for every x and define $f$ by $$f(x) := \lim_{n\rightarrow \infty} f_n(x) = \sup_n f_n(x)$$ then $$\int f dm = \lim_{n\rightarrow \infty} \int f_n dm$$
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 To prove the $\geq$ we first realize that $\int f_n dm$ is increasing and hence a limit. For the same reason $\int f dm \geq \int f_n dm$ for every $n$ we also have $\int f_dm \geq \lim \int f_n dm$. To prove the reverse inequality, we first start by the definition of $\int f dm$ which is that for every simple function $\phi \leq f$ we have $$\int \phi dm \leq \lim_{n\rightarrow \infty} \int f_n dm$$. Now fix the simple function and let $\alpha < 1$ and define $E_n := \{x: f_n(x) \geq \alpha \phi(x)\}$ and observe that $E_1 \subseteq E_2...$ from the fact that $f_n(x)$ is increasing, and $X = \bigcup_n E_n$. For every $n$ we now have $$\int f_n dm \geq \int f_n 1_{E_n} dm \geq \alpha \phi 1_{E_n} dm = \alpha \int_{E_n} \phi dm$$ and let $n\rightarrow \infty$ and use that for a fixed nonnegative simple function $A\rightarrow \int_A \phi dm$ is a measure, now we have an increasing sequence of sets for which we evaluate this measure whose union is $X$, using continuity from below of meaures, we have that $\lim_{n\rightarrow \infty} \int f_n dm \geq \alpha \int \phi dm$ which holds for all $\alpha < 1$. $\square$
@@ -354,12 +361,14 @@ We now discuss three additional examples for when the MCT can be applied, and wh
 Two immediate corollaries of the MCT are now stated. 
 
 ::: {#r-6-6 .callout-important .corollary-box}
+
 #### Corollary 6.6 — Linearity of Lebesgue integral for nonnegative measurable functions
 
 If $f_1$ and $f_2$ in $L^+((X, \mathcal M, m))$ then
 $$\int (f_1+f_2)dm = \int f_1 dm + \int f_2 dm$$
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 Choose $\phi_n$ and $\psi_n$ to be increasing simple functions to $f_1$ and $f_2$, then $\phi_n + \psi_n$ is a sequence of simple functions increasing towards $f_1+f_2$ 
@@ -369,12 +378,14 @@ where in the middle step we used the linearity over simple functions, and the MC
 :::
 
 ::: {#r-6-7 .callout-important .corollary-box}
+
 #### Corollary 6.7 — Exchanging infinite sum and Lebesgue integral
 
 If $f_1, f_2,...$ in $L^+((X, \mathcal M, m))$ then
 $$\int (\sum_{i=1}^\infty f_i) dm = \sum_{i=1}^\infty (\int f_i dm)$$
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 By the corollary above, we have for every $N$ that $$\int (\sum_{i=1}^N f_i) dm = \sum_{i=1}^N (\int f_i dm)$$where we want to let $N\rightarrow \infty$, the RHS goes to $\sum_{i=1}^\infty (\int f_i dm)$ while the LHS goes to $\int (\sum_{i=1}^\infty f_i)$ by the MCT. Note that $g_N := (\sum_{i=1}^N f_i)$ defines a sequence of increasing nonnegative measurable functions (since sum of measurable functions is measurable), and whose pointwise limit is precisely $(\sum_{i=1}^\infty f_i)$  (which is also measurable by [Proposition 5.6](lecture-05.qmd#r-5-6) from [Lecture 5](lecture-05.qmd) for which we can thus apply the MCT. $\square$
@@ -382,6 +393,7 @@ By the corollary above, we have for every $N$ that $$\int (\sum_{i=1}^N f_i) dm 
 :::
 
 ::: {#r-6-8 .callout-important .proposition-box}
+
 #### Proposition 6.8 — Lebesgue integral zero for nonnegative measurable functions equivalence
 
 If $f\in L^+((X, \mathcal M ,m))$ then $$\int fdm = 0$$ iff $f=0$ a.e.
@@ -391,6 +403,7 @@ The proof is provided in the lecture notes. We remind ourselves that the measura
 Note that the above proposition also implies that if $f = h-g$ then $h=g$ almost everywhere, that is to say, they are equivalent modulo the nullset $$m(\{x \in X : h(x) \neq g(x)\}) =0$$
 
 ::: {#r-6-9 .callout-important .theorem-box}
+
 #### Theorem 6.9 — Fatou's lemma
 
 If $(f_n)$ is a sequence of functions in $L^+((X, \mathcal M, m))$ then $$\int \liminf_{n\rightarrow \infty} f_n dm \leq  \liminf_{n\rightarrow \infty} \int f_n dm$$
@@ -403,6 +416,7 @@ Remember from [Lecture 5](lecture-05.qmd) we showed that if $(f_n)$ is a sequenc
 We now relax the assumption that the range of the measurable functions is restricted to the positive reals, and define the integral for general measurable functions.
 
 ::: {#r-6-10 .callout-note .definition-box}
+
 #### Definition 6.10 — Lebesgue integral for general measurable functions
 
 Definition of integral for general measurable functions. if $f:(X,\mathcal M, m)\rightarrow \overline{\mathbb R}$, then we define $$\int f(x) dm(x) := \int f^+(x) dm(x) - \int f^{-}(x) dm(x)$$ provided that *at least* one of the two terms on the RHS is finite (this way, we avoid any $\infty - \infty$ scenario.) Note that $f^-, f^+ \in L^+$ which makes them well-defined.
@@ -411,6 +425,7 @@ Definition of integral for general measurable functions. if $f:(X,\mathcal M, m)
 We are now ready to state what it means for a function to be Lebesgue integrable. 
 
 ::: {#r-6-11 .callout-note .definition-box}
+
 #### Definition 6.11 — Lebesgue integrable
 
 If $f$ is a measurable function on $(X, \mathcal M, m)$ and $\int f dm$ is defined and finite, we say that $f$ is Lebesgue integrable. Or tantamountly, having $\int |f| dm$ being finite.
@@ -427,12 +442,14 @@ $$L^p((X, \mathcal M, m)) := \{f: (X,\mathcal M, m)\rightarrow \overline{\mathbb
 which is called an $L^p$ space. 
 
 ::: {#r-6-12 .callout-caution .example-box}
+
 #### Example 6.12
 
 $\sin(x)/x \notin L^1$ since $\int |\sin(x) /x| dx = \infty$ and thus $\sin(x)/x$ is not Lebesgue integrable. 
 :::
 
 ::: {#r-6-13 .callout-note .definition-box}
+
 #### Definition 6.13 — Conditionally and Absolutely Convergent Series
 
 Let $(a_n)_{n=1}^\infty$ be a sequence of real numbers.
@@ -473,6 +490,7 @@ In measure theory, there is no natural analogue of conditional convergence as th
 We are now ready to state a third and final convergence theorem. 
 
 ::: {#r-6-14 .callout-important .theorem-box}
+
 #### Theorem 6.14 — Lebesgue Dominated Convergence theorem
 
 Let $(f_n)$ be a sequence of functions in $L^1$ which converges pointwise to a function $f$. Assume there exists a $g\in L^1$ such that $\forall n$ we have $$|f_n|\leq g$$

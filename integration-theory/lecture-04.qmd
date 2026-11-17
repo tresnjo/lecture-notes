@@ -5,6 +5,7 @@ title: "Premeasures, Distribution Functions and the Cantor Set"
 ### Other important constructions of measures
 
 ::: {#r-4-1 .callout-note .definition-box}
+
 #### Definition 4.1 — Premeasure
 
 If $X$ is a set and $\mathcal{A}$ is an algebra on $X$, a function $\mu_0 : \mathcal{A} \to [0, \infty]$ is called a **premeasure** if:
@@ -18,6 +19,7 @@ $$\mu_0\!\left(\bigcup_i A_i\right) = \sum_i \mu_0(A_i)$$
 Had $\mathcal A$ been a $\sigma$-algebra, this would have just been our usual measure. 
 
 ::: {#r-4-2 .callout-important .theorem-box}
+
 #### Theorem 4.2 — Extension of Premeasure to Measure
 
 If $\mu_0$ is a premeasure on $(X, \mathcal{A})$, then there exists a measure $\mu$ on $(X, \sigma(\mathcal{A}))$ with:
@@ -33,6 +35,7 @@ The theorem is an existence theorem. It tells us that if we have a premeasure on
 ### Distribution functions for Borel sets
 
 ::: {#r-4-3 .callout-important .proposition-box}
+
 #### Proposition 4.3 — CDF of a Borel Measure
 
 Let $\mu$ be a finite Borel measure on $[0,1]$ and define $F: [0,1] \to [0, \mu([0,1])]$ by:
@@ -41,6 +44,7 @@ $$F(x) := \mu([0,x])$$
 Then $F$ is **weakly increasing** and **right continuous**.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 **Weakly increasing:** Monotonicity of measures implies $F$ is weakly increasing. For $x \leq y$:
@@ -59,6 +63,7 @@ In the case of the Lebesgue measure, we simply have $F(x) = x$.
 It tells us that given a measure, we have an associated distribution function.
 
 ::: {#r-4-4 .callout-important .proposition-box}
+
 #### Proposition 4.4 — Borel Measure from CDF
 
 Let $F$ be a nonneg­ative, weakly increasing and right continuous function on $[0,1]$ mapping into $[0, \infty)$. Then there exists a unique finite Borel measure $\mu$ on $[0,1]$ satisfying:
@@ -175,11 +180,13 @@ Interactive: the first steps of the Cantor set construction.
 :::
 
 ::: {#r-4-5 .callout-important .proposition-box}
+
 #### Proposition 4.5 — Properties of the Cantor set
 
 The Cantor set is a nonempty compact set with Lebesgue measure of 0 and has no isolated points. It is also the set of points in $[0,1]$ whose ternary expansion only contains 0's and 2's.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 1. Since it is closed, it must be nonempty compact set by elementary topology.
@@ -320,12 +327,14 @@ Interactive: the approximations to the Cantor function (devil’s staircase).
 :::
 
 ::: {#r-4-6 .callout-important .theorem-box}
+
 #### Theorem 4.6 — Cantor Ternary Function
 
 The sequence $(f_n)$ converges uniformly to a (necessarily continuous) limit function $F_C$, which we call the **Cantor ternary function**.
 :::
 
 ::: {#r-4-7 .callout-important .corollary-box}
+
 #### Corollary 4.7 — Properties of the Cantor Ternary Function
 
 **(a)** $F_C$ is a weakly increasing function on $[0,1]$ with $F_C(0) = 0$ and $F_C(1) = 1$
@@ -333,6 +342,7 @@ The sequence $(f_n)$ converges uniformly to a (necessarily continuous) limit fun
 **(c)** $F_C' = 0$ (Lebesgue)-a.e. on $[0,1]$.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 Since each $f_n$ is 0 at 0 and 1 and weakly increasing, the same is true for the limit $F_C$. It is continuous by [Theorem 4.6](lecture-04.qmd#r-4-6). Take $x\notin C$, then there is an $n$ such that $x \notin C_n$ since $C = \bigcap_n C_n$, in which case $f_n$ is constant in an interval around $x$ (since it corresponds to a point that was removed in the construction of the Cantor set, and those intervals where assigned to be constant). Since $f_n$ is constant on that interval, it follows that $f_m$ is also constant on that interval for all $m\geq n$, and this is it certainly true for $F_c$ and hence $F_C'(x) = 0$. Since $x \notin C$ implies $F'_c(x) = 0$ we have that $m\{x\in[0,1]:F'_c(x) \neq 0\}=m(C) = 0$ since $C$ has Lebesgue measure 0, but this is just the definition of the property  $F'_c(x) = 0$ being true Lebesgue-a.e., thus (c) follows. 
@@ -342,6 +352,7 @@ We may now define the Cantor Ternary measure denoted by $\mu_C$ as follows $$\mu
 :::
 
 ::: {#r-4-8 .callout-important .theorem-box}
+
 #### Theorem 4.8 — Properties of the Cantor ternary measure
 
 $\mu_C$ is a continuous measure and where $\mu_C(C) = 1, \mu_C(C^c) = 0$.
@@ -356,6 +367,7 @@ The fact that it is continuous follows from the fact that $F_c$ is continuous (b
 This lemma is useful, especially in probability theory.
 
 ::: {#r-4-9 .callout-note .definition-box}
+
 #### Definition 4.9 — $\limsup$ and $\liminf$ of Sets
 
 If $E_1, E_2, \ldots$ is a sequence of measurable sets in a measure space, we let:
@@ -372,6 +384,7 @@ Note that definitionally, the limsup is also a measurable set since it is constr
 Let $T_n \equiv \bigcup_{k=n}^\infty E_k$, then if $x\in \lim \sup E_i$, it must follow that $x\in T_n$ for all $n$. This in turn implies that $x$ appears in some $E_k$ with $k\geq 1$. some $E_k$ with $k\geq 2$ etc... In other words, $x$ could be in every odd one, or it could be in $1_1, E_{10}, E_{100}$ etc..., that is still infinitely often. It is thus all the points $x$ that appear in infinitely many of the $E_n$'s. 
 
 ::: {#r-4-10 .callout-important .lemma-box}
+
 #### Lemma 4.10 — First Borel–Cantelli Lemma
 
 Let $E_1, E_2, \ldots$ be a sequence of measurable sets in the measure space $(X, \mathcal{M}, m)$. If:
@@ -379,6 +392,7 @@ $$\sum_i m(E_i) < \infty$$
 then $m(\limsup E_i) = 0$.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 For each $n$, by subadditivity:

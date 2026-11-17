@@ -3,6 +3,7 @@ title: "Weak and Strong Laws of Large Numbers"
 ---
 
 ::: {#r-9-1 .callout-note .definition-box}
+
 #### Definition 9.1 — Probability space
 
 A probability space is a measure space $(\Omega, \mathcal M, P)$ with $P(\Omega) = 1$.
@@ -15,6 +16,7 @@ Note that a probability space thus automatically qualifies as finite, and theref
 :::
 
 ::: {#r-9-2 .callout-note .definition-box}
+
 #### Definition 9.2 — Random variable
 
 Given a probability space, a random variable is a measurable real-valued function $X$ on $(\Omega, \mathcal M, P)$.
@@ -23,12 +25,14 @@ Given a probability space, a random variable is a measurable real-valued functio
 A random variable is not random as it is just a function, but if the input $\omega$ is random, then certainly $X(\omega)$ is random. Hence we call it a random variable. 
 
 ::: {#r-9-3 .callout-note .definition-box}
+
 #### Definition 9.3 — Expectation
 
 If $X$ is a R.V. on a probability space, its expectation is defined by $$E(X) =\int X dP$$ provided it exists, meaning at least one of $\int X^+ dP$ and $\int X^- dP$ is finite.
 :::
 
 ::: {#r-9-4 .callout-note .definition-box}
+
 #### Definition 9.4 — Distribution / Law of a Random Variable
 
 Given a r.v. $X$ on a probability space, the distribution or law of $X$ is the probability measure $\mu$ on $(R, \mathcal B)$ given by $$\mu(A) = P(X^{-1}(A))$$
@@ -39,6 +43,7 @@ Note that we demand $X$ to be measurable, hence the preimage of $A\subseteq R$ i
 :::
 
 ::: {#r-9-5 .callout-note .definition-box}
+
 #### Definition 9.5 — Independent random variables
 
 (Independent) $n$ r.vs. $X_1, X_2,...,X_n$ on a probability space $(\Omega, \mathcal M, P)$ are called independent if for all Borel sets $B_1, B_2,...,B_n$ $$P(\bigcap_{i=1}^n X_{i}^{-1}(B_i)) = \prod_{i=1}^n P(X_i^{-1}(B_i))$$
@@ -47,6 +52,7 @@ Note that we demand $X$ to be measurable, hence the preimage of $A\subseteq R$ i
 In other words, if we take the intersection of the preimages of our Borel sets (which we know is also an element of the sigma-algebra $\mathcal M$), which we can think of as the probability of all events happening simultaneously, is the same as evaluating the probability for each event, i.e. joint probability factorizes into marginals.
 
 ::: {#r-9-6 .callout-note .definition-box}
+
 #### Definition 9.6 — Infinite collection of independent random variables
 
 An **infinite** collection of r.vs. on a probability space $(\Omega, \mathcal M, P)$ is called independent if each finite collection is independent, as above.
@@ -55,6 +61,7 @@ An **infinite** collection of r.vs. on a probability space $(\Omega, \mathcal M,
 ## The law of large numbers
 
 ::: {#r-9-7 .callout-important .theorem-box}
+
 #### Theorem 9.7 — Weak and strong law of large numbers (special case)
 
 Let $X_1, X_2,\ldots$ be independent r.v.s on some probability space such that the distribution of each $X_i$ is $(\delta_1 + \delta_{-1})/2$, i.e. for all $i$,
@@ -64,6 +71,7 @@ Then:
 - **(SLLN)** $S_n/n = \frac{\sum_{i=1}^n X_i}{n}$ converges a.e. (almost surely) to zero.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 **Proof of WLLN.**
@@ -123,6 +131,7 @@ Remember that a.e. convergence implies convergence in measure on *finite* measur
 WLLN says something like: if you flip a coin a zillion times, then with high probability, percentage of heads will be in some small interval around $1/2$. The SLLN tells us that if you were to flip a coin an infinite number of times, then with probability 1, the percentage of heads would converge to 1/2. 
 
 ::: {#r-9-8 .callout-important .theorem-box}
+
 #### Theorem 9.8 — Strong law of large numbers: General case
 
 Let $X_1, X_2,...$ be independent r.vs. with the same distribution (i.i.d.) on some probability space $(\Omega, \mathcal F, P)$ with $E(|X|) < \infty$, then $$\frac{S_n}{n} = \frac{\sum X_i}{n}$$ converges a.e. to $E[X]$.
@@ -135,6 +144,7 @@ Remember that two r.vs. can have the same probability distribution but still liv
 :::
 
 ::: {#r-9-9 .callout-important .lemma-box}
+
 #### Lemma 9.9 — Second Borel–Cantelli Lemma
 
 Let $(\Omega, \mathcal F, P)$ be a probability space and let $E_1, E_2, \ldots$ be **independent** events. If
@@ -142,6 +152,7 @@ $$\sum_{n=1}^\infty P(E_n) = \infty,$$
 then $P(\limsup E_n) = 1$, i.e. with probability one infinitely many of the $E_n$ occur.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 Taking complements, $(\limsup E_n)^c = \bigcup_{n\ge1}\bigcap_{k\ge n} E_k^c$, so it suffices to show that $P\big(\bigcap_{k\ge n}E_k^c\big)=0$ for every $n$. The complements $E_k^c$ are again independent, and $1-x\le e^{-x}$ for all $x$, so for $N\ge n$

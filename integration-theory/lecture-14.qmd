@@ -3,11 +3,13 @@ title: "Lebesgue's Differentiation Theorem"
 ---
 
 ::: {#r-14-1 .callout-important .theorem-box}
+
 #### Theorem 14.1 — The differentiation theorem for functions
 
 If $f \in L^1_\mathrm{loc}(\mathbb R^n)$ then for Lebesgue a.e. point $x$ we have $$\lim_{r\rightarrow 0} A_r f(x) = f(x)$$
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 It suffices to show this a.e. point in $[- N, N]^n$. If it holds for every N, it also holds for the full $\mathbb R^n$ since countable union of nullset is still a nullset. Therefore we may assume $f$ is 0 outside of $[-N-1, N+1]^n$ since we are anyways taking the limit as $r\rightarrow 0$ in the end, in which case we have that $f\in L^1(\mathbb R^n)$. This will be needed when we apply Hardy-Littlewoods maximal theorem. 
@@ -37,6 +39,7 @@ $$\lim_{r\to 0} \frac{1}{m(B(x,r))} \int_{B(x,r)} (f(y) - f(x))\, dm(y) = 0$$
 This might be due to some cancellation. The following stronger result shows that this is not the case.
 
 ::: {#r-14-2 .callout-important .theorem-box}
+
 #### Theorem 14.2 — Lebesgue points
 
 For any locally integrable function $f$, one has for Lebesgue a.e. $x$:
@@ -48,6 +51,7 @@ The set of $x$ where this holds is called the **Lebesgue set** of $f$, denoted $
 The Lebesgue points of a function $f$ are therefore interpreted as points where $f$ does not oscillate too much, in an average sense. Finally, [Theorem 14.2](lecture-14.qmd#r-14-2) is a stronger version of [Theorem 14.1](lecture-14.qmd#r-14-1), and will allow us to replace balls by other types of sets (see [Corollary 14.4](lecture-14.qmd#r-14-4)).
 
 ::: {#r-14-3 .callout-note .definition-box}
+
 #### Definition 14.3 — Shrinks Nicely
 
 A collection of Borel sets $\{E_r\}_{0<r\leq 1}$ is said to **shrink nicely** to $x$ if for all $r \in (0,1]$:
@@ -59,6 +63,7 @@ The second condition says that each $E_r$ occupies a substantial proportion of $
 :::
 
 ::: {#r-14-4 .callout-important .corollary-box}
+
 #### Corollary 14.4 — Lebesgue Points and Nicely Shrinking Sets
 
 Let $f$ be locally integrable. If $x \in \mathcal{L}_f$ (and hence for $m$-a.e. $x$) and $\{E_r\}_{0<r\leq 1}$ are Borel sets shrinking nicely to $x$, then:
@@ -70,6 +75,7 @@ $$\lim_{r\to 0} \frac{1}{m(E_r)} \int_{E_r} f(y)\, dm(y) = f(x)$$
 As a special case if $f\in L^1([0,1])$ and letting $E_r(x) = [x, x+r]$ one has $$(\int_0^x f(t) dm(t))'(x) =f(x)$$ for a.e. x. 
 
 ::: {#r-14-5 .callout-important .theorem-box}
+
 #### Theorem 14.5 — Differentiation Theorem for Measures
 
 Let $\nu$ be a regular Borel measure on $\mathbb{R}^n$ whose Lebesgue decomposition with respect to Lebesgue measure is given by $\nu = \nu_s + fm$. Then
@@ -84,6 +90,7 @@ The intuition for the above result is that $\nu_s(N^c) = 0$ and $m(N)=0$ (by sin
 It turns out we can generalize the above theorem to nicely shrinking sets.
 
 ::: {#r-14-6 .callout-important .corollary-box}
+
 #### Corollary 14.6 — Differentiation for Measures over Nicely Shrinking Sets
 
 Let $\nu$ be a regular Borel measure on $\mathbb{R}^n$ whose Lebesgue decomposition with respect to Lebesgue measure is given by $\nu = \nu_s + fm$. Then for Lebesgue a.e. $x$, if $\{E_r\}_{0<r\leq 1}$ are Borel sets shrinking nicely to $x$, then
@@ -91,6 +98,7 @@ $$\lim_{r\to 0} \frac{\nu(E_r)}{m(E_r)} = f(x)$$
 :::
 
 ::: {#r-14-7 .callout-important .theorem-box}
+
 #### Theorem 14.7 — Right continuous function has finite derivative
 
 Let $F$ be a right continuous increasing function on $[0,1]$. Then $F$ has a finite derivative at Lebesgue a.e. $x$.

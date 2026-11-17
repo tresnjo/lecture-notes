@@ -9,6 +9,7 @@ The key **shift in perspective** is:
 > **Riemann integration cares about how a function behaves on intervals; Lebesgue integration cares about how large the sets are on which the function takes each value.**
 
 ::: {#r-5-1 .callout-important .theorem-box}
+
 #### Theorem 5.1 — A bounded function is RI iff
 
 If $f$ is a bounded function, then $f$ is RI iff the set $\{x: f\  \text{is not continous at}\  x\}$ has Lebesgue measure 0.
@@ -25,6 +26,7 @@ The idea of the Lebesgue integral is to partition the $y$-axis, and approximate 
 ### Measurable functions
 
 ::: {#r-5-2 .callout-note .definition-box}
+
 #### Definition 5.2 — A measurable function
 
 If $(X,\mathcal{M})$ is a measurable space, a mapping $f:X\to\mathbb{R}$ is called measurable if for all $B\in\mathcal{B}$ (recall that $\mathcal{B}$ is the collection of Borel sets in $\mathbb{R}$), we have $$f^{-1}(B):=\{x\in X:f(x)\in B\}\in\mathcal{M}$$
@@ -41,6 +43,7 @@ Measurability: every set $\{f>a\}$ must belong to the $\sigma$-algebra.
 The idea of a function being measurable is that every preimage of any Borel set is an element of the $\sigma$-algebra, and can thus be assigned a measure. 
 
 ::: {#r-5-3 .callout-note .definition-box}
+
 #### Definition 5.3 — A measurable mapping between two sets
 
 More generally, if $(X,\mathcal{M})$ and $(Y,\mathcal{N})$ are measurable spaces, a mapping $f:X\to Y$ is called measurable if for all $E\in\mathcal{N}$,
@@ -50,11 +53,13 @@ $$f^{-1}(E)\in\mathcal{M}.$$
 If the mapping is from the Lebesgue $\sigma$-algebra to the Borel $\sigma$-algebra, we simply call it Lebesgue measurable. Similarly, if the mapping is from the Borel $\sigma$-algebra to itself, it is simply called Borel measurable. 
 
 ::: {#r-5-4 .callout-important .proposition-box}
+
 #### Proposition 5.4 — Sum of measurable functions and product of measurable functions
 
 If $f,g$ are measurable, then $f+g$ and $fg$ are measurable.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 A map $h$ is called measurable if $h^{-1}(B) \in \mathcal M$ $\forall B$. Now take $h=f+g$, then $(f+g)^{-1}((\alpha, \infty)) =\{x: (f+g)(x) >\alpha\} \in \mathcal M$ $\forall \alpha \in \mathbb R$. In other words, it suffices to check whether the rays $(\alpha, \infty$) are contained in $\mathcal M$- Note that the set can be written as $$\bigcup_{q\in \mathbb Q}( \{x: f(x) > q\} \cap \{x: g(x) > \alpha - q\})$$ (the containment is shown in the lecture notes). 
@@ -72,6 +77,7 @@ Note that the composition of two Lebesgue measurable functions is not Lebesgue m
 We want limits of measurable functions to be measurable. From now on, we restrict to real-valued measurable functions.
 
 ::: {#r-5-5 .callout-important .proposition-box}
+
 #### Proposition 5.5 — Supremum of sequence of measurable functions is measurable
 
 If $(f_n)_n$ is a sequence of measurable functions, then $\sup_j f_j$ is a measurable function where $$(\sup_j f_j) (x) := \sup_j (f_j(x))$$with the same definition for $\inf_j f_j$.
@@ -85,6 +91,7 @@ because a supremum does not necessarily have to be attained.
 So far we have shown that the supremum of a sequence of measurable functions is measurable. Now we will take it a step further, and define the measurability of the $\limsup$ of a sequence of measurable functions. 
 
 ::: {#r-5-6 .callout-important .proposition-box}
+
 #### Proposition 5.6 — Measurability of $\limsup$ of Functions
 
 If $f_1, f_2, \ldots$ is a sequence of measurable functions, then $\limsup_j f_j$ is a measurable function, where:
@@ -93,6 +100,7 @@ $$\left(\limsup_j f_j\right)(x) := \limsup_j (f_j(x))$$
 In particular, if $(f_k)$ converges to $f_\infty$ pointwise, then $f_\infty$ is measurable.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 We have that $\lim\sup_j f_j = \inf_k(\sup_{n\geq k} f_n)$ where $\sup_{n\geq k} f_n \equiv g_k$ are measurable functions by [Proposition 5.5](lecture-05.qmd#r-5-5). We also know that the infimum of a sequence of measurable functions is measurable by the same proposition, hence we are done. $\square$
@@ -102,6 +110,7 @@ We have that $\lim\sup_j f_j = \inf_k(\sup_{n\geq k} f_n)$ where $\sup_{n\geq k}
 We will now proceed with introducing simple functions. That we also introduced in  but in a probabilistic context. The definition is identical, but the indicator function is no longer interpreted as a Bernoulli random variable.
 
 ::: {#r-5-7 .callout-note .definition-box}
+
 #### Definition 5.7 — Simple function
 
 A simple function on a measurable space is a function of the form $f(x) = \sum c_i I_{E_i}$ where $c_i \in \mathbb R$ and$E_i$ are pairwise disjonit sets in $\mathcal M$, with $I_{E_1}$ being the indicator function of $E_i$.

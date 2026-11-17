@@ -10,3 +10,37 @@
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
 .viz button { cursor: pointer; }
 </style>
+<style>
+/* land a little above a cross-referenced box, clear of the top bar */
+[id] { scroll-margin-top: 4.5rem; }
+</style>
+<script>
+/* Keep a linked box (#r-9-4 etc.) at the top while math and figures above it finish rendering. */
+(function () {
+  var stop = false, until = 0;
+  function target() {
+    var h = decodeURIComponent(location.hash.slice(1));
+    return h ? document.getElementById(h) : null;
+  }
+  function pin() {
+    if (stop || Date.now() > until) return;
+    var el = target(); if (!el) return;
+    var off = el.getBoundingClientRect().top - 72;
+    if (Math.abs(off) > 2) window.scrollBy(0, off);
+  }
+  function arm() {
+    stop = false; until = Date.now() + 4000;
+    pin();
+    var ticks = 0, t = setInterval(function () { pin(); if (++ticks > 40 || stop) clearInterval(t); }, 100);
+  }
+  ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (ev) {
+    window.addEventListener(ev, function () { stop = true; }, { passive: true });
+  });
+  window.addEventListener("hashchange", arm);
+  window.addEventListener("load", function () { if (location.hash) arm(); });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (location.hash) arm();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(pin);
+  });
+})();
+</script>

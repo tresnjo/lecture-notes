@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lecture Notes</title>
 <meta name="description" content="Lecture notes from university courses.">
+<script>
+  // Shared with the books: Quarto stores "alternate" (dark) or "default" (light) under this key.
+  (function () {
+    try {
+      var v = localStorage.getItem("quarto-color-scheme");
+      if (v === "alternate") document.documentElement.setAttribute("data-theme", "dark");
+      else if (v === "default") document.documentElement.setAttribute("data-theme", "light");
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root {
     --bg: #ffffff; --fg: #2b2b2b; --muted: #6b7079; --line: #e3e5ea;
@@ -12,40 +22,60 @@
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #1d1f24; --fg: #e6e6e6; --muted: #9aa0a8; --line: #33363d;
-            --band: #1e1b4b; --band-fg: #ffffff; --accent: #a992f0; --card: #24272d; color-scheme: dark; }
+    :root:not([data-theme="light"]) { --bg: #1d1f24; --fg: #e6e6e6; --muted: #9aa0a8; --line: #33363d;
+      --band: #1e1b4b; --band-fg: #ffffff; --accent: #a992f0; --card: #24272d; color-scheme: dark; }
   }
+  :root[data-theme="dark"] { --bg: #1d1f24; --fg: #e6e6e6; --muted: #9aa0a8; --line: #33363d;
+    --band: #1e1b4b; --band-fg: #ffffff; --accent: #a992f0; --card: #24272d; color-scheme: dark; }
+
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--fg);
          font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
-         font-size: 18px; line-height: 1.6; }
+         font-size: 18px; line-height: 1.6; transition: background-color 0.3s ease, color 0.3s ease; }
   header { background: var(--band); color: var(--band-fg); }
   .wrap { max-width: 860px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
-  header .wrap { padding-block: 2.6rem 2.2rem; }
+  header .wrap { padding-block: 2.6rem 2.2rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
   h1 { margin: 0; font-weight: 600; font-size: 2.3rem; letter-spacing: 0.01em; text-wrap: balance; }
   header p { margin: 0.4rem 0 0; opacity: 0.85; font-style: italic; }
+  .theme-toggle { flex: none; display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer;
+                  background: transparent; color: var(--band-fg); border: 1px solid rgba(255,255,255,0.45);
+                  border-radius: 999px; padding: 0.3rem 0.8rem; font: inherit; font-size: 0.9rem; }
+  .theme-toggle:hover { background: rgba(255,255,255,0.12); }
+  .theme-toggle svg { width: 18px; height: 18px; }
   main .wrap { padding-block: 2.4rem 3rem; }
   h2 { font-weight: 600; font-size: 1.15rem; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 1rem; }
   .courses { display: grid; gap: 1.4rem; }
   a.course { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 260px); gap: 1.4rem; align-items: center;
              padding: 1.3rem 1.4rem; border: 1px solid var(--line); border-left: 6px solid var(--accent);
              border-radius: 10px; background: var(--card); color: inherit; text-decoration: none;
-             box-shadow: 0 3px 14px rgba(0,0,0,0.06); transition: transform 0.15s ease, box-shadow 0.15s ease; }
+             box-shadow: 0 3px 14px rgba(0,0,0,0.06); transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease; }
   a.course:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.12); }
   .course h3 { margin: 0 0 0.2rem; font-size: 1.45rem; font-weight: 600; }
   .course .meta { color: var(--muted); font-size: 0.95rem; margin: 0 0 0.6rem; }
   .course p { margin: 0 0 0.6rem; }
   .course .go { color: var(--accent); font-weight: 600; }
+  .soon { margin: 1.6rem 0 0; color: var(--muted); font-style: italic; text-align: center; }
   .course img { width: 100%; height: auto; display: block; }
   .course img.dark-only { display: none; }
-  @media (prefers-color-scheme: dark) { .course img.light-only { display: none; } .course img.dark-only { display: block; } }
-  @media (max-width: 640px) { a.course { grid-template-columns: 1fr; } .course .fig { order: -1; } }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .course img.light-only { display: none; }
+    :root:not([data-theme="light"]) .course img.dark-only { display: block; }
+  }
+  :root[data-theme="dark"] .course img.light-only { display: none; }
+  :root[data-theme="dark"] .course img.dark-only { display: block; }
+  @media (max-width: 640px) { a.course { grid-template-columns: 1fr; } .course .fig { order: -1; } h1 { font-size: 1.9rem; } }
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <h1>Lecture Notes</h1>
-  <p>Notes from the university courses I have taken</p>
+  <div>
+    <h1>Lecture Notes</h1>
+    <p>Notes from the university courses I have taken</p>
+  </div>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between light and dark mode">
+    <svg id="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
+    <span id="label">Dark</span>
+  </button>
 </div></header>
 <main><div class="wrap">
   <h2>COURSES</h2>
@@ -63,6 +93,36 @@
       </div>
     </a>
   </div>
+  <p class="soon">More courses will be added soon.</p>
 </div></main>
+<script>
+  (function () {
+    var root = document.documentElement, btn = document.getElementById("theme-toggle");
+    var icon = document.getElementById("icon"), label = document.getElementById("label");
+    var MOON = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+    var SUN = '<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/>';
+    function isDark() {
+      var t = root.getAttribute("data-theme");
+      if (t) return t === "dark";
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    function render() {                       // the button offers the other mode
+      var dark = isDark();
+      icon.innerHTML = dark ? SUN : MOON;
+      label.textContent = dark ? "Light" : "Dark";
+    }
+    btn.addEventListener("click", function () {
+      var dark = !isDark();
+      root.setAttribute("data-theme", dark ? "dark" : "light");
+      try { localStorage.setItem("quarto-color-scheme", dark ? "alternate" : "default"); } catch (e) {}
+      render();
+    });
+    if (window.matchMedia) {
+      var mq = window.matchMedia("(prefers-color-scheme: dark)");
+      if (mq.addEventListener) mq.addEventListener("change", render);
+    }
+    render();
+  })();
+</script>
 </body>
 </html>

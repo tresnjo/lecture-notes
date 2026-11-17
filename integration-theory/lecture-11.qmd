@@ -3,6 +3,7 @@ title: "Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition
 ---
 
 ::: {#r-11-1 .callout-note .definition-box}
+
 #### Definition 11.1 — Absolute continuity
 
 Given two measures $\nu, \mu$ on $(X, \mathcal M)$ we say that $\nu$ is absolutely continuous with respect to $\mu$, written $\nu << \mu$, if for all $A \in \mathcal M$ $$\mu(A) = 0$$ implies $\nu(A) = 0$.
@@ -13,6 +14,7 @@ Note that it does not mean that $\nu \leq \mu$ or vice versa. For example if we 
 :::
 
 ::: {#r-11-2 .callout-caution .example-box}
+
 #### Example 11.2 — Measures given by a density
 
 Consider a measure space $(X, \mathcal M, \mu)$ and a function $f\in L^+((X, \mathcal M, \mu))$ then take $$\nu(A) := \int_A f(x) d\mu(x) \tag{1}$$
@@ -23,12 +25,14 @@ If $\mu(A) = 0$, then $\nu(A) = \int_A f d\mu = 0$ and thus $\nu << \mu$.
 The measure $\nu$ in (1) is often denoted simply by $f\mu$. In fact, any measure which is absolutely continuous with respect to $\mu$ has this form assuming $\sigma$-finiteness.
 
 ::: {#r-11-3 .callout-important .theorem-box}
+
 #### Theorem 11.3 — The Radon-Nikodym theorem
 
 Let $\nu, \mu$ be two measures on $(X, \mathcal M)$ with $\nu << \mu$ and with $\nu, \mu$ being $\sigma$-finite. Then, there exists a measurable function $f_0: X \rightarrow [0,\infty)$ such that $\forall A \in \mathcal M$ we have $$\nu(A) = \int_A f_0(x) d\mu(x)$$
 Morever, $f_0$ is unique in the sense that if $g_0$ is another such function, then $$\mu(\{x:f_0(x) \neq g_0(x)\})=0$$In other words $\mu$ is defined up to a $\mu$-null set. Thus any two $f_0, g_0$ agree $\mu$-a.e.
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 We prove this under the assumption that $\mu, \nu$ are finite, and only outline the extension to the $\sigma$-finite case. First define $$\mathcal F := \{f: X \rightarrow [0, \infty):\int_A f(x) d\mu(x) \leq \nu(A) \forall A \in \mathcal M\}$$
@@ -74,6 +78,7 @@ The Radon–Nikodym derivative is the density whose area over $A$ is $\nu(A)$.
 :::
 
 ::: {#r-11-4 .callout-tip .remark-box}
+
 #### Remark 11.4 — About the Radon–Nikodym theorem
 
 1. We call $f_0$ in the above theorem for the Radon-Nikodym derivative of $\nu$ with respect to $\mu$.
@@ -87,6 +92,7 @@ Note that every random variable $X$ has a cumulative distribution function (CDF)
 Conversely, given a function $F$ with these properties, [Proposition 4.4](lecture-04.qmd#r-4-4) gives a unique finite Borel measure $\mu_F$ whose CDF is $F$, and from $\mu_F$ we can construct a random variable whose law is $\mu_F$. Since $\mu_F$ is finite it is $\sigma$-finite, but it need not be absolutely continuous, so it need not have a PDF. The Cantor measure $\mu_C$ ([Theorem 4.8](lecture-04.qmd#r-4-8)) is an example: its CDF is the Cantor function, but $\mu_C$ is singular, so it has no density.
 
 ::: {#r-11-5 .callout-caution .example-box}
+
 #### Example 11.5 — Sampling from a distribution via its CDF
 
 The fact that every CDF comes with a random variable is also useful in practice, for simulating random variables with a given distribution. Generate $U \sim \mathcal U(0,1)$ and set $X = F_X^{-1}(U)$. When $F_X$ is continuous and strictly increasing,
@@ -221,6 +227,7 @@ Interactive: a one-dimensional normalizing flow $T_t$ carries the base distribut
 :::
 
 ::: {#r-11-6 .callout-important .theorem-box}
+
 #### Theorem 11.6 — Lebesgue Decomposition Theorem
 
 Let $\nu, \mu$ be two measures on $(X, \mathcal M)$, with $\nu, \mu$ being $\sigma$-finite. Then there exists unique measures $\nu_{ac}, \nu_s$ so that $$\nu = \nu_{ac} + \nu_s$$where $$\nu_{ac} << \mu$$ and $$\nu_s \perp \mu$$
@@ -231,11 +238,13 @@ The decompositions is relate to the measure $\mu$. The measure is split into an 
 We mention some other important but simple decompositions. Given any $\sigma$-finite mesure space $(X, \mathcal M, \mu)$ with single points being measurable, we can decompose $\mu$ into an atomic peice and continuous piece. If $\mathcal A$ is the set of atoms, we write $$\mu = \mu\vert_{A} + \mu\vert_{A^c}$$and it is easy to check that these are mutually singular.
 
 ::: {#r-11-7 .callout-important .proposition-box}
+
 #### Proposition 11.7 — Measure-theoretic analogue of $\epsilon-\delta$ continuity
 
 Let $\mu, \nu$ be measures with $\nu$ finite. Then $\nu <<  \mu$ iff $\forall \epsilon > 0$, there exists $\delta > 0$ so that for all measurable sets $A$ we have $$\mu(A) < \delta$$ implies $$\nu(A) < \epsilon$$
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 $\Rightarrow :$ Assume the $\epsilon-\delta$ condition. Suppose $\mu(A) = 0$. Fix $\epsilon > 0$. By the condition, we have that $\mu(A) < \delta$ implies $\nu(A) < \epsilon$. Since $\mu(A) = 0 < \delta$ we have $\nu(A) < \epsilon$. Since $\epsilon > 0$ arbitrary and $\nu(A) \geq 0$ we have $\nu(A) = 0$.

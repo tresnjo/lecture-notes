@@ -5,6 +5,7 @@ title: "Product Measures"
 Our goal of this new chapter is to, given two measure spaces, define a product of them. For the product space, we should obviously use ($X\times Y$). For the $\sigma$-algebra, it should be the smallest which contains the so-called "rectangles" $$\mathcal R = \{A \times B : A \in \mathcal M, B \in \mathcal N\}$$whose $\sigma$-algebra $\mathcal M \otimes \mathcal N \equiv \sigma(\mathcal R)$ we denote as $\mathcal M \otimes \mathcal N$. It is clear that if we did have a product measure, then it should satisfy $$(\mu \times \nu)(A \times B) = \mu(A) \nu(B) \qquad \forall A \in \mathcal M, B \in \mathcal N$$
 
 ::: {#r-8-1 .callout-important .theorem-box}
+
 #### Theorem 8.1 — Existence of product measures
 
 There exists a measure $\mu \times \nu$ on the measurable space
@@ -19,6 +20,7 @@ properties if both $\mu,\nu$ are $\sigma$-finite.
 :::
 
 ::: {#r-8-2 .callout-note .definition-box}
+
 #### Definition 8.2 — Sections
 
 If $E\subseteq X \times Y$, the $x$-section of $E$ is
@@ -33,6 +35,7 @@ $$E^y := \{x \in X : (x,y) \in E\}$$
 ![The section $E_x$ is the slice of $E$ above the point $x$; Fubini integrates these slices.](images/l08-product-slice.svg){#fig-l08-product-slice fig-alt="The section E_x is the slice of E above the point x; Fubini integrates these slices." width="85%"}
 
 ::: {#r-8-3 .callout-note .definition-box}
+
 #### Definition 8.3 — Sections of functions
 
 If $f : X \times Y \rightarrow \mathbb{R}$, we let for a fixed $x\in X$
@@ -45,6 +48,7 @@ $$f^y: X \rightarrow \mathbb{R} \quad \text{given by} \quad f^y(x) := f(x,y)$$
 :::
 
 ::: {#r-8-4 .callout-important .proposition-box}
+
 #### Proposition 8.4 — Sections of measurable sets are measurable and sections of functions are measurable
 
 **(i)** If $E \in \mathcal{M} \otimes \mathcal{N}$ then for all $x\in X$,
@@ -56,6 +60,7 @@ $$E_x \in \mathcal{N}$$ and for all $y\in Y$, $$E^y \in \mathcal{M}$$
 ## Fubini's theorem for sets
 
 ::: {#r-8-5 .callout-important .theorem-box}
+
 #### Theorem 8.5 — Fubini's theorem for sets
 
 Let $(X,\mathcal M, \mu)$ and $(Y,\mathcal N, \nu)$ be $\sigma$-finite measure spaces. If $E\in\mathcal M \otimes \mathcal N$, then the maps $x\rightarrow \nu(E_x)$ and $y\rightarrow \mu(E^y)$ are measurable functions on $X$ and $Y$ respectively, furthermore
@@ -63,6 +68,7 @@ Let $(X,\mathcal M, \mu)$ and $(Y,\mathcal N, \nu)$ be $\sigma$-finite measure s
 $$(\mu \times \nu)(E) = \int_X \nu(E_x) d\mu(x) = \int_Y \mu(E^y) d\nu(y)$$
 
 ::: {.callout-note .proof-box collapse="true"}
+
 #### Proof
 
 We first prove it where we assume the spaces are finite. By symmetry, it is enough to show that $x\rightarrow \nu(E_x)$ is measurable and $(\mu\times \nu)(E) = \int_X \nu(E_x) d\mu(x)$. Let $$\mathcal C := \{E \in \mathcal M \otimes \mathcal N : \text{the above claim holds}\}$$. Our goal is to show that $\mathcal C = \mathcal M \otimes \mathcal N$. Note that $\mathcal C \subseteq \mathcal M \otimes \mathcal N$ trivially. We are therefore left with proving the reverse containment. 
@@ -91,6 +97,7 @@ as desired. $\square$
 
 ::: {.column-margin}
 Note that $x\rightarrow \nu(E_X)$ is a map from $X\rightarrow [0,\infty]$ since $E_x$ is a subset of $Y$ and $\nu(E_x) \in [0,\infty]$. 
+
 ### Counterexample without $\sigma$-finiteness
 :::
 
@@ -103,6 +110,7 @@ Note that $D_x = \{x\}$ for each $x\in X$ and $D^y = \{y\}$ for each $y\in Y$. T
 [Theorem 8.5](lecture-08.qmd#r-8-5) was a special case of a more general theorem which we now present. 
 
 ::: {#r-8-6 .callout-important .theorem-box}
+
 #### Theorem 8.6 — Tonelli and Fubini
 
 Let $(X,\mathcal M, \mu)$ and $(Y, \mathcal N, \nu)$ be $\sigma$-finite measure spaces.
