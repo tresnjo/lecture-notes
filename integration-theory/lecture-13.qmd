@@ -125,7 +125,7 @@ Interactive: the averages $A_r|f|(x)$ over the window $[x-r,x+r]$ (red), and the
 
 This functions essentially computes the average over the absolute value of $f$ over all radii, and picks the largest such average amongst those radii. It is therefore a "measure" of the local average of $|f|$.
 
-One can verify that $Hf$ is a measurable function by noting  $$(Hf)^{-1}(\alpha, \infty) =\bigcup_{r>0} (A_r|f|)^{-1}\{(\alpha, \infty)\}$$where $A_rf$ is a continuous function for $f\in L^1_\mathrm{loc}$, and thus we have preimages of open sets under continuous functions which are still continuous, and thus a union of open sets. 
+One can verify that $Hf$ is a measurable function by noting  $$(Hf)^{-1}(\alpha, \infty) =\bigcup_{r>0} (A_r|f|)^{-1}\{(\alpha, \infty)\}$$where $A_rf$ is a continuous function for $f\in L^1_\mathrm{loc}$, and thus we have preimages of open sets under continuous functions which are still open, and thus $(Hf)^{-1}(\alpha, \infty)$ is a union of open sets. 
 
 ::: {#r-13-3 .callout-important .theorem-box}
 

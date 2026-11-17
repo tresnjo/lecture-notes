@@ -97,13 +97,15 @@ as desired. $\square$
 
 ::: {.column-margin}
 Note that $x\rightarrow \nu(E_X)$ is a map from $X\rightarrow [0,\infty]$ since $E_x$ is a subset of $Y$ and $\nu(E_x) \in [0,\infty]$. 
-
-### Counterexample without $\sigma$-finiteness
 :::
 
+### Counterexample without $\sigma$-finiteness
+
 Consider two measurable spaces on $[0,1]$ with the Borel sets with the first endowed with a measure $\mu$ being the Lebesgue measure and the second endowed with a measure $\nu$ being the counting measure (the latter not being $\sigma$-finite).
-Let $\mathcal D:= \{(x,x) : x\in[0,1]\}$ be the diagonal. $\mathcal D^c$ is open and can thus be written as a countable union of products of open intervals (note that the set is open since the epsilon ball is always restricted to points inside the domain). Since each open interval is a Borel set, the product forms measurable rectangles in the product sigma algebra, and sice that is closed under countable unions and complements, $\mathcal D$ is also an element of the $\sigma$-algebra. (For any point $(x,y) \in \mathcal D^c$ there exists an $\epsilon>0$ such that there is an open ball around $(x,y)$ contained in $\mathcal D^c$, i.e. we can find rationals $a,b,c,d\in\mathbb Q$ such that $(x,y) \in (a,b) \times (c,d) \subseteq \mathcal D^c$). The collection of all such rectangles $\mathcal B$ is countable since it is indexed by $\mathbb Q^4$ and we can write $$D^c = \bigcup \{B \in \mathcal B : B \subseteq \mathcal D^c\}$$
-Note that $D_x = \{x\}$ for each $x\in X$ and $D^y = \{y\}$ for each $y\in Y$. The map $x\rightarrow \nu(D_x)$ is the constant function 1 (which is measurable) whereas $y\rightarrow \mu(D^y)$ is the constant function 0 (which is measurable). However, we now have $$\int_X \nu(D_x) d\mu(x) = 1 \neq 0 \int_Y \mu(D^y) d\nu(y)$$
+Let $\mathcal D:= \{(x,x) : x\in[0,1]\}$ be the diagonal. We first check that $\mathcal D$ lies in the product $\sigma$-algebra. The complement $\mathcal D^c$ is open in $[0,1]^2$ (open balls are taken relative to the square). For any point $(x,y) \in \mathcal D^c$ there is an $\epsilon>0$ such that the open ball of radius $\epsilon$ around $(x,y)$ lies in $\mathcal D^c$, so we can find rationals $a,b,c,d\in\mathbb Q$ with $(x,y) \in (a,b) \times (c,d) \subseteq \mathcal D^c$. The collection $\mathcal B$ of all such rectangles is countable, since it is indexed by $\mathbb Q^4$, and
+$$\mathcal D^c = \bigcup \{B \in \mathcal B : B \subseteq \mathcal D^c\}.$$
+Each open interval is a Borel set, so each $B$ is a measurable rectangle. The product $\sigma$-algebra is closed under countable unions and complements, so $\mathcal D^c$, and hence $\mathcal D$, belongs to it.
+Note that $\mathcal D_x = \{x\}$ for each $x\in X$ and $\mathcal D^y = \{y\}$ for each $y\in Y$. The map $x\rightarrow \nu(\mathcal D_x)$ is the constant function 1 (which is measurable) whereas $y\rightarrow \mu(\mathcal D^y)$ is the constant function 0 (which is measurable). However, we now have $$\int_X \nu(\mathcal D_x)\, d\mu(x) = 1 \neq 0 = \int_Y \mu(\mathcal D^y)\, d\nu(y).$$
 
 ### The Fubini and Tonelli theorems
 

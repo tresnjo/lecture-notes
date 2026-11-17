@@ -1,0 +1,50 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Quantum Field Theory"
+  site-url: "https://tresnjo.github.io/lecture-notes/quantum-field-theory/"
+  subtitle: "Lecture Notes"
+  date: last-modified
+  date-format: "MMMM D, YYYY"
+  search: true
+
+  navbar:
+    background: "#1e1b4b"
+    foreground: white
+
+  sidebar:
+    style: "docked"
+    search: true
+
+  chapters:
+    - index.qmd
+
+language:
+  title-block-published: "Last edited"
+
+format:
+  html:
+    theme:
+      light: [flatly, custom.scss]
+      dark:  [darkly, custom.scss]
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 1
+    smooth-scroll: true
+    html-math-method: mathjax
+    include-in-header: react-header.html
+    callout-icon: false
+    reference-location: margin
+    citation-location: margin
+    grid:
+      sidebar-width: 260px
+      body-width: 780px
+      margin-width: 310px
+      gutter-width: 1.8rem
+
+
+execute:
+  freeze: auto
