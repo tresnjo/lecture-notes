@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Different Notions of Convergence and Markov &amp; Chebyshev Inequalities – Integration Theory</title>
+<title>1&nbsp; Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture-08.html" rel="next">
-<link href="./lecture-06.html" rel="prev">
+<link href="./lecture-02.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -138,7 +126,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed slimcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Different Notions of Convergence and Markov &amp; Chebyshev Inequalities</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -364,7 +352,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-01.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-01.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem</span></span></a>
   </div>
 </li>
@@ -408,7 +396,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-07.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-07.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Different Notions of Convergence and Markov &amp; Chebyshev Inequalities</span></span></a>
   </div>
 </li>
@@ -481,22 +469,16 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#markov-and-chebyshev-inequalities" id="toc-markov-and-chebyshev-inequalities" class="nav-link active" data-scroll-target="#markov-and-chebyshev-inequalities">Markov and Chebyshev inequalities</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content" tabindex="-1">
+<main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Different Notions of Convergence and Markov &amp; Chebyshev Inequalities</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Different Notions of Convergence and Markov &amp; Chebyshev Inequalities</span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem</span></h1>
 </div>
 
 
@@ -513,19 +495,40 @@ window.Quarto = {
 </header>
 
 
-<div id="r-7-1" class="lemma-box callout callout-style-default callout-important no-icon callout-titled">
+<p>As a motivation for why we want to work with integration theory, we start with considering an example which shows that the Riemann integral is badly behaved under exchanges of limiting operations.</p>
+<div id="r-1-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Lemma 7.1 — Collection of points where <span class="math inline">\(f_n\rightarrow f\)</span> p.w. forms a measurable set
+<span class="screen-reader-only">Note</span>Definition 1.1 — An algebra or field
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\((f_n)\)</span> and <span class="math inline">\(f\)</span> are measurable functions on <span class="math inline">\((X,\mathcal M, m)\)</span> then <span class="math inline">\(\{x: f_n(x) \rightarrow f(x)\}\in \mathcal M\)</span>.</p>
+<p>An algebra or field of subsets of <span class="math inline">\(X\)</span> is a family of subsets of <span class="math inline">\(X\)</span> which is closed under finite set theoretic operations, i.e. 1. <span class="math inline">\(X, \phi \in \mathcal A\)</span> 2. <span class="math inline">\(A_1, A_2,...,A_N\)</span> in <span class="math inline">\(\mathcal A\)</span> implies <span class="math inline">\(\bigcup A_i \in \mathcal A\)</span> (note that the union is FINITE) 3. <span class="math inline">\(A \in \mathcal A \Rightarrow A^c \in \mathcal A\)</span></p>
+</div>
+</div>
+<p>A <span class="math inline">\(\sigma\)</span>-field, has a similiar definition, but 2 is replaced by the stronger condition that it is closed under <em>countable</em> unions. It is thus closed under countable set theoretic operations.</p>
+<p>We can construct a <span class="math inline">\(\sigma\)</span>-algebra on any set <span class="math inline">\(X\)</span> as:</p>
+<ol type="1">
+<li><span class="math inline">\(\mathcal F_1 = \{X, \emptyset\}\)</span></li>
+<li><span class="math inline">\(\mathcal F_2 = \{A: \mathrm{A \ is \ countable \ or } A^c \ \text{is \ countable}\}\)</span></li>
+<li><span class="math inline">\(\mathcal F_3 = \mathcal P(X)\)</span> (the powerset of <span class="math inline">\(X\)</span>)</li>
+</ol>
+<div id="r-1-2" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Proposition 1.2 — <span class="math inline">\(\sigma\)</span>-algebra generated by a set
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Given a collection <span class="math inline">\(\mathcal{E}\)</span> of subsets of <span class="math inline">\(X\)</span> (i.e., a subset of <span class="math inline">\(\mathcal{P}(X)\)</span>), there is a smallest <span class="math inline">\(\sigma\)</span>-algebra containing <span class="math inline">\(\mathcal{E}\)</span>, denoted by <span class="math inline">\(\sigma(\mathcal{E})\)</span>, called the <span class="math inline">\(\sigma\)</span>-algebra generated by <span class="math inline">\(\mathcal{E}\)</span>.</p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -534,151 +537,131 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The definition of the limit is that <span class="math inline">\(\forall m \exists k : \forall k \geq n ,|f_n(x) - f(x)| &lt; 1/m\)</span>, which can be written as <span class="math display">\[\{x: f_n(x)\rightarrow f(x)\} = \bigcap_{m=1}^\infty \bigcup_{k=1}^\infty \bigcap_{n\geq k} \{x: |f_n(x)-f(x)| &lt; 1/m\}\]</span>where the set to which we apply countable set operations to is measurable as difference of measurable functions is measurable, and the absolute value of a measurable function is zero. Thus the end result is in <span class="math inline">\(\mathcal M\)</span>. <span class="math inline">\(\square\)</span></p>
+<p>t is easy to prove that <span class="math inline">\(\sigma(\mathcal E)\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra. By construction, <span class="math inline">\(\mathcal E\)</span> is contained within the generated <span class="math inline">\(\sigma\)</span>-algebra as its contained in every <span class="math inline">\(\mathcal F\)</span> by construction. Every <span class="math inline">\(\mathcal F\)</span> therefore contains <span class="math inline">\(\emptyset\)</span> (as it is a <span class="math inline">\(\sigma\)</span>-algebra), so they are also in the intersection. It is also straightforward to be closed under complements. The hard part is proving that its closed under countable unions. <span class="math inline">\(A_i \in \mathcal F\)</span> for every <span class="math inline">\(\mathcal F\)</span> but each <span class="math inline">\(\mathcal F\)</span> is also a <span class="math inline">\(\sigma\)</span>-algebra. Thus <span class="math inline">\(\bigcup_i A_i \in \mathcal F\)</span>, but if its contained in every <span class="math inline">\(\mathcal F\)</span>, it must also be contained in the union of all those <span class="math inline">\(\mathcal F\)</span>’s, thus <span class="math inline">\(\bigcup_i A_i \in \sigma(\mathcal E)\)</span>. <span class="math inline">\(\square\)</span>. It must also be the smallest <span class="math inline">\(\sigma\)</span>-algebra. If <span class="math inline">\(\mathcal G\)</span> is any other <span class="math inline">\(\sigma\)</span>-algebra containing <span class="math inline">\(\mathcal E\)</span> is must be one of the <span class="math inline">\(\mathcal F\)</span>’s and therefore <span class="math inline">\(\sigma(\mathcal E)\subseteq \mathcal G\)</span>. As a simple example, consider the sets <span class="math inline">\(A,B,C\)</span> and their intersection, then the intersection is always contained in each individual piece. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<p>The lemma essentially says that the set of points where <span class="math inline">\(f_n(x)\)</span> converge to <span class="math inline">\(f(x)\)</span> constitutes a measurable set.</p>
-<div id="r-7-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>An example of this is the following: Take <span class="math inline">\(X = \{1,2,3\}\)</span> and <span class="math inline">\(\mathcal E = \{\{1\}\}\)</span>. We need to find all <span class="math inline">\(\sigma\)</span>-algebras on <span class="math inline">\(X\)</span> containing <span class="math inline">\(\mathcal E\)</span>. Remember that the number of possible <span class="math inline">\(\sigma\)</span>-algebras on a set <span class="math inline">\(X\)</span> is given by the Bell number (in this case 5). We know only two contain <span class="math inline">\(\{1\}\)</span>, i.e.&nbsp;<span class="math inline">\(\mathcal F_1 = \{\emptyset, \{1\}, \{2,3\}, X\}\)</span> and <span class="math inline">\(\mathcal F_2 = \mathcal P(X)\)</span>. Intersecting them all, we have <span class="math inline">\(\sigma(\mathcal E) = \mathcal F_1 \cup \mathcal F_2 = \mathcal F_1\)</span>.</p>
+<div id="r-1-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 7.2 — Convergence a.e. and in measure
+<span class="screen-reader-only">Note</span>Definition 1.3 — Open set
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If the sequence <span class="math inline">\((f_n)\)</span> and <span class="math inline">\(f\)</span> are measurable functions on <span class="math inline">\((X, \mathcal M, m)\)</span>, then we say (i) <span class="math inline">\(f_n\)</span> converges to <span class="math inline">\(f\)</span> a.e. if <span class="math display">\[m(\{x: f_n(x) \nrightarrow f(x)\}) = 0\]</span> (in other words, the set of points which do not converge to <span class="math inline">\(f\)</span> have measure zero). (ii) <span class="math inline">\(f_n\)</span> converges to <span class="math inline">\(f\)</span> in <em>measure</em> if <span class="math inline">\(\forall \epsilon &gt; 0\)</span> we have <span class="math display">\[\lim_{n\rightarrow \infty} m(\{x: |f_n(x) - f(x)| &gt; \epsilon\}) = 0\]</span></p>
+<p>An open set in <span class="math inline">\(\mathbb{R}\)</span>: <span class="math inline">\(O\)</span> is open if for all <span class="math inline">\(x \in O\)</span>, there exists <span class="math inline">\(\epsilon &gt; 0\)</span> so that <span class="math inline">\((x - \epsilon, x + \epsilon) \subseteq O\)</span>.</p>
 </div>
 </div>
-<p>These two notions in probability theory are called almost sure and convergence in probability (we are familiar from this from the course in stochatic calculus!)</p>
-<p>In the various convergence theorems we have encountered so far, e.g.&nbsp;LDC, one only demands convergence a.e. In fact, one only requires convergence in measure in the LDC.</p>
-<div id="r-7-3" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div id="r-1-4" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 7.3 — Relation between convergence in measure and a.e
+<span class="screen-reader-only">Note</span>Definition 1.4 — Borel algebra
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Relation between convergence in measure and convergence a.e. with examples. 1. There is an example where convergence almost everywhere (a.e.) occurs but not convergence in measure. <strong>Example:</strong> For example, if we take <span class="math inline">\(f_n = 1_{[n, n+1]}\)</span> we have that <span class="math inline">\(f_n \rightarrow 0\)</span> a.e. For example, for any <span class="math inline">\(x\)</span>, we have that eventually <span class="math inline">\(n &gt; x\)</span> such that <span class="math inline">\(x\notin[n,n+1]\)</span> and thus <span class="math inline">\(f_n(x) \rightarrow 0\)</span> a.e. but <span class="math inline">\(m(\{f_n &gt; \epsilon\})\)</span> <span class="math inline">\(\forall \epsilon &gt; 0\)</span>. By taking <span class="math inline">\(\epsilon = 1/2\)</span>, we have that <span class="math inline">\(\{|f_n| &gt; 1/2 \} = [n, n+1]\)</span> whose measure is <span class="math inline">\(1\)</span>, which does not go to zero. The reason it works is that the interval keeps moving to the right towards infinity, and so every fixed <span class="math inline">\(x\)</span> eventually gets left behind, but the interval still has measure 1.</p>
-<ol start="2" type="1">
-<li>Convergence a.e. implies convergence in measure if the measure space is finite.</li>
-</ol>
-<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Fix <span class="math inline">\(\epsilon &gt; 0\)</span> and let <span class="math inline">\(E_N = \{x: |f_n(x) - f(x)| \geq \epsilon, n\geq N\}\)</span>. We note that <span class="math inline">\(E_1 \supseteq E_2 \supseteq E_3\)</span> and <span class="math inline">\(\bigcap_k E_k \subseteq \{x: f_n(x) \nrightarrow f(x)\}\)</span> and by assumption <span class="math inline">\(m(\bigcap_k E_k) = 0\)</span>. From continuity from above we have <span class="math inline">\(m(\bigcap_k E_k) = \lim_{N\rightarrow \infty} m(E_N)\)</span> assuming <span class="math inline">\(m(E_1) &lt; \infty\)</span> (which followws from the fact that <span class="math inline">\(m(X) &lt; \infty\)</span> since <span class="math inline">\(E_1 \subseteq X\)</span>) and thus <span class="math inline">\(m(E_N)\rightarrow 0\)</span>, which is precisely the definition of convergence in measure.</p>
-<ol start="3" type="1">
-<li>Convergence in measure does not imply convergence a.e., even if the measure space is finite. A nice construction is the typewriter sequence. See also this <a href="https://math.stackexchange.com/questions/1412091/the-typewriter-sequence">discussion of the typewriter sequence</a> <span class="math display">\[f_n(x) = \mathbb 1_{[\frac{n-2^k}{2^k}, \frac{n-2^k + 1}{2^k}]}\]</span>: where <span class="math inline">\(k = \lfloor \log_2 n\rfloor\)</span> It converges to <span class="math inline">\(0\)</span> in measure as for any <span class="math inline">\(\epsilon &gt; 0\)</span> we have that <span class="math inline">\(\{f_n &gt; \epsilon\} = \{f_n = 1\}\)</span> which has length <span class="math inline">\(1/2^k\)</span> at stage <span class="math inline">\(k\)</span> and clearly goes to zero in limit as <span class="math inline">\(k\rightarrow \infty\)</span>. But it does not converge a.e. since at very stage <span class="math inline">\(k\)</span> there is an interval that eventually hits the point.</li>
-<li>Convergence in measure implies that there exists a subsequence for which one has convergence a.e In light of the typewriter sequence above, we can certainly select a subsequence of this sequence such that it converges a.e., in particular in such a way that the intervals are not moving but rather zooming in on for example <span class="math inline">\(x=1/2\)</span>. This statement is proven more formally in the lecture notes. <span class="math inline">\(\square\)</span></li>
-</ol>
+<p>The <span class="math inline">\(\sigma\)</span>-algebra generated by the open subsets of <span class="math inline">\(\mathbb{R}\)</span> is called the <strong>Borel <span class="math inline">\(\sigma\)</span>-algebra</strong> of <span class="math inline">\(\mathbb{R}\)</span> and is denoted by <span class="math inline">\(\mathcal{B}\)</span>. The sets in <span class="math inline">\(\mathcal{B}\)</span> are called <strong>Borel sets</strong>.</p>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div id="r-7-4" class="theorem-box callout callout-style-default callout-important no-icon callout-empty-content callout-titled">
+<p>Most sets (and very likely all sets) that you have seen are Borel sets. There are other notions of sets “being closed under certain operations” which turn out to be useful. Here are two such.</p>
+<div id="r-1-5" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 7.4 — Egoroff’s theorem
+<span class="screen-reader-only">Note</span>Definition 1.5 — A <span class="math inline">\(\pi\)</span>-system
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(X\)</span> be a nonempty set. A nonempty collection <span class="math inline">\(\mathcal{I}\)</span> of subsets of <span class="math inline">\(X\)</span> is called a <strong><span class="math inline">\(\pi\)</span>-system</strong> if it is closed under finite intersections; i.e., <span class="math inline">\(A, B \in \mathcal{I}\)</span> implies <span class="math inline">\(A \cap B \in \mathcal{I}\)</span>.</p>
+</div>
+</div>
 
-</div>
-</div>
-<p>It tells us that we will have uniform convergence except on a small set. This is useful in probability theory (which is the canonical example of a finite measure space). It tells us that we can pick an arbitrarily small set for which on the remaining good set <span class="math inline">\(E^c\)</span>, convergence is uniform. We can thus promote the state of pw or a.e. convergence to the statement of uniform convergence on an arbitrarily large region. In this sense, finite measure spaces are well-behaved.</p>
-<section id="markov-and-chebyshev-inequalities" class="level3">
-<h3 class="anchored" data-anchor-id="markov-and-chebyshev-inequalities">Markov and Chebyshev inequalities</h3>
-<div id="r-7-5" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Note that both fields and <span class="math inline">\(\sigma\)</span>-fields are examples of <span class="math inline">\(\pi\)</span>-systems. A <span class="math inline">\(\pi\)</span>-system is a weaker condition.</p>
+</div></div><div id="r-1-6" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 7.5 — Markov’s inequality
+<span class="screen-reader-only">Note</span>Definition 1.6 — A <span class="math inline">\(\mathcal D\)</span> (<span class="math inline">\(\lambda\)</span>)-system
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(f\)</span> be a nonnegative measurable function on <span class="math inline">\((X, \mathcal M, m)\)</span>, then <span class="math inline">\(\forall \alpha &gt;0\)</span> one has <span class="math display">\[m(\{x: f(x) \geq \alpha \}) \leq \frac{\int f dm}{\alpha}\]</span></p>
-<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<p>Let <span class="math inline">\(X\)</span> be a nonempty set. A nonempty collection <span class="math inline">\(\mathcal{D}\)</span> of subsets of <span class="math inline">\(X\)</span> is called a <span class="math inline">\(\mathcal{D}\)</span>-system if</p>
+<p><strong>(a)</strong> <span class="math inline">\(X \in \mathcal{D}\)</span></p>
+<p><strong>(b)</strong> <span class="math inline">\(E, F \in \mathcal{D}\)</span> and <span class="math inline">\(E \subseteq F\)</span> imply <span class="math inline">\(F \setminus E\, (= F \cap E^c) \in \mathcal{D}\)</span></p>
+<p><strong>(c)</strong> <span class="math inline">\(E_1 \subseteq E_2 \subseteq E_3 \subseteq \cdots\)</span> and <span class="math inline">\(E_i \in \mathcal{D}\)</span> for all <span class="math inline">\(i\)</span> imply <span class="math inline">\(\bigcup_i E_i \in \mathcal{D}\)</span>.</p>
+<p>(Note that a <span class="math inline">\(\mathcal{D}\)</span>-system is closed under complementation. The way to see this is that <span class="math inline">\(X \in \mathcal D\)</span>, so taking <span class="math inline">\(F = X\)</span> and <span class="math inline">\(E  \subseteq X\)</span> (which is also contained in <span class="math inline">\(\mathcal D\)</span>) we have <span class="math inline">\(X \setminus E = E^c\)</span> by definition.</p>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Note that <a href="./lecture-01.html#r-1-6">Definition 1.6</a> above is a weaker structure than a <span class="math inline">\(\sigma\)</span>-algebra (which is closed under ALL countable unions) whereas <span class="math inline">\(\mathcal D\)</span>-systems are only closed under increasing countable unions.</p>
+</div></div><div id="r-1-7" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof
+<span class="screen-reader-only">Important</span>Theorem 1.7 — <span class="math inline">\(\sigma\)</span>-algebra iff <span class="math inline">\(\pi\)</span> and <span class="math inline">\(\lambda\)</span>-system
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math display">\[\int f dm =\int f I_{x:f(x) \geq \alpha} dm + \int f I_{x:f(x) &lt; \alpha} dm \geq \alpha \int I_{x:f(x) \geq \alpha} dm = \alpha m(\{ x:f(x) \geq \alpha\})\]</span> <span class="math inline">\(\square\)</span></p>
+<p>If <span class="math inline">\(\mathcal{M}\)</span> is a collection of subsets of a set <span class="math inline">\(X\)</span>, then <span class="math inline">\(\mathcal{M}\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra if and only if <span class="math inline">\(\mathcal{M}\)</span> is a <span class="math inline">\(\pi\)</span>-system and a <span class="math inline">\(\mathcal{D}\)</span>-system</p>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div id="fig-l07-markov" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-l01-pi-lambda" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-l07-markov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="themed-figure"><img src="images/l07-markov-light.svg" class="light-content figure-img" alt="Markov’s inequality: the gold rectangles of height alpha fit under the graph of |f|."><img src="images/l07-markov-dark.svg" class="dark-content figure-img" alt="Markov’s inequality: the gold rectangles of height alpha fit under the graph of |f|."></div>
+<div aria-describedby="fig-l01-pi-lambda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="themed-figure"><img src="images/l01-pi-lambda-light.svg" class="light-content figure-img" alt="A sigma-algebra is exactly a collection that is both a pi-system and a lambda-system."><img src="images/l01-pi-lambda-dark.svg" class="dark-content figure-img" alt="A sigma-algebra is exactly a collection that is both a pi-system and a lambda-system."></div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l07-markov-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.1: Markov’s inequality: the gold rectangles of height <span class="math inline">\(\alpha\)</span> fit under the graph of <span class="math inline">\(|f|\)</span>.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l01-pi-lambda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: A <span class="math inline">\(\sigma\)</span>-algebra is exactly a collection that is both a <span class="math inline">\(\pi\)</span>-system and a <span class="math inline">\(\lambda\)</span>-system.
 </figcaption>
 </figure>
 </div>
-<div id="r-7-6" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>Given a collection <span class="math inline">\(\mathcal{E}\)</span> of subsets of <span class="math inline">\(X\)</span>, we have previously defined <span class="math inline">\(\sigma(\mathcal{E})\)</span> as the smallest <span class="math inline">\(\sigma\)</span>-algebra containing <span class="math inline">\(\mathcal{E}\)</span>. We do something similar here.</p>
+<div id="r-1-8" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 7.6 — Chebyshev’s inequality
+<span class="screen-reader-only">Note</span>Definition 1.8 — Generated <span class="math inline">\(\pi\)</span> and <span class="math inline">\(\lambda\)</span> system
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(f\)</span> be a measurable function on <span class="math inline">\((X, \mathcal M, m)\)</span> with <span class="math inline">\(\int |f| dm &lt; \infty\)</span>, then for any <span class="math inline">\(\alpha &gt; 0\)</span> one has <span class="math display">\[m(\{x:|f(x) - \int f dm| \geq \alpha\}) \leq \frac{\int (f- \int f dm)^2 dm}{\alpha^2}\]</span> The proof follows by applying Markov’s inequality to the nonnegative function <span class="math inline">\((f(x)-\int f dm)^2\)</span>.</p>
+<p>We let <span class="math inline">\(\pi(\mathcal{E})\)</span> (<span class="math inline">\(\mathcal{D}(\mathcal{E})\)</span>) be the smallest <span class="math inline">\(\pi\)</span>-system (<span class="math inline">\(\mathcal{D}\)</span>-system) containing <span class="math inline">\(\mathcal{E}\)</span>.</p>
 </div>
 </div>
-<p>From a probabilistic view, the Chebyshev inequality has both the mean and variance baked in it, whereas the Markov inequality only has the mean baked into it. So we may therefore expect to get tighter bounds on the probabilities if we apply Chebyshev (assuming we also have the information about the variance). We can extend the above to higher moments by applying Markov’s inequality to the nonnegative function <span class="math inline">\(|f(x) - \int f dm|^p\)</span> and taking <span class="math inline">\(\alpha = \epsilon^p\)</span>.</p>
-<div id="r-7-7" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>The next theorem is a very important tool, called <strong>Dynkin’s <span class="math inline">\(\pi\)</span>-<span class="math inline">\(\lambda\)</span> Theorem</strong> (a <span class="math inline">\(\mathcal{D}\)</span>-system is sometimes called a <span class="math inline">\(\lambda\)</span>-system).</p>
+<div id="r-1-9" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 7.7 — Hölder’s inequality
+<span class="screen-reader-only">Important</span>Theorem 1.9 — Dynkin’s <span class="math inline">\(\pi\)</span>-<span class="math inline">\(\lambda\)</span> Theorem
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\((X, \mathcal M, \mu)\)</span> be a measure space and <span class="math inline">\(p,q \in [1,\infty]\)</span> with <span class="math inline">\(1/p + 1/q = 1\)</span>, then for all measurable functions <span class="math inline">\(f,g\)</span> on <span class="math inline">\(X\)</span> <span class="math display">\[||fg||_1 \leq ||f||_p ||g||_q\]</span></p>
+<p>If <span class="math inline">\(\mathcal{I}\)</span> is a <span class="math inline">\(\pi\)</span>-system, then <span class="math display">\[\mathcal{D}(\mathcal{I}) = \sigma(\mathcal{I})\]</span> In other words, the smallest Dynkin-system generated by the <span class="math inline">\(\pi\)</span>-system is the same as the <span class="math inline">\(\sigma\)</span>-algebra generated by the <span class="math inline">\(\pi\)</span>-system.</p>
 </div>
 </div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -802,7 +785,7 @@ Figure&nbsp;7.1: Markov’s inequality: the gold rectangles of height <span clas
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1207,13 +1190,13 @@ Figure&nbsp;7.1: Markov’s inequality: the gold rectangles of height <span clas
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-06.html" class="pagination-link" aria-label="Introducing the Lebesgue Integral and Modes of Convergence">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introducing the Lebesgue Integral and Modes of Convergence</span></span>
+      <a href="./index.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture-08.html" class="pagination-link" aria-label="Product Measures">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Product Measures</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-02.html" class="pagination-link" aria-label="General Measure Theory and Carathéodory's Theorem">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

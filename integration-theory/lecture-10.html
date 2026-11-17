@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>15&nbsp; Functions of Bounded Variation, Absolute Continuity, and the FTC – Integration Theory</title>
+<title>10&nbsp; Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./book-index.html" rel="next">
-<link href="./lecture-14.html" rel="prev">
+<link href="./lecture-11.html" rel="next">
+<link href="./lecture-09.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-15.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functions of Bounded Variation, Absolute Continuity, and the FTC</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -434,7 +422,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-10.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-10.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></span></a>
   </div>
 </li>
@@ -464,7 +452,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-15.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-15.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functions of Bounded Variation, Absolute Continuity, and the FTC</span></span></a>
   </div>
 </li>
@@ -481,22 +469,16 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#the-fundamental-theorem-of-calculus" id="toc-the-fundamental-theorem-of-calculus" class="nav-link active" data-scroll-target="#the-fundamental-theorem-of-calculus">The fundamental theorem of calculus</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-15.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functions of Bounded Variation, Absolute Continuity, and the FTC</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Functions of Bounded Variation, Absolute Continuity, and the FTC</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></h1>
 </div>
 
 
@@ -513,232 +495,196 @@ window.Quarto = {
 </header>
 
 
-<div id="r-15-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>So far, we have discussed nonnegative measures. But can we also introduce a well-defined concept of a signed measure? Indeed we can.</p>
+<div id="r-10-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 15.1 — Total variation, bounded variation and unbounded variation
+<span class="screen-reader-only">Note</span>Definition 10.1 — A signed measure
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f:[0,1]\rightarrow \mathbb R\)</span> we define the total variation of <span class="math inline">\(f\)</span> on <span class="math inline">\([a,b] \subseteq [a,b]\)</span> to be <span class="math display">\[TV_{[a,b]}(f) := \sup \{\sum_{i=1}^n |f(x_i) - f(x_{i-1}) \} : a = x_0 &lt; x_1 &lt; x_2 &lt;...&lt;x_n = b\}\]</span> We say <span class="math inline">\(f\)</span> is of bounded variation on <span class="math inline">\([a,b]\)</span> if <span class="math inline">\(TV_{[a,b]}f &lt; \infty\)</span> and of unbounded variation otherwise.</p>
+<p>If <span class="math inline">\((X, \mathcal M)\)</span> is a measurable space, a signed measure is a map <span class="math inline">\(\nu: \mathcal M \rightarrow [-\infty, \infty]\)</span> satisfying (i) <span class="math inline">\(\nu(\emptyset) = 0\)</span> (ii) At most one of the values <span class="math inline">\(\pm \infty\)</span> are assumed. (iii) If <span class="math inline">\(A_1, A_2,...\)</span> pairwise disjoint elements of <span class="math inline">\(\mathcal M\)</span>, then <span class="math display">\[\nu(\bigcup_i A_i) = \sum_i \nu(A_i)\]</span> where the sum on the RHS converges absolutely when the LHS is finite.</p>
 </div>
 </div>
-<div id="fig-l15-bounded-variation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>We compare this to the definition of a measure. First, note the additional criterion (ii), and the additional comment in (iii) that the RHS converges absolutely when the LHS is finite. The reason is related to what we discussed earlier, namely that there is no intrinsic ordering of the elements of the set, and consequently, neither should the measure of the union depend on that ordering. Absolute convergence is thus required.</p>
+<p>For unsigned series, conditional convergence is not possible, so either the series is absolutely convergent or diverges to <span class="math inline">\(+\infty\)</span>. For signed measures, we can have conditional convergence. Therefore whenever the LHS is finite, we must have that the RHS is absolutely convergence, since had it been conditionally convergent, we could as per the Riemann rearrangement theorem, rearrange the terms to attain any value.</p>
+<p>Some remarks that follow from the definition:</p>
+<ul>
+<li>A measure is a signed measure.</li>
+<li>If <span class="math inline">\(\mu_1, \mu_2\)</span> are finite measures (or at least one is finite) then <span class="math inline">\(\mu_1-\mu_2\)</span> is a signed measure.</li>
+<li>Condition (ii) is there to avoid having <span class="math inline">\(\infty - \infty\)</span>. For example if <span class="math inline">\(A, B\)</span> are disjoint sets where <span class="math inline">\(\nu(A) = \infty\)</span> and <span class="math inline">\(\nu(B) = -\infty\)</span> then <span class="math inline">\(\nu(A \bigcup B)\)</span> is undefined.</li>
+</ul>
+<p>So far, a signed measure can feel somewhat uncomfortable, especially if we have made ourselves comfortable with the idea that a measure is something that assigns volumes to sets. However, it differences of measures turn out to be very common, and a difference of (finite) measures produces a signed measure, as shown below.</p>
+<div id="r-10-2" class="remark-box callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Remark 10.2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(\mu_1, \mu_2\)</span> are finite measures (or at least one is finite), then the difference <span class="math inline">\(\mu_1-\mu_2\)</span> is a signed measure.</p>
+<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Properties (i) and (ii) are clearly satisfied. Let <span class="math inline">\(\Delta \mu := \mu_1 - \mu_2\)</span>, then we have <span class="math display">\[\Delta \mu (\bigcup_i A_i) = \mu_1(\bigcup_i A_i) - \mu_2(\bigcup_i A_i) = \sum_i \mu_1(A_i) - \sum_i \mu_2(A_i) = \sum_i (\mu_1 - \mu_2)(A_i) = \sum_i \Delta \mu(A_i)\]</span> where subtracting the series is only possible if at least one of them is finite (ok by assumption). Finally, when the LHS is finite, and at least one of measures is finite (say <span class="math inline">\(\mu_1\)</span>) we have <span class="math inline">\(\sum_i \mu_1(A_i) &lt; \infty\)</span> since <span class="math inline">\(A_i\subseteq X\)</span> are disjoint and thus <span class="math display">\[\sum_i |\Delta \mu(A_i) |\leq \sum_i \mu_1(A_i) + \sum_i \mu_2(A_i) &lt; \infty\]</span> and thus it converges absolutely. <span class="math inline">\(\square\)</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>It turns out that every signed measure has the form <span class="math inline">\(\mu_1 - \mu_2\)</span>, both being measures with at least one being finite. This is the <strong>Jordan Decomposition Theorem</strong>. Before that, we first prove the Hahn Decomposition Theorem.</p>
+<div id="r-10-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition 10.3 — A positive and negative set
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(\nu\)</span> is a signed measure on <span class="math inline">\((X,\mathcal M)\)</span>, a set <span class="math inline">\(A \in \mathcal M\)</span> is called a <em>positive set</em> if <span class="math inline">\(\nu(B) \geq 0\)</span> <span class="math inline">\(\forall B \subseteq A\)</span> with <span class="math inline">\(B\in \mathcal M\)</span>. A is called a negative set (a null set) if <span class="math inline">\(\nu(B) \leq (=) 0\)</span> <span class="math inline">\(\forall B \subseteq A\)</span> with <span class="math inline">\(B\in \mathcal M\)</span>.</p>
+</div>
+</div>
+<div id="r-10-4" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 10.4 — Hahn Decomposition Theorem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(\nu\)</span> is a signed measure on <span class="math inline">\((X, \mathcal M)\)</span> then <span class="math inline">\(X\)</span> can be partitioned into two sets <span class="math inline">\(P, N \in \mathcal M\)</span> (meaning <span class="math inline">\(P \cup N = X, P \cap N = \emptyset\)</span>) with <span class="math inline">\(P\)</span> being a positive set and <span class="math inline">\(N\)</span> a negative set. There is “almost uniqueness” in that if <span class="math inline">\((P', N')\)</span> is another such partition, then <span class="math inline">\(P \Delta P'\)</span> and <span class="math inline">\(N\Delta N'\)</span> are each null sets.</p>
+</div>
+</div>
+<div id="fig-l10-hahn-decomposition" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-l15-bounded-variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="themed-figure"><img src="images/l15-bounded-variation-light.svg" class="light-content figure-img" alt="The variation of f over a partition P: the total length of the vertical steps between consecutive partition points."><img src="images/l15-bounded-variation-dark.svg" class="dark-content figure-img" alt="The variation of f over a partition P: the total length of the vertical steps between consecutive partition points."></div>
+<div aria-describedby="fig-l10-hahn-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="themed-figure"><img src="images/l10-hahn-decomposition-light.svg" class="light-content figure-img" alt="Hahn decomposition for nu(A)=int_A(2x-1)dx: nuge 0 on P and nule 0 on N."><img src="images/l10-hahn-decomposition-dark.svg" class="dark-content figure-img" alt="Hahn decomposition for nu(A)=int_A(2x-1)dx: nuge 0 on P and nule 0 on N."></div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l15-bounded-variation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;15.1: The variation of <span class="math inline">\(f\)</span> over a partition <span class="math inline">\(P\)</span>: the total length of the vertical steps between consecutive partition points.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l10-hahn-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: Hahn decomposition for <span class="math inline">\(\nu(A)=\int_A(2x-1)dx\)</span>: <span class="math inline">\(\nu\ge 0\)</span> on <span class="math inline">\(P\)</span> and <span class="math inline">\(\nu\le 0\)</span> on <span class="math inline">\(N\)</span>.
 </figcaption>
 </figure>
 </div>
-<div id="fig-viz-totalvariation-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-viz-totalvariation-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div id="viz-totalvariation-1" class="viz"></div>
-<script>
-(function() {
-  if (typeof React === 'undefined') return;
-  const { useState, useEffect, useRef } = React;
-  function TotalVariation() {
-    const ACCENT = "#b08a1e";
-    const BG = "transparent";
-    const BORDER = "rgba(128,128,128,0.35)";
-    const TEXT = "var(--bs-body-color, #222)";
-    const MUTED = "var(--bs-secondary-color, #777)";
-    const BLUE = "#4a7ab5";
-    const RED = "#b84a4a";
-    
-    // same function as the static figure
-    const f = (x) => 0.5 + 0.33 * Math.sin(2 * Math.PI * 2.1 * x + 0.3) * (1 - 0.25 * x) + 0.18 * x;
-    
-    // total variation, computed on a very fine grid
-    const TV = (() => { let s = 0, p = f(0); for (let i = 1; i <= 20000; i++) { const v = f(i / 20000); s += Math.abs(v - p); p = v; } return s; })();
-    
-    const W = 600, H = 300;
-    const L = 40, Rr = 470, T = 18, B = 262;           // plot frame
-    const GX = 535, GW = 26;                           // gauge for V(f,P)
-    const yMin = 0.05, yMax = 1.05;
-    const sx = (x) => L + x * (Rr - L);
-    const sy = (y) => B - (y - yMin) / (yMax - yMin) * (B - T);
-    
-    const [k, setK] = useState(1);                     // partition into 2^k equal pieces (nested refinements)
-    const n = Math.pow(2, k);
-    const xs = Array.from({ length: n + 1 }, (_, i) => i / n);
-    const ys = xs.map(f);
-    let V = 0; for (let i = 1; i <= n; i++) V += Math.abs(ys[i] - ys[i - 1]);
-    
-    const curve = Array.from({ length: 301 }, (_, i) => { const x = i / 300; return (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(f(x)).toFixed(1); }).join(" ");
-    const chords = xs.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(ys[i]).toFixed(1)).join(" ");
-    
-    const gTop = T + 10, gBot = B;                     // gauge scale 0 .. 1.15 TV
-    const gy = (v) => gBot - v / (1.15 * TV) * (gBot - gTop);
-    
-    const el = React.createElement;
-    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
-      el("div", { style: { display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", marginBottom: 4, fontSize: 15 } },
-        el("button", { onClick: () => setK(Math.max(0, k - 1)), disabled: k === 0,
-          style: { fontFamily: "inherit", fontSize: 15, padding: "2px 10px", borderRadius: 4, cursor: "pointer", background: "transparent", color: TEXT, border: "1px solid " + BORDER } }, "Coarser"),
-        el("button", { onClick: () => setK(Math.min(7, k + 1)), disabled: k === 7,
-          style: { fontFamily: "inherit", fontSize: 15, padding: "2px 10px", borderRadius: 4, cursor: "pointer", background: "transparent", color: ACCENT, border: "1px solid " + ACCENT, fontWeight: 700 } }, "Refine"),
-        el("span", null, el("i", null, "n"), " = " + n + " intervals"),
-        el("span", { style: { color: ACCENT } }, el("i", null, "V(f, P)"), " = " + V.toFixed(3)),
-        el("span", { style: { color: MUTED } }, el("i", null, "TV(f)"), " = " + TV.toFixed(3))
-      ),
-      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
-        el("line", { x1: L, y1: B, x2: Rr + 8, y2: B, stroke: MUTED, strokeWidth: 1 }),
-        el("line", { x1: L, y1: B, x2: L, y2: T, stroke: MUTED, strokeWidth: 1 }),
-        el("path", { d: curve, fill: "none", stroke: BLUE, strokeWidth: 2.4, opacity: 0.9 }),
-        el("path", { d: chords, fill: "none", stroke: TEXT, strokeWidth: 1.2, strokeDasharray: "5 4", opacity: 0.8 }),
-        xs.slice(1).map((x, i) => {
-          const a = ys[i], b = ys[i + 1];
-          return el("line", { key: "s" + i, x1: sx(x), y1: sy(a), x2: sx(x), y2: sy(b), stroke: b >= a ? ACCENT : RED, strokeWidth: n > 32 ? 2 : 4, opacity: 0.95 });
-        }),
-        n <= 32 && xs.map((x, i) => el("circle", { key: "p" + i, cx: sx(x), cy: sy(ys[i]), r: 2.6, fill: TEXT })),
-        n <= 16 && xs.map((x, i) => el("line", { key: "t" + i, x1: sx(x), y1: B - 4, x2: sx(x), y2: B + 4, stroke: MUTED, strokeWidth: 1 })),
-        el("text", { x: sx(1) + 6, y: sy(f(1)) - 4, fill: BLUE, fontSize: 16, fontStyle: "italic", fontFamily: "inherit" }, "f"),
-    
-        // gauge: V(f, P) grows towards TV(f) under refinement
-        el("rect", { x: GX, y: gTop, width: GW, height: gBot - gTop, fill: "none", stroke: MUTED, strokeWidth: 1 }),
-        el("rect", { x: GX, y: gy(V), width: GW, height: gBot - gy(V), fill: ACCENT, opacity: 0.75 }),
-        el("line", { x1: GX - 6, y1: gy(TV), x2: GX + GW + 6, y2: gy(TV), stroke: TEXT, strokeWidth: 1.5, strokeDasharray: "4 3" }),
-        el("text", { x: GX - 10, y: gy(TV) + 4, fill: TEXT, fontSize: 13, fontStyle: "italic", textAnchor: "end", fontFamily: "inherit" }, "TV(f)"),
-        el("text", { x: GX + GW / 2, y: B + 18, fill: ACCENT, fontSize: 13, fontStyle: "italic", textAnchor: "middle", fontFamily: "inherit" }, "V(f,P)")
-      )
-    );
-  }
-  var el = document.getElementById('viz-totalvariation-1');
-  if (el) ReactDOM.createRoot(el).render(React.createElement(TotalVariation));
-})();
-</script>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viz-totalvariation-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;15.2: Interactive: refining the partition (each refinement halves every interval) can only increase <span class="math inline">\(V(f,P)\)</span>, which climbs to <span class="math inline">\(TV(f)\)</span>.
-</figcaption>
-</figure>
-</div>
-<div id="r-15-2" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>By definition we have <span class="math inline">\(A \Delta B = (A \setminus B) \cup (B \setminus A)\)</span> which are the points which belong to exactly one of the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. In other words, given a <em>signed measure space</em>, we can cleanly partition our <span class="math inline">\(X\)</span> into a positive and negative measurable part, and this decomposition is unique up to nullsets.</p>
+<div id="r-10-5" class="lemma-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 15.2 — <span class="math inline">\(f\)</span> is of bounded variation iff
+<span class="screen-reader-only">Important</span>Lemma 10.5 — Existence of positive subset
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(f\)</span> is of bounded variation if and only if there exist increasing functions <span class="math inline">\(g,h\)</span> so that <span class="math inline">\(f = g-h\)</span></p>
+<p>Let <span class="math inline">\(\nu\)</span> be a signed measure on <span class="math inline">\((X, \mathcal M, \nu)\)</span> which does not take the value <span class="math inline">\(\infty\)</span>. If <span class="math inline">\(\nu(A) &gt; 0\)</span>, then there exists a measurable <span class="math inline">\(B \subseteq A\)</span> where <span class="math inline">\(\nu(B) &gt; 0\)</span> and <span class="math inline">\(B\)</span> is a positive set.</p>
 </div>
 </div>
-<p>There is a one-to-one correspondence between signed measures and right-continuous functions of bounded variation, which we discuss hereafter.</p>
-<div id="r-15-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div id="r-10-6" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 15.3 — Absolutely continuous function
+<span class="screen-reader-only">Caution</span>Example 10.6
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(f : [0,1] \rightarrow \mathbb{R}\)</span> is absolutely continuous if for all <span class="math inline">\(\epsilon &gt; 0\)</span>, there exists <span class="math inline">\(\delta &gt; 0\)</span> so that if <span class="math inline">\(0 \leq x_1 &lt; y_1 &lt; x_2 &lt; y_2 &lt; \ldots &lt; x_n &lt; y_n \leq 1\)</span> and <span class="math display">\[\sum_{i=1}^n (y_i - x_i) &lt; \delta\]</span>, then <span class="math display">\[\sum_{i=1}^n |f(y_i) - f(x_i)| &lt; \epsilon\]</span></p>
+<p>Take <span class="math inline">\(X = \{1,2,3\}\)</span> and <span class="math inline">\(\mathcal M = 2^X\)</span> then take <span class="math inline">\(\nu(\{1\}) = 3\)</span> and <span class="math inline">\(\nu(\{2\}) = -1\)</span> and same for <span class="math inline">\(3\)</span>. Then <span class="math inline">\(\nu(X) = 1&gt;0\)</span> but <span class="math inline">\(\{2\}\subseteq X\)</span> and <span class="math inline">\(\nu(\{2\}) = -1\)</span>, thus <span class="math inline">\(X\)</span> is not a positive set, although it has positive measure. But if we take <span class="math inline">\(B = \{1\}\)</span> then indeed we have a subset which is also a positive set. From this perspective it makes sense, the positive and negative parts of <span class="math inline">\(A\)</span> may give a positive contribution, but we can find a subset of these which only contribute positively. We can do this using a greedy algorithm, by just at each stage remove the most negative measurable subsets, define that as our new subset, remove the negative measurable subsets, and repeat until the resulting subset is positive.</p>
 </div>
 </div>
-<div id="r-15-4" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div id="r-10-7" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 15.4 — Absolute continuity of a function
+<span class="screen-reader-only">Caution</span>Example 10.7
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(f\)</span> be a nonnegative right-continuous increasing function on <span class="math inline">\([0,1]\)</span> with <span class="math inline">\(f(0) = 0\)</span>. Then <span class="math inline">\(f\)</span> is absolutely continuous if and only if <span class="math inline">\(\mu_f &lt;&lt; m\)</span> where <span class="math inline">\(m\)</span> is the Lebesgue measure.</p>
+<p>Take <span class="math inline">\(([0,1], \mathcal B_{[0,1]})\)</span> with <span class="math inline">\(\nu(A) = \int_A (2x-1) dm(x)\)</span>. If we take <span class="math inline">\(A = [1/4, 1]\)</span> then <span class="math inline">\(\nu(A) &gt; 0\)</span> but it is not a positive set since the density <span class="math inline">\(2x-1 &lt; 0\)</span> on <span class="math inline">\([1/4, 1/2)\)</span>, so why just not remove that interval and define <span class="math inline">\(B = [1/2,1]\subseteq A\)</span> which is measurable and also a positive set.</p>
 </div>
 </div>
-<p>This is consistent with the result for Cantor ternary function (which is n.n. right continuous and increasing). The corresponding Cantor ternary measure (which again is a unique finite Borel measure) where <span class="math inline">\(\mu_C(C) = 1\)</span> and <span class="math inline">\(m(C) = 0\)</span> so clearly <span class="math inline">\(\mu_C\)</span> is not absolutely continuous wrt to <span class="math inline">\(m\)</span>. By contrapositive, <span class="math inline">\(F_c\)</span> is therefore not absolutely continuous.</p>
-<div id="r-15-5" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<p>This is different from the two facts we mentioned earlier. The lemma says that we only know that the measure of <span class="math inline">\(A\)</span> is positive, not that it is a positive set. However, it does guarantee that we can always find a subset of <span class="math inline">\(A\)</span> which is positive.</p>
+<div id="r-10-8" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 15.5 — Absolute continuity implies bounded variation
+<span class="screen-reader-only">Note</span>Definition 10.8 — Mutually singular measures
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f:[0,1] \rightarrow \mathbb R\)</span> is absolutely continuous, then it has bounded variation.</p>
+<p>Two measures <span class="math inline">\(\mu, \nu\)</span> on a measurable space <span class="math inline">\((X, \mathcal M)\)</span> are mutually singular if <span class="math inline">\(X\)</span> can be partitioned into two disjoint sets <span class="math inline">\(E, F\)</span> in <span class="math inline">\(\mathcal M\)</span> so that <span class="math inline">\(\mu(E) = 0 = \nu(F)\)</span>. This is denoted by <span class="math inline">\(\mu \perp \nu\)</span>.</p>
 </div>
 </div>
-<section id="the-fundamental-theorem-of-calculus" class="level3">
-<h3 class="anchored" data-anchor-id="the-fundamental-theorem-of-calculus">The fundamental theorem of calculus</h3>
-<p>If <span class="math inline">\(f:[0,1] \rightarrow \mathbb R\)</span> is increasing, does <span class="math display">\[\int_0^1 f'(x) dx = f(1) - f(0) ?\]</span> Recall that an increasing function has a derivative a.e (<a href="./lecture-14.html#r-14-7">Theorem 14.7</a>).</p>
-<div id="r-15-6" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
+<div id="r-10-9" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 15.6 — The FTC fails for the Cantor function
+<span class="screen-reader-only">Important</span>Theorem 10.9 — (Jordan decomposition theorem)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Cantor ternary function <span class="math inline">\(F_C\)</span> (<a href="./lecture-04.html#r-4-6">Theorem 4.6</a>) is increasing and continuous, with <span class="math inline">\(F_C(0) = 0\)</span> and <span class="math inline">\(F_C(1) = 1\)</span>. By <a href="./lecture-04.html#r-4-7">Corollary 4.7</a> (c), <span class="math inline">\(F_C' = 0\)</span> almost everywhere: <span class="math inline">\(F_C\)</span> is constant on each open interval removed in the construction of the Cantor set, and these intervals have total length <span class="math inline">\(1\)</span>. Hence <span class="math display">\[\int_0^1 F_C'(x)\,dx = 0 &lt; 1 = F_C(1) - F_C(0).\]</span> So the answer to the question above is no in general: being increasing, and even continuous, is not enough, and the inequality in the next theorem can be strict. The missing ingredient is absolute continuity, see <a href="./lecture-15.html#r-15-8">Theorem 15.8</a> (3): <span class="math inline">\(F_C\)</span> is not absolutely continuous, since the Cantor measure <span class="math inline">\(\mu_C\)</span> lives on the Cantor set, which has Lebesgue measure zero.</p>
+<p>If <span class="math inline">\(\nu\)</span> is a signed measure on <span class="math inline">\((X, \mathcal M)\)</span>, then there exists unique measures <span class="math inline">\(\nu^+\)</span> and <span class="math inline">\(\nu^-\)</span> so that <span class="math inline">\(\nu^+ \perp \nu^-\)</span> and <span class="math display">\[\nu = \nu^+ - \nu^-\]</span></p>
 </div>
 </div>
-<div id="r-15-7" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>The measure <span class="math inline">\(\nu^+ + \nu^-\)</span> is called the total variation of <span class="math inline">\(\nu\)</span> and is denoted by <span class="math inline">\(|\nu|\)</span>. The Jordan decomposition theorem is essentially a corollary of the Hahn decomposition theorem where we define <span class="math inline">\(\nu^\pm\)</span> as the restriction of <span class="math inline">\(\nu\)</span> to <span class="math inline">\(P\)</span> (+) <span class="math inline">\(N\)</span> (-) respectively. This is similiar to the decomposition of a function <span class="math display">\[f(x) = \max(f(x), 0) - \max(-f(x), 0) \equiv f^+(x) - f^-(x)\]</span></p>
+<div id="r-10-10" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 15.7 — The fundamental theorem of calculus for monotone increasing functions
+<span class="screen-reader-only">Caution</span>Example 10.10
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f:[0,1]\rightarrow \mathbb R\)</span> is monotone increasing, then <span class="math display">\[\int_0^1 f'(x) dx \leq f(1) - f(0)\]</span></p>
+<p>Why is <span class="math inline">\(\nu(A) = \int_A (2x-1) dx\)</span> a signed measure?</p>
+<ul>
+<li><span class="math inline">\(\nu(\emptyset) = 0\)</span></li>
+<li>Since <span class="math inline">\(2x-1\)</span> is bounded on <span class="math inline">\([0,1]\)</span>, it is a finite signed measure and thus never takes <span class="math inline">\(\pm \infty\)</span>.</li>
+<li>Countable additivity follows from the fact that the integral and infinite sum can be interchanged by the Lebesgue dominated convergence theorem. <span class="math display">\[\nu(\bigcup_i A_i) = \int f 1_A dx = \int \lim_{n\rightarrow \infty} f \cdot 1_{\bigcup_{i=1}^n A_i}\]</span> and in order to swap limit and integral, we need the LDCT. Since <span class="math inline">\(g_n \rightarrow f \cdot 1_A\)</span> pw and <span class="math inline">\(|f_n| \leq |f|\)</span> for all n we can simply take <span class="math inline">\(f\)</span> as our majorant function, and clearly <span class="math inline">\(\int |f| dx &lt; \infty\)</span> so <span class="math inline">\(f\)</span> is also integrable. We may therefore write <span class="math display">\[=\lim_{n\rightarrow \infty} \int f_n dx = \lim_{n\rightarrow \infty} \sum_{i=1}^n \int_{A_i} f dx = \sum_{i=1}^\infty \nu(A_i)\]</span></li>
+</ul>
 </div>
 </div>
-<div id="r-15-8" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div id="r-10-11" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 15.8
+<span class="screen-reader-only">Caution</span>Example 10.11 — Cantor measure minus Lebesgue
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(f\)</span> be a nonneg right-continuous monotone increasing function on <span class="math inline">\([0,1]\)</span> with <span class="math inline">\(f(0) = 0\)</span>. Let <span class="math inline">\(\mu_f\)</span> be the associated measure on <span class="math inline">\([0,1]\)</span> and consider the Lebesgue decomposition <span class="math inline">\(\mu_f = \mu_s + \mu_{ac}\)</span> with respect to Lebesgue measure. Then:</p>
-<ol type="1">
-<li><p>The Radon-Nikodym derivative of <span class="math inline">\(\mu_{ac}\)</span> with respect to Lebesgue measure is given by <span class="math inline">\(f'\)</span>.</p></li>
-<li><p><span class="math inline">\(\mu_{ac}[0,1] = \int_0^1 f'(x)\, dx\)</span>.</p></li>
-<li><p><span class="math inline">\(f\)</span> is absolutely continuous if and only if <span class="math inline">\(\int_0^1 f'(x)\, dx = f(1) - f(0)\)</span>. (So the second FTC holds if and only if <span class="math inline">\(f\)</span> is absolutely continuous.)</p></li>
-<li><p><span class="math inline">\(\mu_f\)</span> is singular if and only if <span class="math inline">\(f'(x) = 0\)</span> a.e.</p></li>
-</ol>
-</div>
-</div>
-<div id="r-15-9" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 15.9 — A singular measure
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>By <a href="./lecture-15.html#r-15-8">Theorem 15.8</a>, we have that <span class="math inline">\(\mu_C\)</span> is singular iff <span class="math inline">\(F'_C(x) = 0\)</span> lebesgue a.e., which we know is true. So the Cantor measure is a singular measure.</p>
+<p>Define <span class="math display">\[\nu = \mu_c - m\]</span>on the measurable space <span class="math inline">\(([0,1], \mathcal B_{[0,1]})\)</span> then the Hahn decomposition is simply <span class="math inline">\(P = C\)</span> (the Cantor set) and <span class="math inline">\(N= C^c\)</span> and then we simply have <span class="math inline">\(\nu^+(A) = \mu_c(A \cap C)\)</span> and <span class="math inline">\(\nu^{-1}(A) = m(A \cap C^c)\)</span> for the Jordan decomposition.</p>
 </div>
 </div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -862,7 +808,7 @@ Figure&nbsp;15.2: Interactive: refining the partition (each refinement halves ev
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1267,13 +1213,13 @@ Figure&nbsp;15.2: Interactive: refining the partition (each refinement halves ev
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-14.html" class="pagination-link" aria-label="Lebesgue's Differentiation Theorem">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Lebesgue’s Differentiation Theorem</span></span>
+      <a href="./lecture-09.html" class="pagination-link" aria-label="Weak and Strong Laws of Large Numbers">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./book-index.html" class="pagination-link" aria-label="Index">
-        <span class="nav-page-text">Index</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-11.html" class="pagination-link" aria-label="Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

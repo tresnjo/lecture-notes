@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Weak and Strong Laws of Large Numbers – Integration Theory</title>
+<title>2&nbsp; General Measure Theory and Carathéodory’s Theorem – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture-10.html" rel="next">
-<link href="./lecture-08.html" rel="prev">
+<link href="./lecture-03.html" rel="next">
+<link href="./lecture-01.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-09.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-02.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -370,7 +358,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-02.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-02.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></span></a>
   </div>
 </li>
@@ -420,7 +408,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-09.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-09.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></span></a>
   </div>
 </li>
@@ -486,7 +474,11 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-law-of-large-numbers" id="toc-the-law-of-large-numbers" class="nav-link active" data-scroll-target="#the-law-of-large-numbers">The law of large numbers</a></li>
+  <li><a href="#step-1" id="toc-step-1" class="nav-link active" data-scroll-target="#step-1">Step 1</a></li>
+  <li><a href="#step-2" id="toc-step-2" class="nav-link" data-scroll-target="#step-2">Step 2</a></li>
+  <li><a href="#step-3" id="toc-step-3" class="nav-link" data-scroll-target="#step-3">Step 3</a></li>
+  <li><a href="#step-4" id="toc-step-4" class="nav-link" data-scroll-target="#step-4">Step 4</a></li>
+  <li><a href="#step-5" id="toc-step-5" class="nav-link" data-scroll-target="#step-5">Step 5</a></li>
   </ul>
 </nav>
     </div>
@@ -494,9 +486,9 @@ window.Quarto = {
 <main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-09.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-02.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></h1>
 </div>
 
 
@@ -513,180 +505,208 @@ window.Quarto = {
 </header>
 
 
-<div id="r-9-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div id="r-2-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.1 — Probability space
+<span class="screen-reader-only">Note</span>Definition 2.1 — A measure
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A probability space is a measure space <span class="math inline">\((\Omega, \mathcal M, P)\)</span> with <span class="math inline">\(P(\Omega) = 1\)</span>.</p>
+<p>If <span class="math inline">\((X, \mathcal{M})\)</span> is a measurable space, a <strong>measure</strong> on <span class="math inline">\((X, \mathcal{M})\)</span> is a mapping <span class="math inline">\(m\)</span> from <span class="math inline">\(\mathcal{M}\)</span> to <span class="math inline">\([0, \infty]\)</span> satisfying the following: 1. <span class="math inline">\(m(\emptyset) = 0\)</span> 2. If <span class="math inline">\(A_1, A_2, \ldots\)</span> are (pairwise) disjoint elements of <span class="math inline">\(\mathcal{M}\)</span>, then <span class="math display">\[m\left(\bigcup_i A_i\right) = \sum_i m(A_i)\]</span></p>
 </div>
 </div>
-<p><span class="math inline">\(\Omega\)</span> is our set of outcomes of some random experiment, <span class="math inline">\(\mathcal M\)</span> is the set of events to which we will assign a probability, and <span class="math inline">\(P(A)\)</span> is the probability that an event occurs.</p>
+<p><strong>Remarks:</strong> 1. The crucial second property is called <strong>countable additivity</strong> and implies finite additivity using 1. (Check this.) 2. For <span class="math inline">\(A \in \mathcal{M}\)</span>, <span class="math inline">\(m(A)\)</span> is thought of as either the <strong>(a)</strong> measure, <strong>(b)</strong> size, <strong>(c)</strong> length or <strong>(d)</strong> probability of <span class="math inline">\(A\)</span>.</p>
+<p>A measure space is just a measurable space with a measure on it.</p>
+<div id="r-2-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition 2.2 — A complete measure
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A complete measure is such that if <span class="math inline">\(F\in \mathcal M\)</span> (our <span class="math inline">\(\sigma\)</span>-algebra) with <span class="math inline">\(m(F) = 0\)</span> and if <span class="math inline">\(E \subseteq F\)</span> then <span class="math inline">\(m(E) = 0\)</span>.</p>
+</div>
+</div>
+<p>This definition may sound silly at first, because by monotonicity we know that <span class="math inline">\(m(E) = 0\)</span> if it is a subset. But we have to remember that the measure can only be applied to elements of the <span class="math inline">\(\sigma\)</span>-algebra. A complete measure thus tells us that subsets of sets of measure zero, <strong>are in the <span class="math inline">\(\sigma\)</span>-algebra</strong> (thus they are measurable).</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Note that a probability space thus automatically qualifies as finite, and therefore also <span class="math inline">\(\sigma\)</span>-finite. This means that we can apply properties of the probability measure such as continuity from above without having to think twice.</p>
-</div></div><div id="r-9-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>Note that we never assumed <span class="math inline">\(A\)</span> was an element of the <span class="math inline">\(\sigma\)</span>-algebra. See <a href="https://www.youtube.com/watch?v=5bZMCLnI_p4">a good explanation</a>. A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.</p>
+</div></div><div id="r-2-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.2 — Random variable
+<span class="screen-reader-only">Note</span>Definition 2.3 — Almost Everywhere / Almost Surely
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given a probability space, a random variable is a measurable real-valued function <span class="math inline">\(X\)</span> on <span class="math inline">\((\Omega, \mathcal M, P)\)</span>.</p>
+<p>Given a measure space <span class="math inline">\((X, \mathcal{M}, m)\)</span>, a property (formally a subset of <span class="math inline">\(X\)</span> for which a statement about <span class="math inline">\(x\)</span> is either true or false, i.e.&nbsp;<span class="math inline">\(\{x \in X : P(x)\}\)</span>, is said to occur <strong>almost everywhere</strong> (abbreviated <strong>a.e.</strong>), or <strong>almost surely</strong> (abbreviated <strong>a.s.</strong>) in probability theory, if the set of <span class="math inline">\(x\)</span>’s where the property fails is contained inside a set of measure zero.</p>
 </div>
 </div>
-<p>A random variable is not random as it is just a function, but if the input <span class="math inline">\(\omega\)</span> is random, then certainly <span class="math inline">\(X(\omega)\)</span> is random. Hence we call it a random variable.</p>
-<div id="r-9-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div id="r-2-4" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.3 — Expectation
+<span class="screen-reader-only">Caution</span>Example 2.4
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(X\)</span> is a R.V. on a probability space, its expectation is defined by <span class="math display">\[E(X) =\int X dP\]</span> provided it exists, meaning at least one of <span class="math inline">\(\int X^+ dP\)</span> and <span class="math inline">\(\int X^- dP\)</span> is finite.</p>
+<p>Take <span class="math inline">\(X\)</span> to be the closed interval from 0 to 1 and <span class="math inline">\(\mathcal M\)</span> the Borel <span class="math inline">\(\sigma\)</span>-algebra on that set with Lebesgue measure. It turns out that the property that <span class="math inline">\(x\)</span> is irrational (i.e.&nbsp;the property that it fails corresponds to <span class="math inline">\(x\)</span> being a rational which has measure zero) holds almost everywhere.</p>
 </div>
 </div>
-<div id="r-9-4" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div id="r-2-5" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.4 — Distribution / Law of a Random Variable
+<span class="screen-reader-only">Note</span>Definition 2.5 — Finite measure space
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given a r.v. <span class="math inline">\(X\)</span> on a probability space, the distribution or law of <span class="math inline">\(X\)</span> is the probability measure <span class="math inline">\(\mu\)</span> on <span class="math inline">\((R, \mathcal B)\)</span> given by <span class="math display">\[\mu(A) = P(X^{-1}(A))\]</span></p>
+<p>A measure space <span class="math inline">\((X, \mathcal M, \mu)\)</span> is called finite if <span class="math inline">\(\mu(X) &lt; \infty\)</span> and a probability space if <span class="math inline">\(\mu(X) = 1\)</span>.</p>
 </div>
 </div>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>Note that we demand <span class="math inline">\(X\)</span> to be measurable, hence the preimage of <span class="math inline">\(A\subseteq R\)</span> is contained in <span class="math inline">\(\mathcal M\)</span> and we can thus assign a meaningful probability to that event.</p>
-</div></div><div id="r-9-5" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div id="r-2-6" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.5 — Independent random variables
+<span class="screen-reader-only">Note</span>Definition 2.6 — <span class="math inline">\(\sigma\)</span>-finite measure space
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>(Independent) <span class="math inline">\(n\)</span> r.vs. <span class="math inline">\(X_1, X_2,...,X_n\)</span> on a probability space <span class="math inline">\((\Omega, \mathcal M, P)\)</span> are called independent if for all Borel sets <span class="math inline">\(B_1, B_2,...,B_n\)</span> <span class="math display">\[P(\bigcap_{i=1}^n X_{i}^{-1}(B_i)) = \prod_{i=1}^n P(X_i^{-1}(B_i))\]</span></p>
+<p>A measure space is called <span class="math inline">\(\sigma\)</span>-finite if there exists subsets <span class="math inline">\(A_1,A_2,...\)</span> so that <span class="math inline">\(X = \bigcup_i A_i\)</span> with <span class="math inline">\(\mu(A_i) &lt; \infty \forall i\)</span>.</p>
 </div>
 </div>
-<p>In other words, if we take the intersection of the preimages of our Borel sets (which we know is also an element of the sigma-algebra <span class="math inline">\(\mathcal M\)</span>), which we can think of as the probability of all events happening simultaneously, is the same as evaluating the probability for each event, i.e.&nbsp;joint probability factorizes into marginals.</p>
-<div id="r-9-6" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p><span class="math inline">\(\sigma\)</span>-finite is a weaker condition, it only demands that the subsets which make up <span class="math inline">\(X\)</span> have finite measure. Finite is a stronger condition, which demands that the full set <span class="math inline">\(X\)</span> has finite measure.</p>
+<div id="r-2-7" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.6 — Infinite collection of independent random variables
+<span class="screen-reader-only">Note</span>Definition 2.7 — Atoms, Atomic and Continuous Measure Spaces
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>An <strong>infinite</strong> collection of r.vs. on a probability space <span class="math inline">\((\Omega, \mathcal M, P)\)</span> is called independent if each finite collection is independent, as above.</p>
+<p>Assume <span class="math inline">\((X, \mathcal{M}, \mu)\)</span> is a measure space with all single points being measurable. An <strong>atom</strong> is a point <span class="math inline">\(x\)</span> with <span class="math inline">\(\mu(\{x\}) &gt; 0\)</span>.</p>
+<p>Letting <span class="math inline">\(A\)</span> be the set of atoms: - <span class="math inline">\((X, \mathcal{M}, \mu)\)</span> is called <strong>atomic</strong> if <span class="math inline">\(A \in \mathcal{M}\)</span> and <span class="math inline">\(\mu(A^c) = 0\)</span> - <span class="math inline">\((X, \mathcal{M}, \mu)\)</span> is called <strong>continuous</strong> if there is no atom, i.e.&nbsp;<span class="math inline">\(\mu(\{x\}) = 0\)</span> for all <span class="math inline">\(x \in X\)</span></p>
 </div>
 </div>
-<section id="the-law-of-large-numbers" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="the-law-of-large-numbers">The law of large numbers</h2>
-<div id="r-9-7" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>The Lebesgue measure on the Borel algebra is a continuous measure, so there are no atoms.</p>
+<p>For the counting measure on <span class="math inline">\(\mathbb R\)</span>, it is clear that <span class="math inline">\(A = \mathbb R\)</span> where <span class="math inline">\(\mathbb R^c=\emptyset\)</span>. The measure space with the counting measure is thus atomic.</p>
+<div id="r-2-8" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 9.7 — Weak and strong law of large numbers (special case)
+<span class="screen-reader-only">Important</span>Theorem 2.8 — Lebesgue Measure
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(X_1, X_2,\ldots\)</span> be independent r.v.s on some probability space such that the distribution of each <span class="math inline">\(X_i\)</span> is <span class="math inline">\((\delta_1 + \delta_{-1})/2\)</span>, i.e.&nbsp;for all <span class="math inline">\(i\)</span>, <span class="math display">\[P(\{\omega : X_i(\omega) = 1\}) = P(\{\omega : X_i(\omega) = -1\}) = 1/2\]</span> Then: - <strong>(WLLN)</strong> <span class="math inline">\(S_n/n = \frac{\sum_{i=1}^n X_i}{n}\)</span> converges in measure (in probability) to zero. - <strong>(SLLN)</strong> <span class="math inline">\(S_n/n = \frac{\sum_{i=1}^n X_i}{n}\)</span> converges a.e. (almost surely) to zero.</p>
-<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<p>There exists a translation invariant measure <span class="math inline">\(m\)</span> on <span class="math inline">\((\mathbb{R}, \mathcal{B})\)</span> such that: <span class="math display">\[m([a,b]) = b - a \quad \text{for all } a &lt; b\]</span></p>
+<p><span class="math inline">\(m\)</span> is the <strong>Lebesgue measure</strong> restricted to <span class="math inline">\(\mathcal{B}\)</span>.</p>
+</div>
+</div>
+<p>Our length metric is not defined for all subsets, but only those reasonable ones (the Borel sets).</p>
+<section id="step-1" class="level3">
+<h3 class="anchored" data-anchor-id="step-1">Step 1</h3>
+<div id="r-2-9" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof
+<span class="screen-reader-only">Note</span>Definition 2.9 — Outer Measure
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Proof of WLLN.</strong></p>
-<p>We first compute <span class="math inline">\(E[S_n^2]\)</span>: <span class="math display">\[E[S_n^2] = \sum_{i,j=1}^n E[X_iX_j] = n\]</span> since <span class="math inline">\(E[X_i^2]=1\)</span> and <span class="math inline">\(E[X_iX_j]=0\)</span> for <span class="math inline">\(i\neq j\)</span> by independence (as <span class="math inline">\(E[X_i]=0\)</span>). By linearity: <span class="math display">\[E\!\left[\left(\frac{S_n}{n}\right)^2\right] = \frac{1}{n}\]</span> Applying Markov’s inequality: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) = P\!\left(\left(\frac{S_n}{n}\right)^2 \geq \epsilon^2\right) \leq \frac{E[(S_n/n)^2]}{\epsilon^2} = \frac{1}{n\epsilon^2} \to 0\]</span> as <span class="math inline">\(n\to\infty\)</span>, so <span class="math inline">\(S_n/n\)</span> converges to <span class="math inline">\(0\)</span> in probability. (This makes sense — we assigned equal probability to <span class="math inline">\(\pm 1\)</span>, so gains and losses cancel.)</p>
-<p><strong>Proof of SLLN.</strong></p>
-<p><strong>Step 1: From summability to a.s. convergence via Borel–Cantelli.</strong></p>
-<p>Assume we can establish: <span class="math display">\[\sum_{n=1}^\infty P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) &lt; \infty \tag{16}\]</span> The sets <span class="math inline">\(E_n(\epsilon) := \{|S_n/n| \geq \epsilon\}\)</span> are measurable (preimages of <span class="math inline">\([\epsilon,\infty)\)</span> under the measurable function <span class="math inline">\(|S_n/n|\)</span>, where <span class="math inline">\(S_n\)</span> is just a sum of r.vs. which by definition are real-valued measurable functions, and a sum of measurable functions is also measurable, and the composition of a continuous function <span class="math inline">\(|\cdot |\)</span> with a measurable function is also measurable), so Borel–Cantelli applies: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon \text{ i.o.}\right) = 0 \quad \forall \epsilon &gt; 0\]</span> For each integer <span class="math inline">\(k\)</span>, define <span class="math inline">\(A_k := \{|S_n/n| \geq 1/k \text{ i.o.}\}\)</span>. Then <span class="math inline">\(P(A_k)=0\)</span> for every <span class="math inline">\(k\)</span>, and by countable additivity <span class="math inline">\(P(\bigcup_k A_k) = 0\)</span>. Taking complements via De Morgan: <span class="math display">\[P\!\left(\bigcap_k A_k^c\right) = 1\]</span> Since <span class="math inline">\(A_k^c = \{\text{eventually } |S_n/n| &lt; 1/k\}\)</span>, an outcome <span class="math inline">\(\omega\in\bigcap_k A_k^c\)</span> means: for every <span class="math inline">\(k\)</span> there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(|S_n(\omega)/n| &lt; 1/k\)</span> for all <span class="math inline">\(n\geq N\)</span>. This is exactly the <span class="math inline">\(\epsilon\)</span>-<span class="math inline">\(N\)</span> definition of <span class="math inline">\(S_n(\omega)/n\to 0\)</span>, for any epsilon we can just pick k sufficiently large s.t. <span class="math inline">\(1/k &lt; \epsilon\)</span> and then <span class="math inline">\(\omega \in A_k^c\)</span> we have <span class="math inline">\(|S_n(\omega)/n|&lt;1/k&lt; \epsilon\)</span>. Hence: <span class="math display">\[P\!\left(\{ \omega : \frac{S_n(\omega)}{n}\to 0\}\right) = 1\]</span></p>
-<p><strong>Step 2: Second moments are not enough.</strong></p>
-<p>From the WLLN we had <span class="math inline">\(P(|S_n/n|\geq\epsilon)\leq 1/(n\epsilon^2)\)</span>, but <span class="math inline">\(\sum_n 1/n = \infty\)</span>, so (16) fails and Borel–Cantelli cannot be applied with second moments.</p>
-<p><strong>Step 3: Fourth moment bound.</strong></p>
-<p>We instead show <span class="math inline">\(E(S_n^4)\leq 3n^2\)</span>. Expanding: <span class="math display">\[E(S_n^4) = \sum_{i,j,k,\ell} E(X_iX_jX_kX_\ell)\]</span> Split into three groups:</p>
-<p><strong>(a) <span class="math inline">\(i=j=k=\ell\)</span>:</strong> Each term equals <span class="math inline">\(E(X_i^4)=1\)</span>, giving <span class="math inline">\(n\)</span> terms.</p>
-<p><strong>(b) Exactly two distinct values each appearing twice:</strong> Each term equals <span class="math inline">\(E(X_i^2)E(X_j^2)=1\)</span> by independence. Count: <span class="math inline">\(\binom{n}{2}\)</span> ways to pick two distinct indices, times <span class="math inline">\(\binom{4}{2}=6\)</span> ways to assign them to the four slots, giving <span class="math inline">\(6\binom{n}{2} = 3n(n-1)\)</span> terms.</p>
-<p><strong>(c) All other cases:</strong> Any index appearing an odd number of times factors out <span class="math inline">\(E(X_i)=0\)</span>, so all such terms vanish.</p>
-<p>Hence: <span class="math display">\[E(S_n^4) = n + 3n(n-1) = 3n^2 - 2n \leq 3n^2\]</span></p>
-<p><strong>Step 4: Applying Markov with fourth moments.</strong></p>
-<p>By Markov applied to <span class="math inline">\((S_n/n)^4\)</span>: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right|\geq\epsilon\right) \leq \frac{E[(S_n/n)^4]}{\epsilon^4} \leq \frac{3}{n^2\epsilon^4}\]</span> Since <span class="math inline">\(\sum_{n=1}^\infty \frac{3}{n^2\epsilon^4} &lt; \infty\)</span> by the <span class="math inline">\(p\)</span>-series test, condition (16) holds and we are done. <span class="math inline">\(\blacksquare\)</span></p>
+<p>An <strong>outer measure</strong> on a set <span class="math inline">\(X\)</span> is a function <span class="math inline">\(\mu^\star: \mathcal{P}(X) \to [0, \infty]\)</span> satisfying:</p>
+<ol type="1">
+<li><p><span class="math inline">\(\mu^\star(\emptyset) = 0\)</span></p></li>
+<li><p><span class="math inline">\(A \subseteq B \implies \mu^\star(A) \leq \mu^\star(B)\)</span> <strong>(monotonicity)</strong></p></li>
+<li><p><span class="math inline">\(\mu^\star\!\left(\bigcup_{n=1}^\infty A_n\right) \leq \sum_{n=1}^\infty \mu^\star(A_n)\)</span> <strong>(countable subadditivity)</strong></p></li>
+</ol>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div id="fig-l09-law-of-large-numbers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Sample averages of fair coin flips settle at the mean tfrac12.">
+<div id="fig-l02-outer-measure" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-l09-law-of-large-numbers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/l09-law-of-large-numbers.svg" class="img-fluid figure-img" style="width:85.0%" alt="Sample averages of fair coin flips settle at the mean tfrac12.">
+<div aria-describedby="fig-l02-outer-measure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="themed-figure"><img src="images/l02-outer-measure-light.svg" class="light-content figure-img" alt="The outer measure of E is the smallest total length of a countable cover by intervals."><img src="images/l02-outer-measure-dark.svg" class="dark-content figure-img" alt="The outer measure of E is the smallest total length of a countable cover by intervals."></div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l09-law-of-large-numbers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.1: Sample averages of fair coin flips settle at the mean <span class="math inline">\(\tfrac12\)</span>.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l02-outer-measure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is the smallest total length of a countable cover by intervals.
 </figcaption>
 </figure>
 </div>
-<p>Remember that a.e. convergence implies convergence in measure on <em>finite</em> measure spaces, and thus (ii) implies (i). Proof of WLLN is simpler than for SLLN and WLLN holds in certain cases where the SLLN does not.</p>
-<p>WLLN says something like: if you flip a coin a zillion times, then with high probability, percentage of heads will be in some small interval around <span class="math inline">\(1/2\)</span>. The SLLN tells us that if you were to flip a coin an infinite number of times, then with probability 1, the percentage of heads would converge to 1/2.</p>
-<div id="r-9-8" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>This is to be compared with the <a href="./lecture-02.html#r-2-1">Definition 2.1</a> earlier, where the measure only has to satisfy that the measure on the empty set is zero, and being countably additive. Here, we see that we only demand countable subadditivity and monotonicity.</p>
+</section>
+<section id="step-2" class="level3">
+<h3 class="anchored" data-anchor-id="step-2">Step 2</h3>
+<div id="r-2-10" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 9.8 — Strong law of large numbers: General case
+<span class="screen-reader-only">Note</span>Definition 2.10 — Lebesgue Outer Measure
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(X_1, X_2,...\)</span> be independent r.vs. with the same distribution (i.i.d.) on some probability space <span class="math inline">\((\Omega, \mathcal F, P)\)</span> with <span class="math inline">\(E(|X|) &lt; \infty\)</span>, then <span class="math display">\[\frac{S_n}{n} = \frac{\sum X_i}{n}\]</span> converges a.e. to <span class="math inline">\(E[X]\)</span>.</p>
+<p>Let <span class="math inline">\(X = \mathbb{R}\)</span> and <span class="math inline">\(A \subseteq \mathbb{R}\)</span>. The <strong>Lebesgue outer measure</strong> is:</p>
+<p><span class="math display">\[\mu^\star(A) := \inf\left\{ \sum_{i=1}^\infty |I_i| : I_1, I_2, \ldots \text{ are open intervals with } A \subseteq \bigcup_i I_i \right\}\]</span></p>
+<p>where <span class="math inline">\(|I|\)</span> denotes the length of an interval <span class="math inline">\(I\)</span>.</p>
 </div>
 </div>
-<p>Remember that two r.vs. can have the same probability distribution but still live in different probability spaces. For example, the outcome of a fair coin on <span class="math inline">\(\Omega = \{H, T\}\)</span> and the outcome of a fair die being even or odd on <span class="math inline">\(\Omega' = \{1,2,3,4,5,6\}\)</span> have the same Bernoulli<span class="math inline">\((1/2)\)</span> distribution but live on different spaces.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p><strong>Independent events.</strong> Events <span class="math inline">\(E_1, E_2, \ldots\)</span> are independent if their indicator functions <span class="math inline">\(1_{E_1}, 1_{E_2}, \ldots\)</span> are independent random variables in the sense of <a href="./lecture-09.html#r-9-5">Definition 9.5</a> and <a href="./lecture-09.html#r-9-6">Definition 9.6</a>. Equivalently, <span class="math inline">\(P(E_{i_1}\cap\cdots\cap E_{i_k}) = P(E_{i_1})\cdots P(E_{i_k})\)</span> for every finite set of distinct indices <span class="math inline">\(i_1, \ldots, i_k\)</span>.</p>
-</div></div><div id="r-9-9" class="lemma-box callout callout-style-default callout-important no-icon callout-titled">
+<p>In other words if we have a set <span class="math inline">\(A\)</span>, we consier all possible unions of open intervals for which <span class="math inline">\(A\)</span> is a subset of that union, and sum up the length contributions, and finally take the infimum (the largest lower bound), i.e.&nbsp;cover A by intervals as efficiently as possible.</p>
+<div id="r-2-11" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Lemma 9.9 — Second Borel–Cantelli Lemma
+<span class="screen-reader-only">Important</span>Theorem 2.11 — The Lebesgue outer measure <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(\mathbb R\)</span>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\((\Omega, \mathcal F, P)\)</span> be a probability space and let <span class="math inline">\(E_1, E_2, \ldots\)</span> be <strong>independent</strong> events. If <span class="math display">\[\sum_{n=1}^\infty P(E_n) = \infty,\]</span> then <span class="math inline">\(P(\limsup E_n) = 1\)</span>, i.e.&nbsp;with probability one infinitely many of the <span class="math inline">\(E_n\)</span> occur.</p>
+<ol type="i">
+<li><p>Trivially satisfied. For any <span class="math inline">\(\epsilon &gt; 0\)</span>, the empty set can be covered by a single interval <span class="math inline">\((0,\epsilon)\)</span> with length <span class="math inline">\(\epsilon\)</span>, thus <span class="math inline">\(\mu^\star(\emptyset) \leq \epsilon\)</span> and thus <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span>.</p></li>
+<li><p>Since every valid cover of B is also a valid cover of A, the set of valid covers of B must be a subset of the valid covers of A (<span class="math inline">\(\mathcal C_B \subseteq \mathcal C_A\)</span>). The infimum of a larger set is smaller than the infimum of the smaller set, and this the result follows, i.e.<br>
+</p></li>
+<li><p>Case 1: In the case where <span class="math inline">\(\mu^\star(A_n)=\infty\)</span> for some <span class="math inline">\(n\)</span>, the inequality holds trivially. Case 2: <span class="math inline">\(\mu^\star(A_n)&lt;\infty \forall n\)</span>.</p></li>
+</ol>
+<p>As additional comments: the first inequality is guaranteed by the definition of the infimum. It tells us that we can cover <span class="math inline">\(A_j\)</span> arbitrarily close. In the second line, we first use that <span class="math inline">\(\bigcup A_j \subseteq \bigcup_{ij} I^j_i\)</span> and <span class="math inline">\(\mu^\star\)</span> is the infimum over all covers, we get the first inequality. Ther est follows trivially.</p>
+</div>
+</div>
+</section>
+<section id="step-3" class="level3">
+<h3 class="anchored" data-anchor-id="step-3">Step 3</h3>
+<p>OK! Now we both defined the outer measure, the Lebesgue outer measure and proved that it is indeed an outer measure. Now we need to show that the Lebesgue outer measure of an interval is given the length of the interval.</p>
+<div id="r-2-12" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 2.12 — The Lebesgue outer measure returns length for intervals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For each finite interval <span class="math inline">\(I\)</span> we have <span class="math inline">\(\mu^\star(I) = |I|\)</span>.</p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -695,26 +715,55 @@ Figure&nbsp;9.1: Sample averages of fair coin flips settle at the mean <span cla
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Taking complements, <span class="math inline">\((\limsup E_n)^c = \bigcup_{n\ge1}\bigcap_{k\ge n} E_k^c\)</span>, so it suffices to show that <span class="math inline">\(P\big(\bigcap_{k\ge n}E_k^c\big)=0\)</span> for every <span class="math inline">\(n\)</span>. The complements <span class="math inline">\(E_k^c\)</span> are again independent, and <span class="math inline">\(1-x\le e^{-x}\)</span> for all <span class="math inline">\(x\)</span>, so for <span class="math inline">\(N\ge n\)</span> <span class="math display">\[P\Big(\bigcap_{k=n}^{N}E_k^c\Big)=\prod_{k=n}^{N}\big(1-P(E_k)\big)\le \exp\Big(-\sum_{k=n}^{N}P(E_k)\Big)\xrightarrow[N\to\infty]{}0,\]</span> since every tail of the series diverges. By continuity from above, <span class="math inline">\(P\big(\bigcap_{k\ge n}E_k^c\big)=0\)</span>, and a countable union of null sets is null. <span class="math inline">\(\square\)</span></p>
-<p>Independence cannot be dropped: for <span class="math inline">\(E_n=[0,\tfrac1n]\)</span> in <span class="math inline">\([0,1]\)</span> with Lebesgue measure, <span class="math inline">\(\sum_n m(E_n)=\infty\)</span>, but <span class="math inline">\(\limsup E_n=\{0\}\)</span> has measure <span class="math inline">\(0\)</span>. <span class="math inline">\(\square\)</span></p>
+<p><strong>It suffices to show this for closed intervals</strong>. This statement follows by monotonicity and the fact that any other interval type can be squeezed between closed intervals. Take for example <span class="math inline">\((a,b)\)</span>, then for <span class="math inline">\(\epsilon &gt;0\)</span> we have <span class="math display">\[[a+\epsilon, b-\epsilon]\subseteq(a,b)\subseteq[a,b]\]</span>and using monotonicity of the outer measure and taking the limit as <span class="math inline">\(\epsilon\rightarrow 0\)</span> gives us the sought result. To prove <span class="math inline">\(\mu^\star(I) = |I|\)</span>, we show that <span class="math inline">\(\leq\)</span> and <span class="math inline">\(\geq\)</span> inequalities hold. <span class="math inline">\(\leq\)</span>: Take <span class="math inline">\(\epsilon &gt; 0\)</span>, then <span class="math inline">\([a,b]\subseteq(a-\epsilon, b+\epsilon)\)</span> and hence <span class="math inline">\(\mu^\star([a,b]) \leq b-a+2\epsilon \Rightarrow \mu^\star([a,b]) \leq (b-a)\)</span>. Now <span class="math inline">\(\geq:\)</span> We want to show <span class="math display">\[\mu^\star([a,b]) = \inf \{ \sum_i |I_i|: [a,b]\subseteq \bigcup_i I_i\} \geq b-a\]</span> Assume <span class="math inline">\([a,b] \subseteq \bigcup_{i=1}^N I_i\)</span> by compactness (the closed interval is a subset of R that is closed and bounded). Then we need to show that <span class="math display">\[b-a \leq \sum_{i=1}^N |I_i|\]</span>To show this, we build a chain of intervals in the following way</p>
+<p>Then clearly</p>
+<p>And since <span class="math inline">\(b_k &gt; b\)</span> and <span class="math inline">\(a_1 &lt; a\)</span> and the terms in last term are positive this gives desired inequality. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<p>One consequence of the second Borel–Cantelli lemma (<a href="./lecture-09.html#r-9-9">Lemma 9.9</a>) is the infinite monkey theorem below.</p>
-<div id="side-the-infinite-monkey-theorem" class="side-topic">
-<p><strong>Side topic: The infinite monkey theorem</strong></p>
-<p>Say a monkey types on a keyboard with 26 letters, hitting each key uniformly at random, producing an infinite sequence of letters like <code>XQBTHZAM...</code></p>
-<p>A <strong>string</strong> is a specific finite sequence of letters — say <code>HAMLET</code> (6 letters), or in the extreme case the entire text of Hamlet (~130,000 characters). <strong>Position <span class="math inline">\(n\)</span></strong> means the <span class="math inline">\(n\)</span>-th character in the infinite sequence the monkey produces.</p>
-<p>Define <span class="math inline">\(E_n\)</span> to be the event that starting at position <span class="math inline">\(n\)</span>, the next <span class="math inline">\(k\)</span> characters spell out exactly the target string. For example if the target is <code>HAMLET</code>:</p>
-<p><span class="math display">\[E_n = \{\text{characters } n, n+1, n+2, n+3, n+4, n+5 \text{ are H, A, M, L, E, T}\}\]</span></p>
-<p>Each <span class="math inline">\(E_n\)</span> has probability <span class="math inline">\(p = (1/26)^6 &gt; 0\)</span>, small but positive, and the same for every <span class="math inline">\(n\)</span> since keystrokes are independent. The events <span class="math inline">\(E_1, E_{k+1}, E_{2k+1},\ldots\)</span> at non-overlapping blocks are independent since they depend on disjoint sets of keystrokes. Since:</p>
-<p><span class="math display">\[\sum_{n=1}^\infty P(E_n) = \sum_{n=1}^\infty p = \infty\]</span></p>
-<p>the second Borel–Cantelli lemma (<a href="./lecture-09.html#r-9-9">Lemma 9.9</a>) gives <span class="math inline">\(P(E_n \text{ i.o.}) = 1\)</span> — the monkey types <code>HAMLET</code> infinitely often with probability 1. This holds for any target string, no matter how long: even a full textbook of <span class="math inline">\(N\)</span> characters has <span class="math inline">\((1/26)^N &gt; 0\)</span>, so the sum still diverges and the conclusion is the same.</p>
+</section>
+<section id="step-4" class="level3">
+<h3 class="anchored" data-anchor-id="step-4">Step 4</h3>
+<p>Now we defined the outer measure, introduced the Lebesgue outer measure (and proved that it indeed is an outer measure) and that the measure evaluated on finite intervals gives the length of the interval. Now enters step 4, where we apply Caratheodory’s theorem.</p>
+<div id="r-2-13" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition 2.13 — <span class="math inline">\(\mu^\star\)</span>-Measurable Sets
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(X\)</span>, we call a subset <span class="math inline">\(A \subseteq X\)</span> <strong><span class="math inline">\(\mu^\star\)</span>-measurable</strong> if for all <span class="math inline">\(E \subseteq X\)</span>:</p>
+<p><span class="math display">\[\mu^\star(E) = \mu^\star(E \cap A) + \mu^\star(E \cap A^c)\]</span></p>
+</div>
+</div>
+<p>The intuition for this is that the total outer measure of <span class="math inline">\(E\)</span> equals a piece inside <span class="math inline">\(A\)</span> and a piece outside of <span class="math inline">\(A\)</span>.</p>
+<div id="r-2-14" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 2.14 — Carathéodory’s Theorem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(X\)</span>, then the collection <span class="math inline">\(\mathcal{M}\)</span> of <span class="math inline">\(\mu^\star\)</span>-measurable sets is a <span class="math inline">\(\sigma\)</span>-algebra and <span class="math inline">\(\mu^\star\)</span> restricted to <span class="math inline">\(\mathcal{M}\)</span> is a measure, which is also complete.</p>
+</div>
+</div>
+</section>
+<section id="step-5" class="level3">
+<h3 class="anchored" data-anchor-id="step-5">Step 5</h3>
+<p>We will return to the proof in a moment. For step 5, we want to show that the Lebesgue outer measure on R, the <span class="math inline">\(\mathcal M\)</span> constructed in step 4 using Carathéodory’s theorem contains <span class="math inline">\(\mathcal B\)</span>.</p>
+<p>Given <span class="math inline">\(\mathcal M\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra and <span class="math inline">\(\mathcal B\)</span> is the smallest <span class="math inline">\(\sigma\)</span>-algebra containing all open intervals, it suffices to show that if the open intervals are a subset of <span class="math inline">\(\mathcal M\)</span> then <span class="math inline">\(\mathcal B \subseteq \mathcal M\)</span>. Now <span class="math inline">\(\mathcal M\)</span> is the collection of all <span class="math inline">\(\mu^\star\)</span> measurable sets, so we only need to verify that the open intervals <span class="math inline">\((a,b\)</span>) are <span class="math inline">\(\mu^\star\)</span>-measurable. It suffices to show this for the rays <span class="math inline">\((-\infty, a)\)</span> and <span class="math inline">\((b,\infty\)</span>) as <span class="math inline">\(\mathcal M\)</span> is closed under complements and intersections, <span class="math inline">\((a,b) = (-\infty, b) \cap (-\infty, a)^c\)</span>.</p>
+<p>Let <span class="math inline">\(E \subseteq R\)</span> and assume <span class="math inline">\(a \notin E\)</span>, we have <span class="math inline">\(E = (E\cap (-\infty, a)) \cup (E \cap(a, \infty))\)</span>, then the <span class="math inline">\(\leq\)</span> follows by subadditivity. We only need to show <span class="math display">\[\mu^\star(E) \geq \mu^\star(E \cap (-\infty, a)) + \mu^\star(E \cap (a, \infty))\]</span>Note that In other words, we are considering the two regions intersected by the ray <span class="math inline">\((-\infty, a)\)</span>, and covering them with separate open intervals. The final inequality comes form the fact that the outer measure as an infimum over all coverings. Taking the infimum of the LHS, we obtain exactly what we wanted to show. Therefore indeed we have shown that any open intervals is a subset of <span class="math inline">\(\mathcal M\)</span>.</p>
+<p>To conclude our construction of the Lebesgue measure, we defined an outer measure, by step 4 (Carathadory) we obtain a measure space <span class="math inline">\((R, \mathcal M, \mu^\star\vert_{\mathcal M})\)</span> where <span class="math inline">\(\mathcal M\)</span> is the set of all <span class="math inline">\(\mu^\star\)</span>-measurable sets. By step 3, we have that the outer measure of intervals are given by their length, and by step 5 we have the Borel set being a subset of <span class="math inline">\(\mathcal M\)</span>, thus restricting <span class="math inline">\(\mu^\star\)</span> from <span class="math inline">\(\mathcal M\)</span> to <span class="math inline">\(\mathcal B\)</span> gives us the measure space <span class="math inline">\((R, \mathcal B, \mu^\star \vert_{\mathcal B})\)</span>. By definition from the outer measure, it is also translation invariant.</p>
 
 
 </section>
@@ -841,7 +890,7 @@ Figure&nbsp;9.1: Sample averages of fair coin flips settle at the mean <span cla
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1246,13 +1295,13 @@ Figure&nbsp;9.1: Sample averages of fair coin flips settle at the mean <span cla
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-08.html" class="pagination-link" aria-label="Product Measures">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Product Measures</span></span>
+      <a href="./lecture-01.html" class="pagination-link" aria-label="Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture-10.html" class="pagination-link" aria-label="Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-03.html" class="pagination-link" aria-label="Proof of Carathéodory and Uniqueness of Lebesgue Measure">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

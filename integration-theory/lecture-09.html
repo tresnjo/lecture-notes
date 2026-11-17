@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Product Measures – Integration Theory</title>
+<title>9&nbsp; Weak and Strong Laws of Large Numbers – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture-09.html" rel="next">
-<link href="./lecture-07.html" rel="prev">
+<link href="./lecture-10.html" rel="next">
+<link href="./lecture-08.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-08.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Product Measures</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-09.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -414,13 +402,13 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-08.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-08.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Product Measures</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-09.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-09.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></span></a>
   </div>
 </li>
@@ -486,10 +474,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#fubinis-theorem-for-sets" id="toc-fubinis-theorem-for-sets" class="nav-link active" data-scroll-target="#fubinis-theorem-for-sets">Fubini’s theorem for sets</a>
-  <ul class="collapse">
-  <li><a href="#the-fubini-and-tonelli-theorems" id="toc-the-fubini-and-tonelli-theorems" class="nav-link" data-scroll-target="#the-fubini-and-tonelli-theorems">The Fubini and Tonelli theorems</a></li>
-  </ul></li>
+  <li><a href="#the-law-of-large-numbers" id="toc-the-law-of-large-numbers" class="nav-link active" data-scroll-target="#the-law-of-large-numbers">The law of large numbers</a></li>
   </ul>
 </nav>
     </div>
@@ -497,9 +482,9 @@ window.Quarto = {
 <main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-08.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Product Measures</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-09.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Product Measures</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></h1>
 </div>
 
 
@@ -516,96 +501,108 @@ window.Quarto = {
 </header>
 
 
-<p>Our goal of this new chapter is to, given two measure spaces, define a product of them. For the product space, we should obviously use (<span class="math inline">\(X\times Y\)</span>). For the <span class="math inline">\(\sigma\)</span>-algebra, it should be the smallest which contains the so-called “rectangles” <span class="math display">\[\mathcal R = \{A \times B : A \in \mathcal M, B \in \mathcal N\}\]</span>whose <span class="math inline">\(\sigma\)</span>-algebra <span class="math inline">\(\mathcal M \otimes \mathcal N \equiv \sigma(\mathcal R)\)</span> we denote as <span class="math inline">\(\mathcal M \otimes \mathcal N\)</span>. It is clear that if we did have a product measure, then it should satisfy <span class="math display">\[(\mu \times \nu)(A \times B) = \mu(A) \nu(B) \qquad \forall A \in \mathcal M, B \in \mathcal N\]</span></p>
-<div id="r-8-1" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div id="r-9-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 8.1 — Existence of product measures
+<span class="screen-reader-only">Note</span>Definition 9.1 — Probability space
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>There exists a measure <span class="math inline">\(\mu \times \nu\)</span> on the measurable space <span class="math inline">\((X\times Y, \mathcal M \otimes \mathcal N)\)</span> such that</p>
-<p><span class="math display">\[
-(\mu \times \nu)(A \times B) = \mu(A)\nu(B).
-\]</span></p>
-<p>Moreover, <span class="math inline">\(\mu\times\nu\)</span> is the unique measure satisfying these properties if both <span class="math inline">\(\mu,\nu\)</span> are <span class="math inline">\(\sigma\)</span>-finite.</p>
+<p>A probability space is a measure space <span class="math inline">\((\Omega, \mathcal M, P)\)</span> with <span class="math inline">\(P(\Omega) = 1\)</span>.</p>
 </div>
 </div>
-<div id="r-8-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p><span class="math inline">\(\Omega\)</span> is our set of outcomes of some random experiment, <span class="math inline">\(\mathcal M\)</span> is the set of events to which we will assign a probability, and <span class="math inline">\(P(A)\)</span> is the probability that an event occurs.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Note that a probability space thus automatically qualifies as finite, and therefore also <span class="math inline">\(\sigma\)</span>-finite. This means that we can apply properties of the probability measure such as continuity from above without having to think twice.</p>
+</div></div><div id="r-9-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 8.2 — Sections
+<span class="screen-reader-only">Note</span>Definition 9.2 — Random variable
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(E\subseteq X \times Y\)</span>, the <span class="math inline">\(x\)</span>-section of <span class="math inline">\(E\)</span> is</p>
-<p><span class="math display">\[E_x := \{y\in Y : (x,y) \in E\}\]</span></p>
-<p>and the <span class="math inline">\(y\)</span>-section of <span class="math inline">\(E\)</span> is</p>
-<p><span class="math display">\[E^y := \{x \in X : (x,y) \in E\}\]</span></p>
+<p>Given a probability space, a random variable is a measurable real-valued function <span class="math inline">\(X\)</span> on <span class="math inline">\((\Omega, \mathcal M, P)\)</span>.</p>
 </div>
 </div>
-<div id="fig-l08-product-slice" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The section E_x is the slice of E above the point x; Fubini integrates these slices.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-l08-product-slice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/l08-product-slice.svg" class="img-fluid figure-img" style="width:85.0%" alt="The section E_x is the slice of E above the point x; Fubini integrates these slices.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l08-product-slice-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8.1: The section <span class="math inline">\(E_x\)</span> is the slice of <span class="math inline">\(E\)</span> above the point <span class="math inline">\(x\)</span>; Fubini integrates these slices.
-</figcaption>
-</figure>
-</div>
-<div id="r-8-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>A random variable is not random as it is just a function, but if the input <span class="math inline">\(\omega\)</span> is random, then certainly <span class="math inline">\(X(\omega)\)</span> is random. Hence we call it a random variable.</p>
+<div id="r-9-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 8.3 — Sections of functions
+<span class="screen-reader-only">Note</span>Definition 9.3 — Expectation
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f : X \times Y \rightarrow \mathbb{R}\)</span>, we let for a fixed <span class="math inline">\(x\in X\)</span></p>
-<p><span class="math display">\[f_x: Y \rightarrow \mathbb{R} \quad \text{given by} \quad f_x(y) := f(x,y)\]</span></p>
-<p>and for a fixed <span class="math inline">\(y\in Y\)</span></p>
-<p><span class="math display">\[f^y: X \rightarrow \mathbb{R} \quad \text{given by} \quad f^y(x) := f(x,y)\]</span></p>
+<p>If <span class="math inline">\(X\)</span> is a R.V. on a probability space, its expectation is defined by <span class="math display">\[E(X) =\int X dP\]</span> provided it exists, meaning at least one of <span class="math inline">\(\int X^+ dP\)</span> and <span class="math inline">\(\int X^- dP\)</span> is finite.</p>
 </div>
 </div>
-<div id="r-8-4" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div id="r-9-4" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 8.4 — Sections of measurable sets are measurable and sections of functions are measurable
+<span class="screen-reader-only">Note</span>Definition 9.4 — Distribution / Law of a Random Variable
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(i)</strong> If <span class="math inline">\(E \in \mathcal{M} \otimes \mathcal{N}\)</span> then for all <span class="math inline">\(x\in X\)</span>, <span class="math display">\[E_x \in \mathcal{N}\]</span> and for all <span class="math inline">\(y\in Y\)</span>, <span class="math display">\[E^y \in \mathcal{M}\]</span></p>
-<p><strong>(ii)</strong> If <span class="math inline">\(f: X \times Y \rightarrow \mathbb{R}\)</span> is <span class="math inline">\(\mathcal{M}\otimes \mathcal{N}\)</span>-measurable, then for all <span class="math inline">\(x\in X\)</span>, <span class="math inline">\(f_x\)</span> is <span class="math inline">\(\mathcal{N}\)</span>-measurable and for all <span class="math inline">\(y \in Y\)</span>, <span class="math inline">\(f^y\)</span> is <span class="math inline">\(\mathcal{M}\)</span>-measurable.</p>
+<p>Given a r.v. <span class="math inline">\(X\)</span> on a probability space, the distribution or law of <span class="math inline">\(X\)</span> is the probability measure <span class="math inline">\(\mu\)</span> on <span class="math inline">\((R, \mathcal B)\)</span> given by <span class="math display">\[\mu(A) = P(X^{-1}(A))\]</span></p>
 </div>
 </div>
-<section id="fubinis-theorem-for-sets" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="fubinis-theorem-for-sets">Fubini’s theorem for sets</h2>
-<div id="r-8-5" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Note that we demand <span class="math inline">\(X\)</span> to be measurable, hence the preimage of <span class="math inline">\(A\subseteq R\)</span> is contained in <span class="math inline">\(\mathcal M\)</span> and we can thus assign a meaningful probability to that event.</p>
+</div></div><div id="r-9-5" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 8.5 — Fubini’s theorem for sets
+<span class="screen-reader-only">Note</span>Definition 9.5 — Independent random variables
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\((X,\mathcal M, \mu)\)</span> and <span class="math inline">\((Y,\mathcal N, \nu)\)</span> be <span class="math inline">\(\sigma\)</span>-finite measure spaces. If <span class="math inline">\(E\in\mathcal M \otimes \mathcal N\)</span>, then the maps <span class="math inline">\(x\rightarrow \nu(E_x)\)</span> and <span class="math inline">\(y\rightarrow \mu(E^y)\)</span> are measurable functions on <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> respectively, furthermore</p>
-<p><span class="math display">\[(\mu \times \nu)(E) = \int_X \nu(E_x) d\mu(x) = \int_Y \mu(E^y) d\nu(y)\]</span></p>
+<p>(Independent) <span class="math inline">\(n\)</span> r.vs. <span class="math inline">\(X_1, X_2,...,X_n\)</span> on a probability space <span class="math inline">\((\Omega, \mathcal M, P)\)</span> are called independent if for all Borel sets <span class="math inline">\(B_1, B_2,...,B_n\)</span> <span class="math display">\[P(\bigcap_{i=1}^n X_{i}^{-1}(B_i)) = \prod_{i=1}^n P(X_i^{-1}(B_i))\]</span></p>
+</div>
+</div>
+<p>In other words, if we take the intersection of the preimages of our Borel sets (which we know is also an element of the sigma-algebra <span class="math inline">\(\mathcal M\)</span>), which we can think of as the probability of all events happening simultaneously, is the same as evaluating the probability for each event, i.e.&nbsp;joint probability factorizes into marginals.</p>
+<div id="r-9-6" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition 9.6 — Infinite collection of independent random variables
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An <strong>infinite</strong> collection of r.vs. on a probability space <span class="math inline">\((\Omega, \mathcal M, P)\)</span> is called independent if each finite collection is independent, as above.</p>
+</div>
+</div>
+<section id="the-law-of-large-numbers" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-law-of-large-numbers">The law of large numbers</h2>
+<div id="r-9-7" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 9.7 — Weak and strong law of large numbers (special case)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(X_1, X_2,\ldots\)</span> be independent r.v.s on some probability space such that the distribution of each <span class="math inline">\(X_i\)</span> is <span class="math inline">\((\delta_1 + \delta_{-1})/2\)</span>, i.e.&nbsp;for all <span class="math inline">\(i\)</span>, <span class="math display">\[P(\{\omega : X_i(\omega) = 1\}) = P(\{\omega : X_i(\omega) = -1\}) = 1/2\]</span> Then: - <strong>(WLLN)</strong> <span class="math inline">\(S_n/n = \frac{\sum_{i=1}^n X_i}{n}\)</span> converges in measure (in probability) to zero. - <strong>(SLLN)</strong> <span class="math inline">\(S_n/n = \frac{\sum_{i=1}^n X_i}{n}\)</span> converges a.e. (almost surely) to zero.</p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -614,61 +611,100 @@ Figure&nbsp;8.1: The section <span class="math inline">\(E_x\)</span> is the sli
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>We first prove it where we assume the spaces are finite. By symmetry, it is enough to show that <span class="math inline">\(x\rightarrow \nu(E_x)\)</span> is measurable and <span class="math inline">\((\mu\times \nu)(E) = \int_X \nu(E_x) d\mu(x)\)</span>. Let <span class="math display">\[\mathcal C := \{E \in \mathcal M \otimes \mathcal N : \text{the above claim holds}\}\]</span>. Our goal is to show that <span class="math inline">\(\mathcal C = \mathcal M \otimes \mathcal N\)</span>. Note that <span class="math inline">\(\mathcal C \subseteq \mathcal M \otimes \mathcal N\)</span> trivially. We are therefore left with proving the reverse containment.</p>
-<p><strong>Step 1</strong> <span class="math inline">\(\mathcal R \subseteq \mathcal C\)</span>. <span class="math inline">\(\nu((A\times B)_x) = \nu(B)1_A(x)\)</span> hence <span class="math inline">\(x\rightarrow \nu((A\times B)_x)\)</span> is measurable (constant times a measurable function). In addition <span class="math display">\[(\mu \times \nu)(A \times B) = \int_X 1_A(x) \nu(B) d\mu(x) = \int_X \nu((A\times B)_x) d\mu(x)\]</span></p>
-<p><strong>Step 2</strong>: <span class="math inline">\(\mathcal C\)</span> is a <span class="math inline">\(\mathcal D\)</span>-system. We check each axiom.</p>
-<ol type="a">
-<li><p><span class="math inline">\(X\times Y\in\mathcal C\)</span>. <span class="math inline">\((X\times Y)_x = Y\)</span> for all <span class="math inline">\(x\)</span>, so <span class="math inline">\(x\mapsto\nu(Y)\)</span> is constant, hence measurable (M). For (I): <span class="math inline">\((\mu\times\nu)(X\times Y) = \mu(X)\nu(Y) = \int_X\nu(Y)\,d\mu(x)\)</span>.</p></li>
-<li><p>Closed under proper differences. Let <span class="math inline">\(E\subseteq F\)</span> with <span class="math inline">\(E,F\in\mathcal C\)</span>. Then <span class="math inline">\((F\setminus E)_x = F_x\setminus E_x\)</span> and <span class="math inline">\(E_x\subseteq F_x\)</span>, so <span class="math inline">\(\nu((F\setminus E)_x) = \nu(F_x)-\nu(E_x)\)</span>, valid since finiteness gives <span class="math inline">\(\nu(F_x)&lt;\infty\)</span>. Both maps are measurable by assumption (<span class="math inline">\(E,F\in\mathcal C\)</span>), so their difference is measurable (M). For (I): <span class="math display">\[\int_X\nu((F\setminus E)_x)\,d\mu = \int_X\nu(F_x)\,d\mu - \int_X\nu(E_x)\,d\mu = (\mu\times\nu)(F) - (\mu\times\nu)(E) = (\mu\times\nu)(F\setminus E)\]</span></p></li>
-<li><p>Closed under increasing unions. Let <span class="math inline">\(E_n\nearrow E\)</span> with each <span class="math inline">\(E_n\in\mathcal C\)</span>. Then <span class="math inline">\((E_n)_x\nearrow E_x\)</span> for every <span class="math inline">\(x\)</span>, so by continuity from below <span class="math inline">\(\nu((E_n)_x)\nearrow\nu(E_x)\)</span>. Each <span class="math inline">\(x\mapsto\nu((E_n)_x)\)</span> is measurable by assumption, and a pointwise limit of measurable functions is measurable by <a href="./lecture-05.html#r-5-6">Proposition 5.6</a> in <a href="./lecture-05.html">Lecture 5</a> (M). For (I), apply MCT (the functions are nonneg, measurable, and increasing): <span class="math display">\[\int_X\nu(E_x)\,d\mu = \int_X\lim_n\nu((E_n)_x)\,d\mu = \lim_n\int_X\nu((E_n)_x)\,d\mu = \lim_n(\mu\times\nu)(E_n) = (\mu\times\nu)(E)\]</span> &gt; &gt; where the last equality is continuity from below of <span class="math inline">\(\mu\times\nu\)</span>.</p></li>
-</ol>
-<p><strong>Step 3</strong> Since <span class="math inline">\(\mathcal R\)</span> is a <span class="math inline">\(\pi\)</span>-system, the Dynkin <span class="math inline">\(\pi\)</span>-<span class="math inline">\(\lambda\)</span> theorem gives <span class="math inline">\(\mathcal M \otimes \mathcal N = \sigma(\mathcal R) = \mathcal D(\mathcal R)\subseteq C\)</span>. The last inclusion follows from the fact that <span class="math inline">\(\mathcal R \subseteq C\)</span> and <span class="math inline">\(\mathcal C\)</span> is a <span class="math inline">\(\mathcal D\)</span>-system, where <span class="math inline">\(\mathcal D(\mathcal R)\)</span> is the smallest <span class="math inline">\(\mathcal D\)</span>-system generated by <span class="math inline">\(\mathcal R\)</span>. Thus we have that the statement holds for the finite case.</p>
-<p><strong>Step 4.</strong> Moving to the <span class="math inline">\(\sigma\)</span>-finite case, let <span class="math inline">\(X_1\subseteq X_2\ldots\)</span> have finite measure with <span class="math inline">\(X=\bigcup X_i\)</span> and <span class="math inline">\(Y_1\subseteq Y_2\ldots\)</span> with <span class="math inline">\(Y = \bigcup Y_i\)</span>. <strong>NTS: Note that this is different from the sigma-finite definition where we do not demand an increasing sequence of subsets, however, given any exhaustion <span class="math inline">\(\{A_n\}\)</span> we can simply replace it with <span class="math inline">\(X_n:= \bigcup_{i=1}^n A_i\)</span>.</strong> Consider the measure <span class="math inline">\((\mu \times \nu)\vert_{X_n \times Y_n}\)</span> which is a finite measure on <span class="math inline">\((X \times Y, \mathcal M \otimes \mathcal N)\)</span>. It is easy to see that <span class="math inline">\((\mu \times \nu)\vert_{X_n \times Y_n} = \mu \vert_{X_n} \times \nu \vert_{Y_n}\)</span> (this follow from the fact that <span class="math inline">\(\mu \vert_{X_n}(A) = \mu(X_n \cap A) \leq \mu(X_n) &lt; \infty\)</span>, and thus we have a product of finite measures which is finite). By the finite case, for each <span class="math inline">\(E \in \mathcal M \otimes \mathcal N\)</span>, the map <span class="math inline">\(x\rightarrow \nu \vert_{Y_n}(E_x) = \nu(Y_n\cap E_x)\)</span> is measurable on <span class="math inline">\((X, \mathcal M)\)</span> and <span class="math display">\[\mu\times\nu((X_n\times Y_n)\cap E) = (\mu\times\nu)|_{X_n\times Y_n}(E) = \int_X \nu|_{Y_n}(E_x)\,d\mu|_{X_n}(x) = \int_X \mathbf{1}_{X_n}\nu(Y_n\cap E_x)\,d\mu(x)\]</span> Using continuity from below and letting <span class="math inline">\(n\to\infty\)</span>, we conclude that <span class="math inline">\(x\to\nu(E_x)\)</span> is measurable on <span class="math inline">\((X,\mathcal{M})\)</span>. Also, letting <span class="math inline">\(n\to\infty\)</span> in the above display, using continuity from below, the fact that product of two measurable functions is measurable, and the MCT, we conclude that <span class="math display">\[(\mu\times\nu)(E) = \int_X \nu(E_x)\,d\mu(x)\]</span> as desired. <span class="math inline">\(\square\)</span></p>
+<p><strong>Proof of WLLN.</strong></p>
+<p>We first compute <span class="math inline">\(E[S_n^2]\)</span>: <span class="math display">\[E[S_n^2] = \sum_{i,j=1}^n E[X_iX_j] = n\]</span> since <span class="math inline">\(E[X_i^2]=1\)</span> and <span class="math inline">\(E[X_iX_j]=0\)</span> for <span class="math inline">\(i\neq j\)</span> by independence (as <span class="math inline">\(E[X_i]=0\)</span>). By linearity: <span class="math display">\[E\!\left[\left(\frac{S_n}{n}\right)^2\right] = \frac{1}{n}\]</span> Applying Markov’s inequality: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) = P\!\left(\left(\frac{S_n}{n}\right)^2 \geq \epsilon^2\right) \leq \frac{E[(S_n/n)^2]}{\epsilon^2} = \frac{1}{n\epsilon^2} \to 0\]</span> as <span class="math inline">\(n\to\infty\)</span>, so <span class="math inline">\(S_n/n\)</span> converges to <span class="math inline">\(0\)</span> in probability. (This makes sense — we assigned equal probability to <span class="math inline">\(\pm 1\)</span>, so gains and losses cancel.)</p>
+<p><strong>Proof of SLLN.</strong></p>
+<p><strong>Step 1: From summability to a.s. convergence via Borel–Cantelli.</strong></p>
+<p>Assume we can establish: <span class="math display">\[\sum_{n=1}^\infty P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) &lt; \infty \tag{16}\]</span> The sets <span class="math inline">\(E_n(\epsilon) := \{|S_n/n| \geq \epsilon\}\)</span> are measurable (preimages of <span class="math inline">\([\epsilon,\infty)\)</span> under the measurable function <span class="math inline">\(|S_n/n|\)</span>, where <span class="math inline">\(S_n\)</span> is just a sum of r.vs. which by definition are real-valued measurable functions, and a sum of measurable functions is also measurable, and the composition of a continuous function <span class="math inline">\(|\cdot |\)</span> with a measurable function is also measurable), so Borel–Cantelli applies: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon \text{ i.o.}\right) = 0 \quad \forall \epsilon &gt; 0\]</span> For each integer <span class="math inline">\(k\)</span>, define <span class="math inline">\(A_k := \{|S_n/n| \geq 1/k \text{ i.o.}\}\)</span>. Then <span class="math inline">\(P(A_k)=0\)</span> for every <span class="math inline">\(k\)</span>, and by countable additivity <span class="math inline">\(P(\bigcup_k A_k) = 0\)</span>. Taking complements via De Morgan: <span class="math display">\[P\!\left(\bigcap_k A_k^c\right) = 1\]</span> Since <span class="math inline">\(A_k^c = \{\text{eventually } |S_n/n| &lt; 1/k\}\)</span>, an outcome <span class="math inline">\(\omega\in\bigcap_k A_k^c\)</span> means: for every <span class="math inline">\(k\)</span> there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(|S_n(\omega)/n| &lt; 1/k\)</span> for all <span class="math inline">\(n\geq N\)</span>. This is exactly the <span class="math inline">\(\epsilon\)</span>-<span class="math inline">\(N\)</span> definition of <span class="math inline">\(S_n(\omega)/n\to 0\)</span>, for any epsilon we can just pick k sufficiently large s.t. <span class="math inline">\(1/k &lt; \epsilon\)</span> and then <span class="math inline">\(\omega \in A_k^c\)</span> we have <span class="math inline">\(|S_n(\omega)/n|&lt;1/k&lt; \epsilon\)</span>. Hence: <span class="math display">\[P\!\left(\{ \omega : \frac{S_n(\omega)}{n}\to 0\}\right) = 1\]</span></p>
+<p><strong>Step 2: Second moments are not enough.</strong></p>
+<p>From the WLLN we had <span class="math inline">\(P(|S_n/n|\geq\epsilon)\leq 1/(n\epsilon^2)\)</span>, but <span class="math inline">\(\sum_n 1/n = \infty\)</span>, so (16) fails and Borel–Cantelli cannot be applied with second moments.</p>
+<p><strong>Step 3: Fourth moment bound.</strong></p>
+<p>We instead show <span class="math inline">\(E(S_n^4)\leq 3n^2\)</span>. Expanding: <span class="math display">\[E(S_n^4) = \sum_{i,j,k,\ell} E(X_iX_jX_kX_\ell)\]</span> Split into three groups:</p>
+<p><strong>(a) <span class="math inline">\(i=j=k=\ell\)</span>:</strong> Each term equals <span class="math inline">\(E(X_i^4)=1\)</span>, giving <span class="math inline">\(n\)</span> terms.</p>
+<p><strong>(b) Exactly two distinct values each appearing twice:</strong> Each term equals <span class="math inline">\(E(X_i^2)E(X_j^2)=1\)</span> by independence. Count: <span class="math inline">\(\binom{n}{2}\)</span> ways to pick two distinct indices, times <span class="math inline">\(\binom{4}{2}=6\)</span> ways to assign them to the four slots, giving <span class="math inline">\(6\binom{n}{2} = 3n(n-1)\)</span> terms.</p>
+<p><strong>(c) All other cases:</strong> Any index appearing an odd number of times factors out <span class="math inline">\(E(X_i)=0\)</span>, so all such terms vanish.</p>
+<p>Hence: <span class="math display">\[E(S_n^4) = n + 3n(n-1) = 3n^2 - 2n \leq 3n^2\]</span></p>
+<p><strong>Step 4: Applying Markov with fourth moments.</strong></p>
+<p>By Markov applied to <span class="math inline">\((S_n/n)^4\)</span>: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right|\geq\epsilon\right) \leq \frac{E[(S_n/n)^4]}{\epsilon^4} \leq \frac{3}{n^2\epsilon^4}\]</span> Since <span class="math inline">\(\sum_{n=1}^\infty \frac{3}{n^2\epsilon^4} &lt; \infty\)</span> by the <span class="math inline">\(p\)</span>-series test, condition (16) holds and we are done. <span class="math inline">\(\blacksquare\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>Note that <span class="math inline">\(x\rightarrow \nu(E_X)\)</span> is a map from <span class="math inline">\(X\rightarrow [0,\infty]\)</span> since <span class="math inline">\(E_x\)</span> is a subset of <span class="math inline">\(Y\)</span> and <span class="math inline">\(\nu(E_x) \in [0,\infty]\)</span>. ### Counterexample without <span class="math inline">\(\sigma\)</span>-finiteness</p>
-</div></div><p>Consider two measurable spaces on <span class="math inline">\([0,1]\)</span> with the Borel sets with the first endowed with a measure <span class="math inline">\(\mu\)</span> being the Lebesgue measure and the second endowed with a measure <span class="math inline">\(\nu\)</span> being the counting measure (the latter not being <span class="math inline">\(\sigma\)</span>-finite). Let <span class="math inline">\(\mathcal D:= \{(x,x) : x\in[0,1]\}\)</span> be the diagonal. <span class="math inline">\(\mathcal D^c\)</span> is open and can thus be written as a countable union of products of open intervals (note that the set is open since the epsilon ball is always restricted to points inside the domain). Since each open interval is a Borel set, the product forms measurable rectangles in the product sigma algebra, and sice that is closed under countable unions and complements, <span class="math inline">\(\mathcal D\)</span> is also an element of the <span class="math inline">\(\sigma\)</span>-algebra. (For any point <span class="math inline">\((x,y) \in \mathcal D^c\)</span> there exists an <span class="math inline">\(\epsilon&gt;0\)</span> such that there is an open ball around <span class="math inline">\((x,y)\)</span> contained in <span class="math inline">\(\mathcal D^c\)</span>, i.e.&nbsp;we can find rationals <span class="math inline">\(a,b,c,d\in\mathbb Q\)</span> such that <span class="math inline">\((x,y) \in (a,b) \times (c,d) \subseteq \mathcal D^c\)</span>). The collection of all such rectangles <span class="math inline">\(\mathcal B\)</span> is countable since it is indexed by <span class="math inline">\(\mathbb Q^4\)</span> and we can write <span class="math display">\[D^c = \bigcup \{B \in \mathcal B : B \subseteq \mathcal D^c\}\]</span> Note that <span class="math inline">\(D_x = \{x\}\)</span> for each <span class="math inline">\(x\in X\)</span> and <span class="math inline">\(D^y = \{y\}\)</span> for each <span class="math inline">\(y\in Y\)</span>. The map <span class="math inline">\(x\rightarrow \nu(D_x)\)</span> is the constant function 1 (which is measurable) whereas <span class="math inline">\(y\rightarrow \mu(D^y)\)</span> is the constant function 0 (which is measurable). However, we now have <span class="math display">\[\int_X \nu(D_x) d\mu(x) = 1 \neq 0 \int_Y \mu(D^y) d\nu(y)\]</span></p>
-<section id="the-fubini-and-tonelli-theorems" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="the-fubini-and-tonelli-theorems">The Fubini and Tonelli theorems</h3>
-<p><a href="./lecture-08.html#r-8-5">Theorem 8.5</a> was a special case of a more general theorem which we now present.</p>
-<div id="r-8-6" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div id="fig-l09-law-of-large-numbers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Sample averages of fair coin flips settle at the mean tfrac12.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-l09-law-of-large-numbers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/l09-law-of-large-numbers.svg" class="img-fluid figure-img" style="width:85.0%" alt="Sample averages of fair coin flips settle at the mean tfrac12.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l09-law-of-large-numbers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Sample averages of fair coin flips settle at the mean <span class="math inline">\(\tfrac12\)</span>.
+</figcaption>
+</figure>
+</div>
+<p>Remember that a.e. convergence implies convergence in measure on <em>finite</em> measure spaces, and thus (ii) implies (i). Proof of WLLN is simpler than for SLLN and WLLN holds in certain cases where the SLLN does not.</p>
+<p>WLLN says something like: if you flip a coin a zillion times, then with high probability, percentage of heads will be in some small interval around <span class="math inline">\(1/2\)</span>. The SLLN tells us that if you were to flip a coin an infinite number of times, then with probability 1, the percentage of heads would converge to 1/2.</p>
+<div id="r-9-8" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 8.6 — Tonelli and Fubini
+<span class="screen-reader-only">Important</span>Theorem 9.8 — Strong law of large numbers: General case
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\((X,\mathcal M, \mu)\)</span> and <span class="math inline">\((Y, \mathcal N, \nu)\)</span> be <span class="math inline">\(\sigma\)</span>-finite measure spaces.</p>
-<p><strong>(a) (Tonelli)</strong> If <span class="math inline">\(f\in L^+(X\times Y, \mathcal M \otimes \mathcal N, \mu \times \nu)\)</span> then <span class="math display">\[g(x) := \int_Y f_x(y) d\nu(y) \in L^+(X, \mathcal M, \mu)\]</span> and <span class="math display">\[\int_{X \times Y} f(x,y) d(\mu \times \nu)(x,y) = \int_X g(x) d\mu(x)\]</span></p>
-<p><strong>(b) (Fubini)</strong> If <span class="math inline">\(f\in L^1(X\times Y, \mathcal M \otimes \mathcal N, \mu \times \nu)\)</span> then <span class="math inline">\(f_x \in L^1(Y, \mathcal N, \nu)\)</span> for <span class="math inline">\(\mu\)</span>-a.e. <span class="math inline">\(x\in X\)</span>. Furthermore, <span class="math display">\[g(x) = \int_Y f_x(y) d\nu(y) \in L^1(X, \mathcal M, \mu)\]</span> which is defined <span class="math inline">\(\mu\)</span>-a.e. x, belongs to <span class="math inline">\(L^1(X, \mathcal M, \mu)\)</span> and <span class="math display">\[\int_{X\times Y} f(x,y) d(\mu \times \nu)(x,y) = \int_X g(x) d\mu(x)\]</span></p>
+<p>Let <span class="math inline">\(X_1, X_2,...\)</span> be independent r.vs. with the same distribution (i.i.d.) on some probability space <span class="math inline">\((\Omega, \mathcal F, P)\)</span> with <span class="math inline">\(E(|X|) &lt; \infty\)</span>, then <span class="math display">\[\frac{S_n}{n} = \frac{\sum X_i}{n}\]</span> converges a.e. to <span class="math inline">\(E[X]\)</span>.</p>
 </div>
 </div>
+<p>Remember that two r.vs. can have the same probability distribution but still live in different probability spaces. For example, the outcome of a fair coin on <span class="math inline">\(\Omega = \{H, T\}\)</span> and the outcome of a fair die being even or odd on <span class="math inline">\(\Omega' = \{1,2,3,4,5,6\}\)</span> have the same Bernoulli<span class="math inline">\((1/2)\)</span> distribution but live on different spaces.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Note that for Tonelli, we assume <span class="math inline">\(f\in L^+\)</span>, i.e.&nbsp;<span class="math inline">\(f\geq 0\)</span> and measurable in the product space. It thus follows from <a href="./lecture-08.html#r-8-4">Proposition 8.4</a> that each section <span class="math inline">\(f_x\)</span> is <span class="math inline">\(\mathcal N\)</span>-measurable, and since <span class="math inline">\(f_x \geq 0\)</span> (from <span class="math inline">\(f \geq 0\)</span>), we also have <span class="math inline">\(f_x \in L^+(Y,\mathcal N, \nu)\)</span> for free.</p>
-</div></div><p>In the Tonelli case, there is no integrability requirement, i.e the double integral could be infinite, but the iterated integral formula holds unconditionally. In the Fubini case, <span class="math inline">\(f\)</span> is Lebesgue integrable, (remember that <span class="math inline">\(f\in L^1\)</span> implies that it is Lebesgue integrable. See <a href="./lecture-06.html">Lecture 6</a>).</p>
-<p>Finally, note the consequence that <span class="math inline">\(f_x \in L^1\)</span>. This follows by applying Tonelli to <span class="math inline">\(|f| \geq 0\)</span> meaning <span class="math display">\[\int_{X\times Y} |f| d(\mu\times \nu) = \int_X \int_Y |f_x| d\nu d\mu(x) &lt; \infty\]</span>since <span class="math inline">\(f\in L^1\)</span> and thus <span class="math inline">\(\int_Y |f_x| d\nu := h(x)\)</span> must be finite <span class="math inline">\(\mu\)</span>-a.e., meaning that <span class="math inline">\(f_x \in L^1\)</span> <span class="math inline">\(\mu\)</span>-a.e..</p>
-<p><strong>Fubini from Tonelli.</strong></p>
-<p>Take <span class="math inline">\(f\in L^1\)</span>, so <span class="math inline">\(f = f^+ - f^-\)</span> with both <span class="math inline">\(f^+, f^-\in L^+\)</span>. Apply Tonelli to each separately:</p>
-<p><span class="math display">\[\int_{X\times Y} f^+\, d(\mu\times\nu) = \int_X\left(\int_Y f^+_x\, d\nu\right)d\mu\]</span></p>
-<p><span class="math display">\[\int_{X\times Y} f^-\, d(\mu\times\nu) = \int_X\left(\int_Y f^-_x\, d\nu\right)d\mu\]</span></p>
-<p>Since <span class="math inline">\(f\in L^1\)</span>, both sides are finite, so we can subtract:</p>
-<p><span class="math display">\[\int_{X\times Y} f\, d(\mu\times\nu) = \int_X\left(\int_Y f^+_x\, d\nu - \int_Y f^-_x\, d\nu\right)d\mu = \int_X\left(\int_Y f_x\, d\nu\right)d\mu\]</span></p>
-<p>The subtraction inside the inner integral is valid for <span class="math inline">\(\mu\)</span>-a.e. <span class="math inline">\(x\)</span> — specifically those <span class="math inline">\(x\)</span> where <span class="math inline">\(\int_Y f^-_x\,d\nu &lt; \infty\)</span> (i.e.&nbsp;it is fine to be infinite on nullsets).</p>
-<p>The <span class="math inline">\(L^1\)</span> assumption is stronger than <span class="math inline">\(L^+\)</span>, which is why Fubini gives more, not only can we swap integrals, but also that the sections are integrable a.e.</p>
+<p><strong>Independent events.</strong> Events <span class="math inline">\(E_1, E_2, \ldots\)</span> are independent if their indicator functions <span class="math inline">\(1_{E_1}, 1_{E_2}, \ldots\)</span> are independent random variables in the sense of <a href="./lecture-09.html#r-9-5">Definition 9.5</a> and <a href="./lecture-09.html#r-9-6">Definition 9.6</a>. Equivalently, <span class="math inline">\(P(E_{i_1}\cap\cdots\cap E_{i_k}) = P(E_{i_1})\cdots P(E_{i_k})\)</span> for every finite set of distinct indices <span class="math inline">\(i_1, \ldots, i_k\)</span>.</p>
+</div></div><div id="r-9-9" class="lemma-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Lemma 9.9 — Second Borel–Cantelli Lemma
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\((\Omega, \mathcal F, P)\)</span> be a probability space and let <span class="math inline">\(E_1, E_2, \ldots\)</span> be <strong>independent</strong> events. If <span class="math display">\[\sum_{n=1}^\infty P(E_n) = \infty,\]</span> then <span class="math inline">\(P(\limsup E_n) = 1\)</span>, i.e.&nbsp;with probability one infinitely many of the <span class="math inline">\(E_n\)</span> occur.</p>
+<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Taking complements, <span class="math inline">\((\limsup E_n)^c = \bigcup_{n\ge1}\bigcap_{k\ge n} E_k^c\)</span>, so it suffices to show that <span class="math inline">\(P\big(\bigcap_{k\ge n}E_k^c\big)=0\)</span> for every <span class="math inline">\(n\)</span>. The complements <span class="math inline">\(E_k^c\)</span> are again independent, and <span class="math inline">\(1-x\le e^{-x}\)</span> for all <span class="math inline">\(x\)</span>, so for <span class="math inline">\(N\ge n\)</span> <span class="math display">\[P\Big(\bigcap_{k=n}^{N}E_k^c\Big)=\prod_{k=n}^{N}\big(1-P(E_k)\big)\le \exp\Big(-\sum_{k=n}^{N}P(E_k)\Big)\xrightarrow[N\to\infty]{}0,\]</span> since every tail of the series diverges. By continuity from above, <span class="math inline">\(P\big(\bigcap_{k\ge n}E_k^c\big)=0\)</span>, and a countable union of null sets is null. <span class="math inline">\(\square\)</span></p>
+<p>Independence cannot be dropped: for <span class="math inline">\(E_n=[0,\tfrac1n]\)</span> in <span class="math inline">\([0,1]\)</span> with Lebesgue measure, <span class="math inline">\(\sum_n m(E_n)=\infty\)</span>, but <span class="math inline">\(\limsup E_n=\{0\}\)</span> has measure <span class="math inline">\(0\)</span>. <span class="math inline">\(\square\)</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>One consequence of the second Borel–Cantelli lemma (<a href="./lecture-09.html#r-9-9">Lemma 9.9</a>) is the infinite monkey theorem below.</p>
+<div id="side-the-infinite-monkey-theorem" class="side-topic">
+<p><strong>Side topic: The infinite monkey theorem</strong></p>
+<p>Say a monkey types on a keyboard with 26 letters, hitting each key uniformly at random, producing an infinite sequence of letters like <code>XQBTHZAM...</code></p>
+<p>A <strong>string</strong> is a specific finite sequence of letters — say <code>HAMLET</code> (6 letters), or in the extreme case the entire text of Hamlet (~130,000 characters). <strong>Position <span class="math inline">\(n\)</span></strong> means the <span class="math inline">\(n\)</span>-th character in the infinite sequence the monkey produces.</p>
+<p>Define <span class="math inline">\(E_n\)</span> to be the event that starting at position <span class="math inline">\(n\)</span>, the next <span class="math inline">\(k\)</span> characters spell out exactly the target string. For example if the target is <code>HAMLET</code>:</p>
+<p><span class="math display">\[E_n = \{\text{characters } n, n+1, n+2, n+3, n+4, n+5 \text{ are H, A, M, L, E, T}\}\]</span></p>
+<p>Each <span class="math inline">\(E_n\)</span> has probability <span class="math inline">\(p = (1/26)^6 &gt; 0\)</span>, small but positive, and the same for every <span class="math inline">\(n\)</span> since keystrokes are independent. The events <span class="math inline">\(E_1, E_{k+1}, E_{2k+1},\ldots\)</span> at non-overlapping blocks are independent since they depend on disjoint sets of keystrokes. Since:</p>
+<p><span class="math display">\[\sum_{n=1}^\infty P(E_n) = \sum_{n=1}^\infty p = \infty\]</span></p>
+<p>the second Borel–Cantelli lemma (<a href="./lecture-09.html#r-9-9">Lemma 9.9</a>) gives <span class="math inline">\(P(E_n \text{ i.o.}) = 1\)</span> — the monkey types <code>HAMLET</code> infinitely often with probability 1. This holds for any target string, no matter how long: even a full textbook of <span class="math inline">\(N\)</span> characters has <span class="math inline">\((1/26)^N &gt; 0\)</span>, so the sum still diverges and the conclusion is the same.</p>
+</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -793,7 +829,7 @@ Figure&nbsp;8.1: The section <span class="math inline">\(E_x\)</span> is the sli
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1198,13 +1234,13 @@ Figure&nbsp;8.1: The section <span class="math inline">\(E_x\)</span> is the sli
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-07.html" class="pagination-link" aria-label="Different Notions of Convergence and Markov &amp; Chebyshev Inequalities">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Different Notions of Convergence and Markov &amp; Chebyshev Inequalities</span></span>
+      <a href="./lecture-08.html" class="pagination-link" aria-label="Product Measures">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Product Measures</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture-09.html" class="pagination-link" aria-label="Weak and Strong Laws of Large Numbers">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-10.html" class="pagination-link" aria-label="Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

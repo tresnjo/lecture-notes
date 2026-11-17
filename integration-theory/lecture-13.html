@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; General Measure Theory and Carathéodory’s Theorem – Integration Theory</title>
+<title>13&nbsp; Hardy–Littlewood Maximal Function and the Maximal Theorem – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture-03.html" rel="next">
-<link href="./lecture-01.html" rel="prev">
+<link href="./lecture-14.html" rel="next">
+<link href="./lecture-12.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -138,7 +126,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed slimcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-02.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-13.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -370,7 +358,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-02.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></span></a>
   </div>
 </li>
@@ -452,7 +440,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-13.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-13.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></span></a>
   </div>
 </li>
@@ -481,26 +469,16 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#step-1" id="toc-step-1" class="nav-link active" data-scroll-target="#step-1">Step 1</a></li>
-  <li><a href="#step-2" id="toc-step-2" class="nav-link" data-scroll-target="#step-2">Step 2</a></li>
-  <li><a href="#step-3" id="toc-step-3" class="nav-link" data-scroll-target="#step-3">Step 3</a></li>
-  <li><a href="#step-4" id="toc-step-4" class="nav-link" data-scroll-target="#step-4">Step 4</a></li>
-  <li><a href="#step-5" id="toc-step-5" class="nav-link" data-scroll-target="#step-5">Step 5</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-02.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-13.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></h1>
 </div>
 
 
@@ -517,208 +495,154 @@ window.Quarto = {
 </header>
 
 
-<div id="r-2-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>In what follows, we will denote <span class="math inline">\(B(x,r)\)</span> the open ball centered at <span class="math inline">\(x\)</span> with radius <span class="math inline">\(r\)</span>.</p>
+<div id="r-13-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.1 — A measure
+<span class="screen-reader-only">Note</span>Definition 13.1 — Locally integrable
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\((X, \mathcal{M})\)</span> is a measurable space, a <strong>measure</strong> on <span class="math inline">\((X, \mathcal{M})\)</span> is a mapping <span class="math inline">\(m\)</span> from <span class="math inline">\(\mathcal{M}\)</span> to <span class="math inline">\([0, \infty]\)</span> satisfying the following: 1. <span class="math inline">\(m(\emptyset) = 0\)</span> 2. If <span class="math inline">\(A_1, A_2, \ldots\)</span> are (pairwise) disjoint elements of <span class="math inline">\(\mathcal{M}\)</span>, then <span class="math display">\[m\left(\bigcup_i A_i\right) = \sum_i m(A_i)\]</span></p>
+<p>A function <span class="math inline">\(f:\mathbb R^n \rightarrow \mathbb R\)</span> is said to be locally integrable, or in <span class="math inline">\(L_\mathrm{loc}^1\)</span>, if <span class="math inline">\(f\)</span> is integrable with respect to Lebesgue measure when restricted to any compact set. (or equivalently, if for every <span class="math inline">\(x\)</span> there is an <span class="math inline">\(r &gt; 0\)</span> such that <span class="math inline">\(f\)</span> is integrable on <span class="math inline">\(B(x,r)\)</span> wrt to Lebesgue measure.)</p>
 </div>
 </div>
-<p><strong>Remarks:</strong> 1. The crucial second property is called <strong>countable additivity</strong> and implies finite additivity using 1. (Check this.) 2. For <span class="math inline">\(A \in \mathcal{M}\)</span>, <span class="math inline">\(m(A)\)</span> is thought of as either the <strong>(a)</strong> measure, <strong>(b)</strong> size, <strong>(c)</strong> length or <strong>(d)</strong> probability of <span class="math inline">\(A\)</span>.</p>
-<p>A measure space is just a measurable space with a measure on it.</p>
-<div id="r-2-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.2 — A complete measure
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A complete measure is such that if <span class="math inline">\(F\in \mathcal M\)</span> (our <span class="math inline">\(\sigma\)</span>-algebra) with <span class="math inline">\(m(F) = 0\)</span> and if <span class="math inline">\(E \subseteq F\)</span> then <span class="math inline">\(m(E) = 0\)</span>.</p>
-</div>
-</div>
-<p>This definition may sound silly at first, because by monotonicity we know that <span class="math inline">\(m(E) = 0\)</span> if it is a subset. But we have to remember that the measure can only be applied to elements of the <span class="math inline">\(\sigma\)</span>-algebra. A complete measure thus tells us that subsets of sets of measure zero, <strong>are in the <span class="math inline">\(\sigma\)</span>-algebra</strong> (thus they are measurable).</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>Note that we never assumed <span class="math inline">\(A\)</span> was an element of the <span class="math inline">\(\sigma\)</span>-algebra. See <a href="https://www.youtube.com/watch?v=5bZMCLnI_p4">a good explanation</a>. A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.</p>
-</div></div><div id="r-2-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.3 — Almost Everywhere / Almost Surely
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Given a measure space <span class="math inline">\((X, \mathcal{M}, m)\)</span>, a property (formally a subset of <span class="math inline">\(X\)</span> for which a statement about <span class="math inline">\(x\)</span> is either true or false, i.e.&nbsp;<span class="math inline">\(\{x \in X : P(x)\}\)</span>, is said to occur <strong>almost everywhere</strong> (abbreviated <strong>a.e.</strong>), or <strong>almost surely</strong> (abbreviated <strong>a.s.</strong>) in probability theory, if the set of <span class="math inline">\(x\)</span>’s where the property fails is contained inside a set of measure zero.</p>
-</div>
-</div>
-<div id="r-2-4" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 2.4
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Take <span class="math inline">\(X\)</span> to be the closed interval from 0 to 1 and <span class="math inline">\(\mathcal M\)</span> the Borel <span class="math inline">\(\sigma\)</span>-algebra on that set with Lebesgue measure. It turns out that the property that <span class="math inline">\(x\)</span> is irrational (i.e.&nbsp;the property that it fails corresponds to <span class="math inline">\(x\)</span> being a rational which has measure zero) holds almost everywhere.</p>
-</div>
-</div>
-<div id="r-2-5" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.5 — Finite measure space
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A measure space <span class="math inline">\((X, \mathcal M, \mu)\)</span> is called finite if <span class="math inline">\(\mu(X) &lt; \infty\)</span> and a probability space if <span class="math inline">\(\mu(X) = 1\)</span>.</p>
-</div>
-</div>
-<div id="r-2-6" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.6 — <span class="math inline">\(\sigma\)</span>-finite measure space
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A measure space is called <span class="math inline">\(\sigma\)</span>-finite if there exists subsets <span class="math inline">\(A_1,A_2,...\)</span> so that <span class="math inline">\(X = \bigcup_i A_i\)</span> with <span class="math inline">\(\mu(A_i) &lt; \infty \forall i\)</span>.</p>
-</div>
-</div>
-<p><span class="math inline">\(\sigma\)</span>-finite is a weaker condition, it only demands that the subsets which make up <span class="math inline">\(X\)</span> have finite measure. Finite is a stronger condition, which demands that the full set <span class="math inline">\(X\)</span> has finite measure.</p>
-<div id="r-2-7" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.7 — Atoms, Atomic and Continuous Measure Spaces
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Assume <span class="math inline">\((X, \mathcal{M}, \mu)\)</span> is a measure space with all single points being measurable. An <strong>atom</strong> is a point <span class="math inline">\(x\)</span> with <span class="math inline">\(\mu(\{x\}) &gt; 0\)</span>.</p>
-<p>Letting <span class="math inline">\(A\)</span> be the set of atoms: - <span class="math inline">\((X, \mathcal{M}, \mu)\)</span> is called <strong>atomic</strong> if <span class="math inline">\(A \in \mathcal{M}\)</span> and <span class="math inline">\(\mu(A^c) = 0\)</span> - <span class="math inline">\((X, \mathcal{M}, \mu)\)</span> is called <strong>continuous</strong> if there is no atom, i.e.&nbsp;<span class="math inline">\(\mu(\{x\}) = 0\)</span> for all <span class="math inline">\(x \in X\)</span></p>
-</div>
-</div>
-<p>The Lebesgue measure on the Borel algebra is a continuous measure, so there are no atoms.</p>
-<p>For the counting measure on <span class="math inline">\(\mathbb R\)</span>, it is clear that <span class="math inline">\(A = \mathbb R\)</span> where <span class="math inline">\(\mathbb R^c=\emptyset\)</span>. The measure space with the counting measure is thus atomic.</p>
-<div id="r-2-8" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 2.8 — Lebesgue Measure
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>There exists a translation invariant measure <span class="math inline">\(m\)</span> on <span class="math inline">\((\mathbb{R}, \mathcal{B})\)</span> such that: <span class="math display">\[m([a,b]) = b - a \quad \text{for all } a &lt; b\]</span></p>
-<p><span class="math inline">\(m\)</span> is the <strong>Lebesgue measure</strong> restricted to <span class="math inline">\(\mathcal{B}\)</span>.</p>
-</div>
-</div>
-<p>Our length metric is not defined for all subsets, but only those reasonable ones (the Borel sets).</p>
-<section id="step-1" class="level3">
-<h3 class="anchored" data-anchor-id="step-1">Step 1</h3>
-<div id="r-2-9" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.9 — Outer Measure
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>An <strong>outer measure</strong> on a set <span class="math inline">\(X\)</span> is a function <span class="math inline">\(\mu^\star: \mathcal{P}(X) \to [0, \infty]\)</span> satisfying:</p>
+<p>For <span class="math inline">\(f\in L_\mathrm{loc}^1\)</span>, <span class="math inline">\(x\in \mathbb R^n\)</span>, and <span class="math inline">\(r &gt; 0\)</span> we define <span class="math display">\[A_r f(x) = \frac{1}{m(B(x,r))} \int_{B(x,r)} f(y) dm(y)\]</span>which is simply the average of <span class="math inline">\(f\)</span> over the ball around <span class="math inline">\(x\)</span> with radius <span class="math inline">\(r\)</span>. This can be seen interpreted as the mean value of <span class="math inline">\(f\)</span> over the ball centered around <span class="math inline">\(x\)</span> with radius <span class="math inline">\(r\)</span>.</p>
+<p>Some additional remarks:</p>
 <ol type="1">
-<li><p><span class="math inline">\(\mu^\star(\emptyset) = 0\)</span></p></li>
-<li><p><span class="math inline">\(A \subseteq B \implies \mu^\star(A) \leq \mu^\star(B)\)</span> <strong>(monotonicity)</strong></p></li>
-<li><p><span class="math inline">\(\mu^\star\!\left(\bigcup_{n=1}^\infty A_n\right) \leq \sum_{n=1}^\infty \mu^\star(A_n)\)</span> <strong>(countable subadditivity)</strong></p></li>
+<li>If <span class="math inline">\(f\)</span> is continuous at <span class="math inline">\(x\)</span>, it is easy to see that <span class="math display">\[\lim_{r\rightarrow 0} A_r f(x) = f(x)\]</span></li>
+<li>This cannot occur for all <span class="math inline">\(f\)</span> since if we modify it at a single point, it would fail there. Take for example <span class="math inline">\(\tilde f(x) =1\)</span> but <span class="math inline">\(\tilde f(y) = 0, y \neq x\)</span>, then the limit becomes <span class="math inline">\(0\)</span> as <span class="math inline">\(r\rightarrow 0\)</span> whereas the LHS is <span class="math inline">\(1\)</span>.</li>
 </ol>
+<div id="r-13-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition 13.2 — Hardy-Littlewood Maximal function
 </div>
 </div>
-<div id="fig-l02-outer-measure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(f\in L^1_\mathrm{loc}(\mathbb R^n)\)</span>, then the Hardy-Littlewood maximal function <span class="math inline">\(Hf\)</span> is defined by <span class="math display">\[Hf(x) := \sup_{r&gt; 0} A_r|f|(x)\]</span></p>
+</div>
+</div>
+<div id="fig-viz-maximalfunction-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-l02-outer-measure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="themed-figure"><img src="images/l02-outer-measure-light.svg" class="light-content figure-img" alt="The outer measure of E is the smallest total length of a countable cover by intervals."><img src="images/l02-outer-measure-dark.svg" class="dark-content figure-img" alt="The outer measure of E is the smallest total length of a countable cover by intervals."></div>
+<div aria-describedby="fig-viz-maximalfunction-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="viz-maximalfunction-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function MaximalFunction() {
+    const ACCENT = "#b08a1e";
+    const BG = "transparent";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    const BLUE = "#4a7ab5";
+    const RED = "#b84a4a";
+    
+    // example functions, each with an exact antiderivative F, so A_r|f|(x) = (F(x+r) - F(x-r)) / 2r is exact
+    const cl = (t, a, b) => Math.min(Math.max(t, a), b);
+    const EX = [
+      { name: "Indicator of [0, 1]", f: (x) => (x >= 0 && x <= 1 ? 1 : 0), F: (t) => cl(t, 0, 1), yMax: 1.3 },
+      { name: "Tall spike", f: (x) => (x >= 0 && x <= 0.25 ? 4 : 0), F: (t) => 4 * cl(t, 0, 0.25), yMax: 4.4 },
+      { name: "Two steps", f: (x) => (x >= -2 && x <= -1 ? 1 : 0) + (x >= 0.5 && x <= 1 ? 2 : 0),
+        F: (t) => (cl(t, -2, -1) + 2) + 2 * (cl(t, 0.5, 1) - 0.5), yMax: 2.4 },
+      { name: "|x|⁻¹ᐟ² on [−1, 1]", f: (x) => (Math.abs(x) <= 1 && x !== 0 ? 1 / Math.sqrt(Math.abs(x)) : 0),
+        F: (t) => { const s = cl(t, -1, 1); return s < 0 ? 2 * (1 - Math.sqrt(-s)) : 2 + 2 * Math.sqrt(s); }, yMax: 4.4 },
+    ];
+    
+    const [k, setK] = useState(0);
+    const [x0, setX] = useState(1.6);
+    const [r0, setR] = useState(0.8);
+    const E = EX[k];
+    const A = (x, r) => (E.F(x + r) - E.F(x - r)) / (2 * r);
+    const RS = Array.from({ length: 260 }, (_, i) => 0.002 * Math.pow(3 / 0.002, i / 259));   // radii shown: 0.002 .. 3
+    const RH = Array.from({ length: 320 }, (_, i) => 0.002 * Math.pow(10 / 0.002, i / 319)); // radii for the sup: 0.002 .. 10
+    const Hf = (x) => RH.reduce((m, r) => Math.max(m, A(x, r)), 0);
+    
+    // main panel
+    const W = 640, H = 300, L = 28, R1 = 440, T = 22, B = 250, XM = 3.5;
+    const sx = (x) => L + (x + XM) / (2 * XM) * (R1 - L);
+    const sy = (y) => B - Math.min(y, E.yMax) / E.yMax * (B - T);
+    const xs = Array.from({ length: 701 }, (_, i) => -XM + 2 * XM * i / 700);
+    const fPath = xs.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(E.f(x)).toFixed(1)).join(" ");
+    const hPath = xs.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(Hf(x)).toFixed(1)).join(" ");
+    const a0 = A(x0, r0), h0 = Hf(x0);
+    
+    // side panel: r -> A_r|f|(x0)
+    const L2 = 478, R2 = 628;
+    const sr = (r) => L2 + r / 3 * (R2 - L2);
+    const rPath = RS.map((r, i) => (i ? "L" : "M") + sr(r).toFixed(1) + " " + sy(A(x0, r)).toFixed(1)).join(" ");
+    
+    const el = React.createElement;
+    const slider = (label, v, min, max, step, set) => el("label", { style: { display: "flex", alignItems: "center", gap: 6 } },
+      el("i", null, label), el("input", { type: "range", min, max, step, value: v, onChange: (e) => set(+e.target.value), style: { width: 130, accentColor: ACCENT } }),
+      el("span", { style: { minWidth: 38 } }, v.toFixed(2)));
+    const btn = (i) => ({ fontFamily: "inherit", fontSize: 14, padding: "2px 10px", borderRadius: 4, cursor: "pointer", background: "transparent",
+      border: "1px solid " + (i === k ? ACCENT : BORDER), color: i === k ? ACCENT : TEXT, fontWeight: i === k ? 700 : 400 });
+    const lab = (x, y, txt, col, anchor) => el("text", { x, y, fill: col, fontSize: 14, fontStyle: "italic", fontFamily: "inherit", textAnchor: anchor || "start" }, txt);
+    
+    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+      el("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 } },
+        EX.map((e, i) => el("button", { key: i, onClick: () => setK(i), style: btn(i) }, e.name))),
+      el("div", { style: { display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center", fontSize: 15, marginBottom: 2 } },
+        slider("x", x0, -3, 3, 0.01, setX), slider("r", r0, 0.02, 3, 0.01, setR),
+        el("span", { style: { color: RED } }, el("i", null, "A"), el("sub", null, "r"), "|", el("i", null, "f"), "|(", el("i", null, "x"), ") = " + a0.toFixed(2)),
+        el("span", { style: { color: BLUE } }, el("i", null, "Hf"), "(", el("i", null, "x"), ") = " + (h0 > 50 ? "∞" : h0.toFixed(2)))),
+      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        // averaging window
+        el("rect", { x: sx(Math.max(-XM, x0 - r0)), y: T, width: Math.max(0, sx(Math.min(XM, x0 + r0)) - sx(Math.max(-XM, x0 - r0))), height: B - T, fill: RED, opacity: 0.08 }),
+        el("line", { x1: L, y1: B, x2: R1, y2: B, stroke: MUTED, strokeWidth: 1 }),
+        [-3, -2, -1, 0, 1, 2, 3].map((v) => el("text", { key: "x" + v, x: sx(v), y: B + 18, fill: MUTED, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }, String(v))),
+        el("path", { d: fPath + " L" + sx(XM) + " " + B + " L" + sx(-XM) + " " + B + " Z", fill: ACCENT, opacity: 0.18, stroke: "none" }),
+        el("path", { d: fPath, fill: "none", stroke: ACCENT, strokeWidth: 2 }),
+        el("path", { d: hPath, fill: "none", stroke: BLUE, strokeWidth: 2.4 }),
+        el("line", { x1: sx(x0), y1: T, x2: sx(x0), y2: B, stroke: MUTED, strokeWidth: 1, strokeDasharray: "2 3" }),
+        el("line", { x1: sx(Math.max(-XM, x0 - r0)), y1: sy(a0), x2: sx(Math.min(XM, x0 + r0)), y2: sy(a0), stroke: RED, strokeWidth: 2.4 }),
+        el("circle", { cx: sx(x0), cy: sy(h0), r: 4.5, fill: BLUE }),
+        lab(sx(-3.3), T + 12, "f", ACCENT), lab(sx(-3.3), T + 30, "Hf", BLUE),
+        // side panel
+        el("line", { x1: L2, y1: B, x2: R2, y2: B, stroke: MUTED, strokeWidth: 1 }),
+        el("line", { x1: L2, y1: B, x2: L2, y2: T, stroke: MUTED, strokeWidth: 1 }),
+        el("line", { x1: L2, y1: sy(h0), x2: R2, y2: sy(h0), stroke: BLUE, strokeWidth: 1.2, strokeDasharray: "5 4" }),
+        el("path", { d: rPath, fill: "none", stroke: RED, strokeWidth: 2 }),
+        el("circle", { cx: sr(r0), cy: sy(a0), r: 4, fill: RED }),
+        lab((L2 + R2) / 2, B + 20, "r", MUTED, "middle"),
+        lab(R2, Math.max(T + 12, sy(h0) - 6), "Hf(x) = sup", BLUE, "end"),
+        lab(R2, T + 12 > sy(h0) - 24 ? sy(h0) + 18 : T + 12, "r ↦ Aᵣ|f|(x)", RED, "end")
+      )
+    );
+  }
+  var el = document.getElementById('viz-maximalfunction-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(MaximalFunction));
+})();
+</script>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l02-outer-measure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is the smallest total length of a countable cover by intervals.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viz-maximalfunction-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13.1: Interactive: the averages <span class="math inline">\(A_r|f|(x)\)</span> over the window <span class="math inline">\([x-r,x+r]\)</span> (red), and the maximal function <span class="math inline">\(Hf(x) = \sup_{r&gt;0} A_r|f|(x)\)</span> (blue). The right panel plots <span class="math inline">\(r \mapsto A_r|f|(x)\)</span>; its supremum is <span class="math inline">\(Hf(x)\)</span>.
 </figcaption>
 </figure>
 </div>
-<p>This is to be compared with the <a href="./lecture-02.html#r-2-1">Definition 2.1</a> earlier, where the measure only has to satisfy that the measure on the empty set is zero, and being countably additive. Here, we see that we only demand countable subadditivity and monotonicity.</p>
-</section>
-<section id="step-2" class="level3">
-<h3 class="anchored" data-anchor-id="step-2">Step 2</h3>
-<div id="r-2-10" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>This functions essentially computes the average over the absolute value of <span class="math inline">\(f\)</span> over all radii, and picks the largest such average amongst those radii. It is therefore a “measure” of the local average of <span class="math inline">\(|f|\)</span>.</p>
+<p>One can verify that <span class="math inline">\(Hf\)</span> is a measurable function by noting <span class="math display">\[(Hf)^{-1}(\alpha, \infty) =\bigcup_{r&gt;0} (A_r|f|)^{-1}\{(\alpha, \infty)\}\]</span>where <span class="math inline">\(A_rf\)</span> is a continuous function for <span class="math inline">\(f\in L^1_\mathrm{loc}\)</span>, and thus we have preimages of open sets under continuous functions which are still continuous, and thus a union of open sets.</p>
+<div id="r-13-3" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.10 — Lebesgue Outer Measure
+<span class="screen-reader-only">Important</span>Theorem 13.3 — (Hardy-Littlewood Maximal Theorem)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(X = \mathbb{R}\)</span> and <span class="math inline">\(A \subseteq \mathbb{R}\)</span>. The <strong>Lebesgue outer measure</strong> is:</p>
-<p><span class="math display">\[\mu^\star(A) := \inf\left\{ \sum_{i=1}^\infty |I_i| : I_1, I_2, \ldots \text{ are open intervals with } A \subseteq \bigcup_i I_i \right\}\]</span></p>
-<p>where <span class="math inline">\(|I|\)</span> denotes the length of an interval <span class="math inline">\(I\)</span>.</p>
-</div>
-</div>
-<p>In other words if we have a set <span class="math inline">\(A\)</span>, we consier all possible unions of open intervals for which <span class="math inline">\(A\)</span> is a subset of that union, and sum up the length contributions, and finally take the infimum (the largest lower bound), i.e.&nbsp;cover A by intervals as efficiently as possible.</p>
-<div id="r-2-11" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 2.11 — The Lebesgue outer measure <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(\mathbb R\)</span>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="i">
-<li><p>Trivially satisfied. For any <span class="math inline">\(\epsilon &gt; 0\)</span>, the empty set can be covered by a single interval <span class="math inline">\((0,\epsilon)\)</span> with length <span class="math inline">\(\epsilon\)</span>, thus <span class="math inline">\(\mu^\star(\emptyset) \leq \epsilon\)</span> and thus <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span>.</p></li>
-<li><p>Since every valid cover of B is also a valid cover of A, the set of valid covers of B must be a subset of the valid covers of A (<span class="math inline">\(\mathcal C_B \subseteq \mathcal C_A\)</span>). The infimum of a larger set is smaller than the infimum of the smaller set, and this the result follows, i.e.<br>
-</p></li>
-<li><p>Case 1: In the case where <span class="math inline">\(\mu^\star(A_n)=\infty\)</span> for some <span class="math inline">\(n\)</span>, the inequality holds trivially. Case 2: <span class="math inline">\(\mu^\star(A_n)&lt;\infty \forall n\)</span>.</p></li>
-</ol>
-<p>As additional comments: the first inequality is guaranteed by the definition of the infimum. It tells us that we can cover <span class="math inline">\(A_j\)</span> arbitrarily close. In the second line, we first use that <span class="math inline">\(\bigcup A_j \subseteq \bigcup_{ij} I^j_i\)</span> and <span class="math inline">\(\mu^\star\)</span> is the infimum over all covers, we get the first inequality. Ther est follows trivially.</p>
-</div>
-</div>
-</section>
-<section id="step-3" class="level3">
-<h3 class="anchored" data-anchor-id="step-3">Step 3</h3>
-<p>OK! Now we both defined the outer measure, the Lebesgue outer measure and proved that it is indeed an outer measure. Now we need to show that the Lebesgue outer measure of an interval is given the length of the interval.</p>
-<div id="r-2-12" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 2.12 — The Lebesgue outer measure returns length for intervals
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For each finite interval <span class="math inline">\(I\)</span> we have <span class="math inline">\(\mu^\star(I) = |I|\)</span>.</p>
+<p>If <span class="math inline">\(f\in L^1(\mathbb R^n)\)</span>, then <span class="math inline">\(\forall \alpha &gt; 0\)</span> we have <span class="math display">\[m(\{x: Hf(x) &gt; \alpha\}) \leq \frac{3^n}{\alpha} \int |f|dm(x)\]</span></p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -727,58 +651,16 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>It suffices to show this for closed intervals</strong>. This statement follows by monotonicity and the fact that any other interval type can be squeezed between closed intervals. Take for example <span class="math inline">\((a,b)\)</span>, then for <span class="math inline">\(\epsilon &gt;0\)</span> we have <span class="math display">\[[a+\epsilon, b-\epsilon]\subseteq(a,b)\subseteq[a,b]\]</span>and using monotonicity of the outer measure and taking the limit as <span class="math inline">\(\epsilon\rightarrow 0\)</span> gives us the sought result. To prove <span class="math inline">\(\mu^\star(I) = |I|\)</span>, we show that <span class="math inline">\(\leq\)</span> and <span class="math inline">\(\geq\)</span> inequalities hold. <span class="math inline">\(\leq\)</span>: Take <span class="math inline">\(\epsilon &gt; 0\)</span>, then <span class="math inline">\([a,b]\subseteq(a-\epsilon, b+\epsilon)\)</span> and hence <span class="math inline">\(\mu^\star([a,b]) \leq b-a+2\epsilon \Rightarrow \mu^\star([a,b]) \leq (b-a)\)</span>. Now <span class="math inline">\(\geq:\)</span> We want to show <span class="math display">\[\mu^\star([a,b]) = \inf \{ \sum_i |I_i|: [a,b]\subseteq \bigcup_i I_i\} \geq b-a\]</span> Assume <span class="math inline">\([a,b] \subseteq \bigcup_{i=1}^N I_i\)</span> by compactness (the closed interval is a subset of R that is closed and bounded). Then we need to show that <span class="math display">\[b-a \leq \sum_{i=1}^N |I_i|\]</span>To show this, we build a chain of intervals in the following way</p>
-<p>Then clearly</p>
-<p>And since <span class="math inline">\(b_k &gt; b\)</span> and <span class="math inline">\(a_1 &lt; a\)</span> and the terms in last term are positive this gives desired inequality. <span class="math inline">\(\square\)</span></p>
+<p>Let <span class="math inline">\(E_\alpha = \{x: Hf(x) &gt; \alpha\}\)</span>. For each <span class="math inline">\(x\in E_\alpha\)</span> there exists <span class="math inline">\(r_x &gt; 0\)</span> so that <span class="math display">\[A_{r_x}|f|(x) &gt; \alpha\]</span> by the definition of the supremum. With this, we can for each <span class="math inline">\(x\)</span> have an associated open ball, and we may denote this collection of open balls as <span class="math inline">\(\mathcal C\)</span>. Given <span class="math inline">\(c &lt; m(\bigcup_{x\in E_a} B(r, r_x))\)</span>, we can use the covering lemma from <a href="./lecture-12.html">Lecture 12</a> to find <span class="math inline">\(x_1, ..., x_k\)</span> in <span class="math inline">\(E_\alpha\)</span> so that <span class="math inline">\(k\)</span> balls <span class="math inline">\(\{B(x_i, r_{x_i})\}\)</span> are disjoint and <span class="math display">\[\frac{c}{3^n} \leq \sum_{i=1}^k m(B(x_i, r_{x_i}))\]</span> However, by our choice of <span class="math inline">\(r_x\)</span>’s, i.e.&nbsp;<span class="math inline">\(A_{r_{x_i}}|f|(x_i) &gt; \alpha\)</span>, we have <span class="math display">\[\frac{c}{3^n} \leq \sum_{i=1}^k m(B(x_i, r_{x_i})) \leq \sum_{i=1}^k \frac{1}{\alpha}\int_{B(x_i, r_{x_i})} |f|(x) dm(x) \leq \frac{1}{\alpha} \int |f|(x) dm(x)\]</span>where the last inequality follows from the disjointness of the balls. Since this holds <span class="math inline">\(\forall c &lt; m(E_\alpha)\)</span>, we also have <span class="math display">\[m(E_\alpha) \leq \frac{3^n}{\alpha} \int |f|dm\]</span> as desired. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
-</section>
-<section id="step-4" class="level3">
-<h3 class="anchored" data-anchor-id="step-4">Step 4</h3>
-<p>Now we defined the outer measure, introduced the Lebesgue outer measure (and proved that it indeed is an outer measure) and that the measure evaluated on finite intervals gives the length of the interval. Now enters step 4, where we apply Caratheodory’s theorem.</p>
-<div id="r-2-13" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.13 — <span class="math inline">\(\mu^\star\)</span>-Measurable Sets
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(X\)</span>, we call a subset <span class="math inline">\(A \subseteq X\)</span> <strong><span class="math inline">\(\mu^\star\)</span>-measurable</strong> if for all <span class="math inline">\(E \subseteq X\)</span>:</p>
-<p><span class="math display">\[\mu^\star(E) = \mu^\star(E \cap A) + \mu^\star(E \cap A^c)\]</span></p>
-</div>
-</div>
-<p>The intuition for this is that the total outer measure of <span class="math inline">\(E\)</span> equals a piece inside <span class="math inline">\(A\)</span> and a piece outside of <span class="math inline">\(A\)</span>.</p>
-<div id="r-2-14" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 2.14 — Carathéodory’s Theorem
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(X\)</span>, then the collection <span class="math inline">\(\mathcal{M}\)</span> of <span class="math inline">\(\mu^\star\)</span>-measurable sets is a <span class="math inline">\(\sigma\)</span>-algebra and <span class="math inline">\(\mu^\star\)</span> restricted to <span class="math inline">\(\mathcal{M}\)</span> is a measure, which is also complete.</p>
-</div>
-</div>
-</section>
-<section id="step-5" class="level3">
-<h3 class="anchored" data-anchor-id="step-5">Step 5</h3>
-<p>We will return to the proof in a moment. For step 5, we want to show that the Lebesgue outer measure on R, the <span class="math inline">\(\mathcal M\)</span> constructed in step 4 using Carathéodory’s theorem contains <span class="math inline">\(\mathcal B\)</span>.</p>
-<p>Given <span class="math inline">\(\mathcal M\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra and <span class="math inline">\(\mathcal B\)</span> is the smallest <span class="math inline">\(\sigma\)</span>-algebra containing all open intervals, it suffices to show that if the open intervals are a subset of <span class="math inline">\(\mathcal M\)</span> then <span class="math inline">\(\mathcal B \subseteq \mathcal M\)</span>. Now <span class="math inline">\(\mathcal M\)</span> is the collection of all <span class="math inline">\(\mu^\star\)</span> measurable sets, so we only need to verify that the open intervals <span class="math inline">\((a,b\)</span>) are <span class="math inline">\(\mu^\star\)</span>-measurable. It suffices to show this for the rays <span class="math inline">\((-\infty, a)\)</span> and <span class="math inline">\((b,\infty\)</span>) as <span class="math inline">\(\mathcal M\)</span> is closed under complements and intersections, <span class="math inline">\((a,b) = (-\infty, b) \cap (-\infty, a)^c\)</span>.</p>
-<p>Let <span class="math inline">\(E \subseteq R\)</span> and assume <span class="math inline">\(a \notin E\)</span>, we have <span class="math inline">\(E = (E\cap (-\infty, a)) \cup (E \cap(a, \infty))\)</span>, then the <span class="math inline">\(\leq\)</span> follows by subadditivity. We only need to show <span class="math display">\[\mu^\star(E) \geq \mu^\star(E \cap (-\infty, a)) + \mu^\star(E \cap (a, \infty))\]</span>Note that In other words, we are considering the two regions intersected by the ray <span class="math inline">\((-\infty, a)\)</span>, and covering them with separate open intervals. The final inequality comes form the fact that the outer measure as an infimum over all coverings. Taking the infimum of the LHS, we obtain exactly what we wanted to show. Therefore indeed we have shown that any open intervals is a subset of <span class="math inline">\(\mathcal M\)</span>.</p>
-<p>To conclude our construction of the Lebesgue measure, we defined an outer measure, by step 4 (Carathadory) we obtain a measure space <span class="math inline">\((R, \mathcal M, \mu^\star\vert_{\mathcal M})\)</span> where <span class="math inline">\(\mathcal M\)</span> is the set of all <span class="math inline">\(\mu^\star\)</span>-measurable sets. By step 3, we have that the outer measure of intervals are given by their length, and by step 5 we have the Borel set being a subset of <span class="math inline">\(\mathcal M\)</span>, thus restricting <span class="math inline">\(\mu^\star\)</span> from <span class="math inline">\(\mathcal M\)</span> to <span class="math inline">\(\mathcal B\)</span> gives us the measure space <span class="math inline">\((R, \mathcal B, \mu^\star \vert_{\mathcal B})\)</span>. By definition from the outer measure, it is also translation invariant.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -902,7 +784,7 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1307,13 +1189,13 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-01.html" class="pagination-link" aria-label="Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Sigma-algebras, the Borel Algebra, and the Dynkin π-λ Theorem</span></span>
+      <a href="./lecture-12.html" class="pagination-link" aria-label="The 3× Covering Lemma">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The 3× Covering Lemma</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture-03.html" class="pagination-link" aria-label="Proof of Carathéodory and Uniqueness of Lebesgue Measure">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-14.html" class="pagination-link" aria-label="Lebesgue's Differentiation Theorem">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Lebesgue’s Differentiation Theorem</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

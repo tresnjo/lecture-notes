@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity – Integration Theory</title>
+<title>12&nbsp; The 3× Covering Lemma – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture-11.html" rel="next">
-<link href="./lecture-09.html" rel="prev">
+<link href="./lecture-13.html" rel="next">
+<link href="./lecture-11.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-12.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The 3× Covering Lemma</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -434,7 +422,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-10.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-10.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></span></a>
   </div>
 </li>
@@ -446,7 +434,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-12.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-12.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The 3× Covering Lemma</span></span></a>
   </div>
 </li>
@@ -481,16 +469,23 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#approximations-by-sets-and-by-continuous-functions" id="toc-approximations-by-sets-and-by-continuous-functions" class="nav-link active" data-scroll-target="#approximations-by-sets-and-by-continuous-functions">Approximations by sets and by continuous functions</a></li>
+  <li><a href="#a-covering-lemma" id="toc-a-covering-lemma" class="nav-link" data-scroll-target="#a-covering-lemma">A covering lemma</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-12.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The 3× Covering Lemma</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The 3× Covering Lemma</span></h1>
 </div>
 
 
@@ -507,42 +502,101 @@ window.Quarto = {
 </header>
 
 
-<p>So far, we have discussed nonnegative measures. But can we also introduce a well-defined concept of a signed measure? Indeed we can.</p>
-<div id="r-10-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>We now start a new chapter which will study differentiation in <span class="math inline">\(\mathbb R^n\)</span>.</p>
+<div id="r-12-1" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 10.1 — A signed measure
+<span class="screen-reader-only">Important</span>Theorem 12.1 — Simple theorem
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\((X, \mathcal M)\)</span> is a measurable space, a signed measure is a map <span class="math inline">\(\nu: \mathcal M \rightarrow [-\infty, \infty]\)</span> satisfying (i) <span class="math inline">\(\nu(\emptyset) = 0\)</span> (ii) At most one of the values <span class="math inline">\(\pm \infty\)</span> are assumed. (iii) If <span class="math inline">\(A_1, A_2,...\)</span> pairwise disjoint elements of <span class="math inline">\(\mathcal M\)</span>, then <span class="math display">\[\nu(\bigcup_i A_i) = \sum_i \nu(A_i)\]</span> where the sum on the RHS converges absolutely when the LHS is finite.</p>
+<p>Let <span class="math inline">\(f: [0,1] \rightarrow \mathbb R\)</span> be monotone, then for a.e. <span class="math inline">\(x\)</span>, <span class="math inline">\(f\)</span> is differentiable with a finite derivative.</p>
 </div>
 </div>
-<p>We compare this to the definition of a measure. First, note the additional criterion (ii), and the additional comment in (iii) that the RHS converges absolutely when the LHS is finite. The reason is related to what we discussed earlier, namely that there is no intrinsic ordering of the elements of the set, and consequently, neither should the measure of the union depend on that ordering. Absolute convergence is thus required.</p>
-<p>For unsigned series, conditional convergence is not possible, so either the series is absolutely convergent or diverges to <span class="math inline">\(+\infty\)</span>. For signed measures, we can have conditional convergence. Therefore whenever the LHS is finite, we must have that the RHS is absolutely convergence, since had it been conditionally convergent, we could as per the Riemann rearrangement theorem, rearrange the terms to attain any value.</p>
-<p>Some remarks that follow from the definition:</p>
-<ul>
-<li>A measure is a signed measure.</li>
-<li>If <span class="math inline">\(\mu_1, \mu_2\)</span> are finite measures (or at least one is finite) then <span class="math inline">\(\mu_1-\mu_2\)</span> is a signed measure.</li>
-<li>Condition (ii) is there to avoid having <span class="math inline">\(\infty - \infty\)</span>. For example if <span class="math inline">\(A, B\)</span> are disjoint sets where <span class="math inline">\(\nu(A) = \infty\)</span> and <span class="math inline">\(\nu(B) = -\infty\)</span> then <span class="math inline">\(\nu(A \bigcup B)\)</span> is undefined.</li>
-</ul>
-<p>So far, a signed measure can feel somewhat uncomfortable, especially if we have made ourselves comfortable with the idea that a measure is something that assigns volumes to sets. However, it differences of measures turn out to be very common, and a difference of (finite) measures produces a signed measure, as shown below.</p>
-<div id="r-10-2" class="remark-box callout callout-style-default callout-tip no-icon callout-titled">
+<div id="r-12-2" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Remark 10.2
+<span class="screen-reader-only">Important</span>Theorem 12.2 — The fundamental theorem of calculus
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\mu_1, \mu_2\)</span> are finite measures (or at least one is finite), then the difference <span class="math inline">\(\mu_1-\mu_2\)</span> is a signed measure.</p>
+<p>First fundamental theorem of calculus: if <span class="math inline">\(f\)</span> is a continous function on <span class="math inline">\([a,b]\)</span>d <span class="math display">\[F(x) = \int_a^x f(t) dt\]</span> then <span class="math display">\[F'(x) = x \forall x.\]</span> Second fundamental theorem of calculus: If <span class="math inline">\(f\)</span> is a continuously differentiable function on <span class="math inline">\([a,b]\)</span> then <span class="math display">\[\int_a^b f'(x) dx = f(b) - f(a)\]</span></p>
+</div>
+</div>
+<p>We first discuss the first fundamental theorem, and argue that it cannot possibly hold for all measurable bounded functions. If <span class="math inline">\(f\)</span> is continuous function and <span class="math inline">\(g\)</span> any <em>measurable function</em> which agrees with <span class="math inline">\(f\)</span> a.e., then we have <span class="math display">\[\int_a^x f(t) dt = \int_a^x g(t) dt\]</span>for every <span class="math inline">\(x\)</span>, hence for every <span class="math inline">\(x\)</span> we have <span class="math display">\[ \left( \int_a^x g(t) dt\right)'(x) = f(x)\]</span> and therefore <span class="math display">\[ \left( \int_a^x g(t) dt\right)'(x) = g(x)\]</span>will fail at every point where <span class="math inline">\(f(x) \neq g(x)\)</span>. However, we do have <span class="math display">\[ \left( \int_a^x g(t) dt\right)'(x) = g(x) \ \mathrm{a.e.}\]</span>So the most we can hope for a bounded measurable <span class="math inline">\(f\)</span> is that the first fundamental theorem holds at a.e. <span class="math inline">\(x\)</span>. We will show this and generalize it to higher dimensions, which we will be called Lebesgue’s differentiation theorem.</p>
+<p>Note that continuous functions are also measurable. To see this, take <span class="math inline">\(U \subseteq \mathbb R\)</span> then <span class="math display">\[f^{-1}(U)\]</span>must be open by continuity. And since open sets in <span class="math inline">\([a,b]\)</span> are Borel sets. Since the Borel algebra is generated by all open sets of the real line, we have that the preimage of any Borel set is also in <span class="math inline">\(\mathcal B_{[a,b]}\)</span> so <span class="math inline">\(f\)</span> is measurable. But not every measurable function is continuous.</p>
+<section id="approximations-by-sets-and-by-continuous-functions" class="level3">
+<h3 class="anchored" data-anchor-id="approximations-by-sets-and-by-continuous-functions">Approximations by sets and by continuous functions</h3>
+<p>The Borel <span class="math inline">\(\sigma\)</span>-algebra on <span class="math inline">\(\mathbb R^n\)</span>, denoted by <span class="math inline">\(\mathcal B^n\)</span> can be described as generated by open sets in <span class="math inline">\(\mathbb R^n\)</span> or as the product <span class="math inline">\(\sigma\)</span>-algebra coming from <span class="math inline">\((\mathbb R, \mathcal B)\)</span>.</p>
+<div id="r-12-3" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 12.3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>For any Borel set <span class="math inline">\(E \subseteq \mathbb R^n\)</span> we have <span class="math display">\[m(E) = \sup\{ m(K) : K \subseteq E, K \mathrm{compact}\}\]</span></li>
+<li>If <span class="math inline">\(f\in L^1(\mathbb R^n, \mathcal B^n, m)\)</span> and <span class="math inline">\(\epsilon &gt; 0\)</span>, then there exists a continuous function <span class="math inline">\(g\)</span> on <span class="math inline">\(\mathbb R^n\)</span> so that <span class="math display">\[\int_{\mathbb R^n} |f(x) - g(x)| dm(x) &lt; \epsilon\]</span></li>
+</ol>
+</div>
+</div>
+<p><a href="./lecture-12.html#r-12-3">Theorem 12.3</a>(i) is sometimes referred to as approximation from within by compact sets.</p>
+<p>We will also need to approximate sets with respect to other measures.</p>
+<div id="r-12-4" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition 12.4 — Regular
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A Borel measure <span class="math inline">\(\nu\)</span> on <span class="math inline">\(\mathbb R^n\)</span> is <strong>regular</strong> if <span class="math inline">\(\nu(K) &lt; \infty\)</span> for all compact sets <span class="math inline">\(K \subseteq \mathbb R^n\)</span>.</p>
+</div>
+</div>
+<p>An example of a regular Borel measure is the Lebesgue measure. An example of a non-regular Borel measure is the counting measure.</p>
+<div id="r-12-5" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 12.5 — Approximating from outside using open sets
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\nu\)</span> be a regular Borel measure on <span class="math inline">\(\mathbb R^n\)</span>. If <span class="math inline">\(E\)</span> is a Borel set then <span class="math display">\[\nu(E) = \mathrm{inf}\{\nu(O) : E \subseteq O, O \ \mathrm{open}\}\]</span></p>
+</div>
+</div>
+<p>Since the Lebesgue measure is also regular, it satisfies both outer regularity and inner regularity, meaning the measure can be approximated from the outside using open sets or from the inside using compact sets.</p>
+<p>Since the counting measure is not regular, it fails the above theorem. Take for example <span class="math inline">\(E = \{0\}\)</span>, then <span class="math inline">\(\nu(E) = 1\)</span>. But any open set containing <span class="math inline">\(0\)</span> contains an interval <span class="math inline">\((-\epsilon, \epsilon)\)</span>, thus <span class="math inline">\(\nu(O) = \infty\)</span>. Note however that for inner regularity, we can simply take <span class="math inline">\(K = \{0\}\)</span> which is compact (single points are compact), so the supremum is achieved.</p>
+</section>
+<section id="a-covering-lemma" class="level3">
+<h3 class="anchored" data-anchor-id="a-covering-lemma">A covering lemma</h3>
+<div id="r-12-6" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 12.6 — A simple covering lemma
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(A_1,...,A_k\)</span> be open balls in <span class="math inline">\(\mathbb R^2\)</span>. There is a subset <span class="math inline">\(B_1,...,B_l\)</span> of these which are disjoint and that satisfy <span class="math display">\[\sum_{j=1}^l m(B_j) \geq \frac{m(\bigcup_{i=1}^k A_i)}{9}\]</span></p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -551,152 +605,255 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Properties (i) and (ii) are clearly satisfied. Let <span class="math inline">\(\Delta \mu := \mu_1 - \mu_2\)</span>, then we have <span class="math display">\[\Delta \mu (\bigcup_i A_i) = \mu_1(\bigcup_i A_i) - \mu_2(\bigcup_i A_i) = \sum_i \mu_1(A_i) - \sum_i \mu_2(A_i) = \sum_i (\mu_1 - \mu_2)(A_i) = \sum_i \Delta \mu(A_i)\]</span> where subtracting the series is only possible if at least one of them is finite (ok by assumption). Finally, when the LHS is finite, and at least one of measures is finite (say <span class="math inline">\(\mu_1\)</span>) we have <span class="math inline">\(\sum_i \mu_1(A_i) &lt; \infty\)</span> since <span class="math inline">\(A_i\subseteq X\)</span> are disjoint and thus <span class="math display">\[\sum_i |\Delta \mu(A_i) |\leq \sum_i \mu_1(A_i) + \sum_i \mu_2(A_i) &lt; \infty\]</span> and thus it converges absolutely. <span class="math inline">\(\square\)</span></p>
+<p>Let <span class="math inline">\(B_1\)</span> be the largest of <span class="math inline">\(A_1,...,A_k\)</span>. Remove all remaining <span class="math inline">\(A_i\)</span>’s which intersect <span class="math inline">\(B_1\)</span>. Let <span class="math inline">\(B_2\)</span> be the largest of the remaining <span class="math inline">\(A_i\)</span>’s. Remove all remaining <span class="math inline">\(A_i\)</span>’s which intersect <span class="math inline">\(B_2\)</span>. Let <span class="math inline">\(B_3\)</span> be largest of remaining … and continue until no <span class="math inline">\(A_j\)</span>’s are left. This produces <span class="math inline">\(B_1, ..., B_l\)</span> which are disjoint by construction. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<p>It turns out that every signed measure has the form <span class="math inline">\(\mu_1 - \mu_2\)</span>, both being measures with at least one being finite. This is the <strong>Jordan Decomposition Theorem</strong>. Before that, we first prove the Hahn Decomposition Theorem.</p>
-<div id="r-10-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 10.3 — A positive and negative set
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\nu\)</span> is a signed measure on <span class="math inline">\((X,\mathcal M)\)</span>, a set <span class="math inline">\(A \in \mathcal M\)</span> is called a <em>positive set</em> if <span class="math inline">\(\nu(B) \geq 0\)</span> <span class="math inline">\(\forall B \subseteq A\)</span> with <span class="math inline">\(B\in \mathcal M\)</span>. A is called a negative set (a null set) if <span class="math inline">\(\nu(B) \leq (=) 0\)</span> <span class="math inline">\(\forall B \subseteq A\)</span> with <span class="math inline">\(B\in \mathcal M\)</span>.</p>
-</div>
-</div>
-<div id="r-10-4" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 10.4 — Hahn Decomposition Theorem
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\nu\)</span> is a signed measure on <span class="math inline">\((X, \mathcal M)\)</span> then <span class="math inline">\(X\)</span> can be partitioned into two sets <span class="math inline">\(P, N \in \mathcal M\)</span> (meaning <span class="math inline">\(P \cup N = X, P \cap N = \emptyset\)</span>) with <span class="math inline">\(P\)</span> being a positive set and <span class="math inline">\(N\)</span> a negative set. There is “almost uniqueness” in that if <span class="math inline">\((P', N')\)</span> is another such partition, then <span class="math inline">\(P \Delta P'\)</span> and <span class="math inline">\(N\Delta N'\)</span> are each null sets.</p>
-</div>
-</div>
-<div id="fig-l10-hahn-decomposition" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-viz-coveringlemma-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-l10-hahn-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="themed-figure"><img src="images/l10-hahn-decomposition-light.svg" class="light-content figure-img" alt="Hahn decomposition for nu(A)=int_A(2x-1)dx: nuge 0 on P and nule 0 on N."><img src="images/l10-hahn-decomposition-dark.svg" class="dark-content figure-img" alt="Hahn decomposition for nu(A)=int_A(2x-1)dx: nuge 0 on P and nule 0 on N."></div>
+<div aria-describedby="fig-viz-coveringlemma-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="viz-coveringlemma-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function CoveringLemma() {
+    const ACCENT = "#b08a1e";
+    const BG = "transparent";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    const BLUE = "#4a7ab5";
+    
+    const INITIAL_BALLS = [
+      { x: 0.18, y: 0.55, r: 0.14 },
+      { x: 0.42, y: 0.28, r: 0.12 },
+      { x: 0.62, y: 0.58, r: 0.20 },
+      { x: 0.78, y: 0.32, r: 0.10 },
+      { x: 0.50, y: 0.72, r: 0.09 },
+      { x: 0.35, y: 0.68, r: 0.11 },
+      { x: 0.82, y: 0.70, r: 0.08 },
+    ];
+    
+    const W = 560, H = 420, S = 300;                 // the unit square is drawn S px wide, centred
+    const ox = (W - S) / 2, oy = (H - S) / 2;
+    const px = (x) => ox + x * S, py = (y) => oy + y * S, pr = (r) => r * S;
+    const meets = (a, b) => Math.hypot(a.x - b.x, a.y - b.y) < a.r + b.r;
+    const SUB = "₀₁₂₃₄₅₆₇₈₉";
+    const sub = (n) => String(n).split("").map((d) => SUB[+d]).join("");
+    
+    function randomBalls() {
+      const n = 6 + Math.floor(Math.random() * 5), out = [];
+      for (let t = 0; t < 200 && out.length < n; t++) {
+        const r = 0.06 + Math.random() * 0.14;
+        out.push({ r, x: r + Math.random() * (1 - 2 * r), y: r + Math.random() * (1 - 2 * r) });
+      }
+      return out;
+    }
+    
+    const [balls, setBalls] = useState(INITIAL_BALLS);
+    const [chosen, setChosen] = useState([]);
+    const [gone, setGone] = useState([]);
+    const [show3, setShow3] = useState(true);
+    
+    const used = new Set([...chosen, ...gone]);
+    const done = balls.every((_, i) => used.has(i));
+    const last = chosen.length ? chosen[chosen.length - 1] : null;
+    
+    function step() {
+      if (done) return;
+      const rest = balls.map((_, i) => i).filter((i) => !used.has(i));
+      const k = rest.reduce((b, i) => (balls[i].r > balls[b].r ? i : b), rest[0]);
+      setChosen([...chosen, k]);
+      setGone([...gone, ...rest.filter((i) => i !== k && meets(balls[k], balls[i]))]);
+    }
+    function reset() { setChosen([]); setGone([]); }
+    function fresh() { setBalls(randomBalls()); reset(); }
+    
+    const btn = (primary, active) => ({
+      fontFamily: "inherit", fontSize: 15, padding: "3px 12px", borderRadius: 4, cursor: "pointer", background: "transparent",
+      border: "1px solid " + (primary || active ? ACCENT : BORDER), color: primary || active ? ACCENT : TEXT,
+      fontWeight: primary ? 700 : 400, opacity: primary && done ? 0.45 : 1,
+    });
+    
+    const status = done
+      ? "Done: " + chosen.length + " disjoint balls. Their 3× enlargements cover every ball."
+      : chosen.length === 0
+        ? "Each step takes the largest remaining ball and discards every ball that meets it."
+        : "Step " + chosen.length + ": took B" + sub(chosen.length) + ", the largest remaining ball, and discarded the balls meeting it.";
+    
+    const el = React.createElement;
+    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+      el("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", marginBottom: 6 } },
+        el("button", { onClick: step, disabled: done, style: btn(true) }, "Next step"),
+        el("button", { onClick: reset, style: btn(false) }, "Reset"),
+        el("button", { onClick: fresh, style: btn(false) }, "New balls"),
+        el("button", { onClick: () => setShow3(!show3), style: btn(false, show3) }, show3 ? "Hide 3× balls" : "Show 3× balls")
+      ),
+      el("div", { style: { fontSize: 14, fontStyle: "italic", color: MUTED, minHeight: 22 } }, status),
+    
+      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        // 3x enlargements of the chosen balls
+        show3 && chosen.map((i) => el("circle", {
+          key: "e" + i, cx: px(balls[i].x), cy: py(balls[i].y), r: pr(3 * balls[i].r),
+          fill: ACCENT + (i === last ? "10" : "06"), stroke: ACCENT, strokeWidth: i === last ? 1.4 : 0.9,
+          strokeDasharray: "5 4", opacity: i === last ? 0.9 : 0.5,
+        })),
+        // balls: candidates (blue), discarded (faded, dashed), chosen (gold, labelled)
+        balls.map((b, i) => {
+          const isC = chosen.includes(i), isG = gone.includes(i);
+          return el("circle", {
+            key: "b" + i, cx: px(b.x), cy: py(b.y), r: pr(b.r),
+            fill: isC ? ACCENT + "38" : isG ? "transparent" : BLUE + "22",
+            stroke: isC ? ACCENT : isG ? MUTED : BLUE,
+            strokeWidth: i === last ? 2.6 : isC ? 2 : 1.4,
+            strokeDasharray: isG ? "4 4" : "none", opacity: isG ? 0.55 : 1,
+          });
+        }),
+        chosen.map((i, j) => el("text", {
+          key: "t" + i, x: px(balls[i].x), y: py(balls[i].y) + 6, textAnchor: "middle",
+          fontSize: 18, fontStyle: "italic", fontFamily: "inherit", fill: ACCENT, fontWeight: i === last ? 700 : 400,
+        }, "B" + sub(j + 1)))
+      )
+    );
+  }
+  var el = document.getElementById('viz-coveringlemma-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(CoveringLemma));
+})();
+</script>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l10-hahn-decomposition-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10.1: Hahn decomposition for <span class="math inline">\(\nu(A)=\int_A(2x-1)dx\)</span>: <span class="math inline">\(\nu\ge 0\)</span> on <span class="math inline">\(P\)</span> and <span class="math inline">\(\nu\le 0\)</span> on <span class="math inline">\(N\)</span>.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viz-coveringlemma-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12.1: Interactive: the greedy algorithm behind the covering lemma. The chosen balls are disjoint, and their 3× enlargements cover all the balls.
 </figcaption>
 </figure>
 </div>
-<p>By definition we have <span class="math inline">\(A \Delta B = (A \setminus B) \cup (B \setminus A)\)</span> which are the points which belong to exactly one of the two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. In other words, given a <em>signed measure space</em>, we can cleanly partition our <span class="math inline">\(X\)</span> into a positive and negative measurable part, and this decomposition is unique up to nullsets.</p>
-<div id="r-10-5" class="lemma-box callout callout-style-default callout-important no-icon callout-titled">
+<p><strong>Claim</strong> If <span class="math inline">\(A_i\)</span> is NOT in the final list, then for some <span class="math inline">\(j\)</span> we have <span class="math display">\[A_i \subseteq B_j^\star\]</span> where <span class="math inline">\(^\star\)</span> denotes the ball concentric with <span class="math inline">\(B_j\)</span> but three times the radius. Since <span class="math inline">\(A_i\)</span> was not chosen, it must have intersected one of the <span class="math inline">\(B_j\)</span>’s. The first <span class="math inline">\(B_j\)</span> it intersects must be as large as <span class="math inline">\(A_i\)</span> since otherwise we would have chosen <span class="math inline">\(A_i\)</span> instead. We must therefore have <span class="math display">\[r(A_i) \leq r(B_j)\]</span> and since they intersect, we have <span class="math display">\[d(\mathrm{center}(A_i), \mathrm{center}(B_j)) &lt; r(A_i) + r(B_j)\]</span>Thus for any point <span class="math inline">\(x\in A_i\)</span> we have <span class="math display">\[d(x, \mathrm{center}(B_j)) \leq d(x, \mathrm{center}(A_i)) + d(\mathrm{center}(A_i), \mathrm{center}(B_j)) &lt; 2r(A_i) + r(B_j) &lt; 3r(B_j)\]</span> You can think of this as three contributions depending on</p>
+<div id="fig-viz-coveringfactor-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-viz-coveringfactor-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="viz-coveringfactor-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function CoveringFactor() {
+    const ACCENT = "#877B31";
+    const BG = "transparent";
+    const SURFACE = "rgba(128,128,128,0.13)";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    const BLUE = "#4a7ab5";
+    const YELLOW = "#b5a530";
+    const RED = "#b55555";
+    
+    // B_j is fixed; A_i has radius <= r(B_j) and meets B_j. Only the far edge x of A_i matters.
+    const R = 46;                       // r(B_j) in px
+    const CX = 170, CY = 166;           // centre of B_j
+    const W = 520, H = 360;
+    
+    const CASES = [
+      { label: "Case 1: Aᵢ lies inside Bⱼ", d: 0.0, r: 0.55, ring: 1 },
+      { label: "Case 2: the centre of Aᵢ lies inside Bⱼ", d: 0.8, r: 1.0, ring: 2 },
+      { label: "Case 3: Aᵢ only touches Bⱼ (worst case)", d: 2.0, r: 1.0, ring: 3 },
+    ];
+    const RING_COL = [ACCENT, YELLOW, RED];
+    
+    const [ci, setCi] = useState(2);
+    const cas = CASES[ci];
+    const rA = cas.r * R, axC = CX + cas.d * R, xPt = axC + rA;
+    const col = RING_COL[cas.ring - 1];
+    const k = (cas.d + cas.r);
+    const kTxt = Number.isInteger(k) ? String(k) : k.toFixed(2).replace(/0$/, "");
+    
+    const btn = (active) => ({
+      background: "transparent", cursor: "pointer", fontFamily: "inherit", fontSize: 14,
+      padding: "3px 12px", borderRadius: 4,
+      border: "1px solid " + (active ? ACCENT : BORDER),
+      color: active ? ACCENT : TEXT, fontWeight: active ? 700 : 400,
+    });
+    const label = (x, y, txt, fill, extra) =>
+      React.createElement("text", Object.assign({ x, y, fill, fontSize: 15, fontStyle: "italic", textAnchor: "middle", fontFamily: "inherit" }, extra || {}), txt);
+    
+    const dimY = CY + 3 * R + 22;       // dimension line below everything
+    
+    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
+      React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", marginBottom: 6 } },
+        CASES.map((c, i) => React.createElement("button", { key: i, onClick: () => setCi(i), style: btn(i === ci) }, "Case " + (i + 1)))
+      ),
+      React.createElement("div", { style: { fontSize: 14, color: MUTED, marginBottom: 4, fontStyle: "italic" } }, cas.label.replace(/^Case \d: /, "")),
+    
+      React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        // rings 1x, 2x, 3x r(B_j) around the centre of B_j
+        [1, 2, 3].map((m) => React.createElement("circle", {
+          key: "ring" + m, cx: CX, cy: CY, r: m * R, fill: "none", stroke: RING_COL[m - 1],
+          strokeWidth: cas.ring === m ? 2 : 1, strokeDasharray: "6 5", opacity: cas.ring === m ? 0.95 : 0.3,
+        })),
+        // ring labels on the upper-right diagonal (never overlap)
+        [1, 2, 3].map((m) => React.createElement("text", {
+          key: "rl" + m, x: CX + m * R * 0.7071 + 6, y: CY - m * R * 0.7071 - 6, fontSize: 14, fontFamily: "inherit",
+          fill: RING_COL[m - 1], opacity: cas.ring === m ? 1 : 0.45, fontWeight: cas.ring === m ? 700 : 400,
+        }, m + "×")),
+    
+        // B_j and A_i
+        React.createElement("circle", { cx: CX, cy: CY, r: R, fill: ACCENT + "26", stroke: ACCENT, strokeWidth: 2 }),
+        React.createElement("circle", { cx: axC, cy: CY, r: rA, fill: BLUE + "24", stroke: BLUE, strokeWidth: 2 }),
+        React.createElement("circle", { cx: CX, cy: CY, r: 3, fill: ACCENT }),
+        React.createElement("circle", { cx: axC, cy: CY, r: 3, fill: BLUE }),
+        label(CX - R * 0.62, CY - R * 0.62 - 2, "Bⱼ", ACCENT, { textAnchor: "end" }),
+        cas.d === 0
+          ? label(axC, CY + rA * 0.55 + 4, "Aᵢ", BLUE)
+          : label(axC, CY - rA - 8, "Aᵢ", BLUE),
+    
+        // far edge x
+        React.createElement("circle", { cx: xPt, cy: CY, r: 4.5, fill: col }),
+        label(xPt + 12, CY - 8, "x", col, { textAnchor: "start" }),
+    
+        // dimension line: distance from the centre of B_j to x
+        React.createElement("line", { x1: CX, y1: CY + 6, x2: CX, y2: dimY + 6, stroke: MUTED, strokeWidth: 1, strokeDasharray: "2 3" }),
+        React.createElement("line", { x1: xPt, y1: CY + 6, x2: xPt, y2: dimY + 6, stroke: MUTED, strokeWidth: 1, strokeDasharray: "2 3" }),
+        React.createElement("line", { x1: CX, y1: dimY, x2: xPt, y2: dimY, stroke: col, strokeWidth: 2.5 }),
+        React.createElement("line", { x1: CX, y1: dimY - 6, x2: CX, y2: dimY + 6, stroke: col, strokeWidth: 2 }),
+        React.createElement("line", { x1: xPt, y1: dimY - 6, x2: xPt, y2: dimY + 6, stroke: col, strokeWidth: 2 }),
+        React.createElement("text", { x: xPt + 12, y: dimY + 5, fontSize: 15, fontFamily: "inherit", fill: col },
+          "d + r(Aᵢ) = " + kTxt + " r(Bⱼ)")
+      )
+    );
+  }
+  var el = document.getElementById('viz-coveringfactor-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(CoveringFactor));
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viz-coveringfactor-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12.2: Interactive: why the factor <span class="math inline">\(3\)</span> is needed in the covering lemma.
+</figcaption>
+</figure>
+</div>
+<p>In the case where <span class="math inline">\(A_i\)</span> was selected, then <span class="math inline">\(A_i = B_j\)</span> for some j, then <span class="math inline">\(B_j \subseteq B_j^\star\)</span> trivially. But if it was eliminated, we had that <span class="math inline">\(A_i \subseteq B_j^\star\)</span>, so every <span class="math inline">\(A_i\)</span> is contained in <em>some</em> <span class="math inline">\(B_j^\star\)</span>, meaning <span class="math display">\[\bigcup_i A_i \subseteq \bigcup_j B_j^\star\]</span></p>
+<p>We thus obtain, by applying monotonicity and countable subadditivity <span class="math display">\[m(\bigcup_{i=1}^k A_i) \leq m(\bigcup_{j=1}^l B_j^\star) \leq \sum_{j=1}^l m(B_j^\star) = 9 \sum_{j=1}^l m(B_j)\]</span> as desired.</p>
+<div id="r-12-7" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Lemma 10.5 — Existence of positive subset
+<span class="screen-reader-only">Important</span>Theorem 12.7 — A covering lemma
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\nu\)</span> be a signed measure on <span class="math inline">\((X, \mathcal M, \nu)\)</span> which does not take the value <span class="math inline">\(\infty\)</span>. If <span class="math inline">\(\nu(A) &gt; 0\)</span>, then there exists a measurable <span class="math inline">\(B \subseteq A\)</span> where <span class="math inline">\(\nu(B) &gt; 0\)</span> and <span class="math inline">\(B\)</span> is a positive set.</p>
+<p>Let <span class="math inline">\(\mathcal C\)</span> be a collection of open balls in <span class="math inline">\(\mathbb R^n\)</span> with <span class="math inline">\(U\)</span> being their union. <span class="math inline">\(\forall c &lt; m(U)\)</span>, there exists <span class="math inline">\(B_1, B_2,..., B_k \in \mathcal C\)</span> which are disjoint satisfying <span class="math display">\[\sum_{i=1}^k m(B_i) \geq \frac{c}{3^n}\]</span></p>
 </div>
 </div>
-<div id="r-10-6" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 10.6
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Take <span class="math inline">\(X = \{1,2,3\}\)</span> and <span class="math inline">\(\mathcal M = 2^X\)</span> then take <span class="math inline">\(\nu(\{1\}) = 3\)</span> and <span class="math inline">\(\nu(\{2\}) = -1\)</span> and same for <span class="math inline">\(3\)</span>. Then <span class="math inline">\(\nu(X) = 1&gt;0\)</span> but <span class="math inline">\(\{2\}\subseteq X\)</span> and <span class="math inline">\(\nu(\{2\}) = -1\)</span>, thus <span class="math inline">\(X\)</span> is not a positive set, although it has positive measure. But if we take <span class="math inline">\(B = \{1\}\)</span> then indeed we have a subset which is also a positive set. From this perspective it makes sense, the positive and negative parts of <span class="math inline">\(A\)</span> may give a positive contribution, but we can find a subset of these which only contribute positively. We can do this using a greedy algorithm, by just at each stage remove the most negative measurable subsets, define that as our new subset, remove the negative measurable subsets, and repeat until the resulting subset is positive.</p>
-</div>
-</div>
-<div id="r-10-7" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 10.7
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Take <span class="math inline">\(([0,1], \mathcal B_{[0,1]})\)</span> with <span class="math inline">\(\nu(A) = \int_A (2x-1) dm(x)\)</span>. If we take <span class="math inline">\(A = [1/4, 1]\)</span> then <span class="math inline">\(\nu(A) &gt; 0\)</span> but it is not a positive set since the density <span class="math inline">\(2x-1 &lt; 0\)</span> on <span class="math inline">\([1/4, 1/2)\)</span>, so why just not remove that interval and define <span class="math inline">\(B = [1/2,1]\subseteq A\)</span> which is measurable and also a positive set.</p>
-</div>
-</div>
-<p>This is different from the two facts we mentioned earlier. The lemma says that we only know that the measure of <span class="math inline">\(A\)</span> is positive, not that it is a positive set. However, it does guarantee that we can always find a subset of <span class="math inline">\(A\)</span> which is positive.</p>
-<div id="r-10-8" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 10.8 — Mutually singular measures
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Two measures <span class="math inline">\(\mu, \nu\)</span> on a measurable space <span class="math inline">\((X, \mathcal M)\)</span> are mutually singular if <span class="math inline">\(X\)</span> can be partitioned into two disjoint sets <span class="math inline">\(E, F\)</span> in <span class="math inline">\(\mathcal M\)</span> so that <span class="math inline">\(\mu(E) = 0 = \nu(F)\)</span>. This is denoted by <span class="math inline">\(\mu \perp \nu\)</span>.</p>
-</div>
-</div>
-<div id="r-10-9" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 10.9 — (Jordan decomposition theorem)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\nu\)</span> is a signed measure on <span class="math inline">\((X, \mathcal M)\)</span>, then there exists unique measures <span class="math inline">\(\nu^+\)</span> and <span class="math inline">\(\nu^-\)</span> so that <span class="math inline">\(\nu^+ \perp \nu^-\)</span> and <span class="math display">\[\nu = \nu^+ - \nu^-\]</span></p>
-</div>
-</div>
-<p>The measure <span class="math inline">\(\nu^+ + \nu^-\)</span> is called the total variation of <span class="math inline">\(\nu\)</span> and is denoted by <span class="math inline">\(|\nu|\)</span>. The Jordan decomposition theorem is essentially a corollary of the Hahn decomposition theorem where we define <span class="math inline">\(\nu^\pm\)</span> as the restriction of <span class="math inline">\(\nu\)</span> to <span class="math inline">\(P\)</span> (+) <span class="math inline">\(N\)</span> (-) respectively. This is similiar to the decomposition of a function <span class="math display">\[f(x) = \max(f(x), 0) - \max(-f(x), 0) \equiv f^+(x) - f^-(x)\]</span></p>
-<div id="r-10-10" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 10.10
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Why is <span class="math inline">\(\nu(A) = \int_A (2x-1) dx\)</span> a signed measure?</p>
-<ul>
-<li><span class="math inline">\(\nu(\emptyset) = 0\)</span></li>
-<li>Since <span class="math inline">\(2x-1\)</span> is bounded on <span class="math inline">\([0,1]\)</span>, it is a finite signed measure and thus never takes <span class="math inline">\(\pm \infty\)</span>.</li>
-<li>Countable additivity follows from the fact that the integral and infinite sum can be interchanged by the Lebesgue dominated convergence theorem. <span class="math display">\[\nu(\bigcup_i A_i) = \int f 1_A dx = \int \lim_{n\rightarrow \infty} f \cdot 1_{\bigcup_{i=1}^n A_i}\]</span> and in order to swap limit and integral, we need the LDCT. Since <span class="math inline">\(g_n \rightarrow f \cdot 1_A\)</span> pw and <span class="math inline">\(|f_n| \leq |f|\)</span> for all n we can simply take <span class="math inline">\(f\)</span> as our majorant function, and clearly <span class="math inline">\(\int |f| dx &lt; \infty\)</span> so <span class="math inline">\(f\)</span> is also integrable. We may therefore write <span class="math display">\[=\lim_{n\rightarrow \infty} \int f_n dx = \lim_{n\rightarrow \infty} \sum_{i=1}^n \int_{A_i} f dx = \sum_{i=1}^\infty \nu(A_i)\]</span></li>
-</ul>
-</div>
-</div>
-<div id="r-10-11" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 10.11 — Cantor measure minus Lebesgue
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Define <span class="math display">\[\nu = \mu_c - m\]</span>on the measurable space <span class="math inline">\(([0,1], \mathcal B_{[0,1]})\)</span> then the Hahn decomposition is simply <span class="math inline">\(P = C\)</span> (the Cantor set) and <span class="math inline">\(N= C^c\)</span> and then we simply have <span class="math inline">\(\nu^+(A) = \mu_c(A \cap C)\)</span> and <span class="math inline">\(\nu^{-1}(A) = m(A \cap C^c)\)</span> for the Jordan decomposition.</p>
-</div>
-</div>
+<p>Before constructing the proof, we notice two differences between this covering lemma and the simpler covering lemma. First of all, there is no assumption about the collection <span class="math inline">\(\mathcal C\)</span> being finite. The conclusion is about <span class="math inline">\(c\)</span> and not <span class="math inline">\(m(U)\)</span> too.</p>
+<p>Since <span class="math inline">\(c &lt; m(U)\)</span>, by <a href="./lecture-12.html#r-12-3">Theorem 12.3</a>(i) we can choose <span class="math inline">\(K \subseteq U\)</span> compact s.t. <span class="math inline">\(m(K) &gt; c\)</span>. A compact set has finite subcover, meaning we can take <span class="math inline">\(A_1,...,A_m \in \mathcal C\)</span> that cover <span class="math inline">\(K\)</span>. Now we repeat the same steps as before, choosing <span class="math inline">\(B_1\)</span> being among those of maximal size, then choose <span class="math inline">\(B_2\)</span> among these to have maximal size but disjoint from <span class="math inline">\(B_1\)</span>, and repeating. The claim is identical as before, meaning if <span class="math inline">\(A_i\)</span> is NOT in the final list, then for some <span class="math inline">\(j\)</span> we have <span class="math display">\[A_i \subseteq B_j^\star\]</span> where <span class="math inline">\(^\star\)</span> denotes the ball concentric with <span class="math inline">\(B_j\)</span> but three times the radius. Since <span class="math inline">\(A_i\)</span> was not chosen, it must have intersected one of the <span class="math inline">\(B_j\)</span>’s. Unlike before however, the measure is bounded by a factor of <span class="math inline">\(3^n\)</span> instead. <span class="math display">\[c &lt; m(K) &lt; m(\bigcup_{j=1}^k B_j^\star) \leq \sum_{j=1}^k m(B_j^\star) = 3^n \sum_{j=1}^k m(B_j)\]</span> as desired.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -820,7 +977,7 @@ Figure&nbsp;10.1: Hahn decomposition for <span class="math inline">\(\nu(A)=\int
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1225,13 +1382,13 @@ Figure&nbsp;10.1: Hahn decomposition for <span class="math inline">\(\nu(A)=\int
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-09.html" class="pagination-link" aria-label="Weak and Strong Laws of Large Numbers">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Weak and Strong Laws of Large Numbers</span></span>
+      <a href="./lecture-11.html" class="pagination-link" aria-label="Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture-11.html" class="pagination-link" aria-label="Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-13.html" class="pagination-link" aria-label="Hardy–Littlewood Maximal Function and the Maximal Theorem">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

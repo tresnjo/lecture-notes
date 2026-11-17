@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Proof of Carathéodory and Uniqueness of Lebesgue Measure – Integration Theory</title>
+<title>11&nbsp; Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture-04.html" rel="next">
-<link href="./lecture-02.html" rel="prev">
+<link href="./lecture-12.html" rel="next">
+<link href="./lecture-10.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -138,7 +126,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed slimcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-11.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -376,7 +364,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-03.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></span></a>
   </div>
 </li>
@@ -440,7 +428,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-11.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-11.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition</span></span></a>
   </div>
 </li>
@@ -481,29 +469,16 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#step-1-mathcal-m-is-an-algebra" id="toc-step-1-mathcal-m-is-an-algebra" class="nav-link active" data-scroll-target="#step-1-mathcal-m-is-an-algebra">Step 1: <span class="math inline">\(\mathcal M\)</span> is an algebra</a></li>
-  <li><a href="#step-2-mustar-is-finitely-additive-on-mathcal-m" id="toc-step-2-mustar-is-finitely-additive-on-mathcal-m" class="nav-link" data-scroll-target="#step-2-mustar-is-finitely-additive-on-mathcal-m">Step 2: <span class="math inline">\(\mu^\star\)</span> is finitely additive on <span class="math inline">\(\mathcal M\)</span></a></li>
-  <li><a href="#step-3-mathcalm-is-a-sigma-algebra" id="toc-step-3-mathcalm-is-a-sigma-algebra" class="nav-link" data-scroll-target="#step-3-mathcalm-is-a-sigma-algebra">Step 3: <span class="math inline">\(\mathcal{M}\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra</a></li>
-  <li><a href="#step-5-show-that-the-measure-space-is-complete" id="toc-step-5-show-that-the-measure-space-is-complete" class="nav-link" data-scroll-target="#step-5-show-that-the-measure-space-is-complete">Step 5: Show that the measure space is complete</a></li>
-  <li><a href="#relationship-between-the-borel-set-and-mathcal-m." id="toc-relationship-between-the-borel-set-and-mathcal-m." class="nav-link" data-scroll-target="#relationship-between-the-borel-set-and-mathcal-m.">Relationship between the Borel set and <span class="math inline">\(\mathcal M\)</span>.</a>
-  <ul class="collapse">
-  <li><a href="#nonmeasurable-sets" id="toc-nonmeasurable-sets" class="nav-link" data-scroll-target="#nonmeasurable-sets">Nonmeasurable sets</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content" tabindex="-1">
+<main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-11.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition</span></h1>
 </div>
 
 
@@ -520,146 +495,270 @@ window.Quarto = {
 </header>
 
 
-<p>To prove Caratheodory’s theorem, we first need to show that <span class="math inline">\(\mathcal M\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra. To do so, it suffices to first show that <span class="math inline">\(\mathcal M\)</span> is an algebra, and then show that it is closed under countable unions (remind yourself of the definitions from <a href="./lecture-01.html">Lecture 1</a>).</p>
-<div id="fig-l03-caratheodory-split" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-l03-caratheodory-split-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="themed-figure"><img src="images/l03-caratheodory-split-light.svg" class="light-content figure-img" alt="The Carathéodory test: A must split every test set E additively into Ecap A and Ecap A^c."><img src="images/l03-caratheodory-split-dark.svg" class="dark-content figure-img" alt="The Carathéodory test: A must split every test set E additively into Ecap A and Ecap A^c."></div>
+<div id="r-11-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l03-caratheodory-split-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> must split every test set <span class="math inline">\(E\)</span> additively into <span class="math inline">\(E\cap A\)</span> and <span class="math inline">\(E\cap A^c\)</span>.
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition 11.1 — Absolute continuity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Given two measures <span class="math inline">\(\nu, \mu\)</span> on <span class="math inline">\((X, \mathcal M)\)</span> we say that <span class="math inline">\(\nu\)</span> is absolutely continuous with respect to <span class="math inline">\(\mu\)</span>, written <span class="math inline">\(\nu &lt;&lt; \mu\)</span>, if for all <span class="math inline">\(A \in \mathcal M\)</span> <span class="math display">\[\mu(A) = 0\]</span> implies <span class="math inline">\(\nu(A) = 0\)</span>.</p>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Note that it does not mean that <span class="math inline">\(\nu \leq \mu\)</span> or vice versa. For example if we have <span class="math inline">\(\mu\)</span> is the Lebesgue measure on <span class="math inline">\([0,1]\)</span> and <span class="math inline">\(\nu\)</span> is two times the Lebesgue measure on the same interval, we have both <span class="math inline">\(\nu &lt;&lt; \mu\)</span> and <span class="math inline">\(\mu &lt;&lt; \nu\)</span>.</p>
+</div></div><div id="r-11-2" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Example 11.2 — Measures given by a density
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider a measure space <span class="math inline">\((X, \mathcal M, \mu)\)</span> and a function <span class="math inline">\(f\in L^+((X, \mathcal M, \mu))\)</span> then take <span class="math display">\[\nu(A) := \int_A f(x) d\mu(x) \tag{1}\]</span> Proving that it is a measure can be done by defining <span class="math inline">\(g_n : = f 1_{\bigcup_{i=1}^n A_i}\)</span> which forms an increasing sequence of measurable functions that converge to <span class="math inline">\(f \cdot 1_{\bigcup_i A_i}\)</span> pw which allows us to apply the MCT <span class="math display">\[\nu\left(\bigcup_i A_i\right) = \int f \cdot \mathbf{1}_{\bigcup_i A_i} \, d\mu = \int \lim_{n\to\infty} g_n \, d\mu \underbrace{=}_{\text{MCT}} \lim_{n\to\infty} \int g_n \, d\mu = \lim_{n\to\infty} \sum_{i=1}^n \int_{A_i} f \, d\mu = \sum_{i=1}^\infty \nu(A_i)\]</span> If <span class="math inline">\(\mu(A) = 0\)</span>, then <span class="math inline">\(\nu(A) = \int_A f d\mu = 0\)</span> and thus <span class="math inline">\(\nu &lt;&lt; \mu\)</span>.</p>
+</div>
+</div>
+<p>The measure <span class="math inline">\(\nu\)</span> in (1) is often denoted simply by <span class="math inline">\(f\mu\)</span>. In fact, any measure which is absolutely continuous with respect to <span class="math inline">\(\mu\)</span> has this form assuming <span class="math inline">\(\sigma\)</span>-finiteness.</p>
+<div id="r-11-3" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 11.3 — The Radon-Nikodym theorem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\nu, \mu\)</span> be two measures on <span class="math inline">\((X, \mathcal M)\)</span> with <span class="math inline">\(\nu &lt;&lt; \mu\)</span> and with <span class="math inline">\(\nu, \mu\)</span> being <span class="math inline">\(\sigma\)</span>-finite. Then, there exists a measurable function <span class="math inline">\(f_0: X \rightarrow [0,\infty)\)</span> such that <span class="math inline">\(\forall A \in \mathcal M\)</span> we have <span class="math display">\[\nu(A) = \int_A f_0(x) d\mu(x)\]</span> Morever, <span class="math inline">\(f_0\)</span> is unique in the sense that if <span class="math inline">\(g_0\)</span> is another such function, then <span class="math display">\[\mu(\{x:f_0(x) \neq g_0(x)\})=0\]</span>In other words <span class="math inline">\(\mu\)</span> is defined up to a <span class="math inline">\(\mu\)</span>-null set. Thus any two <span class="math inline">\(f_0, g_0\)</span> agree <span class="math inline">\(\mu\)</span>-a.e.</p>
+<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We prove this under the assumption that <span class="math inline">\(\mu, \nu\)</span> are finite, and only outline the extension to the <span class="math inline">\(\sigma\)</span>-finite case. First define <span class="math display">\[\mathcal F := \{f: X \rightarrow [0, \infty):\int_A f(x) d\mu(x) \leq \nu(A) \forall A \in \mathcal M\}\]</span> Note that <span class="math inline">\(\mathcal F\)</span> is nonempty since <span class="math inline">\(f \equiv 0\)</span> is in <span class="math inline">\(\mathcal F\)</span>. Therefore, the supremum is defined, and we let <span class="math display">\[m:=\sup \{ \int f(x) d\mu(x) : f\in \mathcal F\}\]</span>where <span class="math inline">\(m\leq \nu(X) &lt; \infty\)</span>.</p>
+<p><strong>Claim:</strong> There exists <span class="math inline">\(f_0 \in \mathcal F\)</span> for which <span class="math inline">\(\int f_0(x) d\mu(x) = m\)</span>, i.e.&nbsp;the supremum is achieved.</p>
+<p>Note that if <span class="math inline">\(h_1, h_2 \in \mathcal F\)</span>, then so does <span class="math inline">\(\max\{h_1, h_2\}\)</span>, since <span class="math display">\[\int_A \max\{h_1, h_2\} d\mu(x) = \int_{A \cap \{h_1 \geq h_2\}} h_1(x) d\mu(x) + \int_{A \cap \{h_1 &lt; h_2\}} h_2(x) d\mu(x) \leq \nu(A \cap \{h_1 \geq h_2\}) + \nu(A \cap \{h_1 &gt; h_2\}) = \nu(A)\]</span>Now we choose <span class="math inline">\(h_1, h_2, ... \in \mathcal F\)</span> so that <span class="math display">\[\lim_{n\rightarrow \infty} \int h_n(x) d\mu(x) = m \tag{2}\]</span><strong>Why can we do this?</strong> Well, by the definition of the supremum, for every <span class="math inline">\(\epsilon &gt; 0\)</span> there exists some <span class="math inline">\(f\in \mathcal F\)</span> with <span class="math inline">\(\int f d\mu &gt; m -\epsilon\)</span>, we may thus take <span class="math inline">\(\epsilon = 1/n\)</span> to construct our sequence <span class="math inline">\(h_n \in \mathcal F\)</span>.</p>
+<p>If we let <span class="math inline">\(g_n:= \max\{h_1,...,h_n\}\)</span>, then each <span class="math inline">\(g_n \in \mathcal F\)</span> (by induction) and <span class="math inline">\(g_n\)</span> is increasing and <span class="math display">\[\int h_n(x) d\mu(x) \leq \int g_n d\mu \leq m\]</span> where the left inequality holds since <span class="math inline">\(g_n \geq h_n\)</span> by definition. The right inequality holds because <span class="math inline">\(g_n \in \mathcal F\)</span> and thus <span class="math inline">\(\int g_n d\mu \leq m\)</span> by definition of m. By the squeeze theorem of (2), we thus have</p>
+<p><span class="math display">\[\lim_{n\rightarrow \infty} \int g_n d\mu  = m\]</span></p>
+<p>If we can move <span class="math inline">\(\lim_{n\rightarrow \infty}\)</span> inside the integral, we have found our <span class="math inline">\(f_0\)</span>. In particular, by setting <span class="math inline">\(f_0 := \lim_{n\rightarrow \infty} g_n\)</span>. Are we allowed to make this exchange of limiting operations? Well clearly the <span class="math inline">\(g_n\)</span>’s form a sequence of nonnegative increasing measurable functions (being the maximum of elements in <span class="math inline">\(\mathcal F\)</span>) which allows us to apply MCT <span class="math display">\[\int f_0(x) d\mu(x) = m\]</span>What remains to show for the claim is that <span class="math inline">\(f_0 \in \mathcal F\)</span>. For this, fix <span class="math inline">\(A \in \mathcal A\)</span>. We want to apply MCT to <span class="math inline">\(g_n 1_A\)</span> whose limit is given by <span class="math inline">\(f_0 1_A\)</span> and thus we have <span class="math display">\[\int_A f_0 d\mu =  \int f_0 1_A d\mu = \lim_{n\rightarrow \infty} \int g_n 1_A d\mu = \lim_{n\rightarrow \infty} \int_A g_n d\mu\]</span> but since every <span class="math inline">\(g_n \in \mathcal F\)</span>, for every <span class="math inline">\(n\)</span> we have <span class="math display">\[\int_A g_n d\mu \leq \nu(A)\]</span> and thus taking the limit we still have <span class="math display">\[\int_A f_0 d\mu = \lim_{n\rightarrow \infty} \int_A g_n d\mu \leq \nu(A)\]</span>Which proves the claim.</p>
+<p>Now we define <span class="math display">\[\nu_0 := \nu - f_0 \mu\]</span>and our goal is to show that it is the zero measure, meaning that <span class="math inline">\(\nu_0(A) = 0 \forall A \in \mathcal M\)</span>. Note that by construction of <span class="math inline">\(f_0\)</span>, we have <span class="math inline">\(\nu_0(A) \geq 0\)</span>.</p>
+<p>By showing <span class="math inline">\(\nu_0(X) = 0\)</span> is true, and using the fact that <span class="math inline">\(\nu_0\)</span> is a positive measure by construction, we have <span class="math inline">\(\nu_0(A) = 0 \forall A \in \mathcal M\)</span>. Thus, from now on, assume for sake of contradiction that <span class="math inline">\(\nu_0(X) &gt; 0\)</span>. This is just a finite number, and since <span class="math inline">\(\mu\)</span> is finite by assumption, there exists an <span class="math inline">\(\epsilon &gt; 0\)</span> so that <span class="math display">\[\nu_0(X) - \epsilon \mu(X) &gt; 0 \tag{3}\]</span> Now let <span class="math inline">\((P,N)\)</span> be the Hahn decomposition for the signed measure <span class="math display">\[\nu_0 - \epsilon \mu\]</span>which is just the difference of two positive measures. This construction always exists, so far so good!</p>
+<p>When constructing the Hahn decomposition, we either have <span class="math inline">\(\mu(P) = 0\)</span> or <span class="math inline">\(\mu(P) &gt; 0\)</span>, since <span class="math inline">\(\mu\)</span> is a measure. We will see that both cases leads to a contradiction, assuming <span class="math inline">\(\nu_0(X) &gt; 0\)</span> (or equivalently statement (3)).</p>
+<p><strong>Case 1:</strong> <span class="math inline">\(\mu(P) = 0\)</span>, then since <span class="math inline">\(\nu &lt;&lt; \mu\)</span> we have that <span class="math inline">\(\nu(P) = 0\)</span> and hence <span class="math inline">\((\nu_0 - \epsilon \mu)(P) = (\nu - f_0 \mu - \epsilon \mu)(P) = 0\)</span>, contradicting (3) since <span class="math display">\[(\nu_0 - \epsilon \mu)(X) = (\nu_0 - \epsilon \mu)(P) + (\nu_0 - \epsilon \mu)(N) = (\nu_0 - \epsilon \mu)(N)\]</span>but by the Hahn decomposition that is <span class="math inline">\(\leq 0\)</span> and not <span class="math inline">\(&gt;0\)</span>.</p>
+<p><strong>Case 2:</strong> <span class="math inline">\(\mu(P) &gt; 0\)</span>. Note that <span class="math display">\[g_0 = f_0 + \epsilon 1_P \in \mathcal F\]</span>As follows from<span class="math display">\[\int_A (f_0 + \epsilon 1_p) d\mu(x) = \int_A f_0 d\mu(x) + \epsilon \mu(P \cap A) \leq \int_A f_0 d\mu(x) + \nu_0(P \cap A) \leq \int_A f_0 d\mu(x) + \nu_0(A) = \nu(A)\]</span> where we used that <span class="math inline">\(\nu_0(P \cap A) \geq \epsilon \mu(P\cap A)\)</span> since <span class="math inline">\(P \cap A \subseteq P\)</span> is a positive subset and similarly <span class="math inline">\(\nu_0(P \cap A) \leq \nu_0(A)\)</span> by monotonicity (with <span class="math inline">\(\nu_0\)</span> being a positive measure).</p>
+<p>Next, since <span class="math inline">\(\mu(P) &gt; 0\)</span> we have <span class="math display">\[\int g_0 d\mu(x) = m + \epsilon \mu(P) &gt; m\]</span>contradicting the definition of <span class="math inline">\(m\)</span>, since <span class="math inline">\(g_0 \in \mathcal F\)</span>. Hence <span class="math inline">\(\nu_0\)</span> is the zero measure.</p>
+<p><strong>Outline for the <span class="math inline">\(\sigma\)</span>-finite extension:</strong></p>
+<ul>
+<li>Break up <span class="math inline">\(X\)</span> into countably many pieces, each piece with finite <span class="math inline">\(\mu, \nu\)</span> measure. Then one can do the above on each piece separately and put it together in the end. <span class="math inline">\(\square\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="fig-l11-radon-nikodym" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-l11-radon-nikodym-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="themed-figure"><img src="images/l11-radon-nikodym-light.svg" class="light-content figure-img" alt="The Radon–Nikodym derivative is the density whose area over A is nu(A)."><img src="images/l11-radon-nikodym-dark.svg" class="dark-content figure-img" alt="The Radon–Nikodym derivative is the density whose area over A is nu(A)."></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l11-radon-nikodym-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.1: The Radon–Nikodym derivative is the density whose area over <span class="math inline">\(A\)</span> is <span class="math inline">\(\nu(A)\)</span>.
 </figcaption>
 </figure>
 </div>
-<section id="step-1-mathcal-m-is-an-algebra" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-mathcal-m-is-an-algebra">Step 1: <span class="math inline">\(\mathcal M\)</span> is an algebra</h3>
-<p><strong>(i)</strong> <span class="math inline">\(\emptyset \in \mathcal{M}\)</span> is immediate.</p>
-<p><strong>(ii)</strong> <span class="math inline">\(\mathcal{M}\)</span> is closed under complementation since the definition of <span class="math inline">\(\mu^*\)</span>-measurability is symmetric in <span class="math inline">\(A\)</span> and <span class="math inline">\(A^c\)</span>.</p>
-<p><strong>(iii)</strong> We need to show <span class="math inline">\(A, B \in \mathcal{M}\)</span> implies <span class="math inline">\(A \cup B \in \mathcal{M}\)</span> (the actual definition for an algebra is that it is closed under finite unions, but it suffices to show it holds for union of two sets by induction) Fix <span class="math inline">\(E \subseteq X\)</span>. Note that:</p>
-<p><span class="math display">\[A \cup B = (A \cap B) \cup (A^c \cap B) \cup (A \cap B^c)\]</span></p>
-<p>This is a disjoint union of three regions — sets in both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, sets only in <span class="math inline">\(B\)</span>, and sets only in <span class="math inline">\(A\)</span> — which together cover everything in <span class="math inline">\(A \cup B\)</span>. Using subadditivity:</p>
-<p><span class="math display">\[\mu^*(E \cap (A \cup B)) + \mu^*(E \cap (A \cup B)^c) \leq \mu^*(E \cap (A \cap B)) + \mu^*(E \cap (A^c \cap B)) + \mu^*(E \cap (A \cap B^c)) + \mu^*(E \cap (A^c \cap B^c))\]</span></p>
-<p>Applying measurability of <span class="math inline">\(A\)</span> to <span class="math inline">\(E \cap B\)</span> for the first two terms:</p>
-<p><span class="math display">\[\mu^*(E \cap (A \cap B)) + \mu^*(E \cap (A^c \cap B)) = \mu^*(E \cap B)\]</span></p>
-<p>and to <span class="math inline">\(E \cap B^c\)</span> for the last two terms:</p>
-<p><span class="math display">\[\mu^*(E \cap (A \cap B^c)) + \mu^*(E \cap (A^c \cap B^c)) = \mu^*(E \cap B^c)\]</span></p>
-<p>Hence the right hand side equals <span class="math inline">\(\mu^*(E \cap B) + \mu^*(E \cap B^c) = \mu^*(E)\)</span>, where the last equality follows from measurability of <span class="math inline">\(B\)</span>. This gives:</p>
-<p><span class="math display">\[\mu^*(E \cap (A \cup B)) + \mu^*(E \cap (A \cup B)^c) \leq \mu^*(E)\]</span></p>
-<p>The reverse inequality <span class="math inline">\(\mu^*(E) \leq \mu^*(E \cap (A \cup B)) + \mu^*(E \cap (A \cup B)^c)\)</span> follows immediately from subadditivity, since <span class="math inline">\((E \cap (A \cup B)) \cup (E \cap (A\cup B)^c) = E\)</span>. Together these give equality, so <span class="math inline">\(A \cup B \in \mathcal{M}\)</span>. <span class="math inline">\(\square\)</span></p>
-</section>
-<section id="step-2-mustar-is-finitely-additive-on-mathcal-m" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-mustar-is-finitely-additive-on-mathcal-m">Step 2: <span class="math inline">\(\mu^\star\)</span> is finitely additive on <span class="math inline">\(\mathcal M\)</span></h3>
-<p>If <span class="math inline">\(A, B \in \mathcal{M}\)</span> are disjoint, then applying the Carathéodory criterion for <span class="math inline">\(A\)</span> with test set <span class="math inline">\(E = A \cup B\)</span>:</p>
-<p><span class="math display">\[\mu^*(A \cup B) = \mu^*((A \cup B) \cap A) + \mu^*((A \cup B) \cap A^c) = \mu^*(A) + \mu^*(B)\]</span></p>
-<p>where <span class="math inline">\((A \cup B) \cap A = A\)</span> and <span class="math inline">\((A \cup B) \cap A^c = B\)</span> by disjointness. Finite additivity for <span class="math inline">\(n\)</span> disjoint sets <span class="math inline">\(A_1, \ldots, A_n \in \mathcal{M}\)</span> follows by induction.</p>
-</section>
-<section id="step-3-mathcalm-is-a-sigma-algebra" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-mathcalm-is-a-sigma-algebra">Step 3: <span class="math inline">\(\mathcal{M}\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra</h3>
-<p>The only additional criterion imposed by the <span class="math inline">\(\sigma\)</span>-algebra over the algebra is closure under countable unions.</p>
-<p>Since <span class="math inline">\(\mathcal{M}\)</span> is already an algebra, it suffices to show that if <span class="math inline">\(A_1, A_2, \ldots \in \mathcal{M}\)</span> are disjoint, then <span class="math inline">\(\bigcup_i A_i \in \mathcal{M}\)</span>. This is without loss of generality since any countable union can be made disjoint via:</p>
-<p><span class="math display">\[\bigcup_i A_i = \bigcup_i \left(A_i \setminus \bigcup_{j &lt; i} A_j\right)\]</span></p>
-<p>where each piece <span class="math inline">\(A_i \setminus \bigcup_{j&lt;i} A_j \in \mathcal{M}\)</span> since <span class="math inline">\(\mathcal{M}\)</span> is an algebra.</p>
-<p>Now define <span class="math inline">\(B_n := \bigcup_{i=1}^n A_i\)</span> and <span class="math inline">\(B := \bigcup_i A_i\)</span>. Applying measurability of <span class="math inline">\(A_n\)</span> with test set <span class="math inline">\(E \cap B_n\)</span>:</p>
-<p><span class="math display">\[\mu^*(E \cap B_n) = \mu^*(E \cap B_n \cap A_n) + \mu^*(E \cap B_n \cap A_n^c) = \mu^*(E \cap A_n) + \mu^*(E \cap B_{n-1})\]</span></p>
-<p>where we used <span class="math inline">\(B_n \cap A_n = A_n\)</span> and <span class="math inline">\(B_n \cap A_n^c = B_{n-1}\)</span> by disjointness. Repeating inductively:</p>
-<p><span class="math display">\[\mu^*(E \cap B_{n-1}) = \mu^*(E \cap A_{n-1}) + \mu^*(E \cap B_{n-2})\]</span> <span class="math display">\[\vdots\]</span> <span class="math display">\[\mu^*(E \cap B_1) = \mu^*(E \cap A_1)\]</span></p>
-<p>Chaining everything together:</p>
-<p><span class="math display">\[\mu^*(E \cap B_n) = \sum_{i=1}^n \mu^*(E \cap A_i) \tag{2}\]</span> which is what we would expect (but note that this doesnt follow immediately from the definition of an outer measure, since its only countably subadditive)</p>
-<p>where we inserted (2) and then used countable subadditivity of the outer measure to get the inequality in the last line since <span class="math inline">\(B^c \subseteq B_n^c\)</span>.</p>
-<p>Using measurability of <span class="math inline">\(B_n\)</span> together with (2) and subadditivity and definition of B in last step. ### Step 4: Show that <span class="math inline">\(\mu^\star\)</span> is countably additive on <span class="math inline">\(\mathcal M\)</span> and thus a measure space Remember that a measure space is the triple <span class="math inline">\((X, \mathcal M, \mu^\star)\)</span> where <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span> and <span class="math inline">\(\mu^\star(\bigcup_i A_i) = \sum_i \mu^\star(A_i)\)</span>. <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span> is satisfied definitionally. From the earlier proof, we had</p>
-<p>Now we can take <span class="math inline">\(E = B\)</span> as defined earlier, and that gives us <span class="math inline">\(\mu^\star(B) = \sum_{i=1}^\infty \mu^\star(A_i)\)</span>.</p>
-</section>
-<section id="step-5-show-that-the-measure-space-is-complete" class="level3">
-<h3 class="anchored" data-anchor-id="step-5-show-that-the-measure-space-is-complete">Step 5: Show that the measure space is complete</h3>
-<p>A measure space is considered complete if subsets of nullsets are also nullsets, see <a href="./lecture-02.html">Lecture 2</a>.</p>
-<p>What we want to show is that if we have <span class="math inline">\(B \in \mathcal M\)</span> where <span class="math inline">\(\mu^\star(B) = 0\)</span> and <span class="math inline">\(A \subseteq B\)</span>, then <span class="math inline">\(A \in \mathcal M\)</span>, that is, <span class="math inline">\(A\)</span> satisfies <span class="math display">\[\mu^\star(E) = \mu^\star(E \cap A) + \mu^\star(E \cap A^c)\]</span> for any <span class="math inline">\(E \subseteq X\)</span>.</p>
-<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The <span class="math inline">\(\leq\)</span> direction follows immediately from countable subadditivity of <span class="math inline">\(\mu^\star\)</span>, since <span class="math inline">\((E\cap A)\cup(E\cap A^c) = E\)</span>.</p>
-<p>For <span class="math inline">\(\geq\)</span>: since <span class="math inline">\(A\subseteq B\)</span> and <span class="math inline">\(\mu^\star(B)=0\)</span>, monotonicity gives <span class="math display">\[\mu^\star(E\cap A) \leq \mu^\star(A) \leq \mu^\star(B) = 0\]</span> so <span class="math inline">\(\mu^\star(E\cap A) = 0\)</span>. Also <span class="math inline">\(E\cap A^c \subseteq E\)</span>, so by monotonicity <span class="math inline">\(\mu^\star(E\cap A^c)\leq\mu^\star(E)\)</span>. Therefore: <span class="math display">\[\mu^\star(E\cap A) + \mu^\star(E\cap A^c) = 0 + \mu^\star(E\cap A^c) \leq \mu^\star(E)\]</span> Combining both directions gives equality, so <span class="math inline">\(A\in\mathcal{M}\)</span>, and since <span class="math inline">\(\mu^\star(A)=0\)</span> the measure is complete. <span class="math inline">\(\square\)</span></p>
-</div>
-</div>
-</div>
-</section>
-<section id="relationship-between-the-borel-set-and-mathcal-m." class="level2">
-<h2 class="anchored" data-anchor-id="relationship-between-the-borel-set-and-mathcal-m.">Relationship between the Borel set and <span class="math inline">\(\mathcal M\)</span>.</h2>
-<p>There are Lebesgue measurable sets that are not Borel sets. We will prove this later.</p>
-<p><em>One way to characterize the Lebesgue measure is to first define it on Borel sets, that is, all sets obtained by countably unions, complements, and intersections, from the open intervals, s.t. it assigns usual length to open intervals. The Lebesgue measure can then be obtained by completing the Borel measure by assigning zero measure to all subsets of Borel sets that already have zero measure. From this perspective, we understand that the Borel sigma algebra is a proper subsets of the Lebesgue sigma algebra (see the earlier lecture). The construction we just derived based on Caratheodory, i.e.&nbsp;<span class="math inline">\((\mathbb R, \mathcal M, \mu^\star \vert_{\mathcal M})\)</span> is a complete measure space, whereas <span class="math inline">\((\mathbb R, \mathcal B, \mu^\star \vert_{\mathcal B})\)</span> is not (both measures are identical except they are restricted to different domains). For example, the Cantor set has the same cardinality as the reals, and its powerset (collection of all subsets) has greater cardinality of the reals, which exceed the number of Borel sets. Thus, there are more subsets than <span class="math inline">\(\mathcal B\)</span> can contain, and thus fails completeness. We have also shown that it is not possible to extend the Lebesgue measure to all <span class="math inline">\(\mathcal P(\mathbb R)\)</span> while retaining translation invariance and countable additivity.</em> ## The uniqueness of the Lebesgue measure on <span class="math inline">\(\mathcal B\)</span>.</p>
-<p>The uniqueness is shown using Dynkin’s <span class="math inline">\(\pi-\lambda\)</span> theorem.</p>
-<div id="r-3-1" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div id="r-11-4" class="remark-box callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 3.1 — Uniqueness theorem for measure on <span class="math inline">\((X, \sigma(I))\)</span>
+<span class="screen-reader-only">Tip</span>Remark 11.4 — About the Radon–Nikodym theorem
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(X\)</span> be a set and <span class="math inline">\(\mathcal{I}\)</span> be a <span class="math inline">\(\pi\)</span>-system on <span class="math inline">\(X\)</span>. If <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> are two measures on <span class="math inline">\((X, \sigma(\mathcal{I}))\)</span> such that:</p>
-<p><span class="math display">\[\mu_1(X) = \mu_2(X) &lt; \infty\]</span></p>
-<p>and</p>
-<p><span class="math display">\[\mu_1(I) = \mu_2(I) \quad \forall I \in \mathcal{I}\]</span></p>
-<p>then <span class="math inline">\(\mu_1 = \mu_2\)</span>.</p>
-<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Define <span class="math display">\[D = \{A \in \sigma(I) : \mu_1(A) = \mu_2(A)\}\]</span>in other words the collection of all subsets of the sigma-algebra generated by the <span class="math inline">\(\pi\)</span>-system <span class="math inline">\(I\)</span> such that the measures agree. We want to show that <span class="math inline">\(D = \sigma(I)\)</span>, in other words, that all measurable sets of the sigma algebra agree irrespective of <span class="math inline">\(\mu_1\)</span> or <span class="math inline">\(\mu_2\)</span>.</p>
-<p>As per usual, to prove that two sets are identical, we have to show that they are contained in each other. Clearly from the way we defined <span class="math inline">\(D\)</span>, we have <span class="math inline">\(D \subseteq \sigma(I)\)</span>, and thus what remains is to prove the opposite containment <span class="math inline">\(\sigma(\mathcal I) \subseteq D\)</span>. This requires three steps:</p>
 <ol type="1">
-<li>We observe that <span class="math inline">\(D\)</span> is a <span class="math inline">\(\mathcal D\)</span>-system.</li>
+<li>We call <span class="math inline">\(f_0\)</span> in the above theorem for the Radon-Nikodym derivative of <span class="math inline">\(\nu\)</span> with respect to <span class="math inline">\(\mu\)</span>.</li>
+<li>If <span class="math inline">\(\mu\)</span> is Lebesgue measure on <span class="math inline">\((R, \mathcal B)\)</span> and <span class="math inline">\(\nu\)</span> is the distribution of a random variable which is absolutely continuous with respect to <span class="math inline">\(\mu\)</span>, then <span class="math inline">\(f_0\)</span> is simply the probability density function from elementary probability.</li>
+<li>The theorem is false in general without the <span class="math inline">\(\sigma\)</span>-finite assumption on <span class="math inline">\(\mu\)</span>.</li>
+<li>It turns out that <span class="math inline">\(\sigma\)</span>-finiteness on <span class="math inline">\(\nu\)</span> is not needed provided that <span class="math inline">\(f_0\)</span> is allowed to take the value <span class="math inline">\(\infty\)</span>.</li>
 </ol>
-<p>See <a href="./lecture-01.html#r-1-6">Definition 1.6</a> in <a href="./lecture-01.html">Lecture 1</a>. By assumption we have that <span class="math inline">\(X \in \mathcal D\)</span> as <span class="math inline">\(\mu_1(X) = \mu_2(X)\)</span> by assumption. Let now <span class="math inline">\(E,F \in \mathcal D\)</span>, i.e.&nbsp;they satisfy <span class="math inline">\(\mu_1(E) = \mu_2(E)\)</span> and <span class="math inline">\(\mu_1(F) = \mu_2(F)\)</span>, and <span class="math inline">\(E\subseteq F\)</span>, our question is whether <span class="math inline">\(F\setminus E \in \mathcal D\)</span>. So we check</p>
-<p><span class="math display">\[\mu_1(F\setminus E)  = \mu_1(F) - \mu_1(E) =\mu_2(F) - \mu_2(E) = \mu_2(F\setminus E) \]</span> Finally we have to check whether <span class="math inline">\(E_1 \subseteq E_2 \subseteq E_3 \subseteq \cdots\)</span> and <span class="math inline">\(E_i \in \mathcal{D}\)</span> for all <span class="math inline">\(i\)</span> imply <span class="math inline">\(\bigcup_i E_i \in \mathcal{D}\)</span>. Using continuity from below we have <span class="math display">\[\mu_1(\bigcup_i E_i) = \lim_{n\rightarrow \infty} \mu_1(E_n) = \lim_{n\rightarrow \infty} \mu_2(E_n) = \mu_2(\bigcup_i E_i) \]</span> and thus <span class="math inline">\(D\)</span> is a Dynkin-system.</p>
-<ol start="2" type="1">
-<li>We observe that <span class="math inline">\(\mathcal I \subseteq D\)</span> by assumption</li>
-</ol>
-<p>By assumption <span class="math inline">\(\mu_1 = \mu_2\)</span> on all open intervals and thus <span class="math inline">\(\mathcal I \in \mathcal D\)</span>.</p>
-<ol start="3" type="1">
-<li>And finally we apply Dynkin’s <span class="math inline">\(\pi-\lambda\)</span> theorem for the equality and steps 1 and 2 for the containment, we have <span class="math inline">\(\sigma(I) = \mathcal D(I)\subseteq D\)</span></li>
-</ol>
-<p>Since we are given that <span class="math inline">\(\mathcal I\)</span> is a <span class="math inline">\(\pi\)</span>-system, we can apply Dynkin’s <span class="math inline">\(\pi-\lambda\)</span> theorem to state <span class="math display">\[\mathcal{D}(\mathcal{I}) = \sigma(\mathcal{I})\]</span> Remember now that <span class="math inline">\(\mathcal D(\mathcal I)\)</span> is the <em>smallest</em> <span class="math inline">\(\lambda\)</span>-system containing <span class="math inline">\(\mathcal I\)</span>, and since we showed that D (also a <span class="math inline">\(\lambda\)</span>-system) contains <span class="math inline">\(\mathcal I\)</span>, we must have <span class="math inline">\(\sigma(\mathcal{I}) = \mathcal D(\mathcal I) \subseteq \mathcal D\)</span>. This completes the proof. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
-</div>
-</div>
-</div>
-<p>Applying this to <span class="math inline">\(X = [0, 1]\)</span> and <span class="math inline">\(I\)</span> being the set of open intervals implies that there is only one measure on <span class="math inline">\(([0, 1], B[0,1])\)</span> which agrees with “length” on intervals. Note that the set of open intervals is a <span class="math inline">\(\pi\)</span>-system, as finite intersections of open intervals remain open. Thus, the Lebesgue measure is the unique measure that assigns length to intervals.</p>
-<section id="nonmeasurable-sets" class="level3">
-<h3 class="anchored" data-anchor-id="nonmeasurable-sets">Nonmeasurable sets</h3>
-<p>It is natural to ask if <span class="math inline">\(\mathcal M\)</span> (the set of all <span class="math inline">\(\mu^\star\)</span>-measurable sets) contains all sets, that is, whether all sets are Lebesgue measurable. It will turn out that <span class="math inline">\(\mathcal M\)</span> can not be everything (assuming the axiom of choice), in particular, it will fail countable additivity under disjoint sets.</p>
-<div id="r-3-2" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>Note that every random variable <span class="math inline">\(X\)</span> has a cumulative distribution function (CDF), defined from its distribution <span class="math inline">\(\mu_X\)</span> (<a href="./lecture-09.html#r-9-4">Definition 9.4</a>) by <span class="math display">\[F_X(x) = \mu_X\big((-\infty, x]\big) = P\big(X^{-1}((-\infty, x])\big).\]</span> By <a href="./lecture-04.html#r-4-3">Proposition 4.3</a> it is weakly increasing and right continuous. A probability density function (PDF), on the other hand, only exists when <span class="math inline">\(\mu_X\)</span> is absolutely continuous with respect to the Lebesgue measure (<a href="./lecture-11.html#r-11-1">Definition 11.1</a>), and it is then the Radon–Nikodym derivative <span class="math inline">\(d\mu_X/dm\)</span> (see the remarks after <a href="./lecture-11.html#r-11-3">Theorem 11.3</a>).</p>
+<p>Conversely, given a function <span class="math inline">\(F\)</span> with these properties, <a href="./lecture-04.html#r-4-4">Proposition 4.4</a> gives a unique finite Borel measure <span class="math inline">\(\mu_F\)</span> whose CDF is <span class="math inline">\(F\)</span>, and from <span class="math inline">\(\mu_F\)</span> we can construct a random variable whose law is <span class="math inline">\(\mu_F\)</span>. Since <span class="math inline">\(\mu_F\)</span> is finite it is <span class="math inline">\(\sigma\)</span>-finite, but it need not be absolutely continuous, so it need not have a PDF. The Cantor measure <span class="math inline">\(\mu_C\)</span> (<a href="./lecture-04.html#r-4-8">Theorem 4.8</a>) is an example: its CDF is the Cantor function, but <span class="math inline">\(\mu_C\)</span> is singular, so it has no density.</p>
+<div id="r-11-5" class="example-box callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 3.2 — Non-existence of translation invariant measure on R
+<span class="screen-reader-only">Caution</span>Example 11.5 — Sampling from a distribution via its CDF
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>There does not exist a translation invariant measure on all subsets of R which gives length for intervals.</p>
+<p>The fact that every CDF comes with a random variable is also useful in practice, for simulating random variables with a given distribution. Generate <span class="math inline">\(U \sim \mathcal U(0,1)\)</span> and set <span class="math inline">\(X = F_X^{-1}(U)\)</span>. When <span class="math inline">\(F_X\)</span> is continuous and strictly increasing, <span class="math display">\[P(X \le x) = P\big(U \le F_X(x)\big) = F_X(x),\]</span> so <span class="math inline">\(X\)</span> has the CDF <span class="math inline">\(F_X\)</span>. This requires being able to evaluate <span class="math inline">\(F_X^{-1}\)</span>, which is not always easy (see <a href="https://data140.org/textbook/content/chapter-16/simulation-via-the-cdf/">simulation via the CDF</a>).</p>
+<p>For example, one way to generate a normal <span class="math inline">\(\mathcal N(\mu, \sigma^2)\)</span> random variable is to start from <span class="math inline">\(U \sim \mathcal U(0,1)\)</span>, set <span class="math inline">\(Z = \Phi^{-1}(U)\)</span>, which has the standard normal distribution, and finally let <span class="math inline">\(X = \sigma Z + \mu\)</span>. Here <span class="math inline">\(\Phi^{-1}\)</span> has no closed form, but it is easy to evaluate numerically.</p>
+</div>
+</div>
+<div id="side-the-kullback-leibler-divergence" class="side-topic">
+<p><strong>Side topic: The Kullback–Leibler divergence</strong></p>
+<p>Radon–Nikodym derivatives give a natural way to compare two probability distributions. Let <span class="math inline">\((\Omega, \mathcal T)\)</span> be a measurable space and let <span class="math inline">\(\mu, \nu\)</span> be probability measures on it with <span class="math inline">\(\mu \ll \nu\)</span>. The <strong>Kullback–Leibler (KL) divergence</strong> of <span class="math inline">\(\mu\)</span> from <span class="math inline">\(\nu\)</span> is</p>
+<p><span class="math display">\[KL(\mu \,\|\, \nu) = \int \log\frac{d\mu}{d\nu}\, d\mu,\]</span></p>
+<p>where <span class="math inline">\(\frac{d\mu}{d\nu}\)</span> is the Radon–Nikodym derivative of <span class="math inline">\(\mu\)</span> with respect to <span class="math inline">\(\nu\)</span> (<a href="./lecture-11.html#r-11-3">Theorem 11.3</a>). If <span class="math inline">\(\mu \not\ll \nu\)</span>, the KL divergence is set to <span class="math inline">\(+\infty\)</span> by convention.</p>
+<p><strong>What it measures.</strong> The KL divergence measures how different <span class="math inline">\(\mu\)</span> is from the reference distribution <span class="math inline">\(\nu\)</span>, so it plays the role of a distance between two distributions. The integrand <span class="math inline">\(\log\frac{d\mu}{d\nu}\)</span> compares, point by point, how much mass <span class="math inline">\(\mu\)</span> puts somewhere relative to <span class="math inline">\(\nu\)</span>, and the integral averages this log-ratio over <span class="math inline">\(\mu\)</span>. It is always nonnegative and equals <span class="math inline">\(0\)</span> exactly when <span class="math inline">\(\mu = \nu\)</span>. In information theory, <span class="math inline">\(KL(\mu \,\|\, \nu)\)</span> is the expected extra information needed to describe samples from <span class="math inline">\(\mu\)</span> when using a code designed for <span class="math inline">\(\nu\)</span>.</p>
+<p><strong>The familiar formula with densities.</strong> Suppose both <span class="math inline">\(\mu, \nu \ll m\)</span>, with <span class="math inline">\(m\)</span> the Lebesgue measure. By the Radon–Nikodym theorem they have densities <span class="math inline">\(p = \frac{d\mu}{dm}\)</span> and <span class="math inline">\(q = \frac{d\nu}{dm}\)</span>, and these are exactly the probability density functions from elementary probability (see the remarks after <a href="./lecture-11.html#r-11-3">Theorem 11.3</a>). Then <span class="math inline">\(\frac{d\mu}{d\nu} = \frac{p}{q}\)</span> where <span class="math inline">\(q &gt; 0\)</span>, and <span class="math inline">\(d\mu = p\,dm\)</span>, so substituting gives</p>
+<p><span class="math display">\[KL(\mu \,\|\, \nu) = \int p(x)\log\frac{p(x)}{q(x)}\, dx.\]</span></p>
+<p>The KL divergence is also the standard training objective for normalizing flows, where one minimizes the KL divergence between a target distribution and a transformed base distribution; see the review by <a href="https://jmlr.org/papers/v22/19-1028.html">Papamakarios et al.&nbsp;(2021)</a>.</p>
+</div>
+<div id="fig-viz-normalizingflow-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-viz-normalizingflow-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div id="viz-normalizingflow-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function NormalizingFlow() {
+    const ACCENT = "#b08a1e";
+    const BG = "transparent";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    const BLUE = "#4a7ab5";
+    
+    // ---- one-dimensional flow: base N(0,1) -> two-bump target, via the monotone map T = Q^{-1} o Phi ----
+    const SQ2PI = Math.sqrt(2 * Math.PI);
+    const phi = (z) => Math.exp(-z * z / 2) / SQ2PI;
+    const erf = (x) => {                                   // Abramowitz & Stegun 7.1.26
+      const s = x < 0 ? -1 : 1, a = Math.abs(x), t = 1 / (1 + 0.3275911 * a);
+      const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-a * a);
+      return s * y;
+    };
+    const Phi = (z) => 0.5 * (1 + erf(z / Math.SQRT2));
+    const MIX = [{ w: 0.4, m: -1.6, s: 0.55 }, { w: 0.6, m: 1.4, s: 0.6 }];
+    const q = (x) => MIX.reduce((a, c) => a + c.w * phi((x - c.m) / c.s) / c.s, 0);
+    const Q = (x) => MIX.reduce((a, c) => a + c.w * Phi((x - c.m) / c.s), 0);
+    const Qinv = (u) => { let lo = -10, hi = 10; for (let k = 0; k < 60; k++) { const mid = (lo + hi) / 2; if (Q(mid) < u) lo = mid; else hi = mid; } return (lo + hi) / 2; };
+    
+    const pre = useRef(null);
+    if (!pre.current) {
+      const N = 401, zs = [], Tz = [];
+      for (let i = 0; i < N; i++) { const z = -4 + 8 * i / (N - 1); zs.push(z); Tz.push(Qinv(Phi(z))); }
+      const M = 36, pz = [];                               // particles at evenly spaced quantiles of the base
+      for (let k = 0; k < M; k++) { const u = (k + 0.5) / M; let lo = -6, hi = 6; for (let j = 0; j < 50; j++) { const mid = (lo + hi) / 2; if (Phi(mid) < u) lo = mid; else hi = mid; } const z = (lo + hi) / 2; pz.push([z, Qinv(Phi(z))]); }
+      pre.current = { zs, Tz, pz, dz: 8 / (N - 1) };
+    }
+    const { zs, Tz, pz, dz } = pre.current;
+    
+    const [t, setT] = useState(0);
+    const [playing, setPlaying] = useState(false);
+    useEffect(() => {
+      if (!playing) return;
+      const id = setInterval(() => setT((v) => { if (v >= 1) { setPlaying(false); return 1; } return Math.min(1, +(v + 0.01).toFixed(2)); }), 30);
+      return () => clearInterval(id);
+    }, [playing]);
+    
+    // pushforward density by change of variables: p_t(T_t(z)) = phi(z) / T_t'(z)
+    const xs = zs.map((z, i) => (1 - t) * z + t * Tz[i]);
+    const dens = xs.map((x, i) => {
+      const a = Math.max(0, i - 1), b = Math.min(xs.length - 1, i + 1);
+      return phi(zs[i]) / Math.max(1e-6, (xs[b] - xs[a]) / (zs[b] - zs[a]));
+    });
+    let KL = 0;
+    for (let i = 0; i < zs.length; i++) KL += phi(zs[i]) * dz * (Math.log(dens[i]) - Math.log(Math.max(1e-300, q(xs[i]))));
+    KL = Math.max(0, KL);
+    
+    const W = 600, H = 300, L = 24, R = 586, T0 = 30, B = 246, XM = 4.5, YM = 0.62;
+    const sx = (x) => L + (x + XM) / (2 * XM) * (R - L);
+    const sy = (y) => B - Math.min(y, YM) / YM * (B - T0);
+    const path = (pts) => pts.filter(([x]) => x >= -XM && x <= XM).map(([x, y], k) => (k ? "L" : "M") + sx(x).toFixed(1) + " " + sy(y).toFixed(1)).join(" ");
+    const grid = Array.from({ length: 361 }, (_, i) => -XM + 2 * XM * i / 360);
+    const cur = path(xs.map((x, i) => [x, dens[i]]));
+    const curArea = cur ? cur + " L" + sx(Math.min(XM, xs[xs.length - 1])).toFixed(1) + " " + B + " L" + sx(Math.max(-XM, xs[0])).toFixed(1) + " " + B + " Z" : "";
+    
+    const el = React.createElement;
+    const legend = (x, y, dash, col, label) => el("g", { key: label },
+      el("line", { x1: x, y1: y - 4, x2: x + 26, y2: y - 4, stroke: col, strokeWidth: 2.2, strokeDasharray: dash }),
+      el("text", { x: x + 32, y, fill: col, fontSize: 14, fontStyle: "italic", fontFamily: "inherit" }, label));
+    
+    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+      el("div", { style: { display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", marginBottom: 4, fontSize: 15 } },
+        el("button", { onClick: () => { if (t >= 1) setT(0); setPlaying(!playing); },
+          style: { fontFamily: "inherit", fontSize: 15, padding: "2px 12px", borderRadius: 4, cursor: "pointer", background: "transparent", color: ACCENT, border: "1px solid " + ACCENT, fontWeight: 700 } },
+          playing ? "Pause" : "Play"),
+        el("input", { type: "range", min: 0, max: 1, step: 0.01, value: t, onChange: (e) => { setPlaying(false); setT(+e.target.value); },
+          style: { width: 180, accentColor: ACCENT } }),
+        el("span", null, el("i", null, "t"), " = " + t.toFixed(2)),
+        el("span", { style: { color: ACCENT } }, el("i", null, "KL"), "(", el("i", null, "p"), el("sub", null, "t"), " ‖ target) = " + KL.toFixed(3))
+      ),
+      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        el("line", { x1: L, y1: B, x2: R, y2: B, stroke: MUTED, strokeWidth: 1 }),
+        [-4, -2, 0, 2, 4].map((v) => el("g", { key: "tk" + v },
+          el("line", { x1: sx(v), y1: B, x2: sx(v), y2: B + 5, stroke: MUTED, strokeWidth: 1 }),
+          el("text", { x: sx(v), y: B + 40, fill: MUTED, fontSize: 13, textAnchor: "middle", fontFamily: "inherit" }, String(v)))),
+        el("path", { d: path(grid.map((x) => [x, phi(x)])), fill: "none", stroke: MUTED, strokeWidth: 1.6, strokeDasharray: "2 4" }),
+        el("path", { d: path(grid.map((x) => [x, q(x)])), fill: "none", stroke: ACCENT, strokeWidth: 2, strokeDasharray: "7 5" }),
+        el("path", { d: curArea, fill: BLUE, opacity: 0.16, stroke: "none" }),
+        el("path", { d: cur, fill: "none", stroke: BLUE, strokeWidth: 2.6 }),
+        // particles: base quantiles carried along by the flow
+        pz.map(([z, Tq], k) => el("circle", { key: "p" + k, cx: sx((1 - t) * z + t * Tq), cy: B + 16, r: 2.8, fill: BLUE, opacity: 0.85 })),
+        legend(R - 150, 18, "none", BLUE, "flow"),
+        legend(R - 150, 40, "7 5", ACCENT, "target"),
+        legend(R - 150, 62, "2 4", MUTED, "base N(0,1)")
+      )
+    );
+  }
+  var el = document.getElementById('viz-normalizingflow-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(NormalizingFlow));
+})();
+</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viz-normalizingflow-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.2: Interactive: a one-dimensional normalizing flow <span class="math inline">\(T_t\)</span> carries the base distribution <span class="math inline">\(\mathcal N(0,1)\)</span> to a two-bump target. The density <span class="math inline">\(p_t\)</span> follows from the change of variables formula, and <span class="math inline">\(KL(p_t \,\|\, \text{target})\)</span> drops to <span class="math inline">\(0\)</span> at <span class="math inline">\(t=1\)</span>.
+</figcaption>
+</figure>
+</div>
+<div id="r-11-6" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Theorem 11.6 — Lebesgue Decomposition Theorem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\nu, \mu\)</span> be two measures on <span class="math inline">\((X, \mathcal M)\)</span>, with <span class="math inline">\(\nu, \mu\)</span> being <span class="math inline">\(\sigma\)</span>-finite. Then there exists unique measures <span class="math inline">\(\nu_{ac}, \nu_s\)</span> so that <span class="math display">\[\nu = \nu_{ac} + \nu_s\]</span>where <span class="math display">\[\nu_{ac} &lt;&lt; \mu\]</span> and <span class="math display">\[\nu_s \perp \mu\]</span></p>
+</div>
+</div>
+<p>The decompositions is relate to the measure <span class="math inline">\(\mu\)</span>. The measure is split into an absolutely continuous part, which can be written as <span class="math inline">\(f_0 \mu\)</span> for some <span class="math inline">\(f_0\)</span> by Radon-Nikodyn, and one singular component to which <span class="math inline">\(\mu\)</span> is “blind to”.</p>
+<p>We mention some other important but simple decompositions. Given any <span class="math inline">\(\sigma\)</span>-finite mesure space <span class="math inline">\((X, \mathcal M, \mu)\)</span> with single points being measurable, we can decompose <span class="math inline">\(\mu\)</span> into an atomic peice and continuous piece. If <span class="math inline">\(\mathcal A\)</span> is the set of atoms, we write <span class="math display">\[\mu = \mu\vert_{A} + \mu\vert_{A^c}\]</span>and it is easy to check that these are mutually singular.</p>
+<div id="r-11-7" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Proposition 11.7 — Measure-theoretic analogue of <span class="math inline">\(\epsilon-\delta\)</span> continuity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\mu, \nu\)</span> be measures with <span class="math inline">\(\nu\)</span> finite. Then <span class="math inline">\(\nu &lt;&lt;  \mu\)</span> iff <span class="math inline">\(\forall \epsilon &gt; 0\)</span>, there exists <span class="math inline">\(\delta &gt; 0\)</span> so that for all measurable sets <span class="math inline">\(A\)</span> we have <span class="math display">\[\mu(A) &lt; \delta\]</span> implies <span class="math display">\[\nu(A) &lt; \epsilon\]</span></p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -668,18 +767,17 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Assume <span class="math inline">\(\mu\)</span> is such a measure. Then, define an equivalence relation on <span class="math inline">\([0,1]\)</span> where we identify <span class="math inline">\(x \sim y\)</span> if <span class="math inline">\(x-y \in \mathbb Q\)</span>. The equivalence class of <span class="math inline">\(x\)</span> is then given by all points shifted by some rational contained in <span class="math inline">\([0,1]\)</span>, i.e.&nbsp;<span class="math display">\[[x] = \{x + q: q \in \mathbb Q\} \cap [0,1]\]</span> Since the rationals are countable, <span class="math inline">\([x]\)</span> is countable, but the number of equivalence classes is uncountable since the reals are uncountable. Let <span class="math inline">\(A\)</span> consist of one element from each equivalence class (<strong>this assumes the axiom of choice, meaning if you have an infinite number of sets, the axiom says you can still make a single choice from every single set at the same time</strong>). This set is known as the <em>Vitali set</em>. We ask ourselves what <span class="math inline">\(\mu(A)\)</span> is. We will see that we will arrive at a contradiction. Step 1: <span class="math inline">\(\mu(A) &gt; 0\)</span>. We first claim: <span class="math display">\[[0,1] \subseteq \bigcup_{q \in [-1,1] \cap \mathbb{Q}} (A + q) \]</span> To see this, take <span class="math inline">\(x\in[0,1]\)</span> and <span class="math inline">\(y \in A\)</span> with <span class="math inline">\(x-y \in \mathbb Q\)</span>, then <span class="math inline">\(x = y + (X-y) \in A + (x-y)\)</span> but since <span class="math inline">\(x-y \in [-1, 1] \cap Q\)</span>, we obtain (4). Assuming the measure is translation invariant however means <span class="math inline">\(\mu(A+q) = \mu(A)\)</span>, therefore if <span class="math inline">\(\mu(A) = 0\)</span> and countable additivity, the measure of the RHS of <span class="math inline">\((4)\)</span> would be 0, but this can not be since <span class="math inline">\(\mu\)</span> of the LHS is 1. Hence <span class="math inline">\(\mu(A) &gt; 1\)</span> at least, since <span class="math inline">\([0,1]\)</span> is a subset. Step 2: <span class="math inline">\(\mu(A) = 0\)</span>. Clearly we have that <span class="math display">\[\bigcup_{q \in [0,1] \cap \mathbb{Q}} (A + q) \subseteq[0,2]\]</span> Note that the sets in the union of the LHS are disjoint. Assume some <span class="math inline">\(u \in A + q_1\)</span> and in <span class="math inline">\(A + q_2\)</span> we would have <span class="math inline">\(u = a_1 + q_1 = a_2 + q_2\)</span> with <span class="math inline">\(a_1, a_2 \in A\)</span>, then <span class="math inline">\(a_1-a_2 = q_1-q_2 \in \mathbb Q\)</span> which would imply that <span class="math inline">\(a_1 \sim a_2\)</span>. But remember that the Vitali set only contains a single element from the equivalence class, and thus we arrive at a contradiction. Each term therefore has measure <span class="math inline">\(\mu(A)\)</span>. We therefore have an infinite sum of <span class="math inline">\(\mu(A)\)</span>, which if <span class="math inline">\(\mu(A)&gt;0\)</span> diverges to infinity. Since the RHS has measure <span class="math inline">\(2\)</span>, this is clearly a contradiction. The two steps give us a contraction. QED. <span class="math inline">\(\square\)</span></p>
+<p><span class="math inline">\(\Rightarrow :\)</span> Assume the <span class="math inline">\(\epsilon-\delta\)</span> condition. Suppose <span class="math inline">\(\mu(A) = 0\)</span>. Fix <span class="math inline">\(\epsilon &gt; 0\)</span>. By the condition, we have that <span class="math inline">\(\mu(A) &lt; \delta\)</span> implies <span class="math inline">\(\nu(A) &lt; \epsilon\)</span>. Since <span class="math inline">\(\mu(A) = 0 &lt; \delta\)</span> we have <span class="math inline">\(\nu(A) &lt; \epsilon\)</span>. Since <span class="math inline">\(\epsilon &gt; 0\)</span> arbitrary and <span class="math inline">\(\nu(A) \geq 0\)</span> we have <span class="math inline">\(\nu(A) = 0\)</span>. <span class="math inline">\(\Leftarrow:\)</span> We prove the contrapositive argument. If the <span class="math inline">\(\epsilon-\delta\)</span> condtion fails, we have <span class="math inline">\(\nu \not\ll \mu\)</span>. If it fails, it means <span class="math inline">\(\exists \epsilon_0 &gt; 0\)</span> and sets <span class="math inline">\((A_n)\)</span> with <span class="math inline">\(\mu(A_n) &lt; 1/2^n\)</span> and <span class="math inline">\(\nu(A_n) \geq \epsilon_0\)</span>. Now consider <span class="math inline">\(A = \limsup A_n\)</span>. Borel Cantelli says that <span class="math inline">\(\mu(A) = 0\)</span>. On the other hand, <span class="math inline">\(\nu(A) \geq \epsilon_0\)</span> since for every n <span class="math inline">\(\nu(\bigcup_{k\geq n} A_k) \geq \epsilon_0\)</span> and taking limit as <span class="math inline">\(n\rightarrow \infty\)</span> and using continuity from above for <span class="math inline">\(\nu\)</span> (valid since <span class="math inline">\(\nu\)</span> is finite measure) we have that <span class="math inline">\(\nu \not \ll \mu\)</span>. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
+<p>This is the measure-theoretic analogue of <span class="math inline">\(\epsilon-\delta\)</span> continuity, where the role of distance bw points is replaced by <span class="math inline">\(\mu\)</span> and the distance between function values is played by <span class="math inline">\(\nu(A)\)</span>. So the propositoin <span class="math inline">\(\nu &lt;&lt; \mu\)</span> is equivalent to <span class="math inline">\(\nu\)</span> being continuous with respect to <span class="math inline">\(\mu\)</span>.</p>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -803,7 +901,7 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1208,13 +1306,13 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-02.html" class="pagination-link" aria-label="General Measure Theory and Carathéodory's Theorem">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></span>
+      <a href="./lecture-10.html" class="pagination-link" aria-label="Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture-04.html" class="pagination-link" aria-label="Premeasures, Distribution Functions and the Cantor Set">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Premeasures, Distribution Functions and the Cantor Set</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-12.html" class="pagination-link" aria-label="The 3× Covering Lemma">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The 3× Covering Lemma</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

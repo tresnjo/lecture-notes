@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Hardy–Littlewood Maximal Function and the Maximal Theorem – Integration Theory</title>
+<title>5&nbsp; Preliminaries for Integration Theory – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture-14.html" rel="next">
-<link href="./lecture-12.html" rel="prev">
+<link href="./lecture-06.html" rel="next">
+<link href="./lecture-04.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -138,7 +126,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed slimcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-13.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Preliminaries for Integration Theory</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -396,7 +384,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-05.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-05.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Preliminaries for Integration Theory</span></span></a>
   </div>
 </li>
@@ -452,7 +440,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-13.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-13.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></span></a>
   </div>
 </li>
@@ -481,16 +469,22 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#measurable-functions" id="toc-measurable-functions" class="nav-link active" data-scroll-target="#measurable-functions">Measurable functions</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content" tabindex="-1">
+<main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-10.html">Signed Measures and Differentiation</a></li><li class="breadcrumb-item"><a href="./lecture-13.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Preliminaries for Integration Theory</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hardy–Littlewood Maximal Function and the Maximal Theorem</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Preliminaries for Integration Theory</span></h1>
 </div>
 
 
@@ -507,154 +501,81 @@ window.Quarto = {
 </header>
 
 
-<p>In what follows, we will denote <span class="math inline">\(B(x,r)\)</span> the open ball centered at <span class="math inline">\(x\)</span> with radius <span class="math inline">\(r\)</span>.</p>
-<div id="r-13-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>The Lebesgue integral makes a simple but essential change to the construction of the Riemann integral. Recall how the Riemann integral is built: we partition the domain <span class="math inline">\([a,b]\)</span> into small intervals, evaluate the function at a point in each interval, and add up these values weighted by the lengths of the intervals. Then we let the intervals shrink. If these Riemann sums converge to the same limit no matter which points we pick, the function is called <strong>Riemann integrable</strong>, and the limit is its integral.</p>
+<p>The key <strong>shift in perspective</strong> is:</p>
+<blockquote class="blockquote">
+<p><strong>Riemann integration cares about how a function behaves on intervals; Lebesgue integration cares about how large the sets are on which the function takes each value.</strong></p>
+</blockquote>
+<div id="r-5-1" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 13.1 — Locally integrable
+<span class="screen-reader-only">Important</span>Theorem 5.1 — A bounded function is RI iff
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A function <span class="math inline">\(f:\mathbb R^n \rightarrow \mathbb R\)</span> is said to be locally integrable, or in <span class="math inline">\(L_\mathrm{loc}^1\)</span>, if <span class="math inline">\(f\)</span> is integrable with respect to Lebesgue measure when restricted to any compact set. (or equivalently, if for every <span class="math inline">\(x\)</span> there is an <span class="math inline">\(r &gt; 0\)</span> such that <span class="math inline">\(f\)</span> is integrable on <span class="math inline">\(B(x,r)\)</span> wrt to Lebesgue measure.)</p>
+<p>If <span class="math inline">\(f\)</span> is a bounded function, then <span class="math inline">\(f\)</span> is RI iff the set <span class="math inline">\(\{x: f\  \text{is not continous at}\  x\}\)</span> has Lebesgue measure 0.</p>
 </div>
 </div>
-<p>For <span class="math inline">\(f\in L_\mathrm{loc}^1\)</span>, <span class="math inline">\(x\in \mathbb R^n\)</span>, and <span class="math inline">\(r &gt; 0\)</span> we define <span class="math display">\[A_r f(x) = \frac{1}{m(B(x,r))} \int_{B(x,r)} f(y) dm(y)\]</span>which is simply the average of <span class="math inline">\(f\)</span> over the ball around <span class="math inline">\(x\)</span> with radius <span class="math inline">\(r\)</span>. This can be seen interpreted as the mean value of <span class="math inline">\(f\)</span> over the ball centered around <span class="math inline">\(x\)</span> with radius <span class="math inline">\(r\)</span>.</p>
-<p>Some additional remarks:</p>
-<ol type="1">
-<li>If <span class="math inline">\(f\)</span> is continuous at <span class="math inline">\(x\)</span>, it is easy to see that <span class="math display">\[\lim_{r\rightarrow 0} A_r f(x) = f(x)\]</span></li>
-<li>This cannot occur for all <span class="math inline">\(f\)</span> since if we modify it at a single point, it would fail there. Take for example <span class="math inline">\(\tilde f(x) =1\)</span> but <span class="math inline">\(\tilde f(y) = 0, y \neq x\)</span>, then the limit becomes <span class="math inline">\(0\)</span> as <span class="math inline">\(r\rightarrow 0\)</span> whereas the LHS is <span class="math inline">\(1\)</span>.</li>
-</ol>
-<div id="r-13-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>This set is a Borel set in <span class="math inline">\([0,1]\)</span>, and since every Borel-set is Lebesgue measurable, we can assign a Lebesgue measure to that set, which is what the theorem above does. In other words, it is RI iff <span class="math inline">\(f\)</span> is continuous (Lebesgue) a.e.</p>
+<p>The classical example of a function which is not RI is the Dirichlet function, but it will be Lebesgue integrable. The Dirichlet function is bounded, but is discontinuous everywhere, and is thus consistent with <a href="./lecture-05.html#r-5-1">Theorem 5.1</a> above.</p>
+<p>Another example of a function which is Riemann integrable, but very much reminds about the Dirichlet function is Thomae’s function. See this <a href="https://math.stackexchange.com/questions/1458139/why-is-dirichlet-function-not-riemann-integrable-and-thomaes-function-is">Stack Exchange discussion</a>.</p>
+<p>The idea of the Lebesgue integral is to partition the <span class="math inline">\(y\)</span>-axis, and approximate the integral by <span class="math display">\[\sum a_i m(\{x: f(x) \in [a_i, a_{i+1}]\})\]</span><em>Note that when we break up the y-axis this way, the structure of the domain is irrelevant for us, which is why we can perform the integration on any measure space.</em></p>
+<section id="measurable-functions" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="measurable-functions">Measurable functions</h3>
+<div id="r-5-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 13.2 — Hardy-Littlewood Maximal function
+<span class="screen-reader-only">Note</span>Definition 5.2 — A measurable function
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f\in L^1_\mathrm{loc}(\mathbb R^n)\)</span>, then the Hardy-Littlewood maximal function <span class="math inline">\(Hf\)</span> is defined by <span class="math display">\[Hf(x) := \sup_{r&gt; 0} A_r|f|(x)\]</span></p>
+<p>If <span class="math inline">\((X,\mathcal{M})\)</span> is a measurable space, a mapping <span class="math inline">\(f:X\to\mathbb{R}\)</span> is called measurable if for all <span class="math inline">\(B\in\mathcal{B}\)</span> (recall that <span class="math inline">\(\mathcal{B}\)</span> is the collection of Borel sets in <span class="math inline">\(\mathbb{R}\)</span>), we have <span class="math display">\[f^{-1}(B):=\{x\in X:f(x)\in B\}\in\mathcal{M}\]</span></p>
 </div>
 </div>
-<div id="fig-viz-maximalfunction-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-l05-measurable-function" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-viz-maximalfunction-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div id="viz-maximalfunction-1" class="viz"></div>
-<script>
-(function() {
-  if (typeof React === 'undefined') return;
-  const { useState, useEffect, useRef } = React;
-  function MaximalFunction() {
-    const ACCENT = "#b08a1e";
-    const BG = "transparent";
-    const BORDER = "rgba(128,128,128,0.35)";
-    const TEXT = "var(--bs-body-color, #222)";
-    const MUTED = "var(--bs-secondary-color, #777)";
-    const BLUE = "#4a7ab5";
-    const RED = "#b84a4a";
-    
-    // example functions, each with an exact antiderivative F, so A_r|f|(x) = (F(x+r) - F(x-r)) / 2r is exact
-    const cl = (t, a, b) => Math.min(Math.max(t, a), b);
-    const EX = [
-      { name: "Indicator of [0, 1]", f: (x) => (x >= 0 && x <= 1 ? 1 : 0), F: (t) => cl(t, 0, 1), yMax: 1.3 },
-      { name: "Tall spike", f: (x) => (x >= 0 && x <= 0.25 ? 4 : 0), F: (t) => 4 * cl(t, 0, 0.25), yMax: 4.4 },
-      { name: "Two steps", f: (x) => (x >= -2 && x <= -1 ? 1 : 0) + (x >= 0.5 && x <= 1 ? 2 : 0),
-        F: (t) => (cl(t, -2, -1) + 2) + 2 * (cl(t, 0.5, 1) - 0.5), yMax: 2.4 },
-      { name: "|x|⁻¹ᐟ² on [−1, 1]", f: (x) => (Math.abs(x) <= 1 && x !== 0 ? 1 / Math.sqrt(Math.abs(x)) : 0),
-        F: (t) => { const s = cl(t, -1, 1); return s < 0 ? 2 * (1 - Math.sqrt(-s)) : 2 + 2 * Math.sqrt(s); }, yMax: 4.4 },
-    ];
-    
-    const [k, setK] = useState(0);
-    const [x0, setX] = useState(1.6);
-    const [r0, setR] = useState(0.8);
-    const E = EX[k];
-    const A = (x, r) => (E.F(x + r) - E.F(x - r)) / (2 * r);
-    const RS = Array.from({ length: 260 }, (_, i) => 0.002 * Math.pow(3 / 0.002, i / 259));   // radii shown: 0.002 .. 3
-    const RH = Array.from({ length: 320 }, (_, i) => 0.002 * Math.pow(10 / 0.002, i / 319)); // radii for the sup: 0.002 .. 10
-    const Hf = (x) => RH.reduce((m, r) => Math.max(m, A(x, r)), 0);
-    
-    // main panel
-    const W = 640, H = 300, L = 28, R1 = 440, T = 22, B = 250, XM = 3.5;
-    const sx = (x) => L + (x + XM) / (2 * XM) * (R1 - L);
-    const sy = (y) => B - Math.min(y, E.yMax) / E.yMax * (B - T);
-    const xs = Array.from({ length: 701 }, (_, i) => -XM + 2 * XM * i / 700);
-    const fPath = xs.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(E.f(x)).toFixed(1)).join(" ");
-    const hPath = xs.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(Hf(x)).toFixed(1)).join(" ");
-    const a0 = A(x0, r0), h0 = Hf(x0);
-    
-    // side panel: r -> A_r|f|(x0)
-    const L2 = 478, R2 = 628;
-    const sr = (r) => L2 + r / 3 * (R2 - L2);
-    const rPath = RS.map((r, i) => (i ? "L" : "M") + sr(r).toFixed(1) + " " + sy(A(x0, r)).toFixed(1)).join(" ");
-    
-    const el = React.createElement;
-    const slider = (label, v, min, max, step, set) => el("label", { style: { display: "flex", alignItems: "center", gap: 6 } },
-      el("i", null, label), el("input", { type: "range", min, max, step, value: v, onChange: (e) => set(+e.target.value), style: { width: 130, accentColor: ACCENT } }),
-      el("span", { style: { minWidth: 38 } }, v.toFixed(2)));
-    const btn = (i) => ({ fontFamily: "inherit", fontSize: 14, padding: "2px 10px", borderRadius: 4, cursor: "pointer", background: "transparent",
-      border: "1px solid " + (i === k ? ACCENT : BORDER), color: i === k ? ACCENT : TEXT, fontWeight: i === k ? 700 : 400 });
-    const lab = (x, y, txt, col, anchor) => el("text", { x, y, fill: col, fontSize: 14, fontStyle: "italic", fontFamily: "inherit", textAnchor: anchor || "start" }, txt);
-    
-    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
-      el("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 } },
-        EX.map((e, i) => el("button", { key: i, onClick: () => setK(i), style: btn(i) }, e.name))),
-      el("div", { style: { display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center", fontSize: 15, marginBottom: 2 } },
-        slider("x", x0, -3, 3, 0.01, setX), slider("r", r0, 0.02, 3, 0.01, setR),
-        el("span", { style: { color: RED } }, el("i", null, "A"), el("sub", null, "r"), "|", el("i", null, "f"), "|(", el("i", null, "x"), ") = " + a0.toFixed(2)),
-        el("span", { style: { color: BLUE } }, el("i", null, "Hf"), "(", el("i", null, "x"), ") = " + (h0 > 50 ? "∞" : h0.toFixed(2)))),
-      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
-        // averaging window
-        el("rect", { x: sx(Math.max(-XM, x0 - r0)), y: T, width: Math.max(0, sx(Math.min(XM, x0 + r0)) - sx(Math.max(-XM, x0 - r0))), height: B - T, fill: RED, opacity: 0.08 }),
-        el("line", { x1: L, y1: B, x2: R1, y2: B, stroke: MUTED, strokeWidth: 1 }),
-        [-3, -2, -1, 0, 1, 2, 3].map((v) => el("text", { key: "x" + v, x: sx(v), y: B + 18, fill: MUTED, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }, String(v))),
-        el("path", { d: fPath + " L" + sx(XM) + " " + B + " L" + sx(-XM) + " " + B + " Z", fill: ACCENT, opacity: 0.18, stroke: "none" }),
-        el("path", { d: fPath, fill: "none", stroke: ACCENT, strokeWidth: 2 }),
-        el("path", { d: hPath, fill: "none", stroke: BLUE, strokeWidth: 2.4 }),
-        el("line", { x1: sx(x0), y1: T, x2: sx(x0), y2: B, stroke: MUTED, strokeWidth: 1, strokeDasharray: "2 3" }),
-        el("line", { x1: sx(Math.max(-XM, x0 - r0)), y1: sy(a0), x2: sx(Math.min(XM, x0 + r0)), y2: sy(a0), stroke: RED, strokeWidth: 2.4 }),
-        el("circle", { cx: sx(x0), cy: sy(h0), r: 4.5, fill: BLUE }),
-        lab(sx(-3.3), T + 12, "f", ACCENT), lab(sx(-3.3), T + 30, "Hf", BLUE),
-        // side panel
-        el("line", { x1: L2, y1: B, x2: R2, y2: B, stroke: MUTED, strokeWidth: 1 }),
-        el("line", { x1: L2, y1: B, x2: L2, y2: T, stroke: MUTED, strokeWidth: 1 }),
-        el("line", { x1: L2, y1: sy(h0), x2: R2, y2: sy(h0), stroke: BLUE, strokeWidth: 1.2, strokeDasharray: "5 4" }),
-        el("path", { d: rPath, fill: "none", stroke: RED, strokeWidth: 2 }),
-        el("circle", { cx: sr(r0), cy: sy(a0), r: 4, fill: RED }),
-        lab((L2 + R2) / 2, B + 20, "r", MUTED, "middle"),
-        lab(R2, Math.max(T + 12, sy(h0) - 6), "Hf(x) = sup", BLUE, "end"),
-        lab(R2, T + 12 > sy(h0) - 24 ? sy(h0) + 18 : T + 12, "r ↦ Aᵣ|f|(x)", RED, "end")
-      )
-    );
-  }
-  var el = document.getElementById('viz-maximalfunction-1');
-  if (el) ReactDOM.createRoot(el).render(React.createElement(MaximalFunction));
-})();
-</script>
+<div aria-describedby="fig-l05-measurable-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="themed-figure"><img src="images/l05-measurable-function-light.svg" class="light-content figure-img" alt="Measurability: every set f>a must belong to the sigma-algebra."><img src="images/l05-measurable-function-dark.svg" class="dark-content figure-img" alt="Measurability: every set f>a must belong to the sigma-algebra."></div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viz-maximalfunction-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.1: Interactive: the averages <span class="math inline">\(A_r|f|(x)\)</span> over the window <span class="math inline">\([x-r,x+r]\)</span> (red), and the maximal function <span class="math inline">\(Hf(x) = \sup_{r&gt;0} A_r|f|(x)\)</span> (blue). The right panel plots <span class="math inline">\(r \mapsto A_r|f|(x)\)</span>; its supremum is <span class="math inline">\(Hf(x)\)</span>.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l05-measurable-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: Measurability: every set <span class="math inline">\(\{f&gt;a\}\)</span> must belong to the <span class="math inline">\(\sigma\)</span>-algebra.
 </figcaption>
 </figure>
 </div>
-<p>This functions essentially computes the average over the absolute value of <span class="math inline">\(f\)</span> over all radii, and picks the largest such average amongst those radii. It is therefore a “measure” of the local average of <span class="math inline">\(|f|\)</span>.</p>
-<p>One can verify that <span class="math inline">\(Hf\)</span> is a measurable function by noting <span class="math display">\[(Hf)^{-1}(\alpha, \infty) =\bigcup_{r&gt;0} (A_r|f|)^{-1}\{(\alpha, \infty)\}\]</span>where <span class="math inline">\(A_rf\)</span> is a continuous function for <span class="math inline">\(f\in L^1_\mathrm{loc}\)</span>, and thus we have preimages of open sets under continuous functions which are still continuous, and thus a union of open sets.</p>
-<div id="r-13-3" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>The idea of a function being measurable is that every preimage of any Borel set is an element of the <span class="math inline">\(\sigma\)</span>-algebra, and can thus be assigned a measure.</p>
+<div id="r-5-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 13.3 — (Hardy-Littlewood Maximal Theorem)
+<span class="screen-reader-only">Note</span>Definition 5.3 — A measurable mapping between two sets
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f\in L^1(\mathbb R^n)\)</span>, then <span class="math inline">\(\forall \alpha &gt; 0\)</span> we have <span class="math display">\[m(\{x: Hf(x) &gt; \alpha\}) \leq \frac{3^n}{\alpha} \int |f|dm(x)\]</span></p>
+<p>More generally, if <span class="math inline">\((X,\mathcal{M})\)</span> and <span class="math inline">\((Y,\mathcal{N})\)</span> are measurable spaces, a mapping <span class="math inline">\(f:X\to Y\)</span> is called measurable if for all <span class="math inline">\(E\in\mathcal{N}\)</span>, <span class="math display">\[f^{-1}(E)\in\mathcal{M}.\]</span></p>
+</div>
+</div>
+<p>If the mapping is from the Lebesgue <span class="math inline">\(\sigma\)</span>-algebra to the Borel <span class="math inline">\(\sigma\)</span>-algebra, we simply call it Lebesgue measurable. Similarly, if the mapping is from the Borel <span class="math inline">\(\sigma\)</span>-algebra to itself, it is simply called Borel measurable.</p>
+<div id="r-5-4" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Proposition 5.4 — Sum of measurable functions and product of measurable functions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(f,g\)</span> are measurable, then <span class="math inline">\(f+g\)</span> and <span class="math inline">\(fg\)</span> are measurable.</p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -663,16 +584,83 @@ Figure&nbsp;13.1: Interactive: the averages <span class="math inline">\(A_r|f|(x
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(E_\alpha = \{x: Hf(x) &gt; \alpha\}\)</span>. For each <span class="math inline">\(x\in E_\alpha\)</span> there exists <span class="math inline">\(r_x &gt; 0\)</span> so that <span class="math display">\[A_{r_x}|f|(x) &gt; \alpha\]</span> by the definition of the supremum. With this, we can for each <span class="math inline">\(x\)</span> have an associated open ball, and we may denote this collection of open balls as <span class="math inline">\(\mathcal C\)</span>. Given <span class="math inline">\(c &lt; m(\bigcup_{x\in E_a} B(r, r_x))\)</span>, we can use the covering lemma from <a href="./lecture-12.html">Lecture 12</a> to find <span class="math inline">\(x_1, ..., x_k\)</span> in <span class="math inline">\(E_\alpha\)</span> so that <span class="math inline">\(k\)</span> balls <span class="math inline">\(\{B(x_i, r_{x_i})\}\)</span> are disjoint and <span class="math display">\[\frac{c}{3^n} \leq \sum_{i=1}^k m(B(x_i, r_{x_i}))\]</span> However, by our choice of <span class="math inline">\(r_x\)</span>’s, i.e.&nbsp;<span class="math inline">\(A_{r_{x_i}}|f|(x_i) &gt; \alpha\)</span>, we have <span class="math display">\[\frac{c}{3^n} \leq \sum_{i=1}^k m(B(x_i, r_{x_i})) \leq \sum_{i=1}^k \frac{1}{\alpha}\int_{B(x_i, r_{x_i})} |f|(x) dm(x) \leq \frac{1}{\alpha} \int |f|(x) dm(x)\]</span>where the last inequality follows from the disjointness of the balls. Since this holds <span class="math inline">\(\forall c &lt; m(E_\alpha)\)</span>, we also have <span class="math display">\[m(E_\alpha) \leq \frac{3^n}{\alpha} \int |f|dm\]</span> as desired. <span class="math inline">\(\square\)</span></p>
+<p>A map <span class="math inline">\(h\)</span> is called measurable if <span class="math inline">\(h^{-1}(B) \in \mathcal M\)</span> <span class="math inline">\(\forall B\)</span>. Now take <span class="math inline">\(h=f+g\)</span>, then <span class="math inline">\((f+g)^{-1}((\alpha, \infty)) =\{x: (f+g)(x) &gt;\alpha\} \in \mathcal M\)</span> <span class="math inline">\(\forall \alpha \in \mathbb R\)</span>. In other words, it suffices to check whether the rays <span class="math inline">\((\alpha, \infty\)</span>) are contained in <span class="math inline">\(\mathcal M\)</span>- Note that the set can be written as <span class="math display">\[\bigcup_{q\in \mathbb Q}( \{x: f(x) &gt; q\} \cap \{x: g(x) &gt; \alpha - q\})\]</span> (the containment is shown in the lecture notes). Each piece on the RHS is in <span class="math inline">\(\mathcal M\)</span> since <span class="math inline">\(f,g\)</span> are measurable, and thus their intersection is also in <span class="math inline">\(\mathcal M\)</span>. The right side is thus a countable union of measurable sets which is thus in <span class="math inline">\(\mathcal M\)</span>. As for <span class="math inline">\(fg\)</span> we have <span class="math display">\[fg = 1/2((f+g)^2 - f^2 - g^2)\]</span>As it is trivial that the negated function is measurable, and we already know that the sum of two measurable functions is measurable, it suffices to show that <span class="math inline">\(h=f^2\)</span> is also measurable. Again we have that <span class="math display">\[(f^2)^{-1}(B) = \{x: f^2(x) &gt; \alpha\} \in \mathcal M\]</span> <span class="math inline">\(\forall \alpha \in \mathbb R\)</span>. Note that for <span class="math inline">\(\alpha \leq 0\)</span> we have that the preimage is simply <span class="math inline">\(X\)</span>. For <span class="math inline">\(\alpha \geq 0\)</span> we have <span class="math display">\[\{x: f^2(x) &gt; \alpha\} = \{x : f(x) &gt; \alpha^{1/2}\} \cup  \{x : f(x) &lt; -\alpha^{1/2}\}\]</span> which is a union of two measurable two sets (assuming <span class="math inline">\(f\)</span> is measurable), which is still measurable. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
 
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Note that the composition of two Lebesgue measurable functions is not Lebesgue measurable necessarily (this is a consequence of the fact the Borel sigma algebra is contained (without equality) in the Lebesgue measurable <span class="math inline">\(\sigma\)</span>-algebra).</p>
+</div></div><p><strong>Notation:</strong> <span class="math inline">\(\overline{\mathbb R} = \mathbb R \cup \{-\infty, +\infty\}\)</span>.</p>
+<p>We want limits of measurable functions to be measurable. From now on, we restrict to real-valued measurable functions.</p>
+<div id="r-5-5" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Proposition 5.5 — Supremum of sequence of measurable functions is measurable
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\((f_n)_n\)</span> is a sequence of measurable functions, then <span class="math inline">\(\sup_j f_j\)</span> is a measurable function where <span class="math display">\[(\sup_j f_j) (x) := \sup_j (f_j(x))\]</span>with the same definition for <span class="math inline">\(\inf_j f_j\)</span>. The proof follows by defining <span class="math inline">\(\tilde f := (\sup_j f_j)(x)\)</span> and <span class="math inline">\(\{x \in X: \tilde f(x) &gt; \alpha\} \in \mathcal M\)</span> <span class="math inline">\(\forall \alpha \in \mathbb R\)</span>. Clearly if <span class="math inline">\(\tilde f(x) &gt; \alpha\)</span> then there exists some <span class="math inline">\(j\)</span> (or multiple) where <span class="math inline">\(f_j(x) &gt; \alpha\)</span>, hence we have <span class="math display">\[\{x \in X: \tilde f(x) &gt; \alpha\} = \bigcup_j \{x \in X: f_j(x) &gt; \alpha\}\]</span>which is a possibly countable union of measurable sets, and thus it is a measurable function. The proof for the infimum is identical, except we replace the union with intersection over all <span class="math inline">\(j\)</span>.</p>
+</div>
+</div>
+<p>The above example shows that</p>
+<p>because a supremum does not necessarily have to be attained.</p>
+<p>So far we have shown that the supremum of a sequence of measurable functions is measurable. Now we will take it a step further, and define the measurability of the <span class="math inline">\(\limsup\)</span> of a sequence of measurable functions.</p>
+<div id="r-5-6" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Proposition 5.6 — Measurability of <span class="math inline">\(\limsup\)</span> of Functions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(f_1, f_2, \ldots\)</span> is a sequence of measurable functions, then <span class="math inline">\(\limsup_j f_j\)</span> is a measurable function, where: <span class="math display">\[\left(\limsup_j f_j\right)(x) := \limsup_j (f_j(x))\]</span></p>
+<p>In particular, if <span class="math inline">\((f_k)\)</span> converges to <span class="math inline">\(f_\infty\)</span> pointwise, then <span class="math inline">\(f_\infty\)</span> is measurable.</p>
+<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We have that <span class="math inline">\(\lim\sup_j f_j = \inf_k(\sup_{n\geq k} f_n)\)</span> where <span class="math inline">\(\sup_{n\geq k} f_n \equiv g_k\)</span> are measurable functions by <a href="./lecture-05.html#r-5-5">Proposition 5.5</a>. We also know that the infimum of a sequence of measurable functions is measurable by the same proposition, hence we are done. <span class="math inline">\(\square\)</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>We will now proceed with introducing simple functions. That we also introduced in but in a probabilistic context. The definition is identical, but the indicator function is no longer interpreted as a Bernoulli random variable.</p>
+<div id="r-5-7" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition 5.7 — Simple function
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A simple function on a measurable space is a function of the form <span class="math inline">\(f(x) = \sum c_i I_{E_i}\)</span> where <span class="math inline">\(c_i \in \mathbb R\)</span> and<span class="math inline">\(E_i\)</span> are pairwise disjonit sets in <span class="math inline">\(\mathcal M\)</span>, with <span class="math inline">\(I_{E_1}\)</span> being the indicator function of <span class="math inline">\(E_i\)</span>.</p>
+</div>
+</div>
+<p>Simple functions can approximate any measurable function pointwise.</p>
 
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -796,7 +784,7 @@ Figure&nbsp;13.1: Interactive: the averages <span class="math inline">\(A_r|f|(x
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1201,13 +1189,13 @@ Figure&nbsp;13.1: Interactive: the averages <span class="math inline">\(A_r|f|(x
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-12.html" class="pagination-link" aria-label="The 3× Covering Lemma">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The 3× Covering Lemma</span></span>
+      <a href="./lecture-04.html" class="pagination-link" aria-label="Premeasures, Distribution Functions and the Cantor Set">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Premeasures, Distribution Functions and the Cantor Set</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture-14.html" class="pagination-link" aria-label="Lebesgue's Differentiation Theorem">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Lebesgue’s Differentiation Theorem</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-06.html" class="pagination-link" aria-label="Introducing the Lebesgue Integral and Modes of Convergence">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introducing the Lebesgue Integral and Modes of Convergence</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

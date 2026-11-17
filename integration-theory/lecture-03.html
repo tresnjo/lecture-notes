@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Preliminaries for Integration Theory – Integration Theory</title>
+<title>3&nbsp; Proof of Carathéodory and Uniqueness of Lebesgue Measure – Integration Theory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,8 +36,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./lecture-06.html" rel="next">
-<link href="./lecture-04.html" rel="prev">
+<link href="./lecture-04.html" rel="next">
+<link href="./lecture-02.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-036fb6ea86047621149ea75aa12c137a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-be8daa72b64feac57e76bf9fa6bdd629.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,29 +82,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-
 <style>
-
 /* Visualizations: no box, blend into the page; only controls + figure stay visible */
-
 .viz { margin: 1.6em 0; max-width: 100%; }
-
 .viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
-
 .viz div[style*="letter-spacing: 1px"],   /* title */
-
 .viz div[style*="font-size: 11px"],       /* captions, legends */
-
 .viz div[style*="border-top"],            /* stat footers */
-
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
-
 .viz button { cursor: pointer; }
-
 </style>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -138,7 +126,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed slimcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -330,7 +318,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Preliminaries for Integration Theory</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -376,7 +364,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-03.html" class="sidebar-item-text sidebar-link">
+  <a href="./lecture-03.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></span></a>
   </div>
 </li>
@@ -396,7 +384,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lecture-05.html" class="sidebar-item-text sidebar-link active">
+  <a href="./lecture-05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Preliminaries for Integration Theory</span></span></a>
   </div>
 </li>
@@ -486,17 +474,24 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#measurable-functions" id="toc-measurable-functions" class="nav-link active" data-scroll-target="#measurable-functions">Measurable functions</a></li>
+  <li><a href="#step-1-mathcal-m-is-an-algebra" id="toc-step-1-mathcal-m-is-an-algebra" class="nav-link active" data-scroll-target="#step-1-mathcal-m-is-an-algebra">Step 1: <span class="math inline">\(\mathcal M\)</span> is an algebra</a></li>
+  <li><a href="#step-2-mustar-is-finitely-additive-on-mathcal-m" id="toc-step-2-mustar-is-finitely-additive-on-mathcal-m" class="nav-link" data-scroll-target="#step-2-mustar-is-finitely-additive-on-mathcal-m">Step 2: <span class="math inline">\(\mu^\star\)</span> is finitely additive on <span class="math inline">\(\mathcal M\)</span></a></li>
+  <li><a href="#step-3-mathcalm-is-a-sigma-algebra" id="toc-step-3-mathcalm-is-a-sigma-algebra" class="nav-link" data-scroll-target="#step-3-mathcalm-is-a-sigma-algebra">Step 3: <span class="math inline">\(\mathcal{M}\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra</a></li>
+  <li><a href="#step-5-show-that-the-measure-space-is-complete" id="toc-step-5-show-that-the-measure-space-is-complete" class="nav-link" data-scroll-target="#step-5-show-that-the-measure-space-is-complete">Step 5: Show that the measure space is complete</a></li>
+  <li><a href="#relationship-between-the-borel-set-and-mathcal-m." id="toc-relationship-between-the-borel-set-and-mathcal-m." class="nav-link" data-scroll-target="#relationship-between-the-borel-set-and-mathcal-m.">Relationship between the Borel set and <span class="math inline">\(\mathcal M\)</span>.</a>
+  <ul class="collapse">
+  <li><a href="#nonmeasurable-sets" id="toc-nonmeasurable-sets" class="nav-link" data-scroll-target="#nonmeasurable-sets">Nonmeasurable sets</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-05.html">Integration</a></li><li class="breadcrumb-item"><a href="./lecture-05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Preliminaries for Integration Theory</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Preliminaries for Integration Theory</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></h1>
 </div>
 
 
@@ -513,79 +508,144 @@ window.Quarto = {
 </header>
 
 
-<p>The Lebesgue integral makes a simple but essential change to the construction of the Riemann integral. Recall how the Riemann integral is built: we partition the domain <span class="math inline">\([a,b]\)</span> into small intervals, evaluate the function at a point in each interval, and add up these values weighted by the lengths of the intervals. Then we let the intervals shrink. If these Riemann sums converge to the same limit no matter which points we pick, the function is called <strong>Riemann integrable</strong>, and the limit is its integral.</p>
-<p>The key <strong>shift in perspective</strong> is:</p>
-<blockquote class="blockquote">
-<p><strong>Riemann integration cares about how a function behaves on intervals; Lebesgue integration cares about how large the sets are on which the function takes each value.</strong></p>
-</blockquote>
-<div id="r-5-1" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 5.1 — A bounded function is RI iff
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f\)</span> is a bounded function, then <span class="math inline">\(f\)</span> is RI iff the set <span class="math inline">\(\{x: f\  \text{is not continous at}\  x\}\)</span> has Lebesgue measure 0.</p>
-</div>
-</div>
-<p>This set is a Borel set in <span class="math inline">\([0,1]\)</span>, and since every Borel-set is Lebesgue measurable, we can assign a Lebesgue measure to that set, which is what the theorem above does. In other words, it is RI iff <span class="math inline">\(f\)</span> is continuous (Lebesgue) a.e.</p>
-<p>The classical example of a function which is not RI is the Dirichlet function, but it will be Lebesgue integrable. The Dirichlet function is bounded, but is discontinuous everywhere, and is thus consistent with <a href="./lecture-05.html#r-5-1">Theorem 5.1</a> above.</p>
-<p>Another example of a function which is Riemann integrable, but very much reminds about the Dirichlet function is Thomae’s function. See this <a href="https://math.stackexchange.com/questions/1458139/why-is-dirichlet-function-not-riemann-integrable-and-thomaes-function-is">Stack Exchange discussion</a>.</p>
-<p>The idea of the Lebesgue integral is to partition the <span class="math inline">\(y\)</span>-axis, and approximate the integral by <span class="math display">\[\sum a_i m(\{x: f(x) \in [a_i, a_{i+1}]\})\]</span><em>Note that when we break up the y-axis this way, the structure of the domain is irrelevant for us, which is why we can perform the integration on any measure space.</em></p>
-<section id="measurable-functions" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="measurable-functions">Measurable functions</h3>
-<div id="r-5-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 5.2 — A measurable function
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\((X,\mathcal{M})\)</span> is a measurable space, a mapping <span class="math inline">\(f:X\to\mathbb{R}\)</span> is called measurable if for all <span class="math inline">\(B\in\mathcal{B}\)</span> (recall that <span class="math inline">\(\mathcal{B}\)</span> is the collection of Borel sets in <span class="math inline">\(\mathbb{R}\)</span>), we have <span class="math display">\[f^{-1}(B):=\{x\in X:f(x)\in B\}\in\mathcal{M}\]</span></p>
-</div>
-</div>
-<div id="fig-l05-measurable-function" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>To prove Caratheodory’s theorem, we first need to show that <span class="math inline">\(\mathcal M\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra. To do so, it suffices to first show that <span class="math inline">\(\mathcal M\)</span> is an algebra, and then show that it is closed under countable unions (remind yourself of the definitions from <a href="./lecture-01.html">Lecture 1</a>).</p>
+<div id="fig-l03-caratheodory-split" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-l05-measurable-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="themed-figure"><img src="images/l05-measurable-function-light.svg" class="light-content figure-img" alt="Measurability: every set f>a must belong to the sigma-algebra."><img src="images/l05-measurable-function-dark.svg" class="dark-content figure-img" alt="Measurability: every set f>a must belong to the sigma-algebra."></div>
+<div aria-describedby="fig-l03-caratheodory-split-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="themed-figure"><img src="images/l03-caratheodory-split-light.svg" class="light-content figure-img" alt="The Carathéodory test: A must split every test set E additively into Ecap A and Ecap A^c."><img src="images/l03-caratheodory-split-dark.svg" class="dark-content figure-img" alt="The Carathéodory test: A must split every test set E additively into Ecap A and Ecap A^c."></div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l05-measurable-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.1: Measurability: every set <span class="math inline">\(\{f&gt;a\}\)</span> must belong to the <span class="math inline">\(\sigma\)</span>-algebra.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l03-caratheodory-split-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> must split every test set <span class="math inline">\(E\)</span> additively into <span class="math inline">\(E\cap A\)</span> and <span class="math inline">\(E\cap A^c\)</span>.
 </figcaption>
 </figure>
 </div>
-<p>The idea of a function being measurable is that every preimage of any Borel set is an element of the <span class="math inline">\(\sigma\)</span>-algebra, and can thus be assigned a measure.</p>
-<div id="r-5-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<section id="step-1-mathcal-m-is-an-algebra" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-mathcal-m-is-an-algebra">Step 1: <span class="math inline">\(\mathcal M\)</span> is an algebra</h3>
+<p><strong>(i)</strong> <span class="math inline">\(\emptyset \in \mathcal{M}\)</span> is immediate.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(\mathcal{M}\)</span> is closed under complementation since the definition of <span class="math inline">\(\mu^*\)</span>-measurability is symmetric in <span class="math inline">\(A\)</span> and <span class="math inline">\(A^c\)</span>.</p>
+<p><strong>(iii)</strong> We need to show <span class="math inline">\(A, B \in \mathcal{M}\)</span> implies <span class="math inline">\(A \cup B \in \mathcal{M}\)</span> (the actual definition for an algebra is that it is closed under finite unions, but it suffices to show it holds for union of two sets by induction) Fix <span class="math inline">\(E \subseteq X\)</span>. Note that:</p>
+<p><span class="math display">\[A \cup B = (A \cap B) \cup (A^c \cap B) \cup (A \cap B^c)\]</span></p>
+<p>This is a disjoint union of three regions — sets in both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, sets only in <span class="math inline">\(B\)</span>, and sets only in <span class="math inline">\(A\)</span> — which together cover everything in <span class="math inline">\(A \cup B\)</span>. Using subadditivity:</p>
+<p><span class="math display">\[\mu^*(E \cap (A \cup B)) + \mu^*(E \cap (A \cup B)^c) \leq \mu^*(E \cap (A \cap B)) + \mu^*(E \cap (A^c \cap B)) + \mu^*(E \cap (A \cap B^c)) + \mu^*(E \cap (A^c \cap B^c))\]</span></p>
+<p>Applying measurability of <span class="math inline">\(A\)</span> to <span class="math inline">\(E \cap B\)</span> for the first two terms:</p>
+<p><span class="math display">\[\mu^*(E \cap (A \cap B)) + \mu^*(E \cap (A^c \cap B)) = \mu^*(E \cap B)\]</span></p>
+<p>and to <span class="math inline">\(E \cap B^c\)</span> for the last two terms:</p>
+<p><span class="math display">\[\mu^*(E \cap (A \cap B^c)) + \mu^*(E \cap (A^c \cap B^c)) = \mu^*(E \cap B^c)\]</span></p>
+<p>Hence the right hand side equals <span class="math inline">\(\mu^*(E \cap B) + \mu^*(E \cap B^c) = \mu^*(E)\)</span>, where the last equality follows from measurability of <span class="math inline">\(B\)</span>. This gives:</p>
+<p><span class="math display">\[\mu^*(E \cap (A \cup B)) + \mu^*(E \cap (A \cup B)^c) \leq \mu^*(E)\]</span></p>
+<p>The reverse inequality <span class="math inline">\(\mu^*(E) \leq \mu^*(E \cap (A \cup B)) + \mu^*(E \cap (A \cup B)^c)\)</span> follows immediately from subadditivity, since <span class="math inline">\((E \cap (A \cup B)) \cup (E \cap (A\cup B)^c) = E\)</span>. Together these give equality, so <span class="math inline">\(A \cup B \in \mathcal{M}\)</span>. <span class="math inline">\(\square\)</span></p>
+</section>
+<section id="step-2-mustar-is-finitely-additive-on-mathcal-m" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-mustar-is-finitely-additive-on-mathcal-m">Step 2: <span class="math inline">\(\mu^\star\)</span> is finitely additive on <span class="math inline">\(\mathcal M\)</span></h3>
+<p>If <span class="math inline">\(A, B \in \mathcal{M}\)</span> are disjoint, then applying the Carathéodory criterion for <span class="math inline">\(A\)</span> with test set <span class="math inline">\(E = A \cup B\)</span>:</p>
+<p><span class="math display">\[\mu^*(A \cup B) = \mu^*((A \cup B) \cap A) + \mu^*((A \cup B) \cap A^c) = \mu^*(A) + \mu^*(B)\]</span></p>
+<p>where <span class="math inline">\((A \cup B) \cap A = A\)</span> and <span class="math inline">\((A \cup B) \cap A^c = B\)</span> by disjointness. Finite additivity for <span class="math inline">\(n\)</span> disjoint sets <span class="math inline">\(A_1, \ldots, A_n \in \mathcal{M}\)</span> follows by induction.</p>
+</section>
+<section id="step-3-mathcalm-is-a-sigma-algebra" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-mathcalm-is-a-sigma-algebra">Step 3: <span class="math inline">\(\mathcal{M}\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra</h3>
+<p>The only additional criterion imposed by the <span class="math inline">\(\sigma\)</span>-algebra over the algebra is closure under countable unions.</p>
+<p>Since <span class="math inline">\(\mathcal{M}\)</span> is already an algebra, it suffices to show that if <span class="math inline">\(A_1, A_2, \ldots \in \mathcal{M}\)</span> are disjoint, then <span class="math inline">\(\bigcup_i A_i \in \mathcal{M}\)</span>. This is without loss of generality since any countable union can be made disjoint via:</p>
+<p><span class="math display">\[\bigcup_i A_i = \bigcup_i \left(A_i \setminus \bigcup_{j &lt; i} A_j\right)\]</span></p>
+<p>where each piece <span class="math inline">\(A_i \setminus \bigcup_{j&lt;i} A_j \in \mathcal{M}\)</span> since <span class="math inline">\(\mathcal{M}\)</span> is an algebra.</p>
+<p>Now define <span class="math inline">\(B_n := \bigcup_{i=1}^n A_i\)</span> and <span class="math inline">\(B := \bigcup_i A_i\)</span>. Applying measurability of <span class="math inline">\(A_n\)</span> with test set <span class="math inline">\(E \cap B_n\)</span>:</p>
+<p><span class="math display">\[\mu^*(E \cap B_n) = \mu^*(E \cap B_n \cap A_n) + \mu^*(E \cap B_n \cap A_n^c) = \mu^*(E \cap A_n) + \mu^*(E \cap B_{n-1})\]</span></p>
+<p>where we used <span class="math inline">\(B_n \cap A_n = A_n\)</span> and <span class="math inline">\(B_n \cap A_n^c = B_{n-1}\)</span> by disjointness. Repeating inductively:</p>
+<p><span class="math display">\[\mu^*(E \cap B_{n-1}) = \mu^*(E \cap A_{n-1}) + \mu^*(E \cap B_{n-2})\]</span> <span class="math display">\[\vdots\]</span> <span class="math display">\[\mu^*(E \cap B_1) = \mu^*(E \cap A_1)\]</span></p>
+<p>Chaining everything together:</p>
+<p><span class="math display">\[\mu^*(E \cap B_n) = \sum_{i=1}^n \mu^*(E \cap A_i) \tag{2}\]</span> which is what we would expect (but note that this doesnt follow immediately from the definition of an outer measure, since its only countably subadditive)</p>
+<p>where we inserted (2) and then used countable subadditivity of the outer measure to get the inequality in the last line since <span class="math inline">\(B^c \subseteq B_n^c\)</span>.</p>
+<p>Using measurability of <span class="math inline">\(B_n\)</span> together with (2) and subadditivity and definition of B in last step. ### Step 4: Show that <span class="math inline">\(\mu^\star\)</span> is countably additive on <span class="math inline">\(\mathcal M\)</span> and thus a measure space Remember that a measure space is the triple <span class="math inline">\((X, \mathcal M, \mu^\star)\)</span> where <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span> and <span class="math inline">\(\mu^\star(\bigcup_i A_i) = \sum_i \mu^\star(A_i)\)</span>. <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span> is satisfied definitionally. From the earlier proof, we had</p>
+<p>Now we can take <span class="math inline">\(E = B\)</span> as defined earlier, and that gives us <span class="math inline">\(\mu^\star(B) = \sum_{i=1}^\infty \mu^\star(A_i)\)</span>.</p>
+</section>
+<section id="step-5-show-that-the-measure-space-is-complete" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-show-that-the-measure-space-is-complete">Step 5: Show that the measure space is complete</h3>
+<p>A measure space is considered complete if subsets of nullsets are also nullsets, see <a href="./lecture-02.html">Lecture 2</a>.</p>
+<p>What we want to show is that if we have <span class="math inline">\(B \in \mathcal M\)</span> where <span class="math inline">\(\mu^\star(B) = 0\)</span> and <span class="math inline">\(A \subseteq B\)</span>, then <span class="math inline">\(A \in \mathcal M\)</span>, that is, <span class="math inline">\(A\)</span> satisfies <span class="math display">\[\mu^\star(E) = \mu^\star(E \cap A) + \mu^\star(E \cap A^c)\]</span> for any <span class="math inline">\(E \subseteq X\)</span>.</p>
+<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <span class="math inline">\(\leq\)</span> direction follows immediately from countable subadditivity of <span class="math inline">\(\mu^\star\)</span>, since <span class="math inline">\((E\cap A)\cup(E\cap A^c) = E\)</span>.</p>
+<p>For <span class="math inline">\(\geq\)</span>: since <span class="math inline">\(A\subseteq B\)</span> and <span class="math inline">\(\mu^\star(B)=0\)</span>, monotonicity gives <span class="math display">\[\mu^\star(E\cap A) \leq \mu^\star(A) \leq \mu^\star(B) = 0\]</span> so <span class="math inline">\(\mu^\star(E\cap A) = 0\)</span>. Also <span class="math inline">\(E\cap A^c \subseteq E\)</span>, so by monotonicity <span class="math inline">\(\mu^\star(E\cap A^c)\leq\mu^\star(E)\)</span>. Therefore: <span class="math display">\[\mu^\star(E\cap A) + \mu^\star(E\cap A^c) = 0 + \mu^\star(E\cap A^c) \leq \mu^\star(E)\]</span> Combining both directions gives equality, so <span class="math inline">\(A\in\mathcal{M}\)</span>, and since <span class="math inline">\(\mu^\star(A)=0\)</span> the measure is complete. <span class="math inline">\(\square\)</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="relationship-between-the-borel-set-and-mathcal-m." class="level2">
+<h2 class="anchored" data-anchor-id="relationship-between-the-borel-set-and-mathcal-m.">Relationship between the Borel set and <span class="math inline">\(\mathcal M\)</span>.</h2>
+<p>There are Lebesgue measurable sets that are not Borel sets. We will prove this later.</p>
+<p><em>One way to characterize the Lebesgue measure is to first define it on Borel sets, that is, all sets obtained by countably unions, complements, and intersections, from the open intervals, s.t. it assigns usual length to open intervals. The Lebesgue measure can then be obtained by completing the Borel measure by assigning zero measure to all subsets of Borel sets that already have zero measure. From this perspective, we understand that the Borel sigma algebra is a proper subsets of the Lebesgue sigma algebra (see the earlier lecture). The construction we just derived based on Caratheodory, i.e.&nbsp;<span class="math inline">\((\mathbb R, \mathcal M, \mu^\star \vert_{\mathcal M})\)</span> is a complete measure space, whereas <span class="math inline">\((\mathbb R, \mathcal B, \mu^\star \vert_{\mathcal B})\)</span> is not (both measures are identical except they are restricted to different domains). For example, the Cantor set has the same cardinality as the reals, and its powerset (collection of all subsets) has greater cardinality of the reals, which exceed the number of Borel sets. Thus, there are more subsets than <span class="math inline">\(\mathcal B\)</span> can contain, and thus fails completeness. We have also shown that it is not possible to extend the Lebesgue measure to all <span class="math inline">\(\mathcal P(\mathbb R)\)</span> while retaining translation invariance and countable additivity.</em> ## The uniqueness of the Lebesgue measure on <span class="math inline">\(\mathcal B\)</span>.</p>
+<p>The uniqueness is shown using Dynkin’s <span class="math inline">\(\pi-\lambda\)</span> theorem.</p>
+<div id="r-3-1" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 5.3 — A measurable mapping between two sets
+<span class="screen-reader-only">Important</span>Theorem 3.1 — Uniqueness theorem for measure on <span class="math inline">\((X, \sigma(I))\)</span>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>More generally, if <span class="math inline">\((X,\mathcal{M})\)</span> and <span class="math inline">\((Y,\mathcal{N})\)</span> are measurable spaces, a mapping <span class="math inline">\(f:X\to Y\)</span> is called measurable if for all <span class="math inline">\(E\in\mathcal{N}\)</span>, <span class="math display">\[f^{-1}(E)\in\mathcal{M}.\]</span></p>
+<p>Let <span class="math inline">\(X\)</span> be a set and <span class="math inline">\(\mathcal{I}\)</span> be a <span class="math inline">\(\pi\)</span>-system on <span class="math inline">\(X\)</span>. If <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> are two measures on <span class="math inline">\((X, \sigma(\mathcal{I}))\)</span> such that:</p>
+<p><span class="math display">\[\mu_1(X) = \mu_2(X) &lt; \infty\]</span></p>
+<p>and</p>
+<p><span class="math display">\[\mu_1(I) = \mu_2(I) \quad \forall I \in \mathcal{I}\]</span></p>
+<p>then <span class="math inline">\(\mu_1 = \mu_2\)</span>.</p>
+<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Define <span class="math display">\[D = \{A \in \sigma(I) : \mu_1(A) = \mu_2(A)\}\]</span>in other words the collection of all subsets of the sigma-algebra generated by the <span class="math inline">\(\pi\)</span>-system <span class="math inline">\(I\)</span> such that the measures agree. We want to show that <span class="math inline">\(D = \sigma(I)\)</span>, in other words, that all measurable sets of the sigma algebra agree irrespective of <span class="math inline">\(\mu_1\)</span> or <span class="math inline">\(\mu_2\)</span>.</p>
+<p>As per usual, to prove that two sets are identical, we have to show that they are contained in each other. Clearly from the way we defined <span class="math inline">\(D\)</span>, we have <span class="math inline">\(D \subseteq \sigma(I)\)</span>, and thus what remains is to prove the opposite containment <span class="math inline">\(\sigma(\mathcal I) \subseteq D\)</span>. This requires three steps:</p>
+<ol type="1">
+<li>We observe that <span class="math inline">\(D\)</span> is a <span class="math inline">\(\mathcal D\)</span>-system.</li>
+</ol>
+<p>See <a href="./lecture-01.html#r-1-6">Definition 1.6</a> in <a href="./lecture-01.html">Lecture 1</a>. By assumption we have that <span class="math inline">\(X \in \mathcal D\)</span> as <span class="math inline">\(\mu_1(X) = \mu_2(X)\)</span> by assumption. Let now <span class="math inline">\(E,F \in \mathcal D\)</span>, i.e.&nbsp;they satisfy <span class="math inline">\(\mu_1(E) = \mu_2(E)\)</span> and <span class="math inline">\(\mu_1(F) = \mu_2(F)\)</span>, and <span class="math inline">\(E\subseteq F\)</span>, our question is whether <span class="math inline">\(F\setminus E \in \mathcal D\)</span>. So we check</p>
+<p><span class="math display">\[\mu_1(F\setminus E)  = \mu_1(F) - \mu_1(E) =\mu_2(F) - \mu_2(E) = \mu_2(F\setminus E) \]</span> Finally we have to check whether <span class="math inline">\(E_1 \subseteq E_2 \subseteq E_3 \subseteq \cdots\)</span> and <span class="math inline">\(E_i \in \mathcal{D}\)</span> for all <span class="math inline">\(i\)</span> imply <span class="math inline">\(\bigcup_i E_i \in \mathcal{D}\)</span>. Using continuity from below we have <span class="math display">\[\mu_1(\bigcup_i E_i) = \lim_{n\rightarrow \infty} \mu_1(E_n) = \lim_{n\rightarrow \infty} \mu_2(E_n) = \mu_2(\bigcup_i E_i) \]</span> and thus <span class="math inline">\(D\)</span> is a Dynkin-system.</p>
+<ol start="2" type="1">
+<li>We observe that <span class="math inline">\(\mathcal I \subseteq D\)</span> by assumption</li>
+</ol>
+<p>By assumption <span class="math inline">\(\mu_1 = \mu_2\)</span> on all open intervals and thus <span class="math inline">\(\mathcal I \in \mathcal D\)</span>.</p>
+<ol start="3" type="1">
+<li>And finally we apply Dynkin’s <span class="math inline">\(\pi-\lambda\)</span> theorem for the equality and steps 1 and 2 for the containment, we have <span class="math inline">\(\sigma(I) = \mathcal D(I)\subseteq D\)</span></li>
+</ol>
+<p>Since we are given that <span class="math inline">\(\mathcal I\)</span> is a <span class="math inline">\(\pi\)</span>-system, we can apply Dynkin’s <span class="math inline">\(\pi-\lambda\)</span> theorem to state <span class="math display">\[\mathcal{D}(\mathcal{I}) = \sigma(\mathcal{I})\]</span> Remember now that <span class="math inline">\(\mathcal D(\mathcal I)\)</span> is the <em>smallest</em> <span class="math inline">\(\lambda\)</span>-system containing <span class="math inline">\(\mathcal I\)</span>, and since we showed that D (also a <span class="math inline">\(\lambda\)</span>-system) contains <span class="math inline">\(\mathcal I\)</span>, we must have <span class="math inline">\(\sigma(\mathcal{I}) = \mathcal D(\mathcal I) \subseteq \mathcal D\)</span>. This completes the proof. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
-<p>If the mapping is from the Lebesgue <span class="math inline">\(\sigma\)</span>-algebra to the Borel <span class="math inline">\(\sigma\)</span>-algebra, we simply call it Lebesgue measurable. Similarly, if the mapping is from the Borel <span class="math inline">\(\sigma\)</span>-algebra to itself, it is simply called Borel measurable.</p>
-<div id="r-5-4" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+</div>
+</div>
+</div>
+<p>Applying this to <span class="math inline">\(X = [0, 1]\)</span> and <span class="math inline">\(I\)</span> being the set of open intervals implies that there is only one measure on <span class="math inline">\(([0, 1], B[0,1])\)</span> which agrees with “length” on intervals. Note that the set of open intervals is a <span class="math inline">\(\pi\)</span>-system, as finite intersections of open intervals remain open. Thus, the Lebesgue measure is the unique measure that assigns length to intervals.</p>
+<section id="nonmeasurable-sets" class="level3">
+<h3 class="anchored" data-anchor-id="nonmeasurable-sets">Nonmeasurable sets</h3>
+<p>It is natural to ask if <span class="math inline">\(\mathcal M\)</span> (the set of all <span class="math inline">\(\mu^\star\)</span>-measurable sets) contains all sets, that is, whether all sets are Lebesgue measurable. It will turn out that <span class="math inline">\(\mathcal M\)</span> can not be everything (assuming the axiom of choice), in particular, it will fail countable additivity under disjoint sets.</p>
+<div id="r-3-2" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 5.4 — Sum of measurable functions and product of measurable functions
+<span class="screen-reader-only">Important</span>Theorem 3.2 — Non-existence of translation invariant measure on R
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f,g\)</span> are measurable, then <span class="math inline">\(f+g\)</span> and <span class="math inline">\(fg\)</span> are measurable.</p>
+<p>There does not exist a translation invariant measure on all subsets of R which gives length for intervals.</p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -598,80 +658,15 @@ Figure&nbsp;5.1: Measurability: every set <span class="math inline">\(\{f&gt;a\}
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A map <span class="math inline">\(h\)</span> is called measurable if <span class="math inline">\(h^{-1}(B) \in \mathcal M\)</span> <span class="math inline">\(\forall B\)</span>. Now take <span class="math inline">\(h=f+g\)</span>, then <span class="math inline">\((f+g)^{-1}((\alpha, \infty)) =\{x: (f+g)(x) &gt;\alpha\} \in \mathcal M\)</span> <span class="math inline">\(\forall \alpha \in \mathbb R\)</span>. In other words, it suffices to check whether the rays <span class="math inline">\((\alpha, \infty\)</span>) are contained in <span class="math inline">\(\mathcal M\)</span>- Note that the set can be written as <span class="math display">\[\bigcup_{q\in \mathbb Q}( \{x: f(x) &gt; q\} \cap \{x: g(x) &gt; \alpha - q\})\]</span> (the containment is shown in the lecture notes). Each piece on the RHS is in <span class="math inline">\(\mathcal M\)</span> since <span class="math inline">\(f,g\)</span> are measurable, and thus their intersection is also in <span class="math inline">\(\mathcal M\)</span>. The right side is thus a countable union of measurable sets which is thus in <span class="math inline">\(\mathcal M\)</span>. As for <span class="math inline">\(fg\)</span> we have <span class="math display">\[fg = 1/2((f+g)^2 - f^2 - g^2)\]</span>As it is trivial that the negated function is measurable, and we already know that the sum of two measurable functions is measurable, it suffices to show that <span class="math inline">\(h=f^2\)</span> is also measurable. Again we have that <span class="math display">\[(f^2)^{-1}(B) = \{x: f^2(x) &gt; \alpha\} \in \mathcal M\]</span> <span class="math inline">\(\forall \alpha \in \mathbb R\)</span>. Note that for <span class="math inline">\(\alpha \leq 0\)</span> we have that the preimage is simply <span class="math inline">\(X\)</span>. For <span class="math inline">\(\alpha \geq 0\)</span> we have <span class="math display">\[\{x: f^2(x) &gt; \alpha\} = \{x : f(x) &gt; \alpha^{1/2}\} \cup  \{x : f(x) &lt; -\alpha^{1/2}\}\]</span> which is a union of two measurable two sets (assuming <span class="math inline">\(f\)</span> is measurable), which is still measurable. <span class="math inline">\(\square\)</span></p>
+<p>Assume <span class="math inline">\(\mu\)</span> is such a measure. Then, define an equivalence relation on <span class="math inline">\([0,1]\)</span> where we identify <span class="math inline">\(x \sim y\)</span> if <span class="math inline">\(x-y \in \mathbb Q\)</span>. The equivalence class of <span class="math inline">\(x\)</span> is then given by all points shifted by some rational contained in <span class="math inline">\([0,1]\)</span>, i.e.&nbsp;<span class="math display">\[[x] = \{x + q: q \in \mathbb Q\} \cap [0,1]\]</span> Since the rationals are countable, <span class="math inline">\([x]\)</span> is countable, but the number of equivalence classes is uncountable since the reals are uncountable. Let <span class="math inline">\(A\)</span> consist of one element from each equivalence class (<strong>this assumes the axiom of choice, meaning if you have an infinite number of sets, the axiom says you can still make a single choice from every single set at the same time</strong>). This set is known as the <em>Vitali set</em>. We ask ourselves what <span class="math inline">\(\mu(A)\)</span> is. We will see that we will arrive at a contradiction. Step 1: <span class="math inline">\(\mu(A) &gt; 0\)</span>. We first claim: <span class="math display">\[[0,1] \subseteq \bigcup_{q \in [-1,1] \cap \mathbb{Q}} (A + q) \]</span> To see this, take <span class="math inline">\(x\in[0,1]\)</span> and <span class="math inline">\(y \in A\)</span> with <span class="math inline">\(x-y \in \mathbb Q\)</span>, then <span class="math inline">\(x = y + (X-y) \in A + (x-y)\)</span> but since <span class="math inline">\(x-y \in [-1, 1] \cap Q\)</span>, we obtain (4). Assuming the measure is translation invariant however means <span class="math inline">\(\mu(A+q) = \mu(A)\)</span>, therefore if <span class="math inline">\(\mu(A) = 0\)</span> and countable additivity, the measure of the RHS of <span class="math inline">\((4)\)</span> would be 0, but this can not be since <span class="math inline">\(\mu\)</span> of the LHS is 1. Hence <span class="math inline">\(\mu(A) &gt; 1\)</span> at least, since <span class="math inline">\([0,1]\)</span> is a subset. Step 2: <span class="math inline">\(\mu(A) = 0\)</span>. Clearly we have that <span class="math display">\[\bigcup_{q \in [0,1] \cap \mathbb{Q}} (A + q) \subseteq[0,2]\]</span> Note that the sets in the union of the LHS are disjoint. Assume some <span class="math inline">\(u \in A + q_1\)</span> and in <span class="math inline">\(A + q_2\)</span> we would have <span class="math inline">\(u = a_1 + q_1 = a_2 + q_2\)</span> with <span class="math inline">\(a_1, a_2 \in A\)</span>, then <span class="math inline">\(a_1-a_2 = q_1-q_2 \in \mathbb Q\)</span> which would imply that <span class="math inline">\(a_1 \sim a_2\)</span>. But remember that the Vitali set only contains a single element from the equivalence class, and thus we arrive at a contradiction. Each term therefore has measure <span class="math inline">\(\mu(A)\)</span>. We therefore have an infinite sum of <span class="math inline">\(\mu(A)\)</span>, which if <span class="math inline">\(\mu(A)&gt;0\)</span> diverges to infinity. Since the RHS has measure <span class="math inline">\(2\)</span>, this is clearly a contradiction. The two steps give us a contraction. QED. <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
 
-<div class="no-row-height column-margin column-container"><div class="">
-<p>Note that the composition of two Lebesgue measurable functions is not Lebesgue measurable necessarily (this is a consequence of the fact the Borel sigma algebra is contained (without equality) in the Lebesgue measurable <span class="math inline">\(\sigma\)</span>-algebra).</p>
-</div></div><p><strong>Notation:</strong> <span class="math inline">\(\overline{\mathbb R} = \mathbb R \cup \{-\infty, +\infty\}\)</span>.</p>
-<p>We want limits of measurable functions to be measurable. From now on, we restrict to real-valued measurable functions.</p>
-<div id="r-5-5" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 5.5 — Supremum of sequence of measurable functions is measurable
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\((f_n)_n\)</span> is a sequence of measurable functions, then <span class="math inline">\(\sup_j f_j\)</span> is a measurable function where <span class="math display">\[(\sup_j f_j) (x) := \sup_j (f_j(x))\]</span>with the same definition for <span class="math inline">\(\inf_j f_j\)</span>. The proof follows by defining <span class="math inline">\(\tilde f := (\sup_j f_j)(x)\)</span> and <span class="math inline">\(\{x \in X: \tilde f(x) &gt; \alpha\} \in \mathcal M\)</span> <span class="math inline">\(\forall \alpha \in \mathbb R\)</span>. Clearly if <span class="math inline">\(\tilde f(x) &gt; \alpha\)</span> then there exists some <span class="math inline">\(j\)</span> (or multiple) where <span class="math inline">\(f_j(x) &gt; \alpha\)</span>, hence we have <span class="math display">\[\{x \in X: \tilde f(x) &gt; \alpha\} = \bigcup_j \{x \in X: f_j(x) &gt; \alpha\}\]</span>which is a possibly countable union of measurable sets, and thus it is a measurable function. The proof for the infimum is identical, except we replace the union with intersection over all <span class="math inline">\(j\)</span>.</p>
-</div>
-</div>
-<p>The above example shows that</p>
-<p>because a supremum does not necessarily have to be attained.</p>
-<p>So far we have shown that the supremum of a sequence of measurable functions is measurable. Now we will take it a step further, and define the measurability of the <span class="math inline">\(\limsup\)</span> of a sequence of measurable functions.</p>
-<div id="r-5-6" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 5.6 — Measurability of <span class="math inline">\(\limsup\)</span> of Functions
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f_1, f_2, \ldots\)</span> is a sequence of measurable functions, then <span class="math inline">\(\limsup_j f_j\)</span> is a measurable function, where: <span class="math display">\[\left(\limsup_j f_j\right)(x) := \limsup_j (f_j(x))\]</span></p>
-<p>In particular, if <span class="math inline">\((f_k)\)</span> converges to <span class="math inline">\(f_\infty\)</span> pointwise, then <span class="math inline">\(f_\infty\)</span> is measurable.</p>
-<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We have that <span class="math inline">\(\lim\sup_j f_j = \inf_k(\sup_{n\geq k} f_n)\)</span> where <span class="math inline">\(\sup_{n\geq k} f_n \equiv g_k\)</span> are measurable functions by <a href="./lecture-05.html#r-5-5">Proposition 5.5</a>. We also know that the infimum of a sequence of measurable functions is measurable by the same proposition, hence we are done. <span class="math inline">\(\square\)</span></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>We will now proceed with introducing simple functions. That we also introduced in but in a probabilistic context. The definition is identical, but the indicator function is no longer interpreted as a Bernoulli random variable.</p>
-<div id="r-5-7" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 5.7 — Simple function
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A simple function on a measurable space is a function of the form <span class="math inline">\(f(x) = \sum c_i I_{E_i}\)</span> where <span class="math inline">\(c_i \in \mathbb R\)</span> and<span class="math inline">\(E_i\)</span> are pairwise disjonit sets in <span class="math inline">\(\mathcal M\)</span>, with <span class="math inline">\(I_{E_1}\)</span> being the indicator function of <span class="math inline">\(E_i\)</span>.</p>
-</div>
-</div>
-<p>Simple functions can approximate any measurable function pointwise.</p>
 
-
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -796,7 +791,7 @@ Figure&nbsp;5.1: Measurability: every set <span class="math inline">\(\{f&gt;a\}
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/integration-theory\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1201,13 +1196,13 @@ Figure&nbsp;5.1: Measurability: every set <span class="math inline">\(\{f&gt;a\}
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="./lecture-04.html" class="pagination-link" aria-label="Premeasures, Distribution Functions and the Cantor Set">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Premeasures, Distribution Functions and the Cantor Set</span></span>
+      <a href="./lecture-02.html" class="pagination-link" aria-label="General Measure Theory and Carathéodory's Theorem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">General Measure Theory and Carathéodory’s Theorem</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./lecture-06.html" class="pagination-link" aria-label="Introducing the Lebesgue Integral and Modes of Convergence">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introducing the Lebesgue Integral and Modes of Convergence</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./lecture-04.html" class="pagination-link" aria-label="Premeasures, Distribution Functions and the Cantor Set">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Premeasures, Distribution Functions and the Cantor Set</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
