@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6a4239ded7c831dc9986d58e00f1eac2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -93,6 +93,40 @@ ul.task-list li input[type="checkbox"] {
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
 .viz button { cursor: pointer; }
 </style>
+<style>
+/* land a little above a cross-referenced box, clear of the top bar */
+[id] { scroll-margin-top: 4.5rem; }
+</style>
+<script>
+/* Keep a linked box (#r-9-4 etc.) at the top while math and figures above it finish rendering. */
+(function () {
+  var stop = false, until = 0;
+  function target() {
+    var h = decodeURIComponent(location.hash.slice(1));
+    return h ? document.getElementById(h) : null;
+  }
+  function pin() {
+    if (stop || Date.now() > until) return;
+    var el = target(); if (!el) return;
+    var off = el.getBoundingClientRect().top - 72;
+    if (Math.abs(off) > 2) window.scrollBy(0, off);
+  }
+  function arm() {
+    stop = false; until = Date.now() + 4000;
+    pin();
+    var ticks = 0, t = setInterval(function () { pin(); if (++ticks > 40 || stop) clearInterval(t); }, 100);
+  }
+  ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (ev) {
+    window.addEventListener(ev, function () { stop = true; }, { passive: true });
+  });
+  window.addEventListener("hashchange", arm);
+  window.addEventListener("load", function () { if (location.hash) arm(); });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (location.hash) arm();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(pin);
+  });
+})();
+</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -477,8 +511,10 @@ window.Quarto = {
   <li><a href="#step-1-mathcal-m-is-an-algebra" id="toc-step-1-mathcal-m-is-an-algebra" class="nav-link active" data-scroll-target="#step-1-mathcal-m-is-an-algebra">Step 1: <span class="math inline">\(\mathcal M\)</span> is an algebra</a></li>
   <li><a href="#step-2-mustar-is-finitely-additive-on-mathcal-m" id="toc-step-2-mustar-is-finitely-additive-on-mathcal-m" class="nav-link" data-scroll-target="#step-2-mustar-is-finitely-additive-on-mathcal-m">Step 2: <span class="math inline">\(\mu^\star\)</span> is finitely additive on <span class="math inline">\(\mathcal M\)</span></a></li>
   <li><a href="#step-3-mathcalm-is-a-sigma-algebra" id="toc-step-3-mathcalm-is-a-sigma-algebra" class="nav-link" data-scroll-target="#step-3-mathcalm-is-a-sigma-algebra">Step 3: <span class="math inline">\(\mathcal{M}\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra</a></li>
+  <li><a href="#step-4-show-that-mustar-is-countably-additive-on-mathcal-m-and-thus-a-measure-space" id="toc-step-4-show-that-mustar-is-countably-additive-on-mathcal-m-and-thus-a-measure-space" class="nav-link" data-scroll-target="#step-4-show-that-mustar-is-countably-additive-on-mathcal-m-and-thus-a-measure-space">Step 4: Show that <span class="math inline">\(\mu^\star\)</span> is countably additive on <span class="math inline">\(\mathcal M\)</span> and thus a measure space</a></li>
   <li><a href="#step-5-show-that-the-measure-space-is-complete" id="toc-step-5-show-that-the-measure-space-is-complete" class="nav-link" data-scroll-target="#step-5-show-that-the-measure-space-is-complete">Step 5: Show that the measure space is complete</a></li>
-  <li><a href="#relationship-between-the-borel-set-and-mathcal-m." id="toc-relationship-between-the-borel-set-and-mathcal-m." class="nav-link" data-scroll-target="#relationship-between-the-borel-set-and-mathcal-m.">Relationship between the Borel set and <span class="math inline">\(\mathcal M\)</span>.</a>
+  <li><a href="#relationship-between-the-borel-set-and-mathcal-m." id="toc-relationship-between-the-borel-set-and-mathcal-m." class="nav-link" data-scroll-target="#relationship-between-the-borel-set-and-mathcal-m.">Relationship between the Borel set and <span class="math inline">\(\mathcal M\)</span>.</a></li>
+  <li><a href="#the-uniqueness-of-the-lebesgue-measure-on-mathcal-b." id="toc-the-uniqueness-of-the-lebesgue-measure-on-mathcal-b." class="nav-link" data-scroll-target="#the-uniqueness-of-the-lebesgue-measure-on-mathcal-b.">The uniqueness of the Lebesgue measure on <span class="math inline">\(\mathcal B\)</span>.</a>
   <ul class="collapse">
   <li><a href="#nonmeasurable-sets" id="toc-nonmeasurable-sets" class="nav-link" data-scroll-target="#nonmeasurable-sets">Nonmeasurable sets</a></li>
   </ul></li>
@@ -554,7 +590,11 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
 <p>Chaining everything together:</p>
 <p><span class="math display">\[\mu^*(E \cap B_n) = \sum_{i=1}^n \mu^*(E \cap A_i) \tag{2}\]</span> which is what we would expect (but note that this doesnt follow immediately from the definition of an outer measure, since its only countably subadditive)</p>
 <p>where we inserted (2) and then used countable subadditivity of the outer measure to get the inequality in the last line since <span class="math inline">\(B^c \subseteq B_n^c\)</span>.</p>
-<p>Using measurability of <span class="math inline">\(B_n\)</span> together with (2) and subadditivity and definition of B in last step. ### Step 4: Show that <span class="math inline">\(\mu^\star\)</span> is countably additive on <span class="math inline">\(\mathcal M\)</span> and thus a measure space Remember that a measure space is the triple <span class="math inline">\((X, \mathcal M, \mu^\star)\)</span> where <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span> and <span class="math inline">\(\mu^\star(\bigcup_i A_i) = \sum_i \mu^\star(A_i)\)</span>. <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span> is satisfied definitionally. From the earlier proof, we had</p>
+<p>Using measurability of <span class="math inline">\(B_n\)</span> together with (2) and subadditivity and definition of B in last step.</p>
+</section>
+<section id="step-4-show-that-mustar-is-countably-additive-on-mathcal-m-and-thus-a-measure-space" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-show-that-mustar-is-countably-additive-on-mathcal-m-and-thus-a-measure-space">Step 4: Show that <span class="math inline">\(\mu^\star\)</span> is countably additive on <span class="math inline">\(\mathcal M\)</span> and thus a measure space</h3>
+<p>Remember that a measure space is the triple <span class="math inline">\((X, \mathcal M, \mu^\star)\)</span> where <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span> and <span class="math inline">\(\mu^\star(\bigcup_i A_i) = \sum_i \mu^\star(A_i)\)</span>. <span class="math inline">\(\mu^\star(\emptyset) = 0\)</span> is satisfied definitionally. From the earlier proof, we had</p>
 <p>Now we can take <span class="math inline">\(E = B\)</span> as defined earlier, and that gives us <span class="math inline">\(\mu^\star(B) = \sum_{i=1}^\infty \mu^\star(A_i)\)</span>.</p>
 </section>
 <section id="step-5-show-that-the-measure-space-is-complete" class="level3">
@@ -582,7 +622,10 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
 <section id="relationship-between-the-borel-set-and-mathcal-m." class="level2">
 <h2 class="anchored" data-anchor-id="relationship-between-the-borel-set-and-mathcal-m.">Relationship between the Borel set and <span class="math inline">\(\mathcal M\)</span>.</h2>
 <p>There are Lebesgue measurable sets that are not Borel sets. We will prove this later.</p>
-<p><em>One way to characterize the Lebesgue measure is to first define it on Borel sets, that is, all sets obtained by countably unions, complements, and intersections, from the open intervals, s.t. it assigns usual length to open intervals. The Lebesgue measure can then be obtained by completing the Borel measure by assigning zero measure to all subsets of Borel sets that already have zero measure. From this perspective, we understand that the Borel sigma algebra is a proper subsets of the Lebesgue sigma algebra (see the earlier lecture). The construction we just derived based on Caratheodory, i.e.&nbsp;<span class="math inline">\((\mathbb R, \mathcal M, \mu^\star \vert_{\mathcal M})\)</span> is a complete measure space, whereas <span class="math inline">\((\mathbb R, \mathcal B, \mu^\star \vert_{\mathcal B})\)</span> is not (both measures are identical except they are restricted to different domains). For example, the Cantor set has the same cardinality as the reals, and its powerset (collection of all subsets) has greater cardinality of the reals, which exceed the number of Borel sets. Thus, there are more subsets than <span class="math inline">\(\mathcal B\)</span> can contain, and thus fails completeness. We have also shown that it is not possible to extend the Lebesgue measure to all <span class="math inline">\(\mathcal P(\mathbb R)\)</span> while retaining translation invariance and countable additivity.</em> ## The uniqueness of the Lebesgue measure on <span class="math inline">\(\mathcal B\)</span>.</p>
+<p><em>One way to characterize the Lebesgue measure is to first define it on Borel sets, that is, all sets obtained by countably unions, complements, and intersections, from the open intervals, s.t. it assigns usual length to open intervals. The Lebesgue measure can then be obtained by completing the Borel measure by assigning zero measure to all subsets of Borel sets that already have zero measure. From this perspective, we understand that the Borel sigma algebra is a proper subsets of the Lebesgue sigma algebra (see the earlier lecture). The construction we just derived based on Caratheodory, i.e.&nbsp;<span class="math inline">\((\mathbb R, \mathcal M, \mu^\star \vert_{\mathcal M})\)</span> is a complete measure space, whereas <span class="math inline">\((\mathbb R, \mathcal B, \mu^\star \vert_{\mathcal B})\)</span> is not (both measures are identical except they are restricted to different domains). For example, the Cantor set has the same cardinality as the reals, and its powerset (collection of all subsets) has greater cardinality of the reals, which exceed the number of Borel sets. Thus, there are more subsets than <span class="math inline">\(\mathcal B\)</span> can contain, and thus fails completeness. We have also shown that it is not possible to extend the Lebesgue measure to all <span class="math inline">\(\mathcal P(\mathbb R)\)</span> while retaining translation invariance and countable additivity.</em></p>
+</section>
+<section id="the-uniqueness-of-the-lebesgue-measure-on-mathcal-b." class="level2">
+<h2 class="anchored" data-anchor-id="the-uniqueness-of-the-lebesgue-measure-on-mathcal-b.">The uniqueness of the Lebesgue measure on <span class="math inline">\(\mathcal B\)</span>.</h2>
 <p>The uniqueness is shown using Dynkin’s <span class="math inline">\(\pi-\lambda\)</span> theorem.</p>
 <div id="r-3-1" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">

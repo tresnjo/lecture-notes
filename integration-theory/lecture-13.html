@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6a4239ded7c831dc9986d58e00f1eac2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -93,6 +93,40 @@ ul.task-list li input[type="checkbox"] {
 .viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
 .viz button { cursor: pointer; }
 </style>
+<style>
+/* land a little above a cross-referenced box, clear of the top bar */
+[id] { scroll-margin-top: 4.5rem; }
+</style>
+<script>
+/* Keep a linked box (#r-9-4 etc.) at the top while math and figures above it finish rendering. */
+(function () {
+  var stop = false, until = 0;
+  function target() {
+    var h = decodeURIComponent(location.hash.slice(1));
+    return h ? document.getElementById(h) : null;
+  }
+  function pin() {
+    if (stop || Date.now() > until) return;
+    var el = target(); if (!el) return;
+    var off = el.getBoundingClientRect().top - 72;
+    if (Math.abs(off) > 2) window.scrollBy(0, off);
+  }
+  function arm() {
+    stop = false; until = Date.now() + 4000;
+    pin();
+    var ticks = 0, t = setInterval(function () { pin(); if (++ticks > 40 || stop) clearInterval(t); }, 100);
+  }
+  ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (ev) {
+    window.addEventListener(ev, function () { stop = true; }, { passive: true });
+  });
+  window.addEventListener("hashchange", arm);
+  window.addEventListener("load", function () { if (location.hash) arm(); });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (location.hash) arm();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(pin);
+  });
+})();
+</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
