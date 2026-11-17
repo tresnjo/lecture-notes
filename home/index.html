@@ -32,9 +32,12 @@
   body { margin: 0; background: var(--bg); color: var(--fg);
          font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
          font-size: 18px; line-height: 1.6; transition: background-color 0.3s ease, color 0.3s ease; }
-  header { background: var(--band); color: var(--band-fg); }
+  header { background-color: var(--band); color: var(--band-fg);
+           background-image: linear-gradient(90deg, rgba(8,6,24,0.55) 0%, rgba(8,6,24,0.15) 45%, rgba(8,6,24,0) 70%), url("gw-banner.jpg");
+           background-size: cover; background-position: right 55%; }
+  header h1, header p { text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
   .wrap { max-width: 860px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
-  header .wrap { padding-block: 2.6rem 2.2rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  header .wrap { padding-block: 3.4rem 3rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
   h1 { margin: 0; font-weight: 600; font-size: 2.3rem; letter-spacing: 0.01em; text-wrap: balance; }
   header p { margin: 0.4rem 0 0; opacity: 0.85; font-style: italic; }
   .theme-toggle { flex: none; display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer;
@@ -63,7 +66,7 @@
   }
   :root[data-theme="dark"] .course img.light-only { display: none; }
   :root[data-theme="dark"] .course img.dark-only { display: block; }
-  @media (max-width: 640px) { a.course { grid-template-columns: 1fr; } .course .fig { order: -1; } h1 { font-size: 1.9rem; } }
+  @media (max-width: 640px) { header { background-position: 60% 55%; } a.course { grid-template-columns: 1fr; } .course .fig { order: -1; } h1 { font-size: 1.9rem; } }
 </style>
 </head>
 <body>
