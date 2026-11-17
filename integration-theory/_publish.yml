@@ -1,0 +1,3 @@
+- source: project
+  gh-pages:
+    - url: 'https://tresnjo.github.io/lecture-notes/integration-theory/'

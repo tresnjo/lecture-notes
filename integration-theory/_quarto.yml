@@ -6,6 +6,7 @@ project:
 
 book:
   title: "Integration Theory"
+  site-url: "https://tresnjo.github.io/lecture-notes/integration-theory/"
   subtitle: "Lecture Notes"
   author: ""           # ← add your name here
   date: last-modified

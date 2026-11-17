@@ -1,5 +1,7 @@
-# Rebuild the book on GitHub and publish it to the gh-pages branch on every push to main.
-name: Publish book
+# On every push to main: build every course and the home page, and publish them at
+# https://tresnjo.github.io/lecture-notes/            (home page: home/index.html)
+# https://tresnjo.github.io/lecture-notes/<course>/   (one folder per course, each a Quarto book)
+name: Publish lecture notes
 
 on:
   push:
@@ -19,9 +21,23 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Render and publish to gh-pages
-        uses: quarto-dev/quarto-actions/publish@v2
+      - name: Build every course
+        run: |
+          mkdir -p _site
+          for cfg in */_quarto.yml; do
+            course=$(dirname "$cfg")
+            echo "Building $course"
+            quarto render "$course"
+            cp -r "$course/_book" "_site/$course"
+          done
+
+      - name: Add the home page
+        run: |
+          cp -r home/. _site/
+          touch _site/.nojekyll
+
+      - name: Publish to the gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
