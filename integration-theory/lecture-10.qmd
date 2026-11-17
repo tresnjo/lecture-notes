@@ -16,7 +16,24 @@ If $(X, \mathcal M)$ is a measurable space, a signed measure is a map $\nu: \mat
 
 We compare this to the definition of a measure. First, note the additional criterion (ii), and the additional comment in (iii) that the RHS converges absolutely when the LHS is finite. The reason is related to what we discussed earlier, namely that there is no intrinsic ordering of the elements of the set, and consequently, neither should the measure of the union depend on that ordering. Absolute convergence is thus required.  
 
-For unsigned series, conditional convergence is not possible, so either the series is absolutely convergent or diverges to $+\infty$. For signed measures, we can have conditional convergence. Therefore whenever the LHS is finite, we must have that the RHS is absolutely convergence, since had it been conditionally convergent, we could as per the Riemann rearrangement theorem, rearrange the terms to attain any value.
+For unsigned series, conditional convergence is not possible, so either the series is absolutely convergent or diverges to $+\infty$. For signed measures, we can have conditional convergence. Therefore whenever the LHS is finite, we require the RHS to converge absolutely: the union $\bigcup_i A_i$ does not depend on the order in which we list the $A_i$, but the value of a conditionally convergent series does, as the side topic below shows.
+
+::: {#side-the-riemann-rearrangement-theorem .side-topic}
+**Side topic: The Riemann rearrangement theorem**
+
+The [Riemann rearrangement theorem](https://en.wikipedia.org/wiki/Riemann_series_theorem) says that if a real series $\sum_n a_n$ converges but not absolutely, then for every $L \in [-\infty, \infty]$ there is a rearrangement $\sigma$ of $\mathbb N$ such that
+$$\sum_{n=1}^\infty a_{\sigma(n)} = L.$$
+
+The idea of the proof is simple. Since the series converges conditionally, $a_n \to 0$, while the positive terms alone sum to $+\infty$ and the negative terms alone sum to $-\infty$. To reach a finite $L$, take positive terms until the partial sum first exceeds $L$, then negative terms until it first drops below $L$, then positive terms again, and so on. Every term is eventually used, and since $a_n \to 0$ the overshoots shrink, so the partial sums converge to $L$.
+
+A concrete example is the alternating harmonic series,
+$$1 - \tfrac12 + \tfrac13 - \tfrac14 + \tfrac15 - \cdots = \ln 2.$$
+Taking one positive term followed by two negative terms gives
+$$\Big(1 - \tfrac12\Big) - \tfrac14 + \Big(\tfrac13 - \tfrac16\Big) - \tfrac18 + \cdots = \tfrac12 - \tfrac14 + \tfrac16 - \tfrac18 + \cdots = \tfrac12 \ln 2,$$
+the same terms with half the sum.
+
+Absolutely convergent series behave well: every rearrangement converges to the same value. This is why condition (iii) of [Definition 10.1](#r-10-1) asks for absolute convergence. If $\nu(A_i) = a_i$ for disjoint sets $A_i$, relabelling the sets does not change their union, so it must not change $\sum_i \nu(A_i)$ either.
+:::
 
 Some remarks that follow from the definition:
 
