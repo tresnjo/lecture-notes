@@ -139,7 +139,11 @@ $$\int f(x) dm(x) = \sup\{ \int \phi(x) dm(x): 0 \leq \phi \leq f, \phi \ \mathr
 One might attempt to also define the Lebesgue integral as follows
 $$\int f(x) dm(x) = \inf\{ \int \phi(x) dm(x):  \phi \geq f, \phi \ \mathrm{simple}\}$$
 
-Which actually does agree with the definition above if $f$ is Lebesgue integrable, i.e. the integral is defined and finite. This follows from the fact that the infimum can be written as a supremum. For example, let $0\leq f < M$ and define $g(x) := M - f(x)$, then we can compute the integral of $g$ using the supremum (equivalent to integral of $f$ using infimum).
+This agrees with [Definition 6.4](#r-6-4) when $f$ is bounded and vanishes outside a set of finite measure. The reason is that an infimum can be rewritten as a supremum: if $0 \leq f < M$, set $g(x) := M - f(x)$. Then $\phi \geq f$ exactly when $M - \phi \leq g$, so taking the infimum over simple functions above $f$ is the same as taking the supremum over simple functions below $g$.
+
+For unbounded functions, however, the two definitions differ. Take $f(x) = x^{-1/2}$ on $(0,1)$. A simple function takes only finitely many values, while $f$ takes arbitrarily large values near $0$. So a simple function $\phi \geq f$ must take the value $+\infty$ on a set of positive measure near $0$ (see this [Stack Exchange discussion](https://math.stackexchange.com/questions/2320853/what-happens-if-we-try-to-define-the-lebesgue-integral-by-an-infimum)). Every such $\phi$ therefore has $\int \phi\, dm = \infty$, and the infimum definition gives $\int f\, dm = \infty$. The supremum definition instead gives the correct value
+$$\int_0^1 x^{-1/2}\, dm(x) = 2,$$
+since simple functions below $f$ never need to be infinite. This is why the Lebesgue integral is defined through the supremum. @fig-viz-lebesgueinfimum-1 shows both approaches for $x^{-1/2}$.
 
 ::: {#fig-viz-lebesgueinfimum-1}
 ```{=html}
