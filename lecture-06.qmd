@@ -1,0 +1,484 @@
+---
+title: "Introducing the Lebesgue Integral and Modes of Convergence"
+---
+
+**Simple function approximation.** If $(X,\mathcal M)$ is a measurable space and $f:X\to[0,\infty]$ is measurable, then there exists a sequence $(\phi_n)$ of simple functions with $0\le\phi_1\le\phi_2\le\cdots$ such that $\phi_n\to f$ pointwise, and uniformly on any set where $f$ is bounded.
+**Construction.** For each $n$, chop $[0,2^n)$ into $2^n\cdot2^n=2^{2n}$ pieces of width $\tfrac1{2^n}$ each, and round $f(x)$ *down* to the left endpoint of whichever piece it lands in (capping at $2^n$ once $f(x)$ gets that large):$$
+\phi_n(x):=\sum_{k=0}^{2^{2n}-1}\frac{k}{2^n}\,\mathbf 1_{\left\{x:f(x)\in\left[\frac{k}{2^n},\frac{k+1}{2^n}\right)\right\}}\ +\ 2^n\,\mathbf 1_{\{x:f(x)\ge2^n\}}.$$
+That is: replace $f(x)$ by $f\big(\tfrac{k}{2^n}\big)$ where $\tfrac{k}{2^n}$ is the closest grid point to $f(x)$ **from below**, i.e. $\tfrac{k}{2^n}\le f(x)$.
+Each $\phi_n$ is simple: the sets $\big\{x:f(x)\in[\tfrac{k}{2^n},\tfrac{k+1}{2^n})\big\}$ ($k=0,\dots,2^{2n}-1$) and $\{x:f(x)\ge2^n\}$ are disjoint, measurable (preimages of Borel sets under the measurable $f$), and cover $X$ (since $f\ge0$).
+**Monotonicity, $\phi_n\le\phi_{n+1}$.** Going from resolution $n$ to $n+1$, every grid interval of width $\tfrac1{2^n}$ splits into two of width $\tfrac1{2^{n+1}}$, and rounding down onto a finer grid can only land on an equal-or-larger value than rounding down onto the coarser one; the cap also rises, from $2^n$ to $2^{n+1}$. So $\phi_n(x)\le\phi_{n+1}(x)$ for every $x$.
+**Pointwise convergence.** Fix $x$. If $f(x)<\infty$, then once $2^n>f(x)$, $\phi_n(x)$ sits within $\tfrac1{2^n}$ of $f(x)$ (that's the grid width), so $\phi_n(x)\to f(x)$. If $f(x)=\infty$, then $\phi_n(x)=2^n\to\infty=f(x)$ for every $n$.
+**Uniform convergence on bounded sets.** If $f\le M$ on some set $S$, then for every $n$ with $2^n>M$, *every* $x\in S$ satisfies $f(x)<2^n$, so $\phi_n(x)$ is within $\tfrac1{2^n}$ of $f(x)$ — a bound depending only on $n$, not on $x$. Hence $\phi_n\to f$ uniformly on $S$.
+
+::: {#fig-viz-exercise45-1}
+```{=html}
+<div id="viz-exercise45-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function Exercise45() {
+    const ACCENT = "#877B31";
+    const ACCENT_LIGHT = "#b5a54a";
+    const ACCENT_DIM = "rgba(135,123,49,0.38)";
+    const BG = "transparent";
+    const SURFACE = "rgba(128,128,128,0.13)";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    
+    const [n, setN] = useState(1);
+    const [fi, setFi] = useState(0);
+    
+    function changeN(delta) {
+      setN(Math.min(6, Math.max(1, n + delta)));
+    }
+    
+    const FUNCS = [
+      { name: "6x^2", f: (x) => 6 * x * x },
+      { name: "3 + 3 sin(6 pi x)", f: (x) => 3 + 3 * Math.sin(6 * Math.PI * x) },
+      { name: "1/sqrt(x)", f: (x) => (x <= 0 ? Infinity : 1 / Math.sqrt(x)) },
+    ];
+    
+    const W = 500;
+    const H = 260;
+    const PAD_L = 34;
+    const PAD_R = 12;
+    const PAD_T = 12;
+    const PAD_B = 26;
+    const YMAX = 8;
+    const SAMPLES = 800;
+    
+    const pw = W - PAD_L - PAD_R;
+    const ph = H - PAD_T - PAD_B;
+    const d = Math.pow(2, n);
+    const cap = d;
+    const f = FUNCS[fi].f;
+    
+    function X(x) { return PAD_L + x * pw; }
+    function Y(y) { return PAD_T + ph - (Math.min(y, YMAX) / YMAX) * ph; }
+    function phi(x) {
+      const v = f(x);
+      return v >= cap ? cap : Math.floor(v * d) / d;
+    }
+    
+    let pathF = "";
+    let pathPhi = "";
+    let area = "M" + X(0) + "," + Y(0);
+    let err = 0;
+    for (let i = 0; i <= SAMPLES; i++) {
+      const x = Math.max(i / SAMPLES, 1e-6);
+      const fv = f(x);
+      const pv = phi(x);
+      pathF += (i ? "L" : "M") + X(x).toFixed(1) + "," + Y(fv).toFixed(1);
+      pathPhi += (i ? "L" : "M") + X(x).toFixed(1) + "," + Y(pv).toFixed(1);
+      area += "L" + X(x).toFixed(1) + "," + Y(pv).toFixed(1);
+      if (fv < cap) err = Math.max(err, fv - pv);
+    }
+    area += "L" + X(1) + "," + Y(0) + "Z";
+    
+    const gridLines = [];
+    if (d <= 16) {
+      for (let k = 0; k <= YMAX * d; k++) gridLines.push(k / d);
+    }
+    
+    const btnStyle = { background: SURFACE, border: "1px solid " + BORDER, color: ACCENT, padding: "4px 14px", borderRadius: 4, cursor: "pointer", fontSize: 15, fontFamily: "monospace" };
+    
+    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12, fontSize: 13, flexWrap: "wrap" } },
+        React.createElement("span", { style: { color: MUTED } }, "n ="),
+        React.createElement("span", { style: { color: TEXT, minWidth: 20 } }, n),
+        React.createElement("button", { onClick: () => changeN(-1), style: btnStyle }, "-"),
+        React.createElement("button", { onClick: () => changeN(+1), style: btnStyle }, "+")
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, fontSize: 12, flexWrap: "wrap" } },
+        React.createElement("span", { style: { color: MUTED } }, "f(x) ="),
+        FUNCS.map((fn, i) =>
+          React.createElement("button", {
+            key: i,
+            onClick: () => setFi(i),
+            style: { background: i === fi ? ACCENT_DIM : SURFACE, border: "1px solid " + (i === fi ? ACCENT : BORDER), color: i === fi ? ACCENT_LIGHT : MUTED, padding: "2px 10px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontFamily: "monospace" }
+          }, fn.name)
+        )
+      ),
+      React.createElement("div", { style: { marginBottom: 16 } },
+        React.createElement("div", { style: { fontSize: 11, color: MUTED, marginBottom: 4 } }, "phi_" + n + " (gold) rounding f (light) down to the grid 1/2^" + n),
+        React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { background: "transparent" } },
+          gridLines.map((y, i) =>
+            React.createElement("line", { key: "g" + i, x1: PAD_L, x2: W - PAD_R, y1: Y(y), y2: Y(y), stroke: BORDER, strokeWidth: 0.5 })
+          ),
+          [0, 2, 4, 6, 8].map((y) =>
+            React.createElement("text", { key: "y" + y, x: PAD_L - 6, y: Y(y) + 3, textAnchor: "end", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, y)
+          ),
+          [0, 0.25, 0.5, 0.75, 1].map((x) =>
+            React.createElement("text", { key: "x" + x, x: X(x), y: H - 8, textAnchor: "middle", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, x)
+          ),
+          React.createElement("line", { x1: PAD_L, x2: W - PAD_R, y1: Y(0), y2: Y(0), stroke: MUTED }),
+          React.createElement("line", { x1: PAD_L, x2: PAD_L, y1: PAD_T, y2: Y(0), stroke: MUTED }),
+          cap <= YMAX && React.createElement("line", { x1: PAD_L, x2: W - PAD_R, y1: Y(cap), y2: Y(cap), stroke: ACCENT, strokeWidth: 1, strokeDasharray: "4 4" }),
+          cap <= YMAX && React.createElement("text", { x: W - PAD_R - 4, y: Y(cap) - 4, textAnchor: "end", fontSize: 10, fill: ACCENT, fontFamily: "monospace" }, "cap 2^n = " + cap),
+          React.createElement("path", { d: area, fill: ACCENT, fillOpacity: 0.18 }),
+          React.createElement("path", { d: pathPhi, fill: "none", stroke: ACCENT, strokeWidth: 2 }),
+          React.createElement("path", { d: pathF, fill: "none", stroke: TEXT, strokeWidth: 1.2 })
+        )
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 24, fontSize: 12, borderTop: "1px solid " + BORDER, paddingTop: 12, flexWrap: "wrap" } },
+        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "grid step: "), React.createElement("span", { style: { color: TEXT } }, "1/" + d + " = " + (1 / d).toFixed(4))),
+        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "cap: "), React.createElement("span", { style: { color: ACCENT_LIGHT } }, cap)),
+        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "max |f - phi| where f < 2^n: "), React.createElement("span", { style: { color: TEXT } }, err.toFixed(4)))
+      )
+    );
+  }
+  var el = document.getElementById('viz-exercise45-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(Exercise45));
+})();
+</script>
+```
+
+Interactive: approximating $f$ from below by the simple functions $\phi_n$.
+:::
+
+### The Lebesgue integral and convergence theorems
+
+Before we proceed, we consider the class of nonnegative measurable functions $$L^+((X, \mathcal M, m)) = \{f: X\rightarrow [0,\infty], \text{f is measurable}\}$$
+
+::: {#r-6-1 .callout-note .definition-box}
+#### Definition 6.1 — The Lebesgue integral for nonnegative simple functions
+
+Let $\phi(x)$ be a simple function in $L^+((X, \mathcal M, m))$
+$$\phi(x) = \sum_{i=1}^n c_i I_{E_i}$$with $c_i \geq 0 \forall i$. The integral is then defined $$\int \phi(x) dm(x) = \sum_{i=1}^n c_i m(E_I)$$
+:::
+
+::: {#r-6-2 .callout-note .definition-box}
+#### Definition 6.2 — Integral of nonnegative simple function over specified region
+
+If $\phi$ is a simple function in $L^+((X, \mathcal M, m))$ and $A \in \mathcal M$ we define $$\int_A \phi(x) dm(x) = \int \phi(x) \mathbb I_A dm(x)$$ where we note that the integrand on the RHS is a simple function and hence the integral is defined.
+:::
+
+::: {#r-6-3 .callout-important .proposition-box}
+#### Proposition 6.3 — Four properties which hold for the integral of nonnegative simple functions
+
+Let $\phi, \psi$ be simple nonnegative functions, then the following holds.
+(a) $\int c\phi(x) dm(x) = c\int \phi(x) dm(x)$ $\forall c \geq 0$.
+(b) $\int (\phi(x) + \psi(x)) dm(x) = \int \phi(x) dm(x) + \int \psi(x) dm(x)$.
+(c)$\phi \leq \psi$ implies that $\int \phi(x) dm(x) \leq \int \psi(x) dm(x)$
+(d) The mapping from $\mathcal M$ to $[0,\infty]$ given by $A\rightarrow \int_A \phi(x) dm(x)$ is a measure on $\mathcal M$.
+
+::: {.callout-note .proof-box collapse="true"}
+#### Proof
+
+(a) through (c) are straightforward by applying the definition. We prove (d). $\square$
+:::
+:::
+
+Note that $$\int (\phi(x) - \psi(x) ) dm(x) = \int \phi(x) dm(x) - \int \psi(x) dm(x)$$iff at least one of the integrals on the RHS is defined. This is different from property (b) in [Proposition 6.3](lecture-06.qmd#r-6-3) since in this case, we are integrating nonnegative functions which may lead to a $\infty - \infty$ situation which is not necessarily defined (whereas $\infty + \infty$ is).
+
+We are now ready to define the integral for all functions in $L^+((X, \mathcal M, m))$.  We will use the idea that we can approximate a measurable function by simple functions. 
+
+::: {#r-6-4 .callout-note .definition-box}
+#### Definition 6.4 — The integral for nonnegative measurable functions
+
+If $f \in L^+((X, \mathcal M, m))$ we define
+$$\int f(x) dm(x) = \sup\{ \int \phi(x) dm(x): 0 \leq \phi \leq f, \phi \ \mathrm{simple}\}$$which can certainly become infinity.
+:::
+
+One might attempt to also define the Lebesgue integral as follows
+$$\int f(x) dm(x) = \inf\{ \int \phi(x) dm(x):  \phi \geq f, \phi \ \mathrm{simple}\}$$
+
+Which actually does agree with the definition above if $f$ is Lebesgue integrable, i.e. the integral is defined and finite. This follows from the fact that the infimum can be written as a supremum. For example, let $0\leq f < M$ and define $g(x) := M - f(x)$, then we can compute the integral of $g$ using the supremum (equivalent to integral of $f$ using infimum).
+
+::: {#fig-viz-lebesgueinfimum-1}
+```{=html}
+<div id="viz-lebesgueinfimum-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function LebesgueInfimum() {
+    const ACCENT = "#877B31";
+    const ACCENT_LIGHT = "#b5a54a";
+    const ACCENT_DIM = "rgba(135,123,49,0.38)";
+    const FAIL_COL = "#8B2020";
+    const FAIL_LIGHT = "#c24040";
+    const BG = "transparent";
+    const SURFACE = "rgba(128,128,128,0.13)";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    
+    const [n, setN] = useState(2);
+    const [mode, setMode] = useState("below");
+    
+    const W = 500, H = 240, PL = 40, PR = 16, PT = 14, PB = 28;
+    const YMAX = 10, SAMPLES = 800;
+    const pw = W - PL - PR, ph = H - PT - PB;
+    const M = Math.pow(2, n);
+    const d = M;
+    
+    function X(x) { return PL + x * pw; }
+    function Y(y) { return PT + ph - (Math.min(y, YMAX) / YMAX) * ph; }
+    function f(x) { return x <= 0 ? Infinity : 1 / Math.sqrt(x); }
+    function phiBelow(x) {
+      const v = f(x);
+      if (v >= M) return M;
+      return Math.floor(v * d) / d;
+    }
+    
+    const nRect = Math.min(8, d);
+    const dxRect = 1 / nRect;
+    const aboveRects = Array.from({ length: nRect }, (_, k) => {
+      const xL = k * dxRect;
+      const xR = (k + 1) * dxRect;
+      const h = xL <= 0 ? Infinity : f(xL);
+      return { xL, xR, h };
+    });
+    
+    let pathF = "", pathPhi = "", integralBelow = 0;
+    for (let i = 1; i <= SAMPLES; i++) {
+      const x = i / SAMPLES;
+      const fv = f(x), pv = phiBelow(x);
+      pathF += (i === 1 ? "M" : "L") + X(x).toFixed(1) + "," + Y(fv).toFixed(1);
+      pathPhi += (i === 1 ? "M" : "L") + X(x).toFixed(1) + "," + Y(pv).toFixed(1);
+      integralBelow += pv / SAMPLES;
+    }
+    
+    const yTicks = [0, 2, 4, 6, 8, 10];
+    const xTicks = [0, 0.25, 0.5, 0.75, 1.0];
+    
+    const btn = { background: SURFACE, border: "1px solid " + BORDER, color: ACCENT, padding: "4px 14px", borderRadius: 4, cursor: "pointer", fontSize: 15, fontFamily: "monospace" };
+    const tab = (active) => ({ background: active ? ACCENT_DIM : SURFACE, border: "1px solid " + (active ? ACCENT : BORDER), color: active ? ACCENT_LIGHT : MUTED, padding: "3px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontFamily: "monospace" });
+    
+    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
+      React.createElement("div", { style: { fontSize: 12, color: ACCENT, marginBottom: 14, letterSpacing: 1 } }, "LEBESGUE INTEGRAL: SUPREMUM vs INFIMUM"),
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginBottom: 12, flexWrap: "wrap" } },
+        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13 } },
+          React.createElement("span", { style: { color: MUTED } }, "n ="),
+          React.createElement("span", { style: { color: TEXT, minWidth: 20 } }, n),
+          React.createElement("button", { onClick: () => setN(Math.max(1, n - 1)), style: btn }, "-"),
+          React.createElement("button", { onClick: () => setN(Math.min(5, n + 1)), style: btn }, "+")
+        ),
+        React.createElement("div", { style: { display: "flex", gap: 6 } },
+          React.createElement("button", { onClick: () => setMode("below"), style: tab(mode === "below") }, "sup (from below)"),
+          React.createElement("button", { onClick: () => setMode("above"), style: tab(mode === "above") }, "inf (from above)")
+        )
+      ),
+      React.createElement("div", { style: { marginBottom: 14 } },
+        React.createElement("div", { style: { fontSize: 11, color: MUTED, marginBottom: 4 } },
+          mode === "below"
+            ? "phi_n (gold) = floor(f * 2^n) / 2^n  |  f(x) = x^{-1/2}  |  integral converges to 2"
+            : "each rectangle sits ABOVE f  |  first slab (red) is always infinite  |  integral = inf"
+        ),
+        React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { background: "transparent" } },
+          yTicks.map(y => React.createElement("line", { key: "gy" + y, x1: PL, x2: W - PR, y1: Y(y), y2: Y(y), stroke: BORDER, strokeWidth: 0.5 })),
+          yTicks.map(y => React.createElement("text", { key: "ty" + y, x: PL - 5, y: Y(y) + 3, textAnchor: "end", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, y)),
+          xTicks.map(x => React.createElement("text", { key: "tx" + x, x: X(x), y: H - 10, textAnchor: "middle", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, x)),
+          React.createElement("line", { x1: PL, x2: W - PR, y1: Y(0), y2: Y(0), stroke: MUTED }),
+          React.createElement("line", { x1: PL, x2: PL, y1: PT, y2: Y(0), stroke: MUTED }),
+    
+          mode === "below" && React.createElement("path", { d: pathPhi, fill: "none", stroke: ACCENT, strokeWidth: 2 }),
+    
+          mode === "above" && aboveRects.map((r, k) => {
+            const inf = !isFinite(r.h) || r.h > YMAX;
+            const rectY = inf ? PT : Y(r.h);
+            const rectW = X(r.xR) - X(r.xL) - 1;
+            return [
+              React.createElement("rect", {
+                key: "r" + k,
+                x: X(r.xL), y: rectY,
+                width: rectW, height: Y(0) - rectY,
+                fill: inf ? FAIL_COL : ACCENT,
+                fillOpacity: inf ? 0.45 : 0.25,
+                stroke: inf ? FAIL_LIGHT : ACCENT_LIGHT,
+                strokeWidth: 1
+              }),
+              inf && rectW > 18 && React.createElement("text", {
+                key: "inf" + k,
+                x: X(r.xL) + rectW / 2, y: PT + 16,
+                textAnchor: "middle", fontSize: 11, fill: FAIL_LIGHT, fontFamily: "monospace"
+              }, "\u221e")
+            ];
+          }),
+    
+          React.createElement("path", { d: pathF, fill: "none", stroke: TEXT, strokeWidth: 1.5 })
+        )
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 20, fontSize: 12, borderTop: "1px solid " + BORDER, paddingTop: 12, flexWrap: "wrap" } },
+        React.createElement("div", null,
+          React.createElement("span", { style: { color: MUTED } }, "rectangles: "),
+          React.createElement("span", { style: { color: TEXT } }, nRect)
+        ),
+        mode === "below"
+          ? React.createElement("div", null,
+              React.createElement("span", { style: { color: MUTED } }, "\u222b\u2080\u00b9 \u03c6\u2099 \u2248 "),
+              React.createElement("span", { style: { color: TEXT } }, integralBelow.toFixed(3)),
+              React.createElement("span", { style: { color: MUTED } }, "  \u2192  2 = \u222b\u2080\u00b9 x^{-1/2} dx")
+            )
+          : React.createElement("div", null,
+              React.createElement("span", { style: { color: MUTED } }, "\u222b\u2080\u00b9 \u03c8\u2099 = "),
+              React.createElement("span", { style: { color: FAIL_LIGHT } }, "\u221e"),
+              React.createElement("span", { style: { color: MUTED } }, "  (first rectangle always has height \u221e)")
+            )
+      )
+    );
+  }
+  var el = document.getElementById('viz-lebesgueinfimum-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(LebesgueInfimum));
+})();
+</script>
+```
+
+Interactive: approximating $x^{-1/2}$ from below (supremum) and from above (infimum).
+:::
+
+It can be straightforwardly verified that properties (a)-(c) from [Proposition 6.3](lecture-06.qmd#r-6-3) are also satisfied for nonnegative measurable functions as defined above. In particular, we will prove property (c) in what follows.
+
+### Convergence theorems
+
+In what follows, we discuss three important convergence theorems which answer the question on when the limit and the integral operations commute. The first two, the monotone and dominated Lebesgue convergence theorem, tells us that it is possible to do so under certain restrictions on the sequence of measurable functions. 
+
+::: {#r-6-5 .callout-important .theorem-box}
+#### Theorem 6.5 — Monotone convergence theorem
+
+Given a measure space, let $(f_n)$ be a sequence of functions in $L^+((X, \mathcal M, m))$ satisfying $$0 \leq f_1 \leq f_2 \leq ...$$ for every x and define $f$ by $$f(x) := \lim_{n\rightarrow \infty} f_n(x) = \sup_n f_n(x)$$ then $$\int f dm = \lim_{n\rightarrow \infty} \int f_n dm$$
+
+::: {.callout-note .proof-box collapse="true"}
+#### Proof
+
+To prove the $\geq$ we first realize that $\int f_n dm$ is increasing and hence a limit. For the same reason $\int f dm \geq \int f_n dm$ for every $n$ we also have $\int f_dm \geq \lim \int f_n dm$. To prove the reverse inequality, we first start by the definition of $\int f dm$ which is that for every simple function $\phi \leq f$ we have $$\int \phi dm \leq \lim_{n\rightarrow \infty} \int f_n dm$$. Now fix the simple function and let $\alpha < 1$ and define $E_n := \{x: f_n(x) \geq \alpha \phi(x)\}$ and observe that $E_1 \subseteq E_2...$ from the fact that $f_n(x)$ is increasing, and $X = \bigcup_n E_n$. For every $n$ we now have $$\int f_n dm \geq \int f_n 1_{E_n} dm \geq \alpha \phi 1_{E_n} dm = \alpha \int_{E_n} \phi dm$$ and let $n\rightarrow \infty$ and use that for a fixed nonnegative simple function $A\rightarrow \int_A \phi dm$ is a measure, now we have an increasing sequence of sets for which we evaluate this measure whose union is $X$, using continuity from below of meaures, we have that $\lim_{n\rightarrow \infty} \int f_n dm \geq \alpha \int \phi dm$ which holds for all $\alpha < 1$. $\square$
+:::
+:::
+
+We now discuss three additional examples for when the MCT can be applied, and whether additional assumptions need to be imposed.
+
+Two immediate corollaries of the MCT are now stated. 
+
+::: {#r-6-6 .callout-important .corollary-box}
+#### Corollary 6.6 — Linearity of Lebesgue integral for nonnegative measurable functions
+
+If $f_1$ and $f_2$ in $L^+((X, \mathcal M, m))$ then
+$$\int (f_1+f_2)dm = \int f_1 dm + \int f_2 dm$$
+
+::: {.callout-note .proof-box collapse="true"}
+#### Proof
+
+Choose $\phi_n$ and $\psi_n$ to be increasing simple functions to $f_1$ and $f_2$, then $\phi_n + \psi_n$ is a sequence of simple functions increasing towards $f_1+f_2$ 
+
+where in the middle step we used the linearity over simple functions, and the MCT in the outer most equalities. $\square$
+:::
+:::
+
+::: {#r-6-7 .callout-important .corollary-box}
+#### Corollary 6.7 — Exchanging infinite sum and Lebesgue integral
+
+If $f_1, f_2,...$ in $L^+((X, \mathcal M, m))$ then
+$$\int (\sum_{i=1}^\infty f_i) dm = \sum_{i=1}^\infty (\int f_i dm)$$
+
+::: {.callout-note .proof-box collapse="true"}
+#### Proof
+
+By the corollary above, we have for every $N$ that $$\int (\sum_{i=1}^N f_i) dm = \sum_{i=1}^N (\int f_i dm)$$where we want to let $N\rightarrow \infty$, the RHS goes to $\sum_{i=1}^\infty (\int f_i dm)$ while the LHS goes to $\int (\sum_{i=1}^\infty f_i)$ by the MCT. Note that $g_N := (\sum_{i=1}^N f_i)$ defines a sequence of increasing nonnegative measurable functions (since sum of measurable functions is measurable), and whose pointwise limit is precisely $(\sum_{i=1}^\infty f_i)$  (which is also measurable by [Proposition 5.6](lecture-05.qmd#r-5-6) from [Lecture 5](lecture-05.qmd) for which we can thus apply the MCT. $\square$
+:::
+:::
+
+::: {#r-6-8 .callout-important .proposition-box}
+#### Proposition 6.8 — Lebesgue integral zero for nonnegative measurable functions equivalence
+
+If $f\in L^+((X, \mathcal M ,m))$ then $$\int fdm = 0$$ iff $f=0$ a.e.
+The proof is provided in the lecture notes. We remind ourselves that the measurable functions taken into consideration are positive, i.e. $f\rightarrow [0,\infty]$.
+:::
+
+Note that the above proposition also implies that if $f = h-g$ then $h=g$ almost everywhere, that is to say, they are equivalent modulo the nullset $$m(\{x \in X : h(x) \neq g(x)\}) =0$$
+
+::: {#r-6-9 .callout-important .theorem-box}
+#### Theorem 6.9 — Fatou's lemma
+
+If $(f_n)$ is a sequence of functions in $L^+((X, \mathcal M, m))$ then $$\int \liminf_{n\rightarrow \infty} f_n dm \leq  \liminf_{n\rightarrow \infty} \int f_n dm$$
+:::
+
+Fatou's lemma is the best we can do with minimal assumptions about $f_n$.
+
+Remember from [Lecture 5](lecture-05.qmd) we showed that if $(f_n)$ is a sequence of measurable functions, then $\liminf f_n$ is measurable also. 
+
+We now relax the assumption that the range of the measurable functions is restricted to the positive reals, and define the integral for general measurable functions.
+
+::: {#r-6-10 .callout-note .definition-box}
+#### Definition 6.10 — Lebesgue integral for general measurable functions
+
+Definition of integral for general measurable functions. if $f:(X,\mathcal M, m)\rightarrow \overline{\mathbb R}$, then we define $$\int f(x) dm(x) := \int f^+(x) dm(x) - \int f^{-}(x) dm(x)$$ provided that *at least* one of the two terms on the RHS is finite (this way, we avoid any $\infty - \infty$ scenario.) Note that $f^-, f^+ \in L^+$ which makes them well-defined.
+:::
+
+We are now ready to state what it means for a function to be Lebesgue integrable. 
+
+::: {#r-6-11 .callout-note .definition-box}
+#### Definition 6.11 — Lebesgue integrable
+
+If $f$ is a measurable function on $(X, \mathcal M, m)$ and $\int f dm$ is defined and finite, we say that $f$ is Lebesgue integrable. Or tantamountly, having $\int |f| dm$ being finite.
+:::
+
+Why are these equivalent statements? Notice that $f = f^+ - f^-$ and $|f| = f^+ + f^-$ where $f^\pm = \max(\pm f, 0)$, the Lebesgue integral is then defined above. However, if that is to be finite, then we demand both $\int f^\pm dm$ to be finite, but that is equivalent to demanding $\int |f| dm = \int f^+ dm + \int f^- dm$ to be finite. 
+
+Before proceeding, we introduce some useful notation. Let $$L^1((X, \mathcal M, m)) := \{f: (X,\mathcal M, m)\rightarrow \overline{\mathbb R} : \int | f| dm < \infty\}$$which in words read: the set of all real-valued measurable functions on the measure space s.t. the integral of the absolute value of $f$ wrt to the measure $m$ is finite. If a function is Lebesgue integrable, it is thus an element of $L^1$ (I will occasionally drop the argument for $L^1$). You can think of the elements as equivalence classes of measurable functions modulo any nullsets. 
+
+>Remember that the Lebesgue integral for a general measurable function $f\in L^1$ can be decomposed into $$f = f^+ - f^-$$with both $f^\pm$ non-negative and measurable and thus in $L^+$. Then define $$\int f dm = \int f^+ dm - \int f^- dm$$which is finite since $f\in L^1$ means $$\int f^+ dm \leq \int |f|dm < \infty$$and $$\int f^{-1} dm \leq \int |f| dm < \infty$$So this is precisely the definition of $L^1$, its integral is finite and well-defined. i.e. **if a function is Lebesgue integrable, it is thus an element of $L^1$ (I will occasionally drop the argument for $L^1$).**
+
+This can be generalized 
+$$L^p((X, \mathcal M, m)) := \{f: (X,\mathcal M, m)\rightarrow \overline{\mathbb R} : \int | f|^p dm < \infty\}$$
+which is called an $L^p$ space. 
+
+::: {#r-6-12 .callout-caution .example-box}
+#### Example 6.12
+
+$\sin(x)/x \notin L^1$ since $\int |\sin(x) /x| dx = \infty$ and thus $\sin(x)/x$ is not Lebesgue integrable. 
+:::
+
+::: {#r-6-13 .callout-note .definition-box}
+#### Definition 6.13 — Conditionally and Absolutely Convergent Series
+
+Let $(a_n)_{n=1}^\infty$ be a sequence of real numbers.
+
+The series $\sum_{n=1}^\infty a_n$ is **absolutely convergent** if:
+ $$\sum_{n=1}^\infty |a_n| < \infty$$
+
+The series $\sum_{n=1}^\infty a_n$ is **conditionally convergent** if it converges:
+ $$\sum_{n=1}^\infty a_n = L \in \mathbb{R}$$
+  but is **not** absolutely convergent:
+$$\sum_{n=1}^\infty |a_n| = \infty$$
+:::
+
+There is a theorem known as the Riemann rearrangment theorem that says that a conditionally convergence infinite series of real numbers can have its terms rearranged such that the series converges to an arbitrary real number. See [Wikipedia](https://en.wikipedia.org/wiki/Riemann_series_theorem). The reason for this is that the conditional convergent
+
+::: {#side-riemann-rearrangement-theorem .side-topic}
+**Side topic: Riemann Rearrangement Theorem**
+
+Suppose $(a_1, a_2, a_3, \ldots)$ is a sequence of real numbers and $\sum_{n=1}^\infty a_n$ is conditionally convergent. Then:
+
+1. For any $M \in \mathbb{R}$, there exists a permutation $\sigma$ such that:
+
+$$\sum_{n=1}^\infty a_{\sigma(n)} = M$$
+
+2. There exists a permutation $\sigma$ such that:
+
+$$\sum_{n=1}^\infty a_{\sigma(n)} = +\infty$$
+
+3. There exists a permutation $\sigma$ such that:
+
+$$\sum_{n=1}^\infty a_{\sigma(n)} = -\infty$$
+
+4. There exists a permutation $\sigma$ such that $\sum_{n=1}^\infty a_{\sigma(n)}$ **fails to approach any limit**, finite or infinite.
+:::
+
+In measure theory, there is no natural analogue of conditional convergence as there is no natural ordering of the domain (sets have no natural ordering of elements, and so the integral is order-independent, which is why we do not encounter conditional convergence here). Remember that a measure must assigned a well-defined value to every measurable set, in particular, for a countable disjoint union, we have the criterion of countable additivity $$\mu(\bigcup A_n) = \sum \mu(A_n)$$where the LHS is order-invariant (the way we construct the union of sets does not matter), since the LHS is automatically order-invariant, and thus $$\mu(\bigcup A_{\sigma(n)}) = \sum \mu(A_{\sigma(n)})$$for some permutation $\sigma$. But by the Riemann rearrangment theorem, a series that is invariant under all permutations holds iff it is absolutely convergent (this is just the contrapositive argument, if its invariant under all permutations, then it is not conditionally convergent, i.e. absolutely convergent). See this [Stack Exchange discussion](https://math.stackexchange.com/questions/1905785/why-isnt-conditional-convergence-an-issue-when-defining-sigma-additivity-of) for more details. 
+
+We are now ready to state a third and final convergence theorem. 
+
+::: {#r-6-14 .callout-important .theorem-box}
+#### Theorem 6.14 — Lebesgue Dominated Convergence theorem
+
+Let $(f_n)$ be a sequence of functions in $L^1$ which converges pointwise to a function $f$. Assume there exists a $g\in L^1$ such that $\forall n$ we have $$|f_n|\leq g$$
+Then $f\in L^1$ and $$\int f dm = \lim_{n\rightarrow \infty} f_n dm$$
+:::
+
+In other words, if we have a sequence of functions(converging pw to some function $f$), and there is a function $g$ (Lebesgue measurable and integrable) which **BOUNDS** each sequence function $f_n$ from above (in absolute terms) then it follows that $f$ is also Lebesgue measurable. In the above $g$ is referred to as the *integrable majorant*.  
+
+Notice that the LDCT makes no assumption about the sign nor the monotonicity of the sequence measurable functions.  When applying MCT to sequences that are not non-negative and increasing (in particular negative increasing or positive decreasing sequences, see above), we saw that additional integrability assumptions were needed. The LDCT handles all of these cases by introducing the integrable majorant. For those cases we considered earlier in the context of MCT, the majorant is just $g = |f_1|$.

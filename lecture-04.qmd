@@ -1,0 +1,391 @@
+---
+title: "Premeasures, Distribution Functions and the Cantor Set"
+---
+
+### Other important constructions of measures
+
+::: {#r-4-1 .callout-note .definition-box}
+#### Definition 4.1 — Premeasure
+
+If $X$ is a set and $\mathcal{A}$ is an algebra on $X$, a function $\mu_0 : \mathcal{A} \to [0, \infty]$ is called a **premeasure** if:
+
+1. $\mu_0(\emptyset) = 0$
+
+2. If $A_1, A_2, \ldots$ are pairwise disjoint elements of $\mathcal{A}$ and if $\bigcup_i A_i \in \mathcal{A}$, then:
+$$\mu_0\!\left(\bigcup_i A_i\right) = \sum_i \mu_0(A_i)$$
+:::
+
+Had $\mathcal A$ been a $\sigma$-algebra, this would have just been our usual measure. 
+
+::: {#r-4-2 .callout-important .theorem-box}
+#### Theorem 4.2 — Extension of Premeasure to Measure
+
+If $\mu_0$ is a premeasure on $(X, \mathcal{A})$, then there exists a measure $\mu$ on $(X, \sigma(\mathcal{A}))$ with:
+$$\mu(A) = \mu_0(A) \quad \text{for all } A \in \mathcal{A}$$
+
+If $\mu_0$ is $\sigma$-finite on $X$, then $\mu$ is unique.
+
+*(Uniqueness can fail in the non-$\sigma$-finite case.)*
+:::
+
+The theorem is an existence theorem. It tells us that if we have a premeasure on an algebra, we can generate a minimal $\sigma$-algebra from $\mathcal A$ on which the measures agree. In particular, if the premeasure is $\sigma$-finite, then it is also unique. 
+
+### Distribution functions for Borel sets
+
+::: {#r-4-3 .callout-important .proposition-box}
+#### Proposition 4.3 — CDF of a Borel Measure
+
+Let $\mu$ be a finite Borel measure on $[0,1]$ and define $F: [0,1] \to [0, \mu([0,1])]$ by:
+$$F(x) := \mu([0,x])$$
+
+Then $F$ is **weakly increasing** and **right continuous**.
+
+::: {.callout-note .proof-box collapse="true"}
+#### Proof
+
+**Weakly increasing:** Monotonicity of measures implies $F$ is weakly increasing. For $x \leq y$:
+$$[0,x] \subseteq [0,y] \implies \mu([0,x]) \leq \mu([0,y]) \implies F(x) \leq F(y)$$
+
+**Right continuity:** Follows from continuity from above. For fixed $t$:
+$$\lim_{s \downarrow t} F(s) = \lim_{s \downarrow t} \mu([0,s]) = \mu([0,t]) = F(t)$$
+
+where the second equality uses continuity from above:
+$[0,s] \downarrow [0,t]$ as $s \downarrow t$, and $\mu([0,t]) < \infty$. $\square$
+:::
+:::
+
+In the case of the Lebesgue measure, we simply have $F(x) = x$. 
+
+It tells us that given a measure, we have an associated distribution function.
+
+::: {#r-4-4 .callout-important .proposition-box}
+#### Proposition 4.4 — Borel Measure from CDF
+
+Let $F$ be a nonneg­ative, weakly increasing and right continuous function on $[0,1]$ mapping into $[0, \infty)$. Then there exists a unique finite Borel measure $\mu$ on $[0,1]$ satisfying:
+$$F(x) := \mu([0,x])$$
+:::
+
+The proposition tells us that given a distribution function, we have an associated measure. 
+
+It turns out that if $F(x) = x$, we get the Lebesgue measure. The $F$ corresponding to a measure $\mu$ will be denoted by $F_\mu$ ([Proposition 4.3](lecture-04.qmd#r-4-3)) and the $\mu$ corresponding to a given $F$ as above will be denoted by $\mu_F$ ([Proposition 4.4](lecture-04.qmd#r-4-4))
+
+### The Cantor set, the Cantor ternary function and the Cantor measure
+
+The Cantor set is constructed by splitting the $[0,1]$ interval in three intervals, and removnig the middle third. The process is then repeated for the two intervals, each time removnig the middle third from each of the intervals from the previous set. $C_n$ then consists of $2^n$ disjoint closed intervals, each of length $1/3^n$. The Cantor set is defined to be $$ C\equiv \bigcap_n C_n$$
+
+::: {#fig-viz-cantorset-1}
+```{=html}
+<div id="viz-cantorset-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function CantorSet() {
+    const ACCENT = "#877B31";
+    const ACCENT_LIGHT = "#b5a54a";
+    const ACCENT_DIM = "rgba(135,123,49,0.38)";
+    const BG = "transparent";
+    const SURFACE = "rgba(128,128,128,0.13)";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    
+    const [levels, setLevels] = useState(1);
+    
+    function changeLevel(delta) {
+      const next = Math.min(7, Math.max(0, levels + delta));
+      setLevels(next);
+    }
+    
+    function cantorSegments(level) {
+      if (level === 0) return [[0, 1]];
+      const prev = cantorSegments(level - 1);
+      const next = [];
+      for (let i = 0; i < prev.length; i++) {
+        const [a, b] = prev[i];
+        const third = (b - a) / 3;
+        next.push([a, a + third]);
+        next.push([b - third, b]);
+      }
+      return next;
+    }
+    
+    const W = 500;
+    const BAR_H = 10;
+    const PAD_X = 30;
+    const PAD_Y = 16;
+    const ROW_H = 28;
+    const svgH = PAD_Y * 2 + ROW_H * (levels + 1);
+    const remaining = Math.pow(2/3, levels + 1);
+    const totalRemoved = 1 - remaining;
+    
+    function Row(props) {
+      const segs = cantorSegments(props.level);
+      const innerW = W - 2 * PAD_X;
+      const y = PAD_Y + props.level * ROW_H;
+      return React.createElement("g", null,
+        React.createElement("rect", { x: PAD_X, y: y, width: innerW, height: BAR_H, fill: SURFACE, rx: 1 }),
+        segs.map((seg, i) =>
+          React.createElement("rect", {
+            key: i,
+            x: PAD_X + seg[0] * innerW,
+            y: y,
+            width: (seg[1] - seg[0]) * innerW,
+            height: BAR_H,
+            fill: props.level === levels ? ACCENT : ACCENT_DIM,
+            rx: 1
+          })
+        ),
+        React.createElement("text", {
+          x: PAD_X - 6, y: y + BAR_H / 2 + 4,
+          textAnchor: "end", fontSize: 10, fill: MUTED, fontFamily: "monospace"
+        }, "n=" + props.level)
+      );
+    }
+    
+    const btnStyle = { background: SURFACE, border: "1px solid " + BORDER, color: ACCENT, padding: "4px 14px", borderRadius: 4, cursor: "pointer", fontSize: 15, fontFamily: "monospace" };
+    
+    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 18, fontSize: 13 } },
+        React.createElement("span", { style: { color: MUTED } }, "levels ="),
+        React.createElement("span", { style: { color: TEXT, minWidth: 20 } }, levels),
+        React.createElement("button", { onClick: () => changeLevel(-1), style: btnStyle }, "-"),
+        React.createElement("button", { onClick: () => changeLevel(+1), style: btnStyle }, "+")
+      ),
+      React.createElement("div", { style: { marginBottom: 16 } },
+        React.createElement("div", { style: { fontSize: 11, color: MUTED, marginBottom: 4 } }, "construction levels 0 to " + levels),
+        React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + svgH, style: { background: "transparent" } },
+          Array.from({ length: levels + 1 }, (_, i) => React.createElement(Row, { key: i, level: i }))
+        )
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 24, fontSize: 12, borderTop: "1px solid " + BORDER, paddingTop: 12 } },
+        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "segments: "), React.createElement("span", { style: { color: TEXT } }, Math.pow(2, levels))),
+        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "measure remaining: "), React.createElement("span", { style: { color: ACCENT_LIGHT } }, "(2/3)^" + (levels+1) + " = " + remaining.toFixed(4))),
+        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "measure removed: "), React.createElement("span", { style: { color: TEXT } }, totalRemoved.toFixed(4)))
+      )
+    );
+  }
+  var el = document.getElementById('viz-cantorset-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(CantorSet));
+})();
+</script>
+```
+
+Interactive: the first steps of the Cantor set construction.
+:::
+
+::: {#r-4-5 .callout-important .proposition-box}
+#### Proposition 4.5 — Properties of the Cantor set
+
+The Cantor set is a nonempty compact set with Lebesgue measure of 0 and has no isolated points. It is also the set of points in $[0,1]$ whose ternary expansion only contains 0's and 2's.
+
+::: {.callout-note .proof-box collapse="true"}
+#### Proof
+
+1. Since it is closed, it must be nonempty compact set by elementary topology.
+2. Since $C_n$ consists of $2^n$ disjoint closed intervals of length $1/3^n$, the $C_n$ has Lebesgue measure $(2/3)^n$ and thus $C$ has Lebesgue measure 0.
+
+We now want to define the Cantor ternary function, or Devil's staircase. The idea is to create a function with $f(0) = 0, f(1) = 1, f' = 0$ that is increasing (and also demand it to be continuous!!). The Cantor ternary function $F_c$ is defined as the limit of the sequence of function $(f_n)$ with $f_0(x) = x$ and $f_1$ constant $1/2$ on middle interval and otherwise linear, $f_2$ will be constant $1/4$ on $(1/9, 2/9)$ and constant 1/2 on $(1/2, 2/3)$ and constant $3/4$ on $(7/9, 8/9)$, and otherwise linear. $\square$
+:::
+:::
+
+Any closed set in R without isolated points is uncountable, and thus the Cantor set is uncountable by [Proposition 4.5](lecture-04.qmd#r-4-5).
+
+::: {#fig-viz-devilsstaircase-1}
+```{=html}
+<div id="viz-devilsstaircase-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function DevilsStaircase() {
+    const ACCENT = "#877B31";
+    const ACCENT_LIGHT = "#b5a54a";
+    const BG = "transparent";
+    const SURFACE = "rgba(128,128,128,0.13)";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    
+    const [levels, setLevels] = useState(1);
+    
+    function changeLevel(delta) {
+      const next = Math.min(8, Math.max(0, levels + delta));
+      setLevels(next);
+    }
+    
+    function cantorValue(x, n) {
+      if (n === 0) return x;
+      if (x < 1/3) return cantorValue(3 * x, n - 1) / 2;
+      if (x > 2/3) return 0.5 + cantorValue(3 * x - 2, n - 1) / 2;
+      return 0.5;
+    }
+    
+    const W = 500, H = 220, PAD = 36;
+    const innerW = W - 2 * PAD;
+    const innerH = H - 2 * PAD;
+    
+    const N = 800;
+    const points = Array.from({ length: N + 1 }, (_, i) => {
+      const x = i / N;
+      return { x, y: cantorValue(x, levels) };
+    });
+    
+    const xScale = x => PAD + x * innerW;
+    const yScale = y => H - PAD - y * innerH;
+    
+    const d = points.map((p, i) =>
+      (i === 0 ? "M" : "L") + " " + xScale(p.x).toFixed(1) + " " + yScale(p.y).toFixed(1)
+    ).join(" ");
+    
+    const gridVals = [0, 0.25, 0.5, 0.75, 1];
+    
+    const btnStyle = {
+      background: SURFACE,
+      border: "1px solid " + BORDER,
+      color: ACCENT,
+      padding: "4px 14px",
+      borderRadius: 4,
+      cursor: "pointer",
+      fontSize: 15,
+      fontFamily: "monospace"
+    };
+    
+    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
+      React.createElement("div", { style: { fontSize: 12, color: ACCENT, marginBottom: 14, letterSpacing: 1 } },
+        "DEVIL'S STAIRCASE — CANTOR FUNCTION"
+      ),
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 16, fontSize: 13 } },
+        React.createElement("span", { style: { color: MUTED } }, "n ="),
+        React.createElement("span", { style: { color: TEXT, minWidth: 16 } }, levels),
+        React.createElement("button", { onClick: () => changeLevel(-1), style: btnStyle }, "-"),
+        React.createElement("button", { onClick: () => changeLevel(+1), style: btnStyle }, "+")
+      ),
+      React.createElement("div", { style: { marginBottom: 14 } },
+        React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { background: "transparent" } },
+          gridVals.map(v =>
+            React.createElement("line", {
+              key: "h" + v,
+              x1: PAD, x2: W - PAD,
+              y1: yScale(v), y2: yScale(v),
+              stroke: BORDER,
+              strokeDasharray: v === 0 || v === 1 ? "none" : "3 3"
+            })
+          ),
+          gridVals.map(v =>
+            React.createElement("line", {
+              key: "vl" + v,
+              x1: xScale(v), x2: xScale(v),
+              y1: PAD, y2: H - PAD,
+              stroke: BORDER,
+              strokeDasharray: v === 0 || v === 1 ? "none" : "3 3"
+            })
+          ),
+          React.createElement("line", {
+            x1: xScale(0), y1: yScale(0),
+            x2: xScale(1), y2: yScale(1),
+            stroke: BORDER, strokeWidth: 0.5
+          }),
+          gridVals.map(v =>
+            React.createElement("text", {
+              key: "xl" + v,
+              x: xScale(v), y: H - PAD + 14,
+              textAnchor: "middle", fontSize: 9, fill: MUTED, fontFamily: "monospace"
+            }, v)
+          ),
+          gridVals.map(v =>
+            React.createElement("text", {
+              key: "yl" + v,
+              x: PAD - 6, y: yScale(v) + 3,
+              textAnchor: "end", fontSize: 9, fill: MUTED, fontFamily: "monospace"
+            }, v)
+          ),
+          React.createElement("path", { d: d, stroke: ACCENT, strokeWidth: 1.5, fill: "none" })
+        )
+      ),
+      React.createElement("div", { style: { fontSize: 11, color: MUTED, lineHeight: 1.6 } },
+        "At n=" + levels + " the function has " + Math.pow(2, levels) + " rising segments and " +
+        (Math.pow(2, levels) - 1) + " flat (constant) segments. " +
+        "As n -> inf the derivative is zero a.e. yet the function climbs from 0 to 1."
+      )
+    );
+  }
+  var el = document.getElementById('viz-devilsstaircase-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(DevilsStaircase));
+})();
+</script>
+```
+
+Interactive: the approximations to the Cantor function (devil’s staircase).
+:::
+
+::: {#r-4-6 .callout-important .theorem-box}
+#### Theorem 4.6 — Cantor Ternary Function
+
+The sequence $(f_n)$ converges uniformly to a (necessarily continuous) limit function $F_C$, which we call the **Cantor ternary function**.
+:::
+
+::: {#r-4-7 .callout-important .corollary-box}
+#### Corollary 4.7 — Properties of the Cantor Ternary Function
+
+**(a)** $F_C$ is a weakly increasing function on $[0,1]$ with $F_C(0) = 0$ and $F_C(1) = 1$
+**(b)** $F_C$ is continuous.
+**(c)** $F_C' = 0$ (Lebesgue)-a.e. on $[0,1]$.
+
+::: {.callout-note .proof-box collapse="true"}
+#### Proof
+
+Since each $f_n$ is 0 at 0 and 1 and weakly increasing, the same is true for the limit $F_C$. It is continuous by [Theorem 4.6](lecture-04.qmd#r-4-6). Take $x\notin C$, then there is an $n$ such that $x \notin C_n$ since $C = \bigcap_n C_n$, in which case $f_n$ is constant in an interval around $x$ (since it corresponds to a point that was removed in the construction of the Cantor set, and those intervals where assigned to be constant). Since $f_n$ is constant on that interval, it follows that $f_m$ is also constant on that interval for all $m\geq n$, and this is it certainly true for $F_c$ and hence $F_C'(x) = 0$. Since $x \notin C$ implies $F'_c(x) = 0$ we have that $m\{x\in[0,1]:F'_c(x) \neq 0\}=m(C) = 0$ since $C$ has Lebesgue measure 0, but this is just the definition of the property  $F'_c(x) = 0$ being true Lebesgue-a.e., thus (c) follows. 
+
+We may now define the Cantor Ternary measure denoted by $\mu_C$ as follows $$\mu_C([0,x])\equiv F_c(x)$$using [Proposition 4.4](lecture-04.qmd#r-4-4) since $F_C$ is continuous, weakly increasing and non-negative. $\square$
+:::
+:::
+
+::: {#r-4-8 .callout-important .theorem-box}
+#### Theorem 4.8 — Properties of the Cantor ternary measure
+
+$\mu_C$ is a continuous measure and where $\mu_C(C) = 1, \mu_C(C^c) = 0$.
+:::
+
+To gain intuition for this result, note that $$\mu_C(C^c) = \mu_C([0,1] \setminus C) = \mu_C(\bigcup_{\mathrm{removed \ intervals}}) = \sum_{\mathrm{removed \ intervals}} \mu_C(I_k) = 0$$where we used the fact that the intervals we removed are disjoint, and specifically, $F_c$ is constant at each removed interval. Hence $\mu(C) = 1$. 
+
+The fact that it is continuous follows from the fact that $F_c$ is continuous (both left- and right continuous). And since it is also left-continuous, this implies that there are no atoms and thus the measure space is complete.
+
+### The Borel-Cantelli lemma
+
+This lemma is useful, especially in probability theory.
+
+::: {#r-4-9 .callout-note .definition-box}
+#### Definition 4.9 — $\limsup$ and $\liminf$ of Sets
+
+If $E_1, E_2, \ldots$ is a sequence of measurable sets in a measure space, we let:
+
+$$\limsup E_i := \bigcap_{n=1}^\infty \left(\bigcup_{k=n}^\infty E_k\right)$$
+
+also written $(E_n \text{ i.o.})$ — **infinitely often** — since $x \in \limsup E_i$ if and only if $x$ is contained in infinitely many $E_n$'s.
+:::
+
+::: {.column-margin}
+Note that definitionally, the limsup is also a measurable set since it is constructed from countable set operations.
+:::
+
+Let $T_n \equiv \bigcup_{k=n}^\infty E_k$, then if $x\in \lim \sup E_i$, it must follow that $x\in T_n$ for all $n$. This in turn implies that $x$ appears in some $E_k$ with $k\geq 1$. some $E_k$ with $k\geq 2$ etc... In other words, $x$ could be in every odd one, or it could be in $1_1, E_{10}, E_{100}$ etc..., that is still infinitely often. It is thus all the points $x$ that appear in infinitely many of the $E_n$'s. 
+
+::: {#r-4-10 .callout-important .lemma-box}
+#### Lemma 4.10 — First Borel–Cantelli Lemma
+
+Let $E_1, E_2, \ldots$ be a sequence of measurable sets in the measure space $(X, \mathcal{M}, m)$. If:
+$$\sum_i m(E_i) < \infty$$
+then $m(\limsup E_i) = 0$.
+
+::: {.callout-note .proof-box collapse="true"}
+#### Proof
+
+For each $n$, by subadditivity:
+$$m(\limsup E_i) \leq m\!\left(\bigcup_{k=n}^\infty E_k\right) \leq \sum_{k=n}^\infty m(E_k)$$
+The first inequality follows from monotonicity using the fact that $\limsup E_i \subseteq \bigcup_{k\geq n} E_k$ for some fixed $n$ as it lies in the intersection. 
+Since $\sum_i m(E_i) < \infty$, the tail $\sum_{k=n}^\infty m(E_k) \to 0$ as $n \to \infty$. Hence $m(\limsup E_i) = 0$. $\square$
+:::
+:::
+
+From probabilistic view, it says that sum of probabilities of events is finite, the probability that infinitely many of them occur is zero (for any sequence of events). There is also a second Borel–Cantelli lemma ([Lemma 9.9](lecture-09.qmd#r-9-9)): if the events are independent and the sum of their probabilities is infinite, then the probability that infinitely many of them occur is 1. A consequence of the second Borel-Cantelli lemma is the infinite monkey theorem, discussed in [Lecture 9](lecture-09.qmd).

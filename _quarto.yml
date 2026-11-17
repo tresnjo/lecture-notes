@@ -1,0 +1,86 @@
+project:
+  type: book
+  output-dir: _book
+  resources:
+    - images/
+
+book:
+  title: "Integration Theory"
+  subtitle: "Lecture Notes"
+  author: ""           # ← add your name here
+  date: last-modified
+  date-format: "MMMM D, YYYY"
+  search: true
+
+  navbar:
+    background: "#1e1b4b"
+    foreground: white
+
+  sidebar:
+    style: "docked"
+    search: true
+
+  chapters:
+    - index.qmd
+    - part: "Measure Theory"
+      chapters:
+        - lecture-01.qmd
+        - lecture-02.qmd
+        - lecture-03.qmd
+        - lecture-04.qmd
+    - part: "Integration"
+      chapters:
+        - lecture-05.qmd
+        - lecture-06.qmd
+        - lecture-07.qmd
+        - lecture-08.qmd
+        - lecture-09.qmd
+    - part: "Signed Measures and Differentiation"
+      chapters:
+        - lecture-10.qmd
+        - lecture-11.qmd
+        - lecture-12.qmd
+        - lecture-13.qmd
+        - lecture-14.qmd
+        - lecture-15.qmd
+    - book-index.qmd
+
+language:
+  title-block-published: "Last edited"
+
+format:
+  html:
+    theme:
+      light: [flatly, custom.scss]
+      dark:  [darkly, custom.scss]
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 1
+    smooth-scroll: true
+    html-math-method: mathjax
+    include-in-header: react-header.html
+    callout-icon: false
+    reference-location: margin
+    citation-location: margin
+    grid:
+      sidebar-width: 260px
+      body-width: 780px
+      margin-width: 310px
+      gutter-width: 1.8rem
+
+  pdf:
+    documentclass: scrbook
+    papersize: a4
+    fontsize: 11pt
+    mainfont: "TeX Gyre Pagella"
+    mathfont: "TeX Gyre Pagella Math"
+    colorlinks: true
+    geometry:
+      - top=25mm
+      - bottom=25mm
+      - inner=28mm
+      - outer=22mm
+
+execute:
+  freeze: auto

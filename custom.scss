@@ -1,0 +1,125 @@
+/*-- scss:defaults --*/
+$pal: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", "P052", serif;
+$font-family-sans-serif: $pal;
+$font-family-base: $pal;
+$headings-font-family: $pal;
+$navbar-font-family: $pal;
+$toc-font-family: $pal;
+$sidebar-font-family: $pal;
+
+/*-- scss:rules --*/
+/* Integration Theory: typography and result boxes */
+
+body { font-family: $pal; font-size: 17px; line-height: 1.75; }
+h1, h2, h3, h4, h5, h6, .callout-title-container, .sidebar, #TOC, .navbar { font-family: $pal; font-weight: 600; }
+
+.math.display { overflow-x: auto; overflow-y: hidden; padding: 0.4em 0; }
+
+/* ---- result boxes: tinted fill, outline, thick coloured edge, soft shadow ---- */
+.callout.theorem-box, .callout.proposition-box, .callout.lemma-box, .callout.corollary-box,
+.callout.definition-box, .callout.remark-box, .callout.example-box, .callout.proof-box {
+  --box: #8b6be0;
+  margin: 1.8rem 0;
+  border: 1px solid color-mix(in srgb, var(--box) 55%, transparent) !important;
+  border-left: 7px solid var(--box) !important;
+  border-radius: 0.55rem;
+  background: color-mix(in srgb, var(--box) 9%, transparent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.callout.definition-box { --box: #3b8fd9; }
+.callout.remark-box     { --box: #1fa38f; }
+.callout.example-box    { --box: #e08a2e; }
+.callout.proof-box      { --box: #8a9099; }
+
+/* header band + title: bold, sentence case */
+.callout.theorem-box > .callout-header, .callout.proposition-box > .callout-header,
+.callout.lemma-box > .callout-header, .callout.corollary-box > .callout-header,
+.callout.definition-box > .callout-header, .callout.remark-box > .callout-header,
+.callout.example-box > .callout-header, .callout.proof-box > .callout-header {
+  background: color-mix(in srgb, var(--box) 22%, transparent) !important;
+  padding: 0.55rem 1rem;
+}
+.callout-title-container, .callout-header .callout-title-container {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-family: $pal;
+  font-size: 1.02em;
+  font-weight: 700;
+}
+.callout .callout-body-container { padding: 0.5rem 1rem 0.8rem; }
+.callout .callout-icon-container { display: none !important; }
+
+
+/* ---- dark theme: brighter edges, darker tinted fills, light titles ---- */
+$is-dark: lightness($body-bg) < 50%;
+$boxes: ".callout.theorem-box, .callout.proposition-box, .callout.lemma-box, .callout.corollary-box, .callout.definition-box, .callout.remark-box, .callout.example-box, .callout.proof-box";
+@if $is-dark {
+  #{$boxes} {
+    --box: #a992f0;
+    background: color-mix(in srgb, var(--box) 11%, #{$body-bg}) !important;
+    border-color: color-mix(in srgb, var(--box) 45%, #{$body-bg}) !important;
+    border-left-color: var(--box) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+    color: $body-color;
+  }
+  .callout.definition-box { --box: #6fa8e6; }
+  .callout.remark-box     { --box: #45cdb6; }
+  .callout.example-box    { --box: #f0a35a; }
+  .callout.proof-box      { --box: #a7adb5; }
+  #{$boxes} { > .callout-header { background: color-mix(in srgb, var(--box) 24%, #{$body-bg}) !important; } }
+  #{$boxes} { .callout-title-container { color: color-mix(in srgb, var(--box) 28%, #ffffff) !important; } }
+  #{$boxes} { .callout-body-container, .callout-body-container p { color: $body-color; } }
+} @else {
+  #{$boxes} { .callout-title-container { color: color-mix(in srgb, var(--box) 62%, #1a1a1a) !important; } }
+}
+
+/* smooth switch between light and dark */
+body, .callout, .callout-header, .callout-title-container, .callout-body-container,
+.sidebar, .navbar, #TOC, .column-margin, figure, figcaption {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* figure captions */
+figcaption, .figure-caption { font-size: 0.92em; text-align: center; }
+
+/* margin notes */
+.column-margin, .margin-caption, aside.footnotes { font-size: 0.82rem; line-height: 1.5; opacity: 0.88; }
+
+/* side topics: clearly separate from the numbered results, no box */
+.side-topic {
+  margin: 2.4rem 0;
+  padding: 0.3rem 0 0.2rem 1.3rem;
+  border-left: 3px dotted rgba(138, 144, 153, 0.8);
+  font-size: 0.97em;
+}
+.side-topic > p:first-child { font-style: italic; margin-bottom: 0.9rem; }
+
+.themed-figure { text-align: center; }
+.themed-figure img { width: 85%; max-width: 760px; height: auto; }
+
+/* wide display equations: scroll sideways inside the text column, never spill into the margin */
+mjx-container[display="true"], mjx-container[jax="CHTML"][display="true"], .math.display {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+main.content, #quarto-document-content, .callout, .callout-body-container, .side-topic { min-width: 0; }
+.callout-body-container { overflow-x: auto; }
+
+/* proof boxes: quieter than the results they belong to */
+.callout.proof-box { box-shadow: none !important; margin: 1rem 0 0.3rem; border-left-width: 4px !important; }
+.callout .callout.proof-box { margin-bottom: 0.1rem; }
+.callout.proof-box > .callout-header { padding: 0.35rem 1rem; }
+.callout.proof-box .callout-title-container { font-weight: 600; font-style: italic; }
+
+/* index page: compact two-column list under letter headings */
+.book-index ul { columns: 2 18rem; column-gap: 2.5rem; padding-left: 1.1rem; margin-bottom: 0.4rem; }
+.book-index li { break-inside: avoid; margin-bottom: 0.15rem; line-height: 1.45; }
+.book-index h2 { margin-top: 1.4rem; border-bottom: 1px solid rgba(138, 144, 153, 0.35); padding-bottom: 0.2rem; }
+
+/* front page figure */
+.front-figure { margin: 0.5rem 0 0.2rem; }
+.front-caption { text-align: center; font-size: 0.92em; font-style: italic; opacity: 0.85; margin-bottom: 1.6rem; }

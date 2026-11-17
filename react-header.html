@@ -1,0 +1,12 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<style>
+/* Visualizations: no box, blend into the page; only controls + figure stay visible */
+.viz { margin: 1.6em 0; max-width: 100%; }
+.viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
+.viz div[style*="letter-spacing: 1px"],   /* title */
+.viz div[style*="font-size: 11px"],       /* captions, legends */
+.viz div[style*="border-top"],            /* stat footers */
+.viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
+.viz button { cursor: pointer; }
+</style>
