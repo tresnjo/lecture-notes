@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-f3b67eef3f725a478cdacd06c2a42701.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-cce23ccc3b588374aff840e2efc8abf8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6a4239ded7c831dc9986d58e00f1eac2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -180,7 +180,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar docked nav-fixed slimcontent quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -542,7 +542,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content" tabindex="-1">
+<main class="content page-columns page-full" id="quarto-document-content" tabindex="-1">
 
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-01.html">Measure Theory</a></li><li class="breadcrumb-item"><a href="./lecture-03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Proof of Carathéodory and Uniqueness of Lebesgue Measure</span></a></li></ol></nav>
@@ -644,7 +644,7 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
 <p>There are Lebesgue measurable sets that are not Borel sets. We will prove this later.</p>
 <p><em>One way to characterize the Lebesgue measure is to first define it on Borel sets, that is, all sets obtained by countably unions, complements, and intersections, from the open intervals, s.t. it assigns usual length to open intervals. The Lebesgue measure can then be obtained by completing the Borel measure by assigning zero measure to all subsets of Borel sets that already have zero measure. From this perspective, we understand that the Borel sigma algebra is a proper subsets of the Lebesgue sigma algebra (see the earlier lecture). The construction we just derived based on Caratheodory, i.e.&nbsp;<span class="math inline">\((\mathbb R, \mathcal M, \mu^\star \vert_{\mathcal M})\)</span> is a complete measure space, whereas <span class="math inline">\((\mathbb R, \mathcal B, \mu^\star \vert_{\mathcal B})\)</span> is not (both measures are identical except they are restricted to different domains). For example, the Cantor set has the same cardinality as the reals, and its powerset (collection of all subsets) has greater cardinality of the reals, which exceed the number of Borel sets. Thus, there are more subsets than <span class="math inline">\(\mathcal B\)</span> can contain, and thus fails completeness. We will also see in <a href="#r-3-2">Theorem 3.2</a> that it is not possible to extend the Lebesgue measure to all <span class="math inline">\(\mathcal P(\mathbb R)\)</span> while retaining translation invariance and countable additivity; the obstruction is the <a href="#nonmeasurable-sets">Vitali set</a>, a set that cannot be assigned any length.</em></p>
 </section>
-<section id="the-uniqueness-of-the-lebesgue-measure-on-mathcal-b." class="level2">
+<section id="the-uniqueness-of-the-lebesgue-measure-on-mathcal-b." class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="the-uniqueness-of-the-lebesgue-measure-on-mathcal-b.">The uniqueness of the Lebesgue measure on <span class="math inline">\(\mathcal B\)</span>.</h2>
 <p>The uniqueness is shown using Dynkin’s <span class="math inline">\(\pi-\lambda\)</span> theorem.</p>
 <div id="r-3-1" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
@@ -695,10 +695,10 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
 </div>
 </div>
 <p>Applying this to <span class="math inline">\(X = [0, 1]\)</span> and <span class="math inline">\(I\)</span> being the set of open intervals implies that there is only one measure on <span class="math inline">\(([0, 1], B[0,1])\)</span> which agrees with “length” on intervals. Note that the set of open intervals is a <span class="math inline">\(\pi\)</span>-system, as finite intersections of open intervals remain open. Thus, the Lebesgue measure is the unique measure that assigns length to intervals.</p>
-<section id="nonmeasurable-sets" class="level3">
+<section id="nonmeasurable-sets" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="nonmeasurable-sets">Nonmeasurable sets</h3>
-<p>It is natural to ask if <span class="math inline">\(\mathcal M\)</span> (the set of all <span class="math inline">\(\mu^\star\)</span>-measurable sets) contains all sets, that is, whether all sets are Lebesgue measurable. It will turn out that <span class="math inline">\(\mathcal M\)</span> can not be everything (assuming the axiom of choice), in particular, it will fail countable additivity under disjoint sets.</p>
-<div id="r-3-2" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
+<p>It is natural to ask if <span class="math inline">\(\mathcal M\)</span> (the set of all <span class="math inline">\(\mu^\star\)</span>-measurable sets) contains all sets, that is, whether all sets are Lebesgue measurable. It will turn out that <span class="math inline">\(\mathcal M\)</span> can not be everything (assuming the axiom of choice)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, in particular, it will fail countable additivity under disjoint sets.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Early set theory let any property <span class="math inline">\(P\)</span> define a set <span class="math inline">\(\{x : P(x)\}\)</span>. <em>Russell’s paradox</em> shows that this is inconsistent: the set <span class="math inline">\(R = \{x : x \notin x\}\)</span> satisfies <span class="math inline">\(R \in R\)</span> if and only if <span class="math inline">\(R \notin R\)</span>. This led to the <em>Zermelo–Fraenkel axioms</em> (ZF), which only allow new sets to be built from existing ones in controlled ways. The <em>axiom of choice</em> (AC) adds that from any collection of nonempty sets one can pick one element from each set simultaneously, even when there are infinitely many sets and no rule for making the choices. AC is independent of ZF: it can be neither proved nor disproved from the other axioms (Gödel 1938, Cohen 1963). ZF together with AC is called <em>ZFC</em> and is the standard foundation of mathematics. AC is still debated, since it asserts that objects exist without saying how to construct them. The nonmeasurable Vitali set below is one such object, and without AC it is consistent that every subset of <span class="math inline">\(\mathbb R\)</span> is Lebesgue measurable (Solovay 1970).</p></div></div><div id="r-3-2" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -731,6 +731,7 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
 
 </section>
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
