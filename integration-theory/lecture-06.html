@@ -538,6 +538,7 @@ window.Quarto = {
   <ul>
   <li><a href="#the-lebesgue-integral-and-convergence-theorems" id="toc-the-lebesgue-integral-and-convergence-theorems" class="nav-link active" data-scroll-target="#the-lebesgue-integral-and-convergence-theorems">The Lebesgue integral and convergence theorems</a></li>
   <li><a href="#convergence-theorems" id="toc-convergence-theorems" class="nav-link" data-scroll-target="#convergence-theorems">Convergence theorems</a></li>
+  <li><a href="#beyond-nonnegative-increasing-sequences" id="toc-beyond-nonnegative-increasing-sequences" class="nav-link" data-scroll-target="#beyond-nonnegative-increasing-sequences">Beyond nonnegative increasing sequences</a></li>
   </ul>
 </nav>
     </div>
@@ -574,120 +575,75 @@ window.Quarto = {
 (function() {
   if (typeof React === 'undefined') return;
   const { useState, useEffect, useRef } = React;
-  function Exercise45() {
-    const ACCENT = "#877B31";
-    const ACCENT_LIGHT = "#b5a54a";
-    const ACCENT_DIM = "rgba(135,123,49,0.38)";
-    const BG = "transparent";
-    const SURFACE = "rgba(128,128,128,0.13)";
+  function SimpleApprox() {
+    const ACCENT = "#b08a1e";
     const BORDER = "rgba(128,128,128,0.35)";
     const TEXT = "var(--bs-body-color, #222)";
     const MUTED = "var(--bs-secondary-color, #777)";
     
-    const [n, setN] = useState(1);
-    const [fi, setFi] = useState(0);
-    
-    function changeN(delta) {
-      setN(Math.min(6, Math.max(1, n + delta)));
-    }
-    
-    const FUNCS = [
-      { name: "6x^2", f: (x) => 6 * x * x },
-      { name: "3 + 3 sin(6 pi x)", f: (x) => 3 + 3 * Math.sin(6 * Math.PI * x) },
-      { name: "1/sqrt(x)", f: (x) => (x <= 0 ? Infinity : 1 / Math.sqrt(x)) },
+    const FS = [
+      { label: ["6", React.createElement("i", { key: "x" }, "x"), "²"], f: (x) => 6 * x * x },
+      { label: ["3 + 3 sin 6π", React.createElement("i", { key: "x" }, "x")], f: (x) => 3 + 3 * Math.sin(6 * Math.PI * x) },
+      { label: ["1/√", React.createElement("i", { key: "x" }, "x")], f: (x) => (x <= 0 ? Infinity : 1 / Math.sqrt(x)) },
     ];
+    const [k, setK] = useState(0);
+    const [n, setN] = useState(1);
+    const F = FS[k].f, d = Math.pow(2, n), cap = d;
+    const phi = (x) => { const v = F(x); return v >= cap ? cap : Math.floor(v * d) / d; };
     
-    const W = 500;
-    const H = 260;
-    const PAD_L = 34;
-    const PAD_R = 12;
-    const PAD_T = 12;
-    const PAD_B = 26;
-    const YMAX = 8;
-    const SAMPLES = 800;
+    const W = 640, H = 300, L = 34, R = 628, T = 14, B = 266, YM = 7;
+    const sx = (x) => L + x * (R - L);
+    const sy = (y) => B - Math.min(y, YM + 0.4) / YM * (B - T);
+    const N = 900, xs = Array.from({ length: N + 1 }, (_, i) => i / N);
+    const fPath = xs.filter((x) => isFinite(F(x))).map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(F(x)).toFixed(1)).join(" ");
+    let pPath = "", prev = null, err = 0;
+    xs.forEach((x, i) => {
+      const v = phi(x), X = sx(x).toFixed(1), Y = sy(v).toFixed(1);
+      if (i === 0) pPath = "M" + X + " " + Y; else { if (v !== prev) pPath += " L" + X + " " + sy(prev).toFixed(1); pPath += " L" + X + " " + Y; }
+      prev = v;
+      const fv = F(x); if (fv < cap) err = Math.max(err, fv - v);
+    });
+    const area = pPath + " L" + sx(1) + " " + B + " L" + sx(0) + " " + B + " Z";
+    const levels = []; if (n <= 3) for (let j = 0; j * (1 / d) <= YM && j <= 64; j++) levels.push(j / d);
     
-    const pw = W - PAD_L - PAD_R;
-    const ph = H - PAD_T - PAD_B;
-    const d = Math.pow(2, n);
-    const cap = d;
-    const f = FUNCS[fi].f;
+    const el = React.createElement;
+    const btn = (on) => ({ fontFamily: "inherit", fontSize: 15, padding: "2px 12px", borderRadius: 4, cursor: "pointer", background: "transparent",
+      border: "1px solid " + (on ? ACCENT : BORDER), color: on ? ACCENT : TEXT, fontWeight: on ? 700 : 400 });
     
-    function X(x) { return PAD_L + x * pw; }
-    function Y(y) { return PAD_T + ph - (Math.min(y, YMAX) / YMAX) * ph; }
-    function phi(x) {
-      const v = f(x);
-      return v >= cap ? cap : Math.floor(v * d) / d;
-    }
-    
-    let pathF = "";
-    let pathPhi = "";
-    let area = "M" + X(0) + "," + Y(0);
-    let err = 0;
-    for (let i = 0; i <= SAMPLES; i++) {
-      const x = Math.max(i / SAMPLES, 1e-6);
-      const fv = f(x);
-      const pv = phi(x);
-      pathF += (i ? "L" : "M") + X(x).toFixed(1) + "," + Y(fv).toFixed(1);
-      pathPhi += (i ? "L" : "M") + X(x).toFixed(1) + "," + Y(pv).toFixed(1);
-      area += "L" + X(x).toFixed(1) + "," + Y(pv).toFixed(1);
-      if (fv < cap) err = Math.max(err, fv - pv);
-    }
-    area += "L" + X(1) + "," + Y(0) + "Z";
-    
-    const gridLines = [];
-    if (d <= 16) {
-      for (let k = 0; k <= YMAX * d; k++) gridLines.push(k / d);
-    }
-    
-    const btnStyle = { background: SURFACE, border: "1px solid " + BORDER, color: ACCENT, padding: "4px 14px", borderRadius: 4, cursor: "pointer", fontSize: 15, fontFamily: "monospace" };
-    
-    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12, fontSize: 13, flexWrap: "wrap" } },
-        React.createElement("span", { style: { color: MUTED } }, "n ="),
-        React.createElement("span", { style: { color: TEXT, minWidth: 20 } }, n),
-        React.createElement("button", { onClick: () => changeN(-1), style: btnStyle }, "-"),
-        React.createElement("button", { onClick: () => changeN(+1), style: btnStyle }, "+")
-      ),
-      React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, fontSize: 12, flexWrap: "wrap" } },
-        React.createElement("span", { style: { color: MUTED } }, "f(x) ="),
-        FUNCS.map((fn, i) =>
-          React.createElement("button", {
-            key: i,
-            onClick: () => setFi(i),
-            style: { background: i === fi ? ACCENT_DIM : SURFACE, border: "1px solid " + (i === fi ? ACCENT : BORDER), color: i === fi ? ACCENT_LIGHT : MUTED, padding: "2px 10px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontFamily: "monospace" }
-          }, fn.name)
-        )
-      ),
-      React.createElement("div", { style: { marginBottom: 16 } },
-        React.createElement("div", { style: { fontSize: 11, color: MUTED, marginBottom: 4 } }, "phi_" + n + " (gold) rounding f (light) down to the grid 1/2^" + n),
-        React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { background: "transparent" } },
-          gridLines.map((y, i) =>
-            React.createElement("line", { key: "g" + i, x1: PAD_L, x2: W - PAD_R, y1: Y(y), y2: Y(y), stroke: BORDER, strokeWidth: 0.5 })
-          ),
-          [0, 2, 4, 6, 8].map((y) =>
-            React.createElement("text", { key: "y" + y, x: PAD_L - 6, y: Y(y) + 3, textAnchor: "end", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, y)
-          ),
-          [0, 0.25, 0.5, 0.75, 1].map((x) =>
-            React.createElement("text", { key: "x" + x, x: X(x), y: H - 8, textAnchor: "middle", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, x)
-          ),
-          React.createElement("line", { x1: PAD_L, x2: W - PAD_R, y1: Y(0), y2: Y(0), stroke: MUTED }),
-          React.createElement("line", { x1: PAD_L, x2: PAD_L, y1: PAD_T, y2: Y(0), stroke: MUTED }),
-          cap <= YMAX && React.createElement("line", { x1: PAD_L, x2: W - PAD_R, y1: Y(cap), y2: Y(cap), stroke: ACCENT, strokeWidth: 1, strokeDasharray: "4 4" }),
-          cap <= YMAX && React.createElement("text", { x: W - PAD_R - 4, y: Y(cap) - 4, textAnchor: "end", fontSize: 10, fill: ACCENT, fontFamily: "monospace" }, "cap 2^n = " + cap),
-          React.createElement("path", { d: area, fill: ACCENT, fillOpacity: 0.18 }),
-          React.createElement("path", { d: pathPhi, fill: "none", stroke: ACCENT, strokeWidth: 2 }),
-          React.createElement("path", { d: pathF, fill: "none", stroke: TEXT, strokeWidth: 1.2 })
-        )
-      ),
-      React.createElement("div", { style: { display: "flex", gap: 24, fontSize: 12, borderTop: "1px solid " + BORDER, paddingTop: 12, flexWrap: "wrap" } },
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "grid step: "), React.createElement("span", { style: { color: TEXT } }, "1/" + d + " = " + (1 / d).toFixed(4))),
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "cap: "), React.createElement("span", { style: { color: ACCENT_LIGHT } }, cap)),
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "max |f - phi| where f < 2^n: "), React.createElement("span", { style: { color: TEXT } }, err.toFixed(4)))
+    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+      el("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6, alignItems: "center" } },
+        el("i", { style: { marginRight: 4 } }, "f"), " ",
+        FS.map((g, i) => el("button", { key: i, onClick: () => setK(i), style: btn(i === k) }, g.label))),
+      el("div", { style: { display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center", fontSize: 15, marginBottom: 2 } },
+        el("label", { style: { display: "flex", alignItems: "center", gap: 8 } },
+          el("i", null, "n"),
+          el("input", { type: "range", min: 0, max: 5, step: 1, value: n, onChange: (e) => setN(+e.target.value), style: { width: 140, accentColor: ACCENT } }),
+          el("span", null, n)),
+        el("span", { style: { color: MUTED } }, "grid step 1/2", el("sup", null, n), " , cap 2", el("sup", null, n), " = " + cap),
+        el("span", { style: { color: ACCENT } }, "sup", el("sub", null, "{f < 2", el("sup", null, "n"), "}"), " (", el("i", null, "f"), " − ", el("i", null, "φ"), el("sub", null, "n"), ") = " + err.toFixed(3))),
+      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        // grid levels k/2^n as short ticks on the axis
+        levels.map((v, j) => el("line", { key: "lv" + j, x1: L - 4, y1: sy(v), x2: L, y2: sy(v), stroke: MUTED, strokeWidth: 1 })),
+        el("line", { x1: L, y1: B, x2: R, y2: B, stroke: MUTED, strokeWidth: 1 }),
+        el("line", { x1: L, y1: B, x2: L, y2: T, stroke: MUTED, strokeWidth: 1 }),
+        [0, 2, 4, 6].map((v) => el("text", { key: "y" + v, x: L - 9, y: sy(v) + 4, fill: MUTED, fontSize: 12, textAnchor: "end", fontFamily: "inherit" }, String(v))),
+        [0, 0.5, 1].map((v) => el("text", { key: "x" + v, x: sx(v), y: B + 18, fill: MUTED, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }, String(v))),
+        cap <= YM ? el("g", null,
+          el("line", { x1: L, y1: sy(cap), x2: R, y2: sy(cap), stroke: MUTED, strokeWidth: 1, strokeDasharray: "4 4" }),
+          el("text", { x: R - 4, y: sy(cap) - 6, fill: MUTED, fontSize: 13, textAnchor: "end", fontStyle: "italic", fontFamily: "inherit" }, "2", el("tspan", { dy: -5, fontSize: 10 }, "n"))) : null,
+        el("path", { d: area, fill: ACCENT, opacity: 0.16, stroke: "none" }),
+        el("path", { d: pPath, fill: "none", stroke: ACCENT, strokeWidth: 2.2 }),
+        el("path", { d: fPath, fill: "none", stroke: TEXT, strokeWidth: 1.8 }),
+        el("line", { x1: L + 40, y1: T + 10, x2: L + 64, y2: T + 10, stroke: TEXT, strokeWidth: 1.8 }),
+        el("text", { x: L + 70, y: T + 15, fill: TEXT, fontSize: 15, fontStyle: "italic", fontFamily: "inherit" }, "f"),
+        el("line", { x1: L + 98, y1: T + 10, x2: L + 122, y2: T + 10, stroke: ACCENT, strokeWidth: 2.2 }),
+        el("text", { x: L + 128, y: T + 15, fill: ACCENT, fontSize: 15, fontStyle: "italic", fontFamily: "inherit" }, "φ", el("tspan", { dy: 4, fontSize: 11 }, "n"))
       )
     );
+    
   }
   var el = document.getElementById('viz-exercise45-1');
-  if (el) ReactDOM.createRoot(el).render(React.createElement(Exercise45));
+  if (el) ReactDOM.createRoot(el).render(React.createElement(SimpleApprox));
 })();
 </script>
 </div>
@@ -736,24 +692,6 @@ Figure&nbsp;6.1: Interactive: approximating <span class="math inline">\(f\)</spa
 </div>
 <div class="callout-body-container callout-body">
 <p>Let <span class="math inline">\(\phi, \psi\)</span> be simple nonnegative functions, then the following holds. (a) <span class="math inline">\(\int c\phi(x) dm(x) = c\int \phi(x) dm(x)\)</span> <span class="math inline">\(\forall c \geq 0\)</span>. (b) <span class="math inline">\(\int (\phi(x) + \psi(x)) dm(x) = \int \phi(x) dm(x) + \int \psi(x) dm(x)\)</span>. (c)<span class="math inline">\(\phi \leq \psi\)</span> implies that <span class="math inline">\(\int \phi(x) dm(x) \leq \int \psi(x) dm(x)\)</span> (d) The mapping from <span class="math inline">\(\mathcal M\)</span> to <span class="math inline">\([0,\infty]\)</span> given by <span class="math inline">\(A\rightarrow \int_A \phi(x) dm(x)\)</span> is a measure on <span class="math inline">\(\mathcal M\)</span>.</p>
-<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li>through (c) are straightforward by applying the definition. We prove (d). <span class="math inline">\(\square\)</span></li>
-</ol>
-</div>
-</div>
-</div>
 </div>
 </div>
 <p>Note that <span class="math display">\[\int (\phi(x) - \psi(x) ) dm(x) = \int \phi(x) dm(x) - \int \psi(x) dm(x)\]</span>iff at least one of the integrals on the RHS is defined. This is different from property (b) in <a href="./lecture-06.html#r-6-3">Proposition 6.3</a> since in this case, we are integrating nonnegative functions which may lead to a <span class="math inline">\(\infty - \infty\)</span> situation which is not necessarily defined (whereas <span class="math inline">\(\infty + \infty\)</span> is).</p>
@@ -935,7 +873,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <div class="callout-body-container callout-body">
 <p>Given a measure space, let <span class="math inline">\((f_n)\)</span> be a sequence of functions in <span class="math inline">\(L^+((X, \mathcal M, m))\)</span> satisfying <span class="math display">\[0 \leq f_1 \leq f_2 \leq ...\]</span> for every x and define <span class="math inline">\(f\)</span> by <span class="math display">\[f(x) := \lim_{n\rightarrow \infty} f_n(x) = \sup_n f_n(x)\]</span> then <span class="math display">\[\int f dm = \lim_{n\rightarrow \infty} \int f_n dm\]</span></p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -944,7 +882,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>To prove the <span class="math inline">\(\geq\)</span> we first realize that <span class="math inline">\(\int f_n dm\)</span> is increasing and hence a limit. For the same reason <span class="math inline">\(\int f dm \geq \int f_n dm\)</span> for every <span class="math inline">\(n\)</span> we also have <span class="math inline">\(\int f_dm \geq \lim \int f_n dm\)</span>. To prove the reverse inequality, we first start by the definition of <span class="math inline">\(\int f dm\)</span> which is that for every simple function <span class="math inline">\(\phi \leq f\)</span> we have <span class="math display">\[\int \phi dm \leq \lim_{n\rightarrow \infty} \int f_n dm\]</span>. Now fix the simple function and let <span class="math inline">\(\alpha &lt; 1\)</span> and define <span class="math inline">\(E_n := \{x: f_n(x) \geq \alpha \phi(x)\}\)</span> and observe that <span class="math inline">\(E_1 \subseteq E_2...\)</span> from the fact that <span class="math inline">\(f_n(x)\)</span> is increasing, and <span class="math inline">\(X = \bigcup_n E_n\)</span>. For every <span class="math inline">\(n\)</span> we now have <span class="math display">\[\int f_n dm \geq \int f_n 1_{E_n} dm \geq \alpha \phi 1_{E_n} dm = \alpha \int_{E_n} \phi dm\]</span> and let <span class="math inline">\(n\rightarrow \infty\)</span> and use that for a fixed nonnegative simple function <span class="math inline">\(A\rightarrow \int_A \phi dm\)</span> is a measure, now we have an increasing sequence of sets for which we evaluate this measure whose union is <span class="math inline">\(X\)</span>, using continuity from below of meaures, we have that <span class="math inline">\(\lim_{n\rightarrow \infty} \int f_n dm \geq \alpha \int \phi dm\)</span> which holds for all <span class="math inline">\(\alpha &lt; 1\)</span>. <span class="math inline">\(\square\)</span></p>
 </div>
@@ -966,7 +904,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <div class="callout-body-container callout-body">
 <p>If <span class="math inline">\(f_1\)</span> and <span class="math inline">\(f_2\)</span> in <span class="math inline">\(L^+((X, \mathcal M, m))\)</span> then <span class="math display">\[\int (f_1+f_2)dm = \int f_1 dm + \int f_2 dm\]</span></p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -975,7 +913,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Choose <span class="math inline">\(\phi_n\)</span> and <span class="math inline">\(\psi_n\)</span> to be increasing simple functions to <span class="math inline">\(f_1\)</span> and <span class="math inline">\(f_2\)</span>, then <span class="math inline">\(\phi_n + \psi_n\)</span> is a sequence of simple functions increasing towards <span class="math inline">\(f_1+f_2\)</span></p>
 <p>where in the middle step we used the linearity over simple functions, and the MCT in the outer most equalities. <span class="math inline">\(\square\)</span></p>
@@ -996,7 +934,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <div class="callout-body-container callout-body">
 <p>If <span class="math inline">\(f_1, f_2,...\)</span> in <span class="math inline">\(L^+((X, \mathcal M, m))\)</span> then <span class="math display">\[\int (\sum_{i=1}^\infty f_i) dm = \sum_{i=1}^\infty (\int f_i dm)\]</span></p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1005,7 +943,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>By the corollary above, we have for every <span class="math inline">\(N\)</span> that <span class="math display">\[\int (\sum_{i=1}^N f_i) dm = \sum_{i=1}^N (\int f_i dm)\]</span>where we want to let <span class="math inline">\(N\rightarrow \infty\)</span>, the RHS goes to <span class="math inline">\(\sum_{i=1}^\infty (\int f_i dm)\)</span> while the LHS goes to <span class="math inline">\(\int (\sum_{i=1}^\infty f_i)\)</span> by the MCT. Note that <span class="math inline">\(g_N := (\sum_{i=1}^N f_i)\)</span> defines a sequence of increasing nonnegative measurable functions (since sum of measurable functions is measurable), and whose pointwise limit is precisely <span class="math inline">\((\sum_{i=1}^\infty f_i)\)</span> (which is also measurable by <a href="./lecture-05.html#r-5-6">Proposition 5.6</a> from <a href="./lecture-05.html">Lecture 5</a> for which we can thus apply the MCT. <span class="math inline">\(\square\)</span></p>
 </div>
@@ -1104,28 +1042,16 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <p>The series <span class="math inline">\(\sum_{n=1}^\infty a_n\)</span> is <strong>conditionally convergent</strong> if it converges: <span class="math display">\[\sum_{n=1}^\infty a_n = L \in \mathbb{R}\]</span> but is <strong>not</strong> absolutely convergent: <span class="math display">\[\sum_{n=1}^\infty |a_n| = \infty\]</span></p>
 </div>
 </div>
-<p>There is a theorem known as the Riemann rearrangment theorem that says that a conditionally convergence infinite series of real numbers can have its terms rearranged such that the series converges to an arbitrary real number. See <a href="https://en.wikipedia.org/wiki/Riemann_series_theorem">Wikipedia</a>. The reason for this is that the conditional convergent</p>
-<div id="side-riemann-rearrangement-theorem" class="side-topic">
-<p><strong>Side topic: Riemann Rearrangement Theorem</strong></p>
-<p>Suppose <span class="math inline">\((a_1, a_2, a_3, \ldots)\)</span> is a sequence of real numbers and <span class="math inline">\(\sum_{n=1}^\infty a_n\)</span> is conditionally convergent. Then:</p>
-<ol type="1">
-<li>For any <span class="math inline">\(M \in \mathbb{R}\)</span>, there exists a permutation <span class="math inline">\(\sigma\)</span> such that:</li>
-</ol>
-<p><span class="math display">\[\sum_{n=1}^\infty a_{\sigma(n)} = M\]</span></p>
-<ol start="2" type="1">
-<li>There exists a permutation <span class="math inline">\(\sigma\)</span> such that:</li>
-</ol>
-<p><span class="math display">\[\sum_{n=1}^\infty a_{\sigma(n)} = +\infty\]</span></p>
-<ol start="3" type="1">
-<li>There exists a permutation <span class="math inline">\(\sigma\)</span> such that:</li>
-</ol>
-<p><span class="math display">\[\sum_{n=1}^\infty a_{\sigma(n)} = -\infty\]</span></p>
-<ol start="4" type="1">
-<li>There exists a permutation <span class="math inline">\(\sigma\)</span> such that <span class="math inline">\(\sum_{n=1}^\infty a_{\sigma(n)}\)</span> <strong>fails to approach any limit</strong>, finite or infinite.</li>
-</ol>
-</div>
+<p>A conditionally convergent series is fragile: by the <a href="./lecture-10.html#side-the-riemann-rearrangement-theorem">Riemann rearrangement theorem</a>, its terms can be rearranged to converge to any value we like, or to diverge (see the side topic in <a href="./lecture-10.html">Lecture 10</a>).</p>
 <p>In measure theory, there is no natural analogue of conditional convergence as there is no natural ordering of the domain (sets have no natural ordering of elements, and so the integral is order-independent, which is why we do not encounter conditional convergence here). Remember that a measure must assigned a well-defined value to every measurable set, in particular, for a countable disjoint union, we have the criterion of countable additivity <span class="math display">\[\mu(\bigcup A_n) = \sum \mu(A_n)\]</span>where the LHS is order-invariant (the way we construct the union of sets does not matter), since the LHS is automatically order-invariant, and thus <span class="math display">\[\mu(\bigcup A_{\sigma(n)}) = \sum \mu(A_{\sigma(n)})\]</span>for some permutation <span class="math inline">\(\sigma\)</span>. But by the Riemann rearrangment theorem, a series that is invariant under all permutations holds iff it is absolutely convergent (this is just the contrapositive argument, if its invariant under all permutations, then it is not conditionally convergent, i.e.&nbsp;absolutely convergent). See this <a href="https://math.stackexchange.com/questions/1905785/why-isnt-conditional-convergence-an-issue-when-defining-sigma-additivity-of">Stack Exchange discussion</a> for more details.</p>
-<p>We are now ready to state a third and final convergence theorem.</p>
+</section>
+<section id="beyond-nonnegative-increasing-sequences" class="level3">
+<h3 class="anchored" data-anchor-id="beyond-nonnegative-increasing-sequences">Beyond nonnegative increasing sequences</h3>
+<p>The monotone convergence theorem (<a href="#r-6-5">Theorem 6.5</a>) only covers sequences that are nonnegative and increasing. It is natural to ask what happens in the other monotone cases.</p>
+<p><strong>Nonnegative and decreasing.</strong> Suppose <span class="math inline">\(f_1 \geq f_2 \geq \cdots \geq 0\)</span> and <span class="math inline">\(f_n \to f\)</span> pointwise. Then <span class="math inline">\(g_n := f_1 - f_n\)</span> is nonnegative and increasing with <span class="math inline">\(g_n \to f_1 - f\)</span>, so the MCT gives <span class="math display">\[\int (f_1 - f_n)\, dm \to \int (f_1 - f)\, dm.\]</span> If <span class="math inline">\(\int f_1\, dm &lt; \infty\)</span>, we may cancel <span class="math inline">\(\int f_1\, dm\)</span> on both sides and conclude <span class="math inline">\(\int f_n\, dm \to \int f\, dm\)</span>. The finiteness assumption cannot be dropped: <span class="math inline">\(f_n = \mathbf 1_{[n,\infty)}\)</span> is nonnegative, decreasing and converges pointwise to <span class="math inline">\(0\)</span>, yet <span class="math inline">\(\int f_n\, dm = \infty\)</span> for every <span class="math inline">\(n\)</span>. On the other hand, <span class="math inline">\(f_n = \tfrac1n \mathbf 1_{[0,1]}\)</span> satisfies the assumption, and indeed <span class="math inline">\(\int f_n\, dm = \tfrac1n \to 0 = \int 0\, dm\)</span>.</p>
+<p><strong>Increasing, but not necessarily nonnegative.</strong> Suppose <span class="math inline">\(f_1 \leq f_2 \leq \cdots\)</span> and <span class="math inline">\(f_n \to f\)</span> pointwise, and that there is a measurable <span class="math inline">\(g \geq 0\)</span> with <span class="math inline">\(f_n \geq -g\)</span> for all <span class="math inline">\(n\)</span>. Then <span class="math inline">\(h_n := f_n + g\)</span> is nonnegative and increasing with <span class="math inline">\(h_n \to f + g\)</span>, so by the MCT <span class="math display">\[\int f_n\, dm + \int g\, dm \to \int f\, dm + \int g\, dm.\]</span> If <span class="math inline">\(\int g\, dm &lt; \infty\)</span>, we conclude <span class="math inline">\(\int f_n\, dm \to \int f\, dm\)</span>.</p>
+<p><strong>Nonpositive and decreasing.</strong> If <span class="math inline">\(0 \geq f_1 \geq f_2 \geq \cdots\)</span>, then <span class="math inline">\(-f_n\)</span> is nonnegative and increasing, so the MCT applies to <span class="math inline">\(-f_n\)</span> directly and no extra assumption is needed.</p>
+<p>In each case where extra work was needed, what rescued the argument was an <em>integrable function controlling the sequence</em>: <span class="math inline">\(f_1\)</span> in the first case and <span class="math inline">\(g\)</span> in the second. This suggests asking for such a bound directly: a single integrable <span class="math inline">\(g\)</span> with <span class="math inline">\(|f_n| \leq g\)</span> for all <span class="math inline">\(n\)</span>. With that bound in hand, monotonicity is no longer needed at all, and we obtain a convergence theorem for general sequences of functions, of any sign and with no monotonicity. This is the third and final convergence theorem.</p>
 <div id="r-6-14" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1136,11 +1062,10 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\((f_n)\)</span> be a sequence of functions in <span class="math inline">\(L^1\)</span> which converges pointwise to a function <span class="math inline">\(f\)</span>. Assume there exists a <span class="math inline">\(g\in L^1\)</span> such that <span class="math inline">\(\forall n\)</span> we have <span class="math display">\[|f_n|\leq g\]</span> Then <span class="math inline">\(f\in L^1\)</span> and <span class="math display">\[\int f dm = \lim_{n\rightarrow \infty} f_n dm\]</span></p>
+<p>Let <span class="math inline">\((f_n)\)</span> be a sequence of functions in <span class="math inline">\(L^1\)</span> which converges pointwise to a function <span class="math inline">\(f\)</span>. Assume there exists a <span class="math inline">\(g\in L^1\)</span> such that <span class="math inline">\(\forall n\)</span> we have <span class="math display">\[|f_n|\leq g\]</span> Then <span class="math inline">\(f\in L^1\)</span> and <span class="math display">\[\int f\, dm = \lim_{n\rightarrow \infty} \int f_n\, dm\]</span></p>
 </div>
 </div>
-<p>In other words, if we have a sequence of functions(converging pw to some function <span class="math inline">\(f\)</span>), and there is a function <span class="math inline">\(g\)</span> (Lebesgue measurable and integrable) which <strong>BOUNDS</strong> each sequence function <span class="math inline">\(f_n\)</span> from above (in absolute terms) then it follows that <span class="math inline">\(f\)</span> is also Lebesgue measurable. In the above <span class="math inline">\(g\)</span> is referred to as the <em>integrable majorant</em>.</p>
-<p>Notice that the LDCT makes no assumption about the sign nor the monotonicity of the sequence measurable functions. When applying MCT to sequences that are not non-negative and increasing (in particular negative increasing or positive decreasing sequences, see above), we saw that additional integrability assumptions were needed. The LDCT handles all of these cases by introducing the integrable majorant. For those cases we considered earlier in the context of MCT, the majorant is just <span class="math inline">\(g = |f_1|\)</span>.</p>
+<p>In other words, if a sequence converges pointwise and is dominated by a single integrable function <span class="math inline">\(g\)</span>, called the <em>integrable majorant</em>, then the limit is integrable and we may pass the limit inside the integral. The LDCT makes no assumption about the sign or monotonicity of the <span class="math inline">\(f_n\)</span>. For the nonnegative decreasing sequences above, <span class="math inline">\(g = f_1\)</span> is such a majorant, and requiring it to be integrable is exactly the assumption <span class="math inline">\(\int f_1\, dm &lt; \infty\)</span> that we needed there.</p>
 
 
 </section>
