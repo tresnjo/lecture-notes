@@ -6,7 +6,7 @@ My own lecture notes from university courses.
 
 | Course | Notes |
 |---|---|
-| TMV101 / MMA110 Integration Theory, Gothenburg University, autumn 2026 (based on the lecture notes by Jeffrey Steif) | <https://tresnjo.github.io/lecture-notes/integration-theory/> |
+| TMV101 / MMA110 Integration Theory, Gothenburg University, autumn 2026 | <https://tresnjo.github.io/lecture-notes/integration-theory/> |
 | Gravitation and Cosmology (notes coming soon) | <https://tresnjo.github.io/lecture-notes/gravitation-and-cosmology/> |
 | Quantum Field Theory (notes coming soon) | <https://tresnjo.github.io/lecture-notes/quantum-field-theory/> |
 | Quantum Mechanics (notes coming soon) | <https://tresnjo.github.io/lecture-notes/quantum-mechanics/> |
