@@ -18,120 +18,75 @@ Each $\phi_n$ is simple: the sets $\big\{x:f(x)\in[\tfrac{k}{2^n},\tfrac{k+1}{2^
 (function() {
   if (typeof React === 'undefined') return;
   const { useState, useEffect, useRef } = React;
-  function Exercise45() {
-    const ACCENT = "#877B31";
-    const ACCENT_LIGHT = "#b5a54a";
-    const ACCENT_DIM = "rgba(135,123,49,0.38)";
-    const BG = "transparent";
-    const SURFACE = "rgba(128,128,128,0.13)";
+  function SimpleApprox() {
+    const ACCENT = "#b08a1e";
     const BORDER = "rgba(128,128,128,0.35)";
     const TEXT = "var(--bs-body-color, #222)";
     const MUTED = "var(--bs-secondary-color, #777)";
     
-    const [n, setN] = useState(1);
-    const [fi, setFi] = useState(0);
-    
-    function changeN(delta) {
-      setN(Math.min(6, Math.max(1, n + delta)));
-    }
-    
-    const FUNCS = [
-      { name: "6x^2", f: (x) => 6 * x * x },
-      { name: "3 + 3 sin(6 pi x)", f: (x) => 3 + 3 * Math.sin(6 * Math.PI * x) },
-      { name: "1/sqrt(x)", f: (x) => (x <= 0 ? Infinity : 1 / Math.sqrt(x)) },
+    const FS = [
+      { label: ["6", React.createElement("i", { key: "x" }, "x"), "²"], f: (x) => 6 * x * x },
+      { label: ["3 + 3 sin 6π", React.createElement("i", { key: "x" }, "x")], f: (x) => 3 + 3 * Math.sin(6 * Math.PI * x) },
+      { label: ["1/√", React.createElement("i", { key: "x" }, "x")], f: (x) => (x <= 0 ? Infinity : 1 / Math.sqrt(x)) },
     ];
+    const [k, setK] = useState(0);
+    const [n, setN] = useState(1);
+    const F = FS[k].f, d = Math.pow(2, n), cap = d;
+    const phi = (x) => { const v = F(x); return v >= cap ? cap : Math.floor(v * d) / d; };
     
-    const W = 500;
-    const H = 260;
-    const PAD_L = 34;
-    const PAD_R = 12;
-    const PAD_T = 12;
-    const PAD_B = 26;
-    const YMAX = 8;
-    const SAMPLES = 800;
+    const W = 640, H = 300, L = 34, R = 628, T = 14, B = 266, YM = 7;
+    const sx = (x) => L + x * (R - L);
+    const sy = (y) => B - Math.min(y, YM + 0.4) / YM * (B - T);
+    const N = 900, xs = Array.from({ length: N + 1 }, (_, i) => i / N);
+    const fPath = xs.filter((x) => isFinite(F(x))).map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(F(x)).toFixed(1)).join(" ");
+    let pPath = "", prev = null, err = 0;
+    xs.forEach((x, i) => {
+      const v = phi(x), X = sx(x).toFixed(1), Y = sy(v).toFixed(1);
+      if (i === 0) pPath = "M" + X + " " + Y; else { if (v !== prev) pPath += " L" + X + " " + sy(prev).toFixed(1); pPath += " L" + X + " " + Y; }
+      prev = v;
+      const fv = F(x); if (fv < cap) err = Math.max(err, fv - v);
+    });
+    const area = pPath + " L" + sx(1) + " " + B + " L" + sx(0) + " " + B + " Z";
+    const levels = []; if (n <= 3) for (let j = 0; j * (1 / d) <= YM && j <= 64; j++) levels.push(j / d);
     
-    const pw = W - PAD_L - PAD_R;
-    const ph = H - PAD_T - PAD_B;
-    const d = Math.pow(2, n);
-    const cap = d;
-    const f = FUNCS[fi].f;
+    const el = React.createElement;
+    const btn = (on) => ({ fontFamily: "inherit", fontSize: 15, padding: "2px 12px", borderRadius: 4, cursor: "pointer", background: "transparent",
+      border: "1px solid " + (on ? ACCENT : BORDER), color: on ? ACCENT : TEXT, fontWeight: on ? 700 : 400 });
     
-    function X(x) { return PAD_L + x * pw; }
-    function Y(y) { return PAD_T + ph - (Math.min(y, YMAX) / YMAX) * ph; }
-    function phi(x) {
-      const v = f(x);
-      return v >= cap ? cap : Math.floor(v * d) / d;
-    }
-    
-    let pathF = "";
-    let pathPhi = "";
-    let area = "M" + X(0) + "," + Y(0);
-    let err = 0;
-    for (let i = 0; i <= SAMPLES; i++) {
-      const x = Math.max(i / SAMPLES, 1e-6);
-      const fv = f(x);
-      const pv = phi(x);
-      pathF += (i ? "L" : "M") + X(x).toFixed(1) + "," + Y(fv).toFixed(1);
-      pathPhi += (i ? "L" : "M") + X(x).toFixed(1) + "," + Y(pv).toFixed(1);
-      area += "L" + X(x).toFixed(1) + "," + Y(pv).toFixed(1);
-      if (fv < cap) err = Math.max(err, fv - pv);
-    }
-    area += "L" + X(1) + "," + Y(0) + "Z";
-    
-    const gridLines = [];
-    if (d <= 16) {
-      for (let k = 0; k <= YMAX * d; k++) gridLines.push(k / d);
-    }
-    
-    const btnStyle = { background: SURFACE, border: "1px solid " + BORDER, color: ACCENT, padding: "4px 14px", borderRadius: 4, cursor: "pointer", fontSize: 15, fontFamily: "monospace" };
-    
-    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12, fontSize: 13, flexWrap: "wrap" } },
-        React.createElement("span", { style: { color: MUTED } }, "n ="),
-        React.createElement("span", { style: { color: TEXT, minWidth: 20 } }, n),
-        React.createElement("button", { onClick: () => changeN(-1), style: btnStyle }, "-"),
-        React.createElement("button", { onClick: () => changeN(+1), style: btnStyle }, "+")
-      ),
-      React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, fontSize: 12, flexWrap: "wrap" } },
-        React.createElement("span", { style: { color: MUTED } }, "f(x) ="),
-        FUNCS.map((fn, i) =>
-          React.createElement("button", {
-            key: i,
-            onClick: () => setFi(i),
-            style: { background: i === fi ? ACCENT_DIM : SURFACE, border: "1px solid " + (i === fi ? ACCENT : BORDER), color: i === fi ? ACCENT_LIGHT : MUTED, padding: "2px 10px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontFamily: "monospace" }
-          }, fn.name)
-        )
-      ),
-      React.createElement("div", { style: { marginBottom: 16 } },
-        React.createElement("div", { style: { fontSize: 11, color: MUTED, marginBottom: 4 } }, "phi_" + n + " (gold) rounding f (light) down to the grid 1/2^" + n),
-        React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { background: "transparent" } },
-          gridLines.map((y, i) =>
-            React.createElement("line", { key: "g" + i, x1: PAD_L, x2: W - PAD_R, y1: Y(y), y2: Y(y), stroke: BORDER, strokeWidth: 0.5 })
-          ),
-          [0, 2, 4, 6, 8].map((y) =>
-            React.createElement("text", { key: "y" + y, x: PAD_L - 6, y: Y(y) + 3, textAnchor: "end", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, y)
-          ),
-          [0, 0.25, 0.5, 0.75, 1].map((x) =>
-            React.createElement("text", { key: "x" + x, x: X(x), y: H - 8, textAnchor: "middle", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, x)
-          ),
-          React.createElement("line", { x1: PAD_L, x2: W - PAD_R, y1: Y(0), y2: Y(0), stroke: MUTED }),
-          React.createElement("line", { x1: PAD_L, x2: PAD_L, y1: PAD_T, y2: Y(0), stroke: MUTED }),
-          cap <= YMAX && React.createElement("line", { x1: PAD_L, x2: W - PAD_R, y1: Y(cap), y2: Y(cap), stroke: ACCENT, strokeWidth: 1, strokeDasharray: "4 4" }),
-          cap <= YMAX && React.createElement("text", { x: W - PAD_R - 4, y: Y(cap) - 4, textAnchor: "end", fontSize: 10, fill: ACCENT, fontFamily: "monospace" }, "cap 2^n = " + cap),
-          React.createElement("path", { d: area, fill: ACCENT, fillOpacity: 0.18 }),
-          React.createElement("path", { d: pathPhi, fill: "none", stroke: ACCENT, strokeWidth: 2 }),
-          React.createElement("path", { d: pathF, fill: "none", stroke: TEXT, strokeWidth: 1.2 })
-        )
-      ),
-      React.createElement("div", { style: { display: "flex", gap: 24, fontSize: 12, borderTop: "1px solid " + BORDER, paddingTop: 12, flexWrap: "wrap" } },
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "grid step: "), React.createElement("span", { style: { color: TEXT } }, "1/" + d + " = " + (1 / d).toFixed(4))),
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "cap: "), React.createElement("span", { style: { color: ACCENT_LIGHT } }, cap)),
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "max |f - phi| where f < 2^n: "), React.createElement("span", { style: { color: TEXT } }, err.toFixed(4)))
+    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+      el("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6, alignItems: "center" } },
+        el("i", { style: { marginRight: 4 } }, "f"), " ",
+        FS.map((g, i) => el("button", { key: i, onClick: () => setK(i), style: btn(i === k) }, g.label))),
+      el("div", { style: { display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center", fontSize: 15, marginBottom: 2 } },
+        el("label", { style: { display: "flex", alignItems: "center", gap: 8 } },
+          el("i", null, "n"),
+          el("input", { type: "range", min: 0, max: 5, step: 1, value: n, onChange: (e) => setN(+e.target.value), style: { width: 140, accentColor: ACCENT } }),
+          el("span", null, n)),
+        el("span", { style: { color: MUTED } }, "grid step 1/2", el("sup", null, n), " , cap 2", el("sup", null, n), " = " + cap),
+        el("span", { style: { color: ACCENT } }, "sup", el("sub", null, "{f < 2", el("sup", null, "n"), "}"), " (", el("i", null, "f"), " − ", el("i", null, "φ"), el("sub", null, "n"), ") = " + err.toFixed(3))),
+      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        // grid levels k/2^n as short ticks on the axis
+        levels.map((v, j) => el("line", { key: "lv" + j, x1: L - 4, y1: sy(v), x2: L, y2: sy(v), stroke: MUTED, strokeWidth: 1 })),
+        el("line", { x1: L, y1: B, x2: R, y2: B, stroke: MUTED, strokeWidth: 1 }),
+        el("line", { x1: L, y1: B, x2: L, y2: T, stroke: MUTED, strokeWidth: 1 }),
+        [0, 2, 4, 6].map((v) => el("text", { key: "y" + v, x: L - 9, y: sy(v) + 4, fill: MUTED, fontSize: 12, textAnchor: "end", fontFamily: "inherit" }, String(v))),
+        [0, 0.5, 1].map((v) => el("text", { key: "x" + v, x: sx(v), y: B + 18, fill: MUTED, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }, String(v))),
+        cap <= YM ? el("g", null,
+          el("line", { x1: L, y1: sy(cap), x2: R, y2: sy(cap), stroke: MUTED, strokeWidth: 1, strokeDasharray: "4 4" }),
+          el("text", { x: R - 4, y: sy(cap) - 6, fill: MUTED, fontSize: 13, textAnchor: "end", fontStyle: "italic", fontFamily: "inherit" }, "2", el("tspan", { dy: -5, fontSize: 10 }, "n"))) : null,
+        el("path", { d: area, fill: ACCENT, opacity: 0.16, stroke: "none" }),
+        el("path", { d: pPath, fill: "none", stroke: ACCENT, strokeWidth: 2.2 }),
+        el("path", { d: fPath, fill: "none", stroke: TEXT, strokeWidth: 1.8 }),
+        el("line", { x1: L + 40, y1: T + 10, x2: L + 64, y2: T + 10, stroke: TEXT, strokeWidth: 1.8 }),
+        el("text", { x: L + 70, y: T + 15, fill: TEXT, fontSize: 15, fontStyle: "italic", fontFamily: "inherit" }, "f"),
+        el("line", { x1: L + 98, y1: T + 10, x2: L + 122, y2: T + 10, stroke: ACCENT, strokeWidth: 2.2 }),
+        el("text", { x: L + 128, y: T + 15, fill: ACCENT, fontSize: 15, fontStyle: "italic", fontFamily: "inherit" }, "φ", el("tspan", { dy: 4, fontSize: 11 }, "n"))
       )
     );
+    
   }
   var el = document.getElementById('viz-exercise45-1');
-  if (el) ReactDOM.createRoot(el).render(React.createElement(Exercise45));
+  if (el) ReactDOM.createRoot(el).render(React.createElement(SimpleApprox));
 })();
 </script>
 ```
@@ -167,13 +122,6 @@ Let $\phi, \psi$ be simple nonnegative functions, then the following holds.
 (b) $\int (\phi(x) + \psi(x)) dm(x) = \int \phi(x) dm(x) + \int \psi(x) dm(x)$.
 (c)$\phi \leq \psi$ implies that $\int \phi(x) dm(x) \leq \int \psi(x) dm(x)$
 (d) The mapping from $\mathcal M$ to $[0,\infty]$ given by $A\rightarrow \int_A \phi(x) dm(x)$ is a measure on $\mathcal M$.
-
-::: {.callout-note .proof-box collapse="true"}
-
-#### Proof
-
-(a) through (c) are straightforward by applying the definition. We prove (d). $\square$
-:::
 :::
 
 Note that $$\int (\phi(x) - \psi(x) ) dm(x) = \int \phi(x) dm(x) - \int \psi(x) dm(x)$$iff at least one of the integrals on the RHS is defined. This is different from property (b) in [Proposition 6.3](lecture-06.qmd#r-6-3) since in this case, we are integrating nonnegative functions which may lead to a $\infty - \infty$ situation which is not necessarily defined (whereas $\infty + \infty$ is).
@@ -463,40 +411,32 @@ The series $\sum_{n=1}^\infty a_n$ is **conditionally convergent** if it converg
 $$\sum_{n=1}^\infty |a_n| = \infty$$
 :::
 
-There is a theorem known as the Riemann rearrangment theorem that says that a conditionally convergence infinite series of real numbers can have its terms rearranged such that the series converges to an arbitrary real number. See [Wikipedia](https://en.wikipedia.org/wiki/Riemann_series_theorem). The reason for this is that the conditional convergent
-
-::: {#side-riemann-rearrangement-theorem .side-topic}
-**Side topic: Riemann Rearrangement Theorem**
-
-Suppose $(a_1, a_2, a_3, \ldots)$ is a sequence of real numbers and $\sum_{n=1}^\infty a_n$ is conditionally convergent. Then:
-
-1. For any $M \in \mathbb{R}$, there exists a permutation $\sigma$ such that:
-
-$$\sum_{n=1}^\infty a_{\sigma(n)} = M$$
-
-2. There exists a permutation $\sigma$ such that:
-
-$$\sum_{n=1}^\infty a_{\sigma(n)} = +\infty$$
-
-3. There exists a permutation $\sigma$ such that:
-
-$$\sum_{n=1}^\infty a_{\sigma(n)} = -\infty$$
-
-4. There exists a permutation $\sigma$ such that $\sum_{n=1}^\infty a_{\sigma(n)}$ **fails to approach any limit**, finite or infinite.
-:::
+A conditionally convergent series is fragile: by the [Riemann rearrangement theorem](lecture-10.qmd#side-the-riemann-rearrangement-theorem), its terms can be rearranged to converge to any value we like, or to diverge (see the side topic in [Lecture 10](lecture-10.qmd)).
 
 In measure theory, there is no natural analogue of conditional convergence as there is no natural ordering of the domain (sets have no natural ordering of elements, and so the integral is order-independent, which is why we do not encounter conditional convergence here). Remember that a measure must assigned a well-defined value to every measurable set, in particular, for a countable disjoint union, we have the criterion of countable additivity $$\mu(\bigcup A_n) = \sum \mu(A_n)$$where the LHS is order-invariant (the way we construct the union of sets does not matter), since the LHS is automatically order-invariant, and thus $$\mu(\bigcup A_{\sigma(n)}) = \sum \mu(A_{\sigma(n)})$$for some permutation $\sigma$. But by the Riemann rearrangment theorem, a series that is invariant under all permutations holds iff it is absolutely convergent (this is just the contrapositive argument, if its invariant under all permutations, then it is not conditionally convergent, i.e. absolutely convergent). See this [Stack Exchange discussion](https://math.stackexchange.com/questions/1905785/why-isnt-conditional-convergence-an-issue-when-defining-sigma-additivity-of) for more details. 
 
-We are now ready to state a third and final convergence theorem. 
+### Beyond nonnegative increasing sequences
+
+The monotone convergence theorem ([Theorem 6.5](#r-6-5)) only covers sequences that are nonnegative and increasing. It is natural to ask what happens in the other monotone cases.
+
+**Nonnegative and decreasing.** Suppose $f_1 \geq f_2 \geq \cdots \geq 0$ and $f_n \to f$ pointwise. Then $g_n := f_1 - f_n$ is nonnegative and increasing with $g_n \to f_1 - f$, so the MCT gives
+$$\int (f_1 - f_n)\, dm \to \int (f_1 - f)\, dm.$$
+If $\int f_1\, dm < \infty$, we may cancel $\int f_1\, dm$ on both sides and conclude $\int f_n\, dm \to \int f\, dm$. The finiteness assumption cannot be dropped: $f_n = \mathbf 1_{[n,\infty)}$ is nonnegative, decreasing and converges pointwise to $0$, yet $\int f_n\, dm = \infty$ for every $n$. On the other hand, $f_n = \tfrac1n \mathbf 1_{[0,1]}$ satisfies the assumption, and indeed $\int f_n\, dm = \tfrac1n \to 0 = \int 0\, dm$.
+
+**Increasing, but not necessarily nonnegative.** Suppose $f_1 \leq f_2 \leq \cdots$ and $f_n \to f$ pointwise, and that there is a measurable $g \geq 0$ with $f_n \geq -g$ for all $n$. Then $h_n := f_n + g$ is nonnegative and increasing with $h_n \to f + g$, so by the MCT
+$$\int f_n\, dm + \int g\, dm \to \int f\, dm + \int g\, dm.$$
+If $\int g\, dm < \infty$, we conclude $\int f_n\, dm \to \int f\, dm$.
+
+**Nonpositive and decreasing.** If $0 \geq f_1 \geq f_2 \geq \cdots$, then $-f_n$ is nonnegative and increasing, so the MCT applies to $-f_n$ directly and no extra assumption is needed.
+
+In each case where extra work was needed, what rescued the argument was an *integrable function controlling the sequence*: $f_1$ in the first case and $g$ in the second. This suggests asking for such a bound directly: a single integrable $g$ with $|f_n| \leq g$ for all $n$. With that bound in hand, monotonicity is no longer needed at all, and we obtain a convergence theorem for general sequences of functions, of any sign and with no monotonicity. This is the third and final convergence theorem.
 
 ::: {#r-6-14 .callout-important .theorem-box}
 
 #### Theorem 6.14 — Lebesgue Dominated Convergence theorem
 
 Let $(f_n)$ be a sequence of functions in $L^1$ which converges pointwise to a function $f$. Assume there exists a $g\in L^1$ such that $\forall n$ we have $$|f_n|\leq g$$
-Then $f\in L^1$ and $$\int f dm = \lim_{n\rightarrow \infty} f_n dm$$
+Then $f\in L^1$ and $$\int f\, dm = \lim_{n\rightarrow \infty} \int f_n\, dm$$
 :::
 
-In other words, if we have a sequence of functions(converging pw to some function $f$), and there is a function $g$ (Lebesgue measurable and integrable) which **BOUNDS** each sequence function $f_n$ from above (in absolute terms) then it follows that $f$ is also Lebesgue measurable. In the above $g$ is referred to as the *integrable majorant*.  
-
-Notice that the LDCT makes no assumption about the sign nor the monotonicity of the sequence measurable functions.  When applying MCT to sequences that are not non-negative and increasing (in particular negative increasing or positive decreasing sequences, see above), we saw that additional integrability assumptions were needed. The LDCT handles all of these cases by introducing the integrable majorant. For those cases we considered earlier in the context of MCT, the majorant is just $g = |f_1|$.
+In other words, if a sequence converges pointwise and is dominated by a single integrable function $g$, called the *integrable majorant*, then the limit is integrable and we may pass the limit inside the integral. The LDCT makes no assumption about the sign or monotonicity of the $f_n$. For the nonnegative decreasing sequences above, $g = f_1$ is such a majorant, and requiring it to be integrable is exactly the assumption $\int f_1\, dm < \infty$ that we needed there.
