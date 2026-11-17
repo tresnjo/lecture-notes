@@ -57,6 +57,11 @@
   .course .meta { color: var(--muted); font-size: 0.95rem; margin: 0 0 0.6rem; }
   .course p { margin: 0 0 0.6rem; }
   .course .go { color: var(--accent); font-weight: 600; }
+  .courses { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  a.course:not(.text-only) { grid-column: 1 / -1; }
+  a.course.text-only { grid-template-columns: minmax(0, 1fr); padding-block: 1rem; border-left-color: var(--line); }
+  a.course.text-only h3 { font-size: 1.25rem; }
+  a.course.text-only .meta { margin-bottom: 0.3rem; font-style: italic; }
   .soon { margin: 1.6rem 0 0; color: var(--muted); font-style: italic; text-align: center; }
   .course img { width: 100%; height: auto; display: block; }
   .course img.dark-only { display: none; }
@@ -66,7 +71,7 @@
   }
   :root[data-theme="dark"] .course img.light-only { display: none; }
   :root[data-theme="dark"] .course img.dark-only { display: block; }
-  @media (max-width: 640px) { header { background-position: 60% 55%; } a.course { grid-template-columns: 1fr; } .course .fig { order: -1; } h1 { font-size: 1.9rem; } }
+  @media (max-width: 640px) { .courses { grid-template-columns: minmax(0, 1fr); } header { background-position: 60% 55%; } a.course { grid-template-columns: 1fr; } .course .fig { order: -1; } h1 { font-size: 1.9rem; } }
 </style>
 </head>
 <body>
@@ -93,6 +98,55 @@
       <div class="fig">
         <img class="light-only" src="thomae-light.svg" alt="Thomae's function">
         <img class="dark-only" src="thomae-dark.svg" alt="Thomae's function">
+      </div>
+    </a>
+    <a class="course text-only" href="gravitation-and-cosmology/">
+      <div>
+        <h3>Gravitation and Cosmology</h3>
+        <div class="meta">Notes coming soon</div>
+        <span class="go">Open →</span>
+      </div>
+    </a>
+    <a class="course text-only" href="quantum-field-theory/">
+      <div>
+        <h3>Quantum Field Theory</h3>
+        <div class="meta">Notes coming soon</div>
+        <span class="go">Open →</span>
+      </div>
+    </a>
+    <a class="course text-only" href="quantum-mechanics/">
+      <div>
+        <h3>Quantum Mechanics</h3>
+        <div class="meta">Notes coming soon</div>
+        <span class="go">Open →</span>
+      </div>
+    </a>
+    <a class="course text-only" href="astroparticle-physics/">
+      <div>
+        <h3>Astroparticle Physics</h3>
+        <div class="meta">Notes coming soon</div>
+        <span class="go">Open →</span>
+      </div>
+    </a>
+    <a class="course text-only" href="conceptual-foundations-of-general-relativity/">
+      <div>
+        <h3>Conceptual Foundations of General Relativity</h3>
+        <div class="meta">Notes coming soon</div>
+        <span class="go">Open →</span>
+      </div>
+    </a>
+    <a class="course text-only" href="functional-analysis/">
+      <div>
+        <h3>Functional Analysis</h3>
+        <div class="meta">Notes coming soon</div>
+        <span class="go">Open →</span>
+      </div>
+    </a>
+    <a class="course text-only" href="statistical-physics/">
+      <div>
+        <h3>Statistical Physics</h3>
+        <div class="meta">Notes coming soon</div>
+        <span class="go">Open →</span>
       </div>
     </a>
   </div>
