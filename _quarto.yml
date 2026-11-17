@@ -69,18 +69,6 @@ format:
       margin-width: 310px
       gutter-width: 1.8rem
 
-  pdf:
-    documentclass: scrbook
-    papersize: a4
-    fontsize: 11pt
-    mainfont: "TeX Gyre Pagella"
-    mathfont: "TeX Gyre Pagella Math"
-    colorlinks: true
-    geometry:
-      - top=25mm
-      - bottom=25mm
-      - inner=28mm
-      - outer=22mm
 
 execute:
   freeze: auto
