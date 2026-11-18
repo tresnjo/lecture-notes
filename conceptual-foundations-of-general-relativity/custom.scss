@@ -104,3 +104,15 @@ main.content, #quarto-document-content, .callout, .callout-body-container, .side
 /* front page figure */
 .front-figure { margin: 0.5rem 0 0.2rem; }
 .front-caption { text-align: center; font-size: 0.92em; font-style: italic; opacity: 0.85; margin-bottom: 1.6rem; }
+
+/* scrollbars: thin, quiet, in the page's own colours */
+html { scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.45) transparent; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.38); border-radius: 0; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: rgba(128,128,128,0.6); }
+/* the chapter list on the left: only visible while the pointer is over it */
+#quarto-sidebar, #quarto-sidebar .sidebar-menu-container { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+#quarto-sidebar:hover, #quarto-sidebar:hover .sidebar-menu-container { scrollbar-color: rgba(128,128,128,0.45) transparent; }
+#quarto-sidebar::-webkit-scrollbar-thumb, #quarto-sidebar .sidebar-menu-container::-webkit-scrollbar-thumb { background-color: transparent; }
+#quarto-sidebar:hover::-webkit-scrollbar-thumb, #quarto-sidebar:hover .sidebar-menu-container::-webkit-scrollbar-thumb { background-color: rgba(128,128,128,0.4); }
