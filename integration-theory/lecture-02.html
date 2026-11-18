@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-6a4239ded7c831dc9986d58e00f1eac2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0caf9a27edb8a99c0fbaabcb3b99be09.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-232212b438d0a562ecf2b74a746a325e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-0caf9a27edb8a99c0fbaabcb3b99be09.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,6 +146,482 @@ ul.task-list li input[type="checkbox"] {
   .navbar-brand .navbar-title { white-space: normal; }
   h1.title, .quarto-title h1 { overflow-wrap: break-word; }
 }
+</style>
+<!-- lecture solar system (Interactive graph box) -->
+<script src="lecture-graph.js"></script>
+<script>
+/* Interactive graph: a small 3D solar system of lectures.
+   The current lecture is the sun. Every connected lecture is a planet on its own tilted orbit:
+   lectures it builds on sit closest (strongest connection innermost, solid orbits), later lectures
+   that build on it further out (dashed orbits). Faint links join the sun to each planet and planets
+   that are connected to each other.
+   Drag the background to rotate and tilt (with momentum). Drag a planet to pull it off its orbit;
+   it springs back when released. Hover a planet to highlight its links, click it to open the lecture,
+   double-click the background to reset the view. */
+(function () {
+  var PART = {
+    "Measure Theory": ["#e3a689", "#a9583a"],
+    "Integration": ["#9cc0dc", "#3a6f99"],
+    "Signed Measures and Differentiation": ["#e6d3a3", "#a9862f"]
+  };
+  var YAW0 = -0.35, PITCH0 = 0.6, MAXP = 9;
+
+  function mountOrbit(host, G, n, opts) {
+    opts = opts || {};
+    var byN = {}; G.lectures.forEach(function (l) { byN[l.n] = l; });
+    if (!byN[n]) return;
+    var inner = [], outer = [];
+    G.edges.forEach(function (e) {
+      if (e.from === n) inner.push({ l: byN[e.to], via: e.via, w: e.w, kind: "in" });
+      else if (e.to === n) outer.push({ l: byN[e.from], via: e.via, w: e.w, kind: "out" });
+    });
+    var byW = function (a, b) { return b.w - a.w || a.l.n - b.l.n; };
+    inner.sort(byW); outer.sort(byW);
+    inner = inner.slice(0, 7); outer = outer.slice(0, Math.max(0, MAXP - inner.length));
+    var list = inner.concat(outer);
+
+    host.innerHTML = "";
+    var cv = document.createElement("canvas"); cv.className = "orbit-canvas"; cv.tabIndex = 0;
+    var cap = document.createElement("div"); cap.className = "orbit-caption";
+    host.appendChild(cv); host.appendChild(cap);
+    var nums = function (a) { return a.map(function (p) { return p.l.n; }).sort(function (x, y) { return x - y; }).join(", "); };
+    var rest = (inner.length ? "builds on " + nums(inner) : "") + (inner.length && outer.length ? " · " : "") +
+      (outer.length ? "used in " + nums(outer) : "");
+    var label = rest || "no connections yet";
+    rest = "";
+    cap.textContent = rest;
+    cv.setAttribute("role", "img");
+    cv.setAttribute("aria-label", "Lecture " + n + " " + label + ". Drag to rotate, drag a planet to move it.");
+
+    // links between planets (Obsidian-style edges among the neighbours)
+    var set = {}; list.forEach(function (p, i) { set[p.l.n] = i; });
+    var links = [];
+    G.edges.forEach(function (e) {
+      if (e.from in set && e.to in set) links.push([set[e.from], set[e.to], e.w]);
+    });
+
+    var ctx = cv.getContext("2d"), W, H, dpr, cx, cy, R;
+    var N = list.length;
+    var bodies = list.map(function (p, i) {
+      var f = N > 1 ? i / (N - 1) : 0.5;
+      return { p: p, i: i, f: f, a0: (i * 2.399963) % (Math.PI * 2),                     // golden-angle start phases
+        inc: 0.42 * Math.sin(i * 2.1 + n * 0.7), node: i * 1.17 + n * 0.3,
+        r: 2.8 + Math.sqrt(Math.max(1, p.l.results)) * 1.1,
+        off: { x: 0, y: 0, vx: 0, vy: 0 } };
+    });
+
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var t = 0, yaw = YAW0, pitch = PITCH0, vyaw = 0, vpitch = 0, hover = null, drag = null, grab = null, last = 0, visible = true;
+
+    function size() {
+      dpr = window.devicePixelRatio || 1;
+      W = host.clientWidth || 260; H = Math.round(W * (opts.ratio || 0.9));
+      cv.width = W * dpr; cv.height = H * dpr; cv.style.height = H + "px";
+      cx = W / 2; cy = H / 2; R = W * 0.4;
+    }
+    function radius(b) { return R * (0.24 + 0.76 * b.f); }
+    function speed(b) { var x = radius(b) / R; return 0.06 * Math.pow(x, -1.5); }                // Kepler-ish
+    function project(rad, inc, node, a) {
+      var x = rad * Math.cos(a), z = rad * Math.sin(a);
+      var y1 = -z * Math.sin(inc), z1 = z * Math.cos(inc);
+      var x2 = x * Math.cos(node) + z1 * Math.sin(node), z2 = -x * Math.sin(node) + z1 * Math.cos(node);
+      var x3 = x2 * Math.cos(yaw) + z2 * Math.sin(yaw), z3 = -x2 * Math.sin(yaw) + z2 * Math.cos(yaw);
+      var sy = y1 * Math.cos(pitch) + z3 * Math.sin(pitch), d = z3 * Math.cos(pitch) - y1 * Math.sin(pitch);
+      var k = 1 + 0.25 * d / R;
+      return { x: cx + x3 * k, y: cy + sy * k, d: d, k: k };
+    }
+    function colors() {
+      var c = getComputedStyle(host).color || "rgb(40,40,40)", m = c.match(/\d+/g) || [40, 40, 40];
+      var dark = (0.3 * m[0] + 0.59 * m[1] + 0.11 * m[2]) / 255 > 0.5;
+      var a = function (v) { return (dark ? "rgba(255,255,255," : "rgba(0,0,0,") + v + ")"; };
+      return { text: c, a: a };
+    }
+    function font(sz, it) { return (it ? "italic " : "") + sz + "px " + (getComputedStyle(host).fontFamily || "Palatino, serif"); }
+
+    function drawOrbit(b, c) {
+      var M = 90, rad = radius(b), prev = null, lit = hover === b;
+      ctx.lineWidth = lit ? 1 : 0.7;
+      for (var j = 0; j <= M; j++) {
+        var q = project(rad, b.inc, b.node, j / M * Math.PI * 2);
+        if (prev) {
+          ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(q.x, q.y);
+          var base = q.d < 0 ? 0.04 : 0.09;
+          ctx.strokeStyle = c.a(lit ? base * 2.6 : (hover ? base * 0.6 : base)); ctx.stroke();
+        }
+        prev = q;
+      }
+      ctx.setLineDash([]);
+    }
+    function drawLink(p, q, w, on, c) {
+      ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+      var v = Math.min(0.26, 0.07 + w * 0.01);
+      ctx.strokeStyle = c.a(on ? 0.45 : (hover ? v * 0.35 : v)); ctx.lineWidth = on ? 1.1 : 0.7; ctx.stroke();
+    }
+    function drawSun() {
+      var r = 8.5;
+      var g = ctx.createRadialGradient(cx, cy, 1, cx, cy, r * 2.8);
+      g.addColorStop(0, "rgba(246,190,80,0.35)"); g.addColorStop(1, "rgba(246,190,80,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * 2.8, 0, 6.2832); ctx.fill();
+      var b = ctx.createRadialGradient(cx - 2.5, cy - 3, 1, cx, cy, r);
+      b.addColorStop(0, "#fff3d0"); b.addColorStop(0.6, "#efb94e"); b.addColorStop(1, "#c97c22");
+      ctx.fillStyle = b; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = "#5a3306"; ctx.font = font(10); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(String(n), cx, cy + 0.5);
+    }
+    function related(b) {
+      if (!hover) return true; if (b === hover) return true;
+      return links.some(function (L) { return (bodies[L[0]] === hover && bodies[L[1]] === b) || (bodies[L[1]] === hover && bodies[L[0]] === b); });
+    }
+    function drawPlanet(b, c) {
+      var q = b.q, col = PART[b.p.l.part] || ["#ccc", "#888"];
+      var r = b.r * q.k * (hover === b || grab === b ? 1.4 : 1);
+      var dim = hover && !related(b);
+      var g = ctx.createRadialGradient(q.x - r * 0.35, q.y - r * 0.4, r * 0.1, q.x, q.y, r);
+      g.addColorStop(0, col[0]); g.addColorStop(1, col[1]);
+      ctx.globalAlpha = (q.d < 0 ? 0.78 : 1) * (dim ? 0.35 : 1);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = c.text; ctx.globalAlpha = (q.d < 0 ? 0.45 : 0.78) * (dim ? 0.3 : 1);
+      ctx.font = font(10, true); ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText(String(b.p.l.n), q.x + r + 2.5, q.y - r * 0.5);
+      ctx.globalAlpha = 1; b.rr = r;
+    }
+    function draw() {
+      var c = colors();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      bodies.forEach(function (b) {
+        var q = project(radius(b), b.inc, b.node, b.a0 + t * speed(b));
+        q.x += b.off.x; q.y += b.off.y; b.q = q;
+      });
+      bodies.forEach(function (b) { drawOrbit(b, c); });
+      var sun = { x: cx, y: cy };
+      bodies.forEach(function (b) { drawLink(sun, b.q, b.p.w, hover === b, c); });
+      links.forEach(function (L) { var A = bodies[L[0]], B = bodies[L[1]]; drawLink(A.q, B.q, L[2], hover === A || hover === B, c); });
+      var order = bodies.slice().sort(function (a, b) { return a.q.d - b.q.d; }), sunDone = false;
+      order.forEach(function (b) { if (!sunDone && b.q.d >= 0) { drawSun(); sunDone = true; } drawPlanet(b, c); });
+      if (!sunDone) drawSun();
+    }
+    function step(dt) {
+      if (!drag) { yaw += vyaw; pitch = clampP(pitch + vpitch); vyaw *= 0.94; vpitch *= 0.9; }
+      if (!hover && !grab && !reduce) t += dt;
+      bodies.forEach(function (b) {                     // springs pull dragged planets back onto their orbits
+        if (b === grab) return;
+        var o = b.off, k = 70, damp = 7;
+        o.vx += (-k * o.x - damp * o.vx) * dt; o.vy += (-k * o.y - damp * o.vy) * dt;
+        o.x += o.vx * dt; o.y += o.vy * dt;
+        if (Math.abs(o.x) < 0.05 && Math.abs(o.vx) < 0.05) { o.x = 0; o.vx = 0; }
+        if (Math.abs(o.y) < 0.05 && Math.abs(o.vy) < 0.05) { o.y = 0; o.vy = 0; }
+      });
+    }
+    function frame(ts) {
+      var dt = last ? Math.min(0.04, (ts - last) / 1000) : 0; last = ts;
+      step(dt); draw();
+      if (visible) requestAnimationFrame(frame); else last = 0;
+    }
+    function clampP(p) { return Math.max(0.05, Math.min(1.5, p)); }
+    function pick(x, y) {
+      var best = null, bd = 1e9;
+      bodies.forEach(function (b) { if (!b.q) return; var d = Math.hypot(b.q.x - x, b.q.y - y);
+        if (d < b.rr + 7 && d < bd) { bd = d; best = b; } });
+      return best;
+    }
+    function setHover(b) {
+      if (b === hover) return; hover = b;
+      cv.style.cursor = b ? "pointer" : "grab";
+      if (!b) { cap.textContent = rest; cap.classList.remove("on"); cap.title = ""; return; }
+      cap.textContent = b.p.l.n + " · " + b.p.l.title; cap.classList.add("on");
+      cap.title = b.p.via && b.p.via.length ? "via " + b.p.via.join(", ") : "";
+    }
+    function xy(ev) { var r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
+    cv.style.cursor = "grab";
+    cv.addEventListener("pointerdown", function (ev) {
+      var p = xy(ev), b = pick(p[0], p[1]);
+      drag = { x: p[0], y: p[1], x0: p[0], y0: p[1], moved: false, tp: ev.pointerType, on: b };
+      vyaw = vpitch = 0;
+      if (b) { grab = b; b.off.vx = b.off.vy = 0; }
+      try { cv.setPointerCapture(ev.pointerId); } catch (e) {}
+    });
+    cv.addEventListener("pointermove", function (ev) {
+      var p = xy(ev);
+      if (!drag) { setHover(pick(p[0], p[1])); return; }
+      var dx = p[0] - drag.x, dy = p[1] - drag.y; drag.x = p[0]; drag.y = p[1];
+      if (Math.hypot(p[0] - drag.x0, p[1] - drag.y0) > 4) drag.moved = true;
+      if (!drag.moved) return;
+      if (grab) { grab.off.x += dx; grab.off.y += dy; grab.off.vx = dx * 60; grab.off.vy = dy * 60; setHover(grab); cv.style.cursor = "grabbing"; }
+      else { setHover(null); cv.style.cursor = "grabbing"; vyaw = dx * 0.012; vpitch = dy * 0.008; yaw += vyaw; pitch = clampP(pitch + vpitch); }
+    });
+    function end(ev) {
+      if (!drag) return;
+      var d = drag; drag = null; var g = grab; grab = null;
+      if (g) { g.off.vx = Math.max(-600, Math.min(600, g.off.vx)); g.off.vy = Math.max(-600, Math.min(600, g.off.vy)); }
+      cv.style.cursor = hover ? "pointer" : "grab";
+      if (!d.moved && d.on) {
+        if (d.tp !== "mouse" && hover !== d.on) { setHover(d.on); return; }     // touch: first tap names it
+        if (opts.onOpen) opts.onOpen(d.on.p.l.n); else if (window.__turnTo) window.__turnTo(d.on.p.l.href); else window.location.href = d.on.p.l.href;
+      } else if (!d.moved) setHover(null);
+    }
+    cv.addEventListener("pointerup", end);
+    cv.addEventListener("pointercancel", function () { drag = null; grab = null; });
+    cv.addEventListener("pointerleave", function () { if (!drag) setHover(null); });
+    cv.addEventListener("dblclick", function () { yaw = YAW0; pitch = PITCH0; vyaw = vpitch = 0; });
+    cv.addEventListener("keydown", function (ev) {
+      var k = ev.key;
+      if (k === "ArrowLeft") vyaw -= 0.04; else if (k === "ArrowRight") vyaw += 0.04;
+      else if (k === "ArrowUp") vpitch -= 0.03; else if (k === "ArrowDown") vpitch += 0.03;
+      else return;
+      ev.preventDefault();
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        var was = visible; visible = es[0].isIntersecting; if (visible && !was) requestAnimationFrame(frame);
+      }).observe(cv);
+    }
+    var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 120); });
+    size(); draw(); requestAnimationFrame(frame);
+  }
+  window.mountLectureOrbit = mountOrbit;
+})();
+document.addEventListener("DOMContentLoaded", function () {
+  var m = location.pathname.match(/lecture-(\d+)\.html/);
+  if (!m || !window.LECTURE_GRAPH || !window.mountLectureOrbit) return;
+  var n = parseInt(m[1], 10);
+  var box = document.createElement("div"); box.className = "orbit-box";
+  box.innerHTML = '<div class="orbit-title">Interactive graph</div><div class="orbit-host"></div>';
+  var side = document.getElementById("quarto-margin-sidebar");
+  var wide = side && getComputedStyle(side).display !== "none" && side.offsetWidth > 0;
+  var main = document.querySelector("main#quarto-document-content") || document.querySelector("main");
+  if (!wide) {                                   // phones and narrow windows: right under the lecture title
+    if (!main) return;
+    box.classList.add("at-top");
+    var head = main.querySelector("#title-block-header") || main.querySelector("header");
+    if (head && head.parentNode) head.parentNode.insertBefore(box, head.nextSibling); else main.insertBefore(box, main.firstChild);
+    window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n, { ratio: 0.62 });
+    return;
+  }
+  // wide screens: its own layer at the top of the right-hand column, scrolling with the page
+  box.classList.add("in-margin");
+  document.body.appendChild(box);
+  // line the box up with the table of contents column, level with the start of the lecture
+  var tocEl = document.getElementById("TOC");
+  var holder = (tocEl && tocEl.closest(".margin-sidebar")) || side;
+  var top0 = (main ? main.getBoundingClientRect().top : side.getBoundingClientRect().top) + window.scrollY + 8;
+  function place() {
+    var ref = (tocEl && tocEl.getBoundingClientRect().width > 0) ? tocEl.getBoundingClientRect() : side.getBoundingClientRect();
+    var sr = side.getBoundingClientRect();
+    var left = Math.max(ref.left, sr.left), right = Math.min(window.innerWidth - 12, Math.max(ref.right, sr.right));
+    box.style.left = (left + window.scrollX) + "px"; box.style.width = Math.max(180, right - left) + "px"; box.style.top = top0 + "px";
+  }
+  place();
+  window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n);
+  var boxBottom = function () { return top0 + box.offsetHeight + 18; };
+
+  // once the maths has been laid out: footnotes that start beside the box move down below it,
+  // and the table of contents starts below the box and slides up as the box scrolls away
+  function toc() {
+    holder.style.paddingTop = "0px";
+    var gap = Math.max(0, boxBottom() - window.scrollY - holder.getBoundingClientRect().top);
+    holder.style.paddingTop = gap + "px";
+  }
+  (window.__whenReady || function (f) { f(); })(function () {
+    var notes = [].slice.call(document.querySelectorAll("main .column-margin, main .margin-aside, main aside"));
+    var floor = boxBottom();
+    notes.map(function (el) { return { el: el, top: el.getBoundingClientRect().top + window.scrollY, h: el.offsetHeight }; })
+      .sort(function (a, b) { return a.top - b.top; })
+      .forEach(function (o) { if (o.h > 0 && o.top < floor) { o.el.style.position = "relative"; o.el.style.top = (floor - o.top) + "px"; floor = floor + o.h + 12; } });
+    toc();
+  });
+  window.addEventListener("scroll", toc, { passive: true });
+  window.addEventListener("resize", function () { place(); toc(); });
+  toc();
+});
+</script>
+<style>
+/* small connections box at the top of the right-hand column */
+.orbit-box { margin: 0 0 1.4rem; font-family: inherit; }
+.orbit-box .orbit-title { font-weight: 400; font-size: 0.875rem; margin: 0 0 0.35rem; font-weight: 400; opacity: 0.85; }
+.orbit-canvas { display: block; width: 100%; touch-action: none; outline: none;
+  border-top: 1px solid rgba(128,128,128,0.22); border-bottom: 1px solid rgba(128,128,128,0.22); }
+.orbit-canvas:focus-visible { outline: 1px dotted currentColor; outline-offset: 2px; }
+.orbit-caption { font-weight: 400; font-size: 0.8rem; font-style: italic; opacity: 0.6; margin-top: 0.35rem; line-height: 1.3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.3em; }
+.orbit-caption.on { opacity: 0.95; }
+/* phones and narrow windows: the box sits right under the lecture title */
+.orbit-box.at-top { max-width: 420px; margin: 0.4rem 0 1.6rem; }
+.orbit-box.in-margin { position: absolute; z-index: 900; margin: 0; }
+</style>
+<!-- page turning between chapters, hinged on the left like a book's spine -->
+<script>
+(function () {
+  // run layout work once fonts and maths are in place (max 900 ms); the page itself is never hidden
+  var fns = [], done = false;
+  window.__whenReady = function (fn) { if (done) fn(); else fns.push(fn); };
+  function fire() { if (done) return; done = true; fns.forEach(function (f) { try { f(); } catch (e) {} }); document.dispatchEvent(new Event("page-ready")); }
+  document.addEventListener("DOMContentLoaded", function () {
+    var waits = [];
+    if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) waits.push(MathJax.startup.promise);
+    Promise.race([Promise.all(waits), new Promise(function (r) { setTimeout(r, 900); })]).then(function () { requestAnimationFrame(fire); });
+  });
+})();
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var HALF = 300;                                   // each half of the turn, in ms
+  var incoming = null;
+  try { incoming = sessionStorage.getItem("page-turn"); if (incoming) sessionStorage.removeItem("page-turn"); } catch (e) {}
+  if (incoming && !reduce) document.documentElement.classList.add("turn-in-" + incoming);
+
+  function page() { return document.querySelector("main#quarto-document-content") || document.querySelector("main"); }
+  // a sheet of paper over the visible part of the text column, hinged at its left edge
+  function leaf(shade) {
+    var p = page(), r = p.getBoundingClientRect();
+    var stage = document.createElement("div");
+    stage.style.cssText = "position:fixed;inset:0;z-index:2000;pointer-events:none;perspective:1700px;perspective-origin:" + r.left + "px 50%";
+    var l = document.createElement("div");
+    l.style.cssText = "position:absolute;top:0;height:100vh;left:" + r.left + "px;width:" + r.width + "px;transform-origin:0 50%;" +
+      "background:var(--bs-body-bg,#fff);backface-visibility:visible;box-shadow:0 0 30px rgba(0,0,0,0.12)";
+    var g = document.createElement("div");
+    g.style.cssText = "position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0," + shade + "),rgba(0,0,0,0) 60%)";
+    l.appendChild(g); stage.appendChild(l); document.body.appendChild(stage);
+    return { stage: stage, leaf: l };
+  }
+  function shadowOnPage(fromLeft) {
+    var p = page(), r = p.getBoundingClientRect();
+    var s = document.createElement("div");
+    s.style.cssText = "position:fixed;top:0;height:100vh;z-index:1990;pointer-events:none;left:" + r.left + "px;width:" + r.width + "px;" +
+      "background:linear-gradient(90deg,rgba(0,0,0,0.16),rgba(0,0,0,0.04) 35%,rgba(0,0,0,0) 70%)";
+    document.body.appendChild(s);
+    return s;
+  }
+
+  // arriving: finish the turn
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!incoming || reduce) return;
+    if (incoming === "fwd") {
+      // the blank back of the turned page swings over to the left; the new page is already underneath
+      var o = leaf(0.10), sh = shadowOnPage();
+      o.leaf.animate([{ transform: "rotateY(-90deg)" }, { transform: "rotateY(-178deg)", opacity: 0.0 }],
+        { duration: HALF + 120, easing: "cubic-bezier(.2,.6,.3,1)", fill: "forwards" }).onfinish = function () { o.stage.remove(); };
+      sh.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF + 160, easing: "ease-out", fill: "forwards" }).onfinish = function () { sh.remove(); };
+    } else {
+      // the previous page swings down onto the text (CSS animation, running from the first paint)
+      var p = page();
+      if (p) p.addEventListener("animationend", function () { document.documentElement.classList.remove("turn-in-back"); }, { once: true });
+    }
+    document.documentElement.classList.remove("turn-in-fwd");
+  });
+
+  function order() {
+    return [].map.call(document.querySelectorAll("#quarto-sidebar a[href]"), function (a) {
+      return new URL(a.getAttribute("href"), location.href).pathname;
+    }).filter(function (p, i, arr) { return arr.indexOf(p) === i; });
+  }
+  var fetched = {};
+  function prefetch(href) {
+    var u = new URL(href, location.href); u.hash = "";
+    if (fetched[u.href] || u.pathname === location.pathname) return; fetched[u.href] = 1;
+    var l = document.createElement("link"); l.rel = "prefetch"; l.href = u.href; document.head.appendChild(l);
+  }
+  function turnTo(href) {
+    var url = new URL(href, location.href);
+    if (url.pathname === location.pathname || reduce) { location.href = url.href; return; }
+    var list = order(), from = list.indexOf(location.pathname), to = list.indexOf(url.pathname);
+    var p = page();
+    if (from < 0 || to < 0 || !p || !p.animate) { location.href = url.href; return; }
+    var dir = to > from ? "fwd" : "back";
+    try { sessionStorage.setItem("page-turn", dir); } catch (e) {}
+    var box = document.querySelector(".orbit-box.in-margin");
+    if (box) box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF, fill: "forwards" });
+    var go = function () { location.href = url.href; };
+    if (dir === "fwd") {
+      // this page turns over to the left until it is edge-on
+      var r = p.getBoundingClientRect(), par = p.parentNode, pr = par.getBoundingClientRect();
+      par.style.perspective = "1700px";
+      par.style.perspectiveOrigin = (r.left - pr.left) + "px " + (innerHeight / 2 - pr.top) + "px";
+      p.style.transformOrigin = "0px " + (innerHeight / 2 - r.top) + "px";
+      p.animate([{ transform: "rotateY(0deg)", filter: "brightness(1)" }, { transform: "rotateY(-90deg)", filter: "brightness(0.82)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    } else {
+      // the blank back of the previous page swings in from the left until it is edge-on
+      var o = leaf(0.18);
+      o.leaf.style.boxShadow = "0 0 40px rgba(0,0,0,0.22)";
+      o.leaf.animate([{ transform: "rotateY(-176deg)" }, { transform: "rotateY(-90deg)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    }
+  }
+  window.__turnTo = turnTo;
+
+  document.addEventListener("click", function (ev) {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (!a || a.target === "_blank") return;
+    var url = new URL(a.getAttribute("href"), location.href);
+    if (url.origin !== location.origin || !/\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
+    if (url.pathname.split("/").slice(0, -1).join("/") !== location.pathname.split("/").slice(0, -1).join("/")) return;
+    ev.preventDefault(); turnTo(url.href);
+  }, true);
+  // fetch neighbouring chapters early so the next page is ready when the turn needs it
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (a && /\.html(#|$)/.test(a.getAttribute("href")) && !/^https?:/.test(a.getAttribute("href"))) prefetch(a.getAttribute("href"));
+  }, { passive: true });
+  window.addEventListener("load", function () {
+    [].forEach.call(document.querySelectorAll("nav.page-navigation a[href]"), function (a) { prefetch(a.getAttribute("href")); });
+  });
+  window.addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    var p = page(); if (p && p.getAnimations) p.getAnimations().forEach(function (an) { an.cancel(); });
+    [].forEach.call(document.querySelectorAll("body > div[style*='perspective']"), function (s) { s.remove(); });
+  });
+})();
+</script>
+<style>
+html.turn-in-back main#quarto-document-content { transform-origin: 0 50vh; animation: turn-in-back 0.42s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes turn-in-back { from { transform: perspective(1700px) rotateY(-90deg); filter: brightness(0.88); } to { transform: perspective(1700px) rotateY(0deg); filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { html[class*="turn-in-"] main#quarto-document-content { animation: none; } }
+</style>
+<!-- typeset maths inside footnote and cross-reference hover popups -->
+<script>
+(function () {
+  function typeset(el) {
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(function () {});
+  }
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a.footnote-ref, a.quarto-xref, a[role='doc-noteref']");
+    if (!a || !a._tippy || a._tippy.__math) return;
+    var inst = a._tippy, prev = inst.props.onShown;
+    inst.__math = true;
+    inst.setProps({ onShown: function (i) { if (prev) prev(i); typeset(i.popper); } });
+    if (inst.state.isShown) typeset(inst.popper);
+  }, true);
+})();
+</script>
+<!-- opened from the bookshelf: the title page dissolves into the notes -->
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem("shelf-open") === "1") {
+      sessionStorage.removeItem("shelf-open");
+      var t = sessionStorage.getItem("shelf-title") || "";
+      if (!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+        document.documentElement.classList.add("from-shelf");
+        document.documentElement.setAttribute("data-shelf-title", t);
+      }
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+html.from-shelf { background: var(--bs-body-bg, #fff); }
+html.from-shelf body { animation: shelf-in 0.9s cubic-bezier(.16,1,.3,1) 0.35s both; }
+html.from-shelf::before, html.from-shelf::after {
+  position: fixed; left: 0; right: 0; z-index: 9999; pointer-events: none; text-align: center; padding: 0 24px;
+  font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
+  color: var(--bs-body-color, #222); animation: shelf-out 0.8s cubic-bezier(.4,0,.2,1) 0.3s both; }
+html.from-shelf::before { content: attr(data-shelf-title); top: 0; bottom: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--bs-body-bg, #fff); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; padding-bottom: 2.6rem; }
+html.from-shelf::after { content: "Lecture notes"; top: calc(50% + 0.9rem); font-style: italic; opacity: 0.6; font-size: 18px; }
+@keyframes shelf-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes shelf-out { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { html.from-shelf::before, html.from-shelf::after { display: none; } html.from-shelf body { animation: none; } }
 </style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -330,7 +806,8 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -344,6 +821,15 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      refreshSafariScrollbar();
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -528,11 +1014,18 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#step-1" id="toc-step-1" class="nav-link active" data-scroll-target="#step-1">Step 1</a></li>
-  <li><a href="#step-2" id="toc-step-2" class="nav-link" data-scroll-target="#step-2">Step 2</a></li>
-  <li><a href="#step-3" id="toc-step-3" class="nav-link" data-scroll-target="#step-3">Step 3</a></li>
-  <li><a href="#step-4" id="toc-step-4" class="nav-link" data-scroll-target="#step-4">Step 4</a></li>
-  <li><a href="#step-5" id="toc-step-5" class="nav-link" data-scroll-target="#step-5">Step 5</a></li>
+  <li><a href="#measures" id="toc-measures" class="nav-link active" data-scroll-target="#measures">Measures</a></li>
+  <li><a href="#null-sets-and-almost-everywhere" id="toc-null-sets-and-almost-everywhere" class="nav-link" data-scroll-target="#null-sets-and-almost-everywhere">Null sets and almost everywhere</a></li>
+  <li><a href="#finite-sigma-finite-and-atomic-measures" id="toc-finite-sigma-finite-and-atomic-measures" class="nav-link" data-scroll-target="#finite-sigma-finite-and-atomic-measures">Finite, <span class="math inline">\(\sigma\)</span>-finite and atomic measures</a></li>
+  <li><a href="#the-lebesgue-measure" id="toc-the-lebesgue-measure" class="nav-link" data-scroll-target="#the-lebesgue-measure">The Lebesgue measure</a>
+  <ul class="collapse">
+  <li><a href="#an-outline-of-the-construction" id="toc-an-outline-of-the-construction" class="nav-link" data-scroll-target="#an-outline-of-the-construction">An outline of the construction</a></li>
+  <li><a href="#step-1-outer-measures" id="toc-step-1-outer-measures" class="nav-link" data-scroll-target="#step-1-outer-measures">Step 1: outer measures</a></li>
+  <li><a href="#step-2-the-lebesgue-outer-measure" id="toc-step-2-the-lebesgue-outer-measure" class="nav-link" data-scroll-target="#step-2-the-lebesgue-outer-measure">Step 2: the Lebesgue outer measure</a></li>
+  <li><a href="#step-3-intervals-get-their-length" id="toc-step-3-intervals-get-their-length" class="nav-link" data-scroll-target="#step-3-intervals-get-their-length">Step 3: intervals get their length</a></li>
+  <li><a href="#step-4-carathéodorys-theorem" id="toc-step-4-carathéodorys-theorem" class="nav-link" data-scroll-target="#step-4-carathéodorys-theorem">Step 4: Carathéodory’s theorem</a></li>
+  <li><a href="#step-5-the-borel-sets-are-measurable" id="toc-step-5-the-borel-sets-are-measurable" class="nav-link" data-scroll-target="#step-5-the-borel-sets-are-measurable">Step 5: the Borel sets are measurable</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -559,13 +1052,15 @@ window.Quarto = {
 </header>
 
 
+<section id="measures" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="measures">Measures</h2>
 <div id="r-2-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.1 — A measure
+<span class="screen-reader-only">Note</span><strong>Definition 2.1</strong> (A measure).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -580,24 +1075,24 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.2 — A complete measure
+<span class="screen-reader-only">Note</span><strong>Definition 2.2</strong> (A complete measure).
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>A complete measure is such that if <span class="math inline">\(F\in \mathcal M\)</span> (our <span class="math inline">\(\sigma\)</span>-algebra) with <span class="math inline">\(m(F) = 0\)</span> and if <span class="math inline">\(E \subseteq F\)</span> then <span class="math inline">\(m(E) = 0\)</span>.</p>
 </div>
 </div>
-<p>This definition may sound silly at first, because by monotonicity we know that <span class="math inline">\(m(E) = 0\)</span> if it is a subset. But we have to remember that the measure can only be applied to elements of the <span class="math inline">\(\sigma\)</span>-algebra. A complete measure thus tells us that subsets of sets of measure zero, <strong>are in the <span class="math inline">\(\sigma\)</span>-algebra</strong> (thus they are measurable).</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>Note that we never assumed <span class="math inline">\(A\)</span> was an element of the <span class="math inline">\(\sigma\)</span>-algebra. See <a href="https://www.youtube.com/watch?v=5bZMCLnI_p4">a good explanation</a>. A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.</p>
-</div></div><div id="r-2-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p>This definition may sound silly at first, because by monotonicity we know that <span class="math inline">\(m(E) = 0\)</span> if it is a subset. But we have to remember that the measure can only be applied to elements of the <span class="math inline">\(\sigma\)</span>-algebra. A complete measure thus tells us that subsets of sets of measure zero, <strong>are in the <span class="math inline">\(\sigma\)</span>-algebra</strong> (thus they are measurable).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;We never assumed <span class="math inline">\(A\)</span> was an element of the <span class="math inline">\(\sigma\)</span>-algebra. See <a href="https://www.youtube.com/watch?v=5bZMCLnI_p4">a good explanation</a>. A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.</p></div></div></section>
+<section id="null-sets-and-almost-everywhere" class="level2">
+<h2 class="anchored" data-anchor-id="null-sets-and-almost-everywhere">Null sets and almost everywhere</h2>
+<div id="r-2-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.3 — Almost Everywhere / Almost Surely
+<span class="screen-reader-only">Note</span><strong>Definition 2.3</strong> (Almost Everywhere / Almost Surely).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -610,20 +1105,23 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 2.4
+<span class="screen-reader-only">Caution</span><strong>Example 2.4</strong>.
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Take <span class="math inline">\(X\)</span> to be the closed interval from 0 to 1 and <span class="math inline">\(\mathcal M\)</span> the Borel <span class="math inline">\(\sigma\)</span>-algebra on that set with Lebesgue measure. It turns out that the property that <span class="math inline">\(x\)</span> is irrational (i.e.&nbsp;the property that it fails corresponds to <span class="math inline">\(x\)</span> being a rational which has measure zero) holds almost everywhere.</p>
 </div>
 </div>
+</section>
+<section id="finite-sigma-finite-and-atomic-measures" class="level2">
+<h2 class="anchored" data-anchor-id="finite-sigma-finite-and-atomic-measures">Finite, <span class="math inline">\(\sigma\)</span>-finite and atomic measures</h2>
 <div id="r-2-5" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.5 — Finite measure space
+<span class="screen-reader-only">Note</span><strong>Definition 2.5</strong> (Finite measure space).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -636,7 +1134,7 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.6 — <span class="math inline">\(\sigma\)</span>-finite measure space
+<span class="screen-reader-only">Note</span><strong>Definition 2.6</strong> (<span class="math inline">\(\sigma\)</span>-finite measure space).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -650,7 +1148,7 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.7 — Atoms, Atomic and Continuous Measure Spaces
+<span class="screen-reader-only">Note</span><strong>Definition 2.7</strong> (Atoms, Atomic and Continuous Measure Spaces).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -660,13 +1158,16 @@ window.Quarto = {
 </div>
 <p>The Lebesgue measure on the Borel algebra is a continuous measure, so there are no atoms.</p>
 <p>For the counting measure on <span class="math inline">\(\mathbb R\)</span>, it is clear that <span class="math inline">\(A = \mathbb R\)</span> where <span class="math inline">\(\mathbb R^c=\emptyset\)</span>. The measure space with the counting measure is thus atomic.</p>
+</section>
+<section id="the-lebesgue-measure" class="level2">
+<h2 class="anchored" data-anchor-id="the-lebesgue-measure">The Lebesgue measure</h2>
 <div id="r-2-8" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 2.8 — Lebesgue Measure
+<span class="screen-reader-only">Important</span><strong>Theorem 2.8</strong> (Lebesgue Measure).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -674,16 +1175,27 @@ window.Quarto = {
 <p><span class="math inline">\(m\)</span> is the <strong>Lebesgue measure</strong> restricted to <span class="math inline">\(\mathcal{B}\)</span>.</p>
 </div>
 </div>
+<section id="an-outline-of-the-construction" class="level3">
+<h3 class="anchored" data-anchor-id="an-outline-of-the-construction">An outline of the construction</h3>
+<p>The rest of this lecture constructs the Lebesgue measure in five steps:</p>
+<ol type="1">
+<li>Define an <em>outer measure</em>: a set function defined on all subsets of a set, which is monotone and countably subadditive.</li>
+<li>Use the lengths of intervals to define the <em>Lebesgue outer measure</em> <span class="math inline">\(\mu^\star\)</span> on all subsets of <span class="math inline">\(\mathbb R\)</span>. It is not countably additive on all subsets, which is why the next steps are needed.</li>
+<li>Show that <span class="math inline">\(\mu^\star\)</span> assigns to every interval its length.</li>
+<li>Apply Carathéodory’s theorem: for any outer measure there is a <span class="math inline">\(\sigma\)</span>-algebra on which its restriction is a complete measure.</li>
+<li>Show that for the Lebesgue outer measure this <span class="math inline">\(\sigma\)</span>-algebra contains the Borel sets.</li>
+</ol>
 <p>Our length metric is not defined for all subsets, but only those reasonable ones (the Borel sets).</p>
-<section id="step-1" class="level3">
-<h3 class="anchored" data-anchor-id="step-1">Step 1</h3>
+</section>
+<section id="step-1-outer-measures" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-outer-measures">Step 1: outer measures</h3>
 <div id="r-2-9" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.9 — Outer Measure
+<span class="screen-reader-only">Note</span><strong>Definition 2.9</strong> (Outer Measure).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -707,15 +1219,15 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 </div>
 <p>This is to be compared with the <a href="./lecture-02.html#r-2-1">Definition 2.1</a> earlier, where the measure only has to satisfy that the measure on the empty set is zero, and being countably additive. Here, we see that we only demand countable subadditivity and monotonicity.</p>
 </section>
-<section id="step-2" class="level3">
-<h3 class="anchored" data-anchor-id="step-2">Step 2</h3>
+<section id="step-2-the-lebesgue-outer-measure" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-the-lebesgue-outer-measure">Step 2: the Lebesgue outer measure</h3>
 <div id="r-2-10" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.10 — Lebesgue Outer Measure
+<span class="screen-reader-only">Note</span><strong>Definition 2.10</strong> (Lebesgue Outer Measure).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -731,7 +1243,7 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 2.11 — The Lebesgue outer measure <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(\mathbb R\)</span>
+<span class="screen-reader-only">Important</span><strong>Theorem 2.11</strong> (The Lebesgue outer measure <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(\mathbb R\)</span>).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -745,8 +1257,8 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 </div>
 </div>
 </section>
-<section id="step-3" class="level3">
-<h3 class="anchored" data-anchor-id="step-3">Step 3</h3>
+<section id="step-3-intervals-get-their-length" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-intervals-get-their-length">Step 3: intervals get their length</h3>
 <p>OK! Now we both defined the outer measure, the Lebesgue outer measure and proved that it is indeed an outer measure. Now we need to show that the Lebesgue outer measure of an interval is given the length of the interval.</p>
 <div id="r-2-12" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -754,7 +1266,7 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 2.12 — The Lebesgue outer measure returns length for intervals
+<span class="screen-reader-only">Important</span><strong>Theorem 2.12</strong> (The Lebesgue outer measure returns length for intervals).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -780,8 +1292,8 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 </div>
 </div>
 </section>
-<section id="step-4" class="level3">
-<h3 class="anchored" data-anchor-id="step-4">Step 4</h3>
+<section id="step-4-carathéodorys-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-carathéodorys-theorem">Step 4: Carathéodory’s theorem</h3>
 <p>Now we defined the outer measure, introduced the Lebesgue outer measure (and proved that it indeed is an outer measure) and that the measure evaluated on finite intervals gives the length of the interval. Now enters step 4, where we apply Caratheodory’s theorem.</p>
 <div id="r-2-13" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -789,7 +1301,7 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 2.13 — <span class="math inline">\(\mu^\star\)</span>-Measurable Sets
+<span class="screen-reader-only">Note</span><strong>Definition 2.13</strong> (<span class="math inline">\(\mu^\star\)</span>-Measurable Sets).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -804,16 +1316,29 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 2.14 — Carathéodory’s Theorem
+<span class="screen-reader-only">Important</span><strong>Theorem 2.14</strong> (Carathéodory’s Theorem).
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>If <span class="math inline">\(\mu^\star\)</span> is an outer measure on <span class="math inline">\(X\)</span>, then the collection <span class="math inline">\(\mathcal{M}\)</span> of <span class="math inline">\(\mu^\star\)</span>-measurable sets is a <span class="math inline">\(\sigma\)</span>-algebra and <span class="math inline">\(\mu^\star\)</span> restricted to <span class="math inline">\(\mathcal{M}\)</span> is a measure, which is also complete.</p>
 </div>
 </div>
+<div class="remark-box callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span><strong>Remark</strong> (Which space is meant).
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“The Lebesgue measure” can refer to either of two measure spaces: <span class="math inline">\((\mathbb R, \mathcal M, \mu^\star\vert_{\mathcal M})\)</span>, where <span class="math inline">\(\mathcal M\)</span> is the <span class="math inline">\(\sigma\)</span>-algebra of all <span class="math inline">\(\mu^\star\)</span>-measurable sets, or its restriction <span class="math inline">\((\mathbb R, \mathcal B, \mu^\star\vert_{\mathcal B})\)</span> to the Borel sets. The first is complete; the second is not (see <a href="./lecture-03.html">Lecture 3</a>).</p>
+</div>
+</div>
 </section>
-<section id="step-5" class="level3">
-<h3 class="anchored" data-anchor-id="step-5">Step 5</h3>
+<section id="step-5-the-borel-sets-are-measurable" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-the-borel-sets-are-measurable">Step 5: the Borel sets are measurable</h3>
 <p>We will return to the proof in a moment. For step 5, we want to show that the Lebesgue outer measure on R, the <span class="math inline">\(\mathcal M\)</span> constructed in step 4 using Carathéodory’s theorem contains <span class="math inline">\(\mathcal B\)</span>.</p>
 <p>Given <span class="math inline">\(\mathcal M\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra and <span class="math inline">\(\mathcal B\)</span> is the smallest <span class="math inline">\(\sigma\)</span>-algebra containing all open intervals, it suffices to show that if the open intervals are a subset of <span class="math inline">\(\mathcal M\)</span> then <span class="math inline">\(\mathcal B \subseteq \mathcal M\)</span>. Now <span class="math inline">\(\mathcal M\)</span> is the collection of all <span class="math inline">\(\mu^\star\)</span> measurable sets, so we only need to verify that the open intervals <span class="math inline">\((a,b\)</span>) are <span class="math inline">\(\mu^\star\)</span>-measurable. It suffices to show this for the rays <span class="math inline">\((-\infty, a)\)</span> and <span class="math inline">\((b,\infty\)</span>) as <span class="math inline">\(\mathcal M\)</span> is closed under complements and intersections, <span class="math inline">\((a,b) = (-\infty, b) \cap (-\infty, a)^c\)</span>.</p>
 <p>Let <span class="math inline">\(E \subseteq R\)</span> and assume <span class="math inline">\(a \notin E\)</span>, we have <span class="math inline">\(E = (E\cap (-\infty, a)) \cup (E \cap(a, \infty))\)</span>, then the <span class="math inline">\(\leq\)</span> follows by subadditivity. We only need to show <span class="math display">\[\mu^\star(E) \geq \mu^\star(E \cap (-\infty, a)) + \mu^\star(E \cap (a, \infty))\]</span>Note that In other words, we are considering the two regions intersected by the ray <span class="math inline">\((-\infty, a)\)</span>, and covering them with separate open intervals. The final inequality comes form the fact that the outer measure as an infimum over all coverings. Taking the infimum of the LHS, we obtain exactly what we wanted to show. Therefore indeed we have shown that any open intervals is a subset of <span class="math inline">\(\mathcal M\)</span>.</p>
@@ -821,6 +1346,8 @@ Figure&nbsp;2.1: The outer measure of <span class="math inline">\(E\)</span> is 
 
 
 </section>
+</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-6a4239ded7c831dc9986d58e00f1eac2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0caf9a27edb8a99c0fbaabcb3b99be09.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-232212b438d0a562ecf2b74a746a325e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-0caf9a27edb8a99c0fbaabcb3b99be09.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,6 +146,482 @@ ul.task-list li input[type="checkbox"] {
   .navbar-brand .navbar-title { white-space: normal; }
   h1.title, .quarto-title h1 { overflow-wrap: break-word; }
 }
+</style>
+<!-- lecture solar system (Interactive graph box) -->
+<script src="lecture-graph.js"></script>
+<script>
+/* Interactive graph: a small 3D solar system of lectures.
+   The current lecture is the sun. Every connected lecture is a planet on its own tilted orbit:
+   lectures it builds on sit closest (strongest connection innermost, solid orbits), later lectures
+   that build on it further out (dashed orbits). Faint links join the sun to each planet and planets
+   that are connected to each other.
+   Drag the background to rotate and tilt (with momentum). Drag a planet to pull it off its orbit;
+   it springs back when released. Hover a planet to highlight its links, click it to open the lecture,
+   double-click the background to reset the view. */
+(function () {
+  var PART = {
+    "Measure Theory": ["#e3a689", "#a9583a"],
+    "Integration": ["#9cc0dc", "#3a6f99"],
+    "Signed Measures and Differentiation": ["#e6d3a3", "#a9862f"]
+  };
+  var YAW0 = -0.35, PITCH0 = 0.6, MAXP = 9;
+
+  function mountOrbit(host, G, n, opts) {
+    opts = opts || {};
+    var byN = {}; G.lectures.forEach(function (l) { byN[l.n] = l; });
+    if (!byN[n]) return;
+    var inner = [], outer = [];
+    G.edges.forEach(function (e) {
+      if (e.from === n) inner.push({ l: byN[e.to], via: e.via, w: e.w, kind: "in" });
+      else if (e.to === n) outer.push({ l: byN[e.from], via: e.via, w: e.w, kind: "out" });
+    });
+    var byW = function (a, b) { return b.w - a.w || a.l.n - b.l.n; };
+    inner.sort(byW); outer.sort(byW);
+    inner = inner.slice(0, 7); outer = outer.slice(0, Math.max(0, MAXP - inner.length));
+    var list = inner.concat(outer);
+
+    host.innerHTML = "";
+    var cv = document.createElement("canvas"); cv.className = "orbit-canvas"; cv.tabIndex = 0;
+    var cap = document.createElement("div"); cap.className = "orbit-caption";
+    host.appendChild(cv); host.appendChild(cap);
+    var nums = function (a) { return a.map(function (p) { return p.l.n; }).sort(function (x, y) { return x - y; }).join(", "); };
+    var rest = (inner.length ? "builds on " + nums(inner) : "") + (inner.length && outer.length ? " · " : "") +
+      (outer.length ? "used in " + nums(outer) : "");
+    var label = rest || "no connections yet";
+    rest = "";
+    cap.textContent = rest;
+    cv.setAttribute("role", "img");
+    cv.setAttribute("aria-label", "Lecture " + n + " " + label + ". Drag to rotate, drag a planet to move it.");
+
+    // links between planets (Obsidian-style edges among the neighbours)
+    var set = {}; list.forEach(function (p, i) { set[p.l.n] = i; });
+    var links = [];
+    G.edges.forEach(function (e) {
+      if (e.from in set && e.to in set) links.push([set[e.from], set[e.to], e.w]);
+    });
+
+    var ctx = cv.getContext("2d"), W, H, dpr, cx, cy, R;
+    var N = list.length;
+    var bodies = list.map(function (p, i) {
+      var f = N > 1 ? i / (N - 1) : 0.5;
+      return { p: p, i: i, f: f, a0: (i * 2.399963) % (Math.PI * 2),                     // golden-angle start phases
+        inc: 0.42 * Math.sin(i * 2.1 + n * 0.7), node: i * 1.17 + n * 0.3,
+        r: 2.8 + Math.sqrt(Math.max(1, p.l.results)) * 1.1,
+        off: { x: 0, y: 0, vx: 0, vy: 0 } };
+    });
+
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var t = 0, yaw = YAW0, pitch = PITCH0, vyaw = 0, vpitch = 0, hover = null, drag = null, grab = null, last = 0, visible = true;
+
+    function size() {
+      dpr = window.devicePixelRatio || 1;
+      W = host.clientWidth || 260; H = Math.round(W * (opts.ratio || 0.9));
+      cv.width = W * dpr; cv.height = H * dpr; cv.style.height = H + "px";
+      cx = W / 2; cy = H / 2; R = W * 0.4;
+    }
+    function radius(b) { return R * (0.24 + 0.76 * b.f); }
+    function speed(b) { var x = radius(b) / R; return 0.06 * Math.pow(x, -1.5); }                // Kepler-ish
+    function project(rad, inc, node, a) {
+      var x = rad * Math.cos(a), z = rad * Math.sin(a);
+      var y1 = -z * Math.sin(inc), z1 = z * Math.cos(inc);
+      var x2 = x * Math.cos(node) + z1 * Math.sin(node), z2 = -x * Math.sin(node) + z1 * Math.cos(node);
+      var x3 = x2 * Math.cos(yaw) + z2 * Math.sin(yaw), z3 = -x2 * Math.sin(yaw) + z2 * Math.cos(yaw);
+      var sy = y1 * Math.cos(pitch) + z3 * Math.sin(pitch), d = z3 * Math.cos(pitch) - y1 * Math.sin(pitch);
+      var k = 1 + 0.25 * d / R;
+      return { x: cx + x3 * k, y: cy + sy * k, d: d, k: k };
+    }
+    function colors() {
+      var c = getComputedStyle(host).color || "rgb(40,40,40)", m = c.match(/\d+/g) || [40, 40, 40];
+      var dark = (0.3 * m[0] + 0.59 * m[1] + 0.11 * m[2]) / 255 > 0.5;
+      var a = function (v) { return (dark ? "rgba(255,255,255," : "rgba(0,0,0,") + v + ")"; };
+      return { text: c, a: a };
+    }
+    function font(sz, it) { return (it ? "italic " : "") + sz + "px " + (getComputedStyle(host).fontFamily || "Palatino, serif"); }
+
+    function drawOrbit(b, c) {
+      var M = 90, rad = radius(b), prev = null, lit = hover === b;
+      ctx.lineWidth = lit ? 1 : 0.7;
+      for (var j = 0; j <= M; j++) {
+        var q = project(rad, b.inc, b.node, j / M * Math.PI * 2);
+        if (prev) {
+          ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(q.x, q.y);
+          var base = q.d < 0 ? 0.04 : 0.09;
+          ctx.strokeStyle = c.a(lit ? base * 2.6 : (hover ? base * 0.6 : base)); ctx.stroke();
+        }
+        prev = q;
+      }
+      ctx.setLineDash([]);
+    }
+    function drawLink(p, q, w, on, c) {
+      ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+      var v = Math.min(0.26, 0.07 + w * 0.01);
+      ctx.strokeStyle = c.a(on ? 0.45 : (hover ? v * 0.35 : v)); ctx.lineWidth = on ? 1.1 : 0.7; ctx.stroke();
+    }
+    function drawSun() {
+      var r = 8.5;
+      var g = ctx.createRadialGradient(cx, cy, 1, cx, cy, r * 2.8);
+      g.addColorStop(0, "rgba(246,190,80,0.35)"); g.addColorStop(1, "rgba(246,190,80,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * 2.8, 0, 6.2832); ctx.fill();
+      var b = ctx.createRadialGradient(cx - 2.5, cy - 3, 1, cx, cy, r);
+      b.addColorStop(0, "#fff3d0"); b.addColorStop(0.6, "#efb94e"); b.addColorStop(1, "#c97c22");
+      ctx.fillStyle = b; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = "#5a3306"; ctx.font = font(10); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(String(n), cx, cy + 0.5);
+    }
+    function related(b) {
+      if (!hover) return true; if (b === hover) return true;
+      return links.some(function (L) { return (bodies[L[0]] === hover && bodies[L[1]] === b) || (bodies[L[1]] === hover && bodies[L[0]] === b); });
+    }
+    function drawPlanet(b, c) {
+      var q = b.q, col = PART[b.p.l.part] || ["#ccc", "#888"];
+      var r = b.r * q.k * (hover === b || grab === b ? 1.4 : 1);
+      var dim = hover && !related(b);
+      var g = ctx.createRadialGradient(q.x - r * 0.35, q.y - r * 0.4, r * 0.1, q.x, q.y, r);
+      g.addColorStop(0, col[0]); g.addColorStop(1, col[1]);
+      ctx.globalAlpha = (q.d < 0 ? 0.78 : 1) * (dim ? 0.35 : 1);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = c.text; ctx.globalAlpha = (q.d < 0 ? 0.45 : 0.78) * (dim ? 0.3 : 1);
+      ctx.font = font(10, true); ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText(String(b.p.l.n), q.x + r + 2.5, q.y - r * 0.5);
+      ctx.globalAlpha = 1; b.rr = r;
+    }
+    function draw() {
+      var c = colors();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      bodies.forEach(function (b) {
+        var q = project(radius(b), b.inc, b.node, b.a0 + t * speed(b));
+        q.x += b.off.x; q.y += b.off.y; b.q = q;
+      });
+      bodies.forEach(function (b) { drawOrbit(b, c); });
+      var sun = { x: cx, y: cy };
+      bodies.forEach(function (b) { drawLink(sun, b.q, b.p.w, hover === b, c); });
+      links.forEach(function (L) { var A = bodies[L[0]], B = bodies[L[1]]; drawLink(A.q, B.q, L[2], hover === A || hover === B, c); });
+      var order = bodies.slice().sort(function (a, b) { return a.q.d - b.q.d; }), sunDone = false;
+      order.forEach(function (b) { if (!sunDone && b.q.d >= 0) { drawSun(); sunDone = true; } drawPlanet(b, c); });
+      if (!sunDone) drawSun();
+    }
+    function step(dt) {
+      if (!drag) { yaw += vyaw; pitch = clampP(pitch + vpitch); vyaw *= 0.94; vpitch *= 0.9; }
+      if (!hover && !grab && !reduce) t += dt;
+      bodies.forEach(function (b) {                     // springs pull dragged planets back onto their orbits
+        if (b === grab) return;
+        var o = b.off, k = 70, damp = 7;
+        o.vx += (-k * o.x - damp * o.vx) * dt; o.vy += (-k * o.y - damp * o.vy) * dt;
+        o.x += o.vx * dt; o.y += o.vy * dt;
+        if (Math.abs(o.x) < 0.05 && Math.abs(o.vx) < 0.05) { o.x = 0; o.vx = 0; }
+        if (Math.abs(o.y) < 0.05 && Math.abs(o.vy) < 0.05) { o.y = 0; o.vy = 0; }
+      });
+    }
+    function frame(ts) {
+      var dt = last ? Math.min(0.04, (ts - last) / 1000) : 0; last = ts;
+      step(dt); draw();
+      if (visible) requestAnimationFrame(frame); else last = 0;
+    }
+    function clampP(p) { return Math.max(0.05, Math.min(1.5, p)); }
+    function pick(x, y) {
+      var best = null, bd = 1e9;
+      bodies.forEach(function (b) { if (!b.q) return; var d = Math.hypot(b.q.x - x, b.q.y - y);
+        if (d < b.rr + 7 && d < bd) { bd = d; best = b; } });
+      return best;
+    }
+    function setHover(b) {
+      if (b === hover) return; hover = b;
+      cv.style.cursor = b ? "pointer" : "grab";
+      if (!b) { cap.textContent = rest; cap.classList.remove("on"); cap.title = ""; return; }
+      cap.textContent = b.p.l.n + " · " + b.p.l.title; cap.classList.add("on");
+      cap.title = b.p.via && b.p.via.length ? "via " + b.p.via.join(", ") : "";
+    }
+    function xy(ev) { var r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
+    cv.style.cursor = "grab";
+    cv.addEventListener("pointerdown", function (ev) {
+      var p = xy(ev), b = pick(p[0], p[1]);
+      drag = { x: p[0], y: p[1], x0: p[0], y0: p[1], moved: false, tp: ev.pointerType, on: b };
+      vyaw = vpitch = 0;
+      if (b) { grab = b; b.off.vx = b.off.vy = 0; }
+      try { cv.setPointerCapture(ev.pointerId); } catch (e) {}
+    });
+    cv.addEventListener("pointermove", function (ev) {
+      var p = xy(ev);
+      if (!drag) { setHover(pick(p[0], p[1])); return; }
+      var dx = p[0] - drag.x, dy = p[1] - drag.y; drag.x = p[0]; drag.y = p[1];
+      if (Math.hypot(p[0] - drag.x0, p[1] - drag.y0) > 4) drag.moved = true;
+      if (!drag.moved) return;
+      if (grab) { grab.off.x += dx; grab.off.y += dy; grab.off.vx = dx * 60; grab.off.vy = dy * 60; setHover(grab); cv.style.cursor = "grabbing"; }
+      else { setHover(null); cv.style.cursor = "grabbing"; vyaw = dx * 0.012; vpitch = dy * 0.008; yaw += vyaw; pitch = clampP(pitch + vpitch); }
+    });
+    function end(ev) {
+      if (!drag) return;
+      var d = drag; drag = null; var g = grab; grab = null;
+      if (g) { g.off.vx = Math.max(-600, Math.min(600, g.off.vx)); g.off.vy = Math.max(-600, Math.min(600, g.off.vy)); }
+      cv.style.cursor = hover ? "pointer" : "grab";
+      if (!d.moved && d.on) {
+        if (d.tp !== "mouse" && hover !== d.on) { setHover(d.on); return; }     // touch: first tap names it
+        if (opts.onOpen) opts.onOpen(d.on.p.l.n); else if (window.__turnTo) window.__turnTo(d.on.p.l.href); else window.location.href = d.on.p.l.href;
+      } else if (!d.moved) setHover(null);
+    }
+    cv.addEventListener("pointerup", end);
+    cv.addEventListener("pointercancel", function () { drag = null; grab = null; });
+    cv.addEventListener("pointerleave", function () { if (!drag) setHover(null); });
+    cv.addEventListener("dblclick", function () { yaw = YAW0; pitch = PITCH0; vyaw = vpitch = 0; });
+    cv.addEventListener("keydown", function (ev) {
+      var k = ev.key;
+      if (k === "ArrowLeft") vyaw -= 0.04; else if (k === "ArrowRight") vyaw += 0.04;
+      else if (k === "ArrowUp") vpitch -= 0.03; else if (k === "ArrowDown") vpitch += 0.03;
+      else return;
+      ev.preventDefault();
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        var was = visible; visible = es[0].isIntersecting; if (visible && !was) requestAnimationFrame(frame);
+      }).observe(cv);
+    }
+    var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 120); });
+    size(); draw(); requestAnimationFrame(frame);
+  }
+  window.mountLectureOrbit = mountOrbit;
+})();
+document.addEventListener("DOMContentLoaded", function () {
+  var m = location.pathname.match(/lecture-(\d+)\.html/);
+  if (!m || !window.LECTURE_GRAPH || !window.mountLectureOrbit) return;
+  var n = parseInt(m[1], 10);
+  var box = document.createElement("div"); box.className = "orbit-box";
+  box.innerHTML = '<div class="orbit-title">Interactive graph</div><div class="orbit-host"></div>';
+  var side = document.getElementById("quarto-margin-sidebar");
+  var wide = side && getComputedStyle(side).display !== "none" && side.offsetWidth > 0;
+  var main = document.querySelector("main#quarto-document-content") || document.querySelector("main");
+  if (!wide) {                                   // phones and narrow windows: right under the lecture title
+    if (!main) return;
+    box.classList.add("at-top");
+    var head = main.querySelector("#title-block-header") || main.querySelector("header");
+    if (head && head.parentNode) head.parentNode.insertBefore(box, head.nextSibling); else main.insertBefore(box, main.firstChild);
+    window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n, { ratio: 0.62 });
+    return;
+  }
+  // wide screens: its own layer at the top of the right-hand column, scrolling with the page
+  box.classList.add("in-margin");
+  document.body.appendChild(box);
+  // line the box up with the table of contents column, level with the start of the lecture
+  var tocEl = document.getElementById("TOC");
+  var holder = (tocEl && tocEl.closest(".margin-sidebar")) || side;
+  var top0 = (main ? main.getBoundingClientRect().top : side.getBoundingClientRect().top) + window.scrollY + 8;
+  function place() {
+    var ref = (tocEl && tocEl.getBoundingClientRect().width > 0) ? tocEl.getBoundingClientRect() : side.getBoundingClientRect();
+    var sr = side.getBoundingClientRect();
+    var left = Math.max(ref.left, sr.left), right = Math.min(window.innerWidth - 12, Math.max(ref.right, sr.right));
+    box.style.left = (left + window.scrollX) + "px"; box.style.width = Math.max(180, right - left) + "px"; box.style.top = top0 + "px";
+  }
+  place();
+  window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n);
+  var boxBottom = function () { return top0 + box.offsetHeight + 18; };
+
+  // once the maths has been laid out: footnotes that start beside the box move down below it,
+  // and the table of contents starts below the box and slides up as the box scrolls away
+  function toc() {
+    holder.style.paddingTop = "0px";
+    var gap = Math.max(0, boxBottom() - window.scrollY - holder.getBoundingClientRect().top);
+    holder.style.paddingTop = gap + "px";
+  }
+  (window.__whenReady || function (f) { f(); })(function () {
+    var notes = [].slice.call(document.querySelectorAll("main .column-margin, main .margin-aside, main aside"));
+    var floor = boxBottom();
+    notes.map(function (el) { return { el: el, top: el.getBoundingClientRect().top + window.scrollY, h: el.offsetHeight }; })
+      .sort(function (a, b) { return a.top - b.top; })
+      .forEach(function (o) { if (o.h > 0 && o.top < floor) { o.el.style.position = "relative"; o.el.style.top = (floor - o.top) + "px"; floor = floor + o.h + 12; } });
+    toc();
+  });
+  window.addEventListener("scroll", toc, { passive: true });
+  window.addEventListener("resize", function () { place(); toc(); });
+  toc();
+});
+</script>
+<style>
+/* small connections box at the top of the right-hand column */
+.orbit-box { margin: 0 0 1.4rem; font-family: inherit; }
+.orbit-box .orbit-title { font-weight: 400; font-size: 0.875rem; margin: 0 0 0.35rem; font-weight: 400; opacity: 0.85; }
+.orbit-canvas { display: block; width: 100%; touch-action: none; outline: none;
+  border-top: 1px solid rgba(128,128,128,0.22); border-bottom: 1px solid rgba(128,128,128,0.22); }
+.orbit-canvas:focus-visible { outline: 1px dotted currentColor; outline-offset: 2px; }
+.orbit-caption { font-weight: 400; font-size: 0.8rem; font-style: italic; opacity: 0.6; margin-top: 0.35rem; line-height: 1.3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.3em; }
+.orbit-caption.on { opacity: 0.95; }
+/* phones and narrow windows: the box sits right under the lecture title */
+.orbit-box.at-top { max-width: 420px; margin: 0.4rem 0 1.6rem; }
+.orbit-box.in-margin { position: absolute; z-index: 900; margin: 0; }
+</style>
+<!-- page turning between chapters, hinged on the left like a book's spine -->
+<script>
+(function () {
+  // run layout work once fonts and maths are in place (max 900 ms); the page itself is never hidden
+  var fns = [], done = false;
+  window.__whenReady = function (fn) { if (done) fn(); else fns.push(fn); };
+  function fire() { if (done) return; done = true; fns.forEach(function (f) { try { f(); } catch (e) {} }); document.dispatchEvent(new Event("page-ready")); }
+  document.addEventListener("DOMContentLoaded", function () {
+    var waits = [];
+    if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) waits.push(MathJax.startup.promise);
+    Promise.race([Promise.all(waits), new Promise(function (r) { setTimeout(r, 900); })]).then(function () { requestAnimationFrame(fire); });
+  });
+})();
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var HALF = 300;                                   // each half of the turn, in ms
+  var incoming = null;
+  try { incoming = sessionStorage.getItem("page-turn"); if (incoming) sessionStorage.removeItem("page-turn"); } catch (e) {}
+  if (incoming && !reduce) document.documentElement.classList.add("turn-in-" + incoming);
+
+  function page() { return document.querySelector("main#quarto-document-content") || document.querySelector("main"); }
+  // a sheet of paper over the visible part of the text column, hinged at its left edge
+  function leaf(shade) {
+    var p = page(), r = p.getBoundingClientRect();
+    var stage = document.createElement("div");
+    stage.style.cssText = "position:fixed;inset:0;z-index:2000;pointer-events:none;perspective:1700px;perspective-origin:" + r.left + "px 50%";
+    var l = document.createElement("div");
+    l.style.cssText = "position:absolute;top:0;height:100vh;left:" + r.left + "px;width:" + r.width + "px;transform-origin:0 50%;" +
+      "background:var(--bs-body-bg,#fff);backface-visibility:visible;box-shadow:0 0 30px rgba(0,0,0,0.12)";
+    var g = document.createElement("div");
+    g.style.cssText = "position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0," + shade + "),rgba(0,0,0,0) 60%)";
+    l.appendChild(g); stage.appendChild(l); document.body.appendChild(stage);
+    return { stage: stage, leaf: l };
+  }
+  function shadowOnPage(fromLeft) {
+    var p = page(), r = p.getBoundingClientRect();
+    var s = document.createElement("div");
+    s.style.cssText = "position:fixed;top:0;height:100vh;z-index:1990;pointer-events:none;left:" + r.left + "px;width:" + r.width + "px;" +
+      "background:linear-gradient(90deg,rgba(0,0,0,0.16),rgba(0,0,0,0.04) 35%,rgba(0,0,0,0) 70%)";
+    document.body.appendChild(s);
+    return s;
+  }
+
+  // arriving: finish the turn
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!incoming || reduce) return;
+    if (incoming === "fwd") {
+      // the blank back of the turned page swings over to the left; the new page is already underneath
+      var o = leaf(0.10), sh = shadowOnPage();
+      o.leaf.animate([{ transform: "rotateY(-90deg)" }, { transform: "rotateY(-178deg)", opacity: 0.0 }],
+        { duration: HALF + 120, easing: "cubic-bezier(.2,.6,.3,1)", fill: "forwards" }).onfinish = function () { o.stage.remove(); };
+      sh.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF + 160, easing: "ease-out", fill: "forwards" }).onfinish = function () { sh.remove(); };
+    } else {
+      // the previous page swings down onto the text (CSS animation, running from the first paint)
+      var p = page();
+      if (p) p.addEventListener("animationend", function () { document.documentElement.classList.remove("turn-in-back"); }, { once: true });
+    }
+    document.documentElement.classList.remove("turn-in-fwd");
+  });
+
+  function order() {
+    return [].map.call(document.querySelectorAll("#quarto-sidebar a[href]"), function (a) {
+      return new URL(a.getAttribute("href"), location.href).pathname;
+    }).filter(function (p, i, arr) { return arr.indexOf(p) === i; });
+  }
+  var fetched = {};
+  function prefetch(href) {
+    var u = new URL(href, location.href); u.hash = "";
+    if (fetched[u.href] || u.pathname === location.pathname) return; fetched[u.href] = 1;
+    var l = document.createElement("link"); l.rel = "prefetch"; l.href = u.href; document.head.appendChild(l);
+  }
+  function turnTo(href) {
+    var url = new URL(href, location.href);
+    if (url.pathname === location.pathname || reduce) { location.href = url.href; return; }
+    var list = order(), from = list.indexOf(location.pathname), to = list.indexOf(url.pathname);
+    var p = page();
+    if (from < 0 || to < 0 || !p || !p.animate) { location.href = url.href; return; }
+    var dir = to > from ? "fwd" : "back";
+    try { sessionStorage.setItem("page-turn", dir); } catch (e) {}
+    var box = document.querySelector(".orbit-box.in-margin");
+    if (box) box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF, fill: "forwards" });
+    var go = function () { location.href = url.href; };
+    if (dir === "fwd") {
+      // this page turns over to the left until it is edge-on
+      var r = p.getBoundingClientRect(), par = p.parentNode, pr = par.getBoundingClientRect();
+      par.style.perspective = "1700px";
+      par.style.perspectiveOrigin = (r.left - pr.left) + "px " + (innerHeight / 2 - pr.top) + "px";
+      p.style.transformOrigin = "0px " + (innerHeight / 2 - r.top) + "px";
+      p.animate([{ transform: "rotateY(0deg)", filter: "brightness(1)" }, { transform: "rotateY(-90deg)", filter: "brightness(0.82)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    } else {
+      // the blank back of the previous page swings in from the left until it is edge-on
+      var o = leaf(0.18);
+      o.leaf.style.boxShadow = "0 0 40px rgba(0,0,0,0.22)";
+      o.leaf.animate([{ transform: "rotateY(-176deg)" }, { transform: "rotateY(-90deg)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    }
+  }
+  window.__turnTo = turnTo;
+
+  document.addEventListener("click", function (ev) {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (!a || a.target === "_blank") return;
+    var url = new URL(a.getAttribute("href"), location.href);
+    if (url.origin !== location.origin || !/\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
+    if (url.pathname.split("/").slice(0, -1).join("/") !== location.pathname.split("/").slice(0, -1).join("/")) return;
+    ev.preventDefault(); turnTo(url.href);
+  }, true);
+  // fetch neighbouring chapters early so the next page is ready when the turn needs it
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (a && /\.html(#|$)/.test(a.getAttribute("href")) && !/^https?:/.test(a.getAttribute("href"))) prefetch(a.getAttribute("href"));
+  }, { passive: true });
+  window.addEventListener("load", function () {
+    [].forEach.call(document.querySelectorAll("nav.page-navigation a[href]"), function (a) { prefetch(a.getAttribute("href")); });
+  });
+  window.addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    var p = page(); if (p && p.getAnimations) p.getAnimations().forEach(function (an) { an.cancel(); });
+    [].forEach.call(document.querySelectorAll("body > div[style*='perspective']"), function (s) { s.remove(); });
+  });
+})();
+</script>
+<style>
+html.turn-in-back main#quarto-document-content { transform-origin: 0 50vh; animation: turn-in-back 0.42s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes turn-in-back { from { transform: perspective(1700px) rotateY(-90deg); filter: brightness(0.88); } to { transform: perspective(1700px) rotateY(0deg); filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { html[class*="turn-in-"] main#quarto-document-content { animation: none; } }
+</style>
+<!-- typeset maths inside footnote and cross-reference hover popups -->
+<script>
+(function () {
+  function typeset(el) {
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(function () {});
+  }
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a.footnote-ref, a.quarto-xref, a[role='doc-noteref']");
+    if (!a || !a._tippy || a._tippy.__math) return;
+    var inst = a._tippy, prev = inst.props.onShown;
+    inst.__math = true;
+    inst.setProps({ onShown: function (i) { if (prev) prev(i); typeset(i.popper); } });
+    if (inst.state.isShown) typeset(inst.popper);
+  }, true);
+})();
+</script>
+<!-- opened from the bookshelf: the title page dissolves into the notes -->
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem("shelf-open") === "1") {
+      sessionStorage.removeItem("shelf-open");
+      var t = sessionStorage.getItem("shelf-title") || "";
+      if (!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+        document.documentElement.classList.add("from-shelf");
+        document.documentElement.setAttribute("data-shelf-title", t);
+      }
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+html.from-shelf { background: var(--bs-body-bg, #fff); }
+html.from-shelf body { animation: shelf-in 0.9s cubic-bezier(.16,1,.3,1) 0.35s both; }
+html.from-shelf::before, html.from-shelf::after {
+  position: fixed; left: 0; right: 0; z-index: 9999; pointer-events: none; text-align: center; padding: 0 24px;
+  font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
+  color: var(--bs-body-color, #222); animation: shelf-out 0.8s cubic-bezier(.4,0,.2,1) 0.3s both; }
+html.from-shelf::before { content: attr(data-shelf-title); top: 0; bottom: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--bs-body-bg, #fff); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; padding-bottom: 2.6rem; }
+html.from-shelf::after { content: "Lecture notes"; top: calc(50% + 0.9rem); font-style: italic; opacity: 0.6; font-size: 18px; }
+@keyframes shelf-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes shelf-out { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { html.from-shelf::before, html.from-shelf::after { display: none; } html.from-shelf body { animation: none; } }
 </style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -330,7 +806,8 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -344,6 +821,15 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      refreshSafariScrollbar();
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -528,7 +1014,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-law-of-large-numbers" id="toc-the-law-of-large-numbers" class="nav-link active" data-scroll-target="#the-law-of-large-numbers">The law of large numbers</a></li>
+  <li><a href="#probability-spaces-and-random-variables" id="toc-probability-spaces-and-random-variables" class="nav-link active" data-scroll-target="#probability-spaces-and-random-variables">Probability spaces and random variables</a></li>
+  <li><a href="#independence" id="toc-independence" class="nav-link" data-scroll-target="#independence">Independence</a></li>
+  <li><a href="#the-laws-of-large-numbers" id="toc-the-laws-of-large-numbers" class="nav-link" data-scroll-target="#the-laws-of-large-numbers">The laws of large numbers</a></li>
+  <li><a href="#the-second-borelcantelli-lemma" id="toc-the-second-borelcantelli-lemma" class="nav-link" data-scroll-target="#the-second-borelcantelli-lemma">The second Borel–Cantelli lemma</a></li>
   </ul>
 </nav>
     </div>
@@ -555,30 +1044,29 @@ window.Quarto = {
 </header>
 
 
+<section id="probability-spaces-and-random-variables" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="probability-spaces-and-random-variables">Probability spaces and random variables</h2>
 <div id="r-9-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.1 — Probability space
+<span class="screen-reader-only">Note</span><strong>Definition 9.1</strong> (Probability space).
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>A probability space is a measure space <span class="math inline">\((\Omega, \mathcal M, P)\)</span> with <span class="math inline">\(P(\Omega) = 1\)</span>.</p>
 </div>
 </div>
-<p><span class="math inline">\(\Omega\)</span> is our set of outcomes of some random experiment, <span class="math inline">\(\mathcal M\)</span> is the set of events to which we will assign a probability, and <span class="math inline">\(P(A)\)</span> is the probability that an event occurs.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>Note that a probability space thus automatically qualifies as finite, and therefore also <span class="math inline">\(\sigma\)</span>-finite. This means that we can apply properties of the probability measure such as continuity from above without having to think twice.</p>
-</div></div><div id="r-9-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<p><span class="math inline">\(\Omega\)</span> is our set of outcomes of some random experiment, <span class="math inline">\(\mathcal M\)</span> is the set of events to which we will assign a probability, and <span class="math inline">\(P(A)\)</span> is the probability that an event occurs.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;A probability space thus automatically qualifies as finite, and therefore also <span class="math inline">\(\sigma\)</span>-finite. This means that we can apply properties of the probability measure such as continuity from above without having to think twice.</p></div></div><div id="r-9-2" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.2 — Random variable
+<span class="screen-reader-only">Note</span><strong>Definition 9.2</strong> (Random variable).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -592,7 +1080,7 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.3 — Expectation
+<span class="screen-reader-only">Note</span><strong>Definition 9.3</strong> (Expectation).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -605,23 +1093,23 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.4 — Distribution / Law of a Random Variable
+<span class="screen-reader-only">Note</span><strong>Definition 9.4</strong> (Distribution / Law of a Random Variable).
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given a r.v. <span class="math inline">\(X\)</span> on a probability space, the distribution or law of <span class="math inline">\(X\)</span> is the probability measure <span class="math inline">\(\mu\)</span> on <span class="math inline">\((R, \mathcal B)\)</span> given by <span class="math display">\[\mu(A) = P(X^{-1}(A))\]</span></p>
+<p>Given a r.v. <span class="math inline">\(X\)</span> on a probability space, the distribution or law of <span class="math inline">\(X\)</span> is the probability measure <span class="math inline">\(\mu\)</span> on <span class="math inline">\((R, \mathcal B)\)</span> given by <span class="math display">\[\mu(A) = P(X^{-1}(A))\]</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 </div>
 </div>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>Note that we demand <span class="math inline">\(X\)</span> to be measurable, hence the preimage of <span class="math inline">\(A\subseteq R\)</span> is contained in <span class="math inline">\(\mathcal M\)</span> and we can thus assign a meaningful probability to that event.</p>
-</div></div><div id="r-9-5" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;We demand <span class="math inline">\(X\)</span> to be measurable, hence the preimage of <span class="math inline">\(A\subseteq R\)</span> is contained in <span class="math inline">\(\mathcal M\)</span> and we can thus assign a meaningful probability to that event.</p></div></div></section>
+<section id="independence" class="level2">
+<h2 class="anchored" data-anchor-id="independence">Independence</h2>
+<div id="r-9-5" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.5 — Independent random variables
+<span class="screen-reader-only">Note</span><strong>Definition 9.5</strong> (Independent random variables).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -635,22 +1123,29 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 9.6 — Infinite collection of independent random variables
+<span class="screen-reader-only">Note</span><strong>Definition 9.6</strong> (Infinite collection of independent random variables).
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>An <strong>infinite</strong> collection of r.vs. on a probability space <span class="math inline">\((\Omega, \mathcal M, P)\)</span> is called independent if each finite collection is independent, as above.</p>
 </div>
 </div>
-<section id="the-law-of-large-numbers" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="the-law-of-large-numbers">The law of large numbers</h2>
+<section id="constructing-infinitely-many-independent-random-variables" class="level4">
+<h4 class="anchored" data-anchor-id="constructing-infinitely-many-independent-random-variables">Constructing infinitely many independent random variables</h4>
+<p>There are two standard ways to build a probability space carrying an infinite sequence of independent random variables.</p>
+<p><em>An infinite product space.</em> The product construction of <a href="./lecture-08.html">Lecture 8</a> extends to infinitely many probability spaces. If the <span class="math inline">\(n\)</span>-th random variable depends only on the <span class="math inline">\(n\)</span>-th coordinate, the random variables are independent, essentially by the definition of the product measure.</p>
+<p><em>The unit interval.</em> Take <span class="math inline">\(([0,1], \mathcal B_{[0,1]}, m)\)</span> with <span class="math inline">\(m\)</span> the Lebesgue measure, which is a probability measure on <span class="math inline">\([0,1]\)</span>. Every <span class="math inline">\(x \in [0,1]\)</span> has a binary expansion <span class="math inline">\(x = \sum_n a_n(x)/2^n\)</span> with <span class="math inline">\(a_n(x) \in \{0,1\}\)</span>, unique except for the countably many dyadic rationals (for example <span class="math inline">\(1/2 = 0.1000\ldots = 0.0111\ldots\)</span>). Setting <span class="math inline">\(X_n(x) = 1\)</span> if <span class="math inline">\(a_n(x) = 1\)</span> and <span class="math inline">\(X_n(x) = -1\)</span> otherwise gives an i.i.d. sequence of fair <span class="math inline">\(\pm 1\)</span> coin flips. The strong law of large numbers then says that almost every <span class="math inline">\(x \in [0,1]\)</span> has, asymptotically, equally many <span class="math inline">\(0\)</span>s and <span class="math inline">\(1\)</span>s in its binary expansion.</p>
+</section>
+</section>
+<section id="the-laws-of-large-numbers" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-laws-of-large-numbers">The laws of large numbers</h2>
 <div id="r-9-7" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 9.7 — Weak and strong law of large numbers (special case)
+<span class="screen-reader-only">Important</span><strong>Theorem 9.7</strong> (Weak and strong law of large numbers (special case)).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -671,9 +1166,9 @@ window.Quarto = {
 <p>We first compute <span class="math inline">\(E[S_n^2]\)</span>: <span class="math display">\[E[S_n^2] = \sum_{i,j=1}^n E[X_iX_j] = n\]</span> since <span class="math inline">\(E[X_i^2]=1\)</span> and <span class="math inline">\(E[X_iX_j]=0\)</span> for <span class="math inline">\(i\neq j\)</span> by independence (as <span class="math inline">\(E[X_i]=0\)</span>). By linearity: <span class="math display">\[E\!\left[\left(\frac{S_n}{n}\right)^2\right] = \frac{1}{n}\]</span> Applying Markov’s inequality: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) = P\!\left(\left(\frac{S_n}{n}\right)^2 \geq \epsilon^2\right) \leq \frac{E[(S_n/n)^2]}{\epsilon^2} = \frac{1}{n\epsilon^2} \to 0\]</span> as <span class="math inline">\(n\to\infty\)</span>, so <span class="math inline">\(S_n/n\)</span> converges to <span class="math inline">\(0\)</span> in probability. (This makes sense — we assigned equal probability to <span class="math inline">\(\pm 1\)</span>, so gains and losses cancel.)</p>
 <p><strong>Proof of SLLN.</strong></p>
 <p><strong>Step 1: From summability to a.s. convergence via Borel–Cantelli.</strong></p>
-<p>Assume we can establish: <span class="math display">\[\sum_{n=1}^\infty P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) &lt; \infty \tag{16}\]</span> The sets <span class="math inline">\(E_n(\epsilon) := \{|S_n/n| \geq \epsilon\}\)</span> are measurable (preimages of <span class="math inline">\([\epsilon,\infty)\)</span> under the measurable function <span class="math inline">\(|S_n/n|\)</span>, where <span class="math inline">\(S_n\)</span> is just a sum of r.vs. which by definition are real-valued measurable functions, and a sum of measurable functions is also measurable, and the composition of a continuous function <span class="math inline">\(|\cdot |\)</span> with a measurable function is also measurable), so Borel–Cantelli applies: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon \text{ i.o.}\right) = 0 \quad \forall \epsilon &gt; 0\]</span> For each integer <span class="math inline">\(k\)</span>, define <span class="math inline">\(A_k := \{|S_n/n| \geq 1/k \text{ i.o.}\}\)</span>. Then <span class="math inline">\(P(A_k)=0\)</span> for every <span class="math inline">\(k\)</span>, and by countable additivity <span class="math inline">\(P(\bigcup_k A_k) = 0\)</span>. Taking complements via De Morgan: <span class="math display">\[P\!\left(\bigcap_k A_k^c\right) = 1\]</span> Since <span class="math inline">\(A_k^c = \{\text{eventually } |S_n/n| &lt; 1/k\}\)</span>, an outcome <span class="math inline">\(\omega\in\bigcap_k A_k^c\)</span> means: for every <span class="math inline">\(k\)</span> there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(|S_n(\omega)/n| &lt; 1/k\)</span> for all <span class="math inline">\(n\geq N\)</span>. This is exactly the <span class="math inline">\(\epsilon\)</span>-<span class="math inline">\(N\)</span> definition of <span class="math inline">\(S_n(\omega)/n\to 0\)</span>, for any epsilon we can just pick k sufficiently large s.t. <span class="math inline">\(1/k &lt; \epsilon\)</span> and then <span class="math inline">\(\omega \in A_k^c\)</span> we have <span class="math inline">\(|S_n(\omega)/n|&lt;1/k&lt; \epsilon\)</span>. Hence: <span class="math display">\[P\!\left(\{ \omega : \frac{S_n(\omega)}{n}\to 0\}\right) = 1\]</span></p>
+<p>Assume we can establish: <span id="eq-l09-bc-condition"><span class="math display">\[\sum_{n=1}^\infty P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) &lt; \infty \tag{9.1}\]</span></span> The sets <span class="math inline">\(E_n(\epsilon) := \{|S_n/n| \geq \epsilon\}\)</span> are measurable (preimages of <span class="math inline">\([\epsilon,\infty)\)</span> under the measurable function <span class="math inline">\(|S_n/n|\)</span>, where <span class="math inline">\(S_n\)</span> is just a sum of r.vs. which by definition are real-valued measurable functions, and a sum of measurable functions is also measurable, and the composition of a continuous function <span class="math inline">\(|\cdot |\)</span> with a measurable function is also measurable), so Borel–Cantelli applies: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon \text{ i.o.}\right) = 0 \quad \forall \epsilon &gt; 0\]</span> For each integer <span class="math inline">\(k\)</span>, define <span class="math inline">\(A_k := \{|S_n/n| \geq 1/k \text{ i.o.}\}\)</span>. Then <span class="math inline">\(P(A_k)=0\)</span> for every <span class="math inline">\(k\)</span>, and by countable additivity <span class="math inline">\(P(\bigcup_k A_k) = 0\)</span>. Taking complements via De Morgan: <span class="math display">\[P\!\left(\bigcap_k A_k^c\right) = 1\]</span> Since <span class="math inline">\(A_k^c = \{\text{eventually } |S_n/n| &lt; 1/k\}\)</span>, an outcome <span class="math inline">\(\omega\in\bigcap_k A_k^c\)</span> means: for every <span class="math inline">\(k\)</span> there exists <span class="math inline">\(N\)</span> such that <span class="math inline">\(|S_n(\omega)/n| &lt; 1/k\)</span> for all <span class="math inline">\(n\geq N\)</span>. This is exactly the <span class="math inline">\(\epsilon\)</span>-<span class="math inline">\(N\)</span> definition of <span class="math inline">\(S_n(\omega)/n\to 0\)</span>, for any epsilon we can just pick k sufficiently large s.t. <span class="math inline">\(1/k &lt; \epsilon\)</span> and then <span class="math inline">\(\omega \in A_k^c\)</span> we have <span class="math inline">\(|S_n(\omega)/n|&lt;1/k&lt; \epsilon\)</span>. Hence: <span class="math display">\[P\!\left(\{ \omega : \frac{S_n(\omega)}{n}\to 0\}\right) = 1\]</span></p>
 <p><strong>Step 2: Second moments are not enough.</strong></p>
-<p>From the WLLN we had <span class="math inline">\(P(|S_n/n|\geq\epsilon)\leq 1/(n\epsilon^2)\)</span>, but <span class="math inline">\(\sum_n 1/n = \infty\)</span>, so (16) fails and Borel–Cantelli cannot be applied with second moments.</p>
+<p>From the WLLN we had <span class="math inline">\(P(|S_n/n|\geq\epsilon)\leq 1/(n\epsilon^2)\)</span>, but <span class="math inline">\(\sum_n 1/n = \infty\)</span>, so (<a href="#eq-l09-bc-condition" class="quarto-xref"><span>9.1</span></a>) fails and Borel–Cantelli cannot be applied with second moments.</p>
 <p><strong>Step 3: Fourth moment bound.</strong></p>
 <p>We instead show <span class="math inline">\(E(S_n^4)\leq 3n^2\)</span>. Expanding: <span class="math display">\[E(S_n^4) = \sum_{i,j,k,\ell} E(X_iX_jX_kX_\ell)\]</span> Split into three groups:</p>
 <p><strong>(a) <span class="math inline">\(i=j=k=\ell\)</span>:</strong> Each term equals <span class="math inline">\(E(X_i^4)=1\)</span>, giving <span class="math inline">\(n\)</span> terms.</p>
@@ -681,12 +1176,13 @@ window.Quarto = {
 <p><strong>(c) All other cases:</strong> Any index appearing an odd number of times factors out <span class="math inline">\(E(X_i)=0\)</span>, so all such terms vanish.</p>
 <p>Hence: <span class="math display">\[E(S_n^4) = n + 3n(n-1) = 3n^2 - 2n \leq 3n^2\]</span></p>
 <p><strong>Step 4: Applying Markov with fourth moments.</strong></p>
-<p>By Markov applied to <span class="math inline">\((S_n/n)^4\)</span>: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right|\geq\epsilon\right) \leq \frac{E[(S_n/n)^4]}{\epsilon^4} \leq \frac{3}{n^2\epsilon^4}\]</span> Since <span class="math inline">\(\sum_{n=1}^\infty \frac{3}{n^2\epsilon^4} &lt; \infty\)</span> by the <span class="math inline">\(p\)</span>-series test, condition (16) holds and we are done. <span class="math inline">\(\blacksquare\)</span></p>
+<p>By Markov applied to <span class="math inline">\((S_n/n)^4\)</span>: <span class="math display">\[P\!\left(\left|\frac{S_n}{n}\right|\geq\epsilon\right) \leq \frac{E[(S_n/n)^4]}{\epsilon^4} \leq \frac{3}{n^2\epsilon^4}\]</span> Since <span class="math inline">\(\sum_{n=1}^\infty \frac{3}{n^2\epsilon^4} &lt; \infty\)</span> by the <span class="math inline">\(p\)</span>-series test, condition (<a href="#eq-l09-bc-condition" class="quarto-xref"><span>9.1</span></a>) holds and we are done. <span class="math inline">\(\blacksquare\)</span></p>
 </div>
 </div>
 </div>
 </div>
 </div>
+<p>The two laws say different things about coin flipping. The weak law says that after many flips, the fraction of heads is, with high probability, within any fixed margin of <span class="math inline">\(1/2\)</span>, for example in <span class="math inline">\([0.499, 0.501]\)</span>. The strong law says that with probability one, the fraction of heads converges to <span class="math inline">\(1/2\)</span> as the number of flips goes to infinity.</p>
 <div id="fig-l09-law-of-large-numbers" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Sample averages of fair coin flips settle at the mean tfrac12.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-l09-law-of-large-numbers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -705,24 +1201,24 @@ Figure&nbsp;9.1: Sample averages of fair coin flips settle at the mean <span cla
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 9.8 — Strong law of large numbers: General case
+<span class="screen-reader-only">Important</span><strong>Theorem 9.8</strong> (Strong law of large numbers: General case).
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Let <span class="math inline">\(X_1, X_2,...\)</span> be independent r.vs. with the same distribution (i.i.d.) on some probability space <span class="math inline">\((\Omega, \mathcal F, P)\)</span> with <span class="math inline">\(E(|X|) &lt; \infty\)</span>, then <span class="math display">\[\frac{S_n}{n} = \frac{\sum X_i}{n}\]</span> converges a.e. to <span class="math inline">\(E[X]\)</span>.</p>
 </div>
 </div>
-<p>Remember that two r.vs. can have the same probability distribution but still live in different probability spaces. For example, the outcome of a fair coin on <span class="math inline">\(\Omega = \{H, T\}\)</span> and the outcome of a fair die being even or odd on <span class="math inline">\(\Omega' = \{1,2,3,4,5,6\}\)</span> have the same Bernoulli<span class="math inline">\((1/2)\)</span> distribution but live on different spaces.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p><strong>Independent events.</strong> Events <span class="math inline">\(E_1, E_2, \ldots\)</span> are independent if their indicator functions <span class="math inline">\(1_{E_1}, 1_{E_2}, \ldots\)</span> are independent random variables in the sense of <a href="./lecture-09.html#r-9-5">Definition 9.5</a> and <a href="./lecture-09.html#r-9-6">Definition 9.6</a>. Equivalently, <span class="math inline">\(P(E_{i_1}\cap\cdots\cap E_{i_k}) = P(E_{i_1})\cdots P(E_{i_k})\)</span> for every finite set of distinct indices <span class="math inline">\(i_1, \ldots, i_k\)</span>.</p>
-</div></div><div id="r-9-9" class="lemma-box callout callout-style-default callout-important no-icon callout-titled">
+<p>Remember that two r.vs. can have the same probability distribution but still live in different probability spaces. For example, the outcome of a fair coin on <span class="math inline">\(\Omega = \{H, T\}\)</span> and the outcome of a fair die being even or odd on <span class="math inline">\(\Omega' = \{1,2,3,4,5,6\}\)</span> have the same Bernoulli<span class="math inline">\((1/2)\)</span> distribution but live on different spaces.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;<strong>Independent events.</strong> Events <span class="math inline">\(E_1, E_2, \ldots\)</span> are independent if their indicator functions <span class="math inline">\(1_{E_1}, 1_{E_2}, \ldots\)</span> are independent random variables in the sense of <a href="./lecture-09.html#r-9-5">Definition 9.5</a> and <a href="./lecture-09.html#r-9-6">Definition 9.6</a>. Equivalently, <span class="math inline">\(P(E_{i_1}\cap\cdots\cap E_{i_k}) = P(E_{i_1})\cdots P(E_{i_k})\)</span> for every finite set of distinct indices <span class="math inline">\(i_1, \ldots, i_k\)</span>.</p></div></div></section>
+<section id="the-second-borelcantelli-lemma" class="level2">
+<h2 class="anchored" data-anchor-id="the-second-borelcantelli-lemma">The second Borel–Cantelli lemma</h2>
+<div id="r-9-9" class="lemma-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Lemma 9.9 — Second Borel–Cantelli Lemma
+<span class="screen-reader-only">Important</span><strong>Lemma 9.9</strong> (Second Borel–Cantelli Lemma).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -760,6 +1256,7 @@ Figure&nbsp;9.1: Sample averages of fair coin flips settle at the mean <span cla
 
 
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

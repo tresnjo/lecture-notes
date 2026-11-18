@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-11-17">
+<meta name="dcterms.date" content="2026-11-18">
 
 <title>Quantum Field Theory</title>
 <style>
@@ -49,9 +49,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-6a4239ded7c831dc9986d58e00f1eac2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fe6aefca49722b66f640fb16feac4c9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-c389d3264812f0aebd6012bb1d49f0df.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-fe6aefca49722b66f640fb16feac4c9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -145,6 +145,181 @@ ul.task-list li input[type="checkbox"] {
   .navbar-brand .navbar-title { white-space: normal; }
   h1.title, .quarto-title h1 { overflow-wrap: break-word; }
 }
+</style>
+<!-- page turning between chapters, hinged on the left like a book's spine -->
+<script>
+(function () {
+  // run layout work once fonts and maths are in place (max 900 ms); the page itself is never hidden
+  var fns = [], done = false;
+  window.__whenReady = function (fn) { if (done) fn(); else fns.push(fn); };
+  function fire() { if (done) return; done = true; fns.forEach(function (f) { try { f(); } catch (e) {} }); document.dispatchEvent(new Event("page-ready")); }
+  document.addEventListener("DOMContentLoaded", function () {
+    var waits = [];
+    if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) waits.push(MathJax.startup.promise);
+    Promise.race([Promise.all(waits), new Promise(function (r) { setTimeout(r, 900); })]).then(function () { requestAnimationFrame(fire); });
+  });
+})();
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var HALF = 300;                                   // each half of the turn, in ms
+  var incoming = null;
+  try { incoming = sessionStorage.getItem("page-turn"); if (incoming) sessionStorage.removeItem("page-turn"); } catch (e) {}
+  if (incoming && !reduce) document.documentElement.classList.add("turn-in-" + incoming);
+
+  function page() { return document.querySelector("main#quarto-document-content") || document.querySelector("main"); }
+  // a sheet of paper over the visible part of the text column, hinged at its left edge
+  function leaf(shade) {
+    var p = page(), r = p.getBoundingClientRect();
+    var stage = document.createElement("div");
+    stage.style.cssText = "position:fixed;inset:0;z-index:2000;pointer-events:none;perspective:1700px;perspective-origin:" + r.left + "px 50%";
+    var l = document.createElement("div");
+    l.style.cssText = "position:absolute;top:0;height:100vh;left:" + r.left + "px;width:" + r.width + "px;transform-origin:0 50%;" +
+      "background:var(--bs-body-bg,#fff);backface-visibility:visible;box-shadow:0 0 30px rgba(0,0,0,0.12)";
+    var g = document.createElement("div");
+    g.style.cssText = "position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0," + shade + "),rgba(0,0,0,0) 60%)";
+    l.appendChild(g); stage.appendChild(l); document.body.appendChild(stage);
+    return { stage: stage, leaf: l };
+  }
+  function shadowOnPage(fromLeft) {
+    var p = page(), r = p.getBoundingClientRect();
+    var s = document.createElement("div");
+    s.style.cssText = "position:fixed;top:0;height:100vh;z-index:1990;pointer-events:none;left:" + r.left + "px;width:" + r.width + "px;" +
+      "background:linear-gradient(90deg,rgba(0,0,0,0.16),rgba(0,0,0,0.04) 35%,rgba(0,0,0,0) 70%)";
+    document.body.appendChild(s);
+    return s;
+  }
+
+  // arriving: finish the turn
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!incoming || reduce) return;
+    if (incoming === "fwd") {
+      // the blank back of the turned page swings over to the left; the new page is already underneath
+      var o = leaf(0.10), sh = shadowOnPage();
+      o.leaf.animate([{ transform: "rotateY(-90deg)" }, { transform: "rotateY(-178deg)", opacity: 0.0 }],
+        { duration: HALF + 120, easing: "cubic-bezier(.2,.6,.3,1)", fill: "forwards" }).onfinish = function () { o.stage.remove(); };
+      sh.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF + 160, easing: "ease-out", fill: "forwards" }).onfinish = function () { sh.remove(); };
+    } else {
+      // the previous page swings down onto the text (CSS animation, running from the first paint)
+      var p = page();
+      if (p) p.addEventListener("animationend", function () { document.documentElement.classList.remove("turn-in-back"); }, { once: true });
+    }
+    document.documentElement.classList.remove("turn-in-fwd");
+  });
+
+  function order() {
+    return [].map.call(document.querySelectorAll("#quarto-sidebar a[href]"), function (a) {
+      return new URL(a.getAttribute("href"), location.href).pathname;
+    }).filter(function (p, i, arr) { return arr.indexOf(p) === i; });
+  }
+  var fetched = {};
+  function prefetch(href) {
+    var u = new URL(href, location.href); u.hash = "";
+    if (fetched[u.href] || u.pathname === location.pathname) return; fetched[u.href] = 1;
+    var l = document.createElement("link"); l.rel = "prefetch"; l.href = u.href; document.head.appendChild(l);
+  }
+  function turnTo(href) {
+    var url = new URL(href, location.href);
+    if (url.pathname === location.pathname || reduce) { location.href = url.href; return; }
+    var list = order(), from = list.indexOf(location.pathname), to = list.indexOf(url.pathname);
+    var p = page();
+    if (from < 0 || to < 0 || !p || !p.animate) { location.href = url.href; return; }
+    var dir = to > from ? "fwd" : "back";
+    try { sessionStorage.setItem("page-turn", dir); } catch (e) {}
+    var box = document.querySelector(".orbit-box.in-margin");
+    if (box) box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF, fill: "forwards" });
+    var go = function () { location.href = url.href; };
+    if (dir === "fwd") {
+      // this page turns over to the left until it is edge-on
+      var r = p.getBoundingClientRect(), par = p.parentNode, pr = par.getBoundingClientRect();
+      par.style.perspective = "1700px";
+      par.style.perspectiveOrigin = (r.left - pr.left) + "px " + (innerHeight / 2 - pr.top) + "px";
+      p.style.transformOrigin = "0px " + (innerHeight / 2 - r.top) + "px";
+      p.animate([{ transform: "rotateY(0deg)", filter: "brightness(1)" }, { transform: "rotateY(-90deg)", filter: "brightness(0.82)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    } else {
+      // the blank back of the previous page swings in from the left until it is edge-on
+      var o = leaf(0.18);
+      o.leaf.style.boxShadow = "0 0 40px rgba(0,0,0,0.22)";
+      o.leaf.animate([{ transform: "rotateY(-176deg)" }, { transform: "rotateY(-90deg)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    }
+  }
+  window.__turnTo = turnTo;
+
+  document.addEventListener("click", function (ev) {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (!a || a.target === "_blank") return;
+    var url = new URL(a.getAttribute("href"), location.href);
+    if (url.origin !== location.origin || !/\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
+    if (url.pathname.split("/").slice(0, -1).join("/") !== location.pathname.split("/").slice(0, -1).join("/")) return;
+    ev.preventDefault(); turnTo(url.href);
+  }, true);
+  // fetch neighbouring chapters early so the next page is ready when the turn needs it
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (a && /\.html(#|$)/.test(a.getAttribute("href")) && !/^https?:/.test(a.getAttribute("href"))) prefetch(a.getAttribute("href"));
+  }, { passive: true });
+  window.addEventListener("load", function () {
+    [].forEach.call(document.querySelectorAll("nav.page-navigation a[href]"), function (a) { prefetch(a.getAttribute("href")); });
+  });
+  window.addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    var p = page(); if (p && p.getAnimations) p.getAnimations().forEach(function (an) { an.cancel(); });
+    [].forEach.call(document.querySelectorAll("body > div[style*='perspective']"), function (s) { s.remove(); });
+  });
+})();
+</script>
+<style>
+html.turn-in-back main#quarto-document-content { transform-origin: 0 50vh; animation: turn-in-back 0.42s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes turn-in-back { from { transform: perspective(1700px) rotateY(-90deg); filter: brightness(0.88); } to { transform: perspective(1700px) rotateY(0deg); filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { html[class*="turn-in-"] main#quarto-document-content { animation: none; } }
+</style>
+<!-- typeset maths inside footnote and cross-reference hover popups -->
+<script>
+(function () {
+  function typeset(el) {
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(function () {});
+  }
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a.footnote-ref, a.quarto-xref, a[role='doc-noteref']");
+    if (!a || !a._tippy || a._tippy.__math) return;
+    var inst = a._tippy, prev = inst.props.onShown;
+    inst.__math = true;
+    inst.setProps({ onShown: function (i) { if (prev) prev(i); typeset(i.popper); } });
+    if (inst.state.isShown) typeset(inst.popper);
+  }, true);
+})();
+</script>
+<!-- opened from the bookshelf: the title page dissolves into the notes -->
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem("shelf-open") === "1") {
+      sessionStorage.removeItem("shelf-open");
+      var t = sessionStorage.getItem("shelf-title") || "";
+      if (!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+        document.documentElement.classList.add("from-shelf");
+        document.documentElement.setAttribute("data-shelf-title", t);
+      }
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+html.from-shelf { background: var(--bs-body-bg, #fff); }
+html.from-shelf body { animation: shelf-in 0.9s cubic-bezier(.16,1,.3,1) 0.35s both; }
+html.from-shelf::before, html.from-shelf::after {
+  position: fixed; left: 0; right: 0; z-index: 9999; pointer-events: none; text-align: center; padding: 0 24px;
+  font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
+  color: var(--bs-body-color, #222); animation: shelf-out 0.8s cubic-bezier(.4,0,.2,1) 0.3s both; }
+html.from-shelf::before { content: attr(data-shelf-title); top: 0; bottom: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--bs-body-bg, #fff); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; padding-bottom: 2.6rem; }
+html.from-shelf::after { content: "Lecture notes"; top: calc(50% + 0.9rem); font-style: italic; opacity: 0.6; font-size: 18px; }
+@keyframes shelf-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes shelf-out { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { html.from-shelf::before, html.from-shelf::after { display: none; } html.from-shelf body { animation: none; } }
 </style>
 
 
@@ -300,7 +475,8 @@ ul.task-list li input[type="checkbox"] {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -314,6 +490,15 @@ ul.task-list li input[type="checkbox"] {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      refreshSafariScrollbar();
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -400,7 +585,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Last edited</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 17, 2026</p>
+      <p class="date">November 18, 2026</p>
     </div>
   </div>
   

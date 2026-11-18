@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-6a4239ded7c831dc9986d58e00f1eac2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-3c232399d3c9d280980b59f1d8712e21.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0caf9a27edb8a99c0fbaabcb3b99be09.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-232212b438d0a562ecf2b74a746a325e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-0caf9a27edb8a99c0fbaabcb3b99be09.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,6 +146,482 @@ ul.task-list li input[type="checkbox"] {
   .navbar-brand .navbar-title { white-space: normal; }
   h1.title, .quarto-title h1 { overflow-wrap: break-word; }
 }
+</style>
+<!-- lecture solar system (Interactive graph box) -->
+<script src="lecture-graph.js"></script>
+<script>
+/* Interactive graph: a small 3D solar system of lectures.
+   The current lecture is the sun. Every connected lecture is a planet on its own tilted orbit:
+   lectures it builds on sit closest (strongest connection innermost, solid orbits), later lectures
+   that build on it further out (dashed orbits). Faint links join the sun to each planet and planets
+   that are connected to each other.
+   Drag the background to rotate and tilt (with momentum). Drag a planet to pull it off its orbit;
+   it springs back when released. Hover a planet to highlight its links, click it to open the lecture,
+   double-click the background to reset the view. */
+(function () {
+  var PART = {
+    "Measure Theory": ["#e3a689", "#a9583a"],
+    "Integration": ["#9cc0dc", "#3a6f99"],
+    "Signed Measures and Differentiation": ["#e6d3a3", "#a9862f"]
+  };
+  var YAW0 = -0.35, PITCH0 = 0.6, MAXP = 9;
+
+  function mountOrbit(host, G, n, opts) {
+    opts = opts || {};
+    var byN = {}; G.lectures.forEach(function (l) { byN[l.n] = l; });
+    if (!byN[n]) return;
+    var inner = [], outer = [];
+    G.edges.forEach(function (e) {
+      if (e.from === n) inner.push({ l: byN[e.to], via: e.via, w: e.w, kind: "in" });
+      else if (e.to === n) outer.push({ l: byN[e.from], via: e.via, w: e.w, kind: "out" });
+    });
+    var byW = function (a, b) { return b.w - a.w || a.l.n - b.l.n; };
+    inner.sort(byW); outer.sort(byW);
+    inner = inner.slice(0, 7); outer = outer.slice(0, Math.max(0, MAXP - inner.length));
+    var list = inner.concat(outer);
+
+    host.innerHTML = "";
+    var cv = document.createElement("canvas"); cv.className = "orbit-canvas"; cv.tabIndex = 0;
+    var cap = document.createElement("div"); cap.className = "orbit-caption";
+    host.appendChild(cv); host.appendChild(cap);
+    var nums = function (a) { return a.map(function (p) { return p.l.n; }).sort(function (x, y) { return x - y; }).join(", "); };
+    var rest = (inner.length ? "builds on " + nums(inner) : "") + (inner.length && outer.length ? " · " : "") +
+      (outer.length ? "used in " + nums(outer) : "");
+    var label = rest || "no connections yet";
+    rest = "";
+    cap.textContent = rest;
+    cv.setAttribute("role", "img");
+    cv.setAttribute("aria-label", "Lecture " + n + " " + label + ". Drag to rotate, drag a planet to move it.");
+
+    // links between planets (Obsidian-style edges among the neighbours)
+    var set = {}; list.forEach(function (p, i) { set[p.l.n] = i; });
+    var links = [];
+    G.edges.forEach(function (e) {
+      if (e.from in set && e.to in set) links.push([set[e.from], set[e.to], e.w]);
+    });
+
+    var ctx = cv.getContext("2d"), W, H, dpr, cx, cy, R;
+    var N = list.length;
+    var bodies = list.map(function (p, i) {
+      var f = N > 1 ? i / (N - 1) : 0.5;
+      return { p: p, i: i, f: f, a0: (i * 2.399963) % (Math.PI * 2),                     // golden-angle start phases
+        inc: 0.42 * Math.sin(i * 2.1 + n * 0.7), node: i * 1.17 + n * 0.3,
+        r: 2.8 + Math.sqrt(Math.max(1, p.l.results)) * 1.1,
+        off: { x: 0, y: 0, vx: 0, vy: 0 } };
+    });
+
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var t = 0, yaw = YAW0, pitch = PITCH0, vyaw = 0, vpitch = 0, hover = null, drag = null, grab = null, last = 0, visible = true;
+
+    function size() {
+      dpr = window.devicePixelRatio || 1;
+      W = host.clientWidth || 260; H = Math.round(W * (opts.ratio || 0.9));
+      cv.width = W * dpr; cv.height = H * dpr; cv.style.height = H + "px";
+      cx = W / 2; cy = H / 2; R = W * 0.4;
+    }
+    function radius(b) { return R * (0.24 + 0.76 * b.f); }
+    function speed(b) { var x = radius(b) / R; return 0.06 * Math.pow(x, -1.5); }                // Kepler-ish
+    function project(rad, inc, node, a) {
+      var x = rad * Math.cos(a), z = rad * Math.sin(a);
+      var y1 = -z * Math.sin(inc), z1 = z * Math.cos(inc);
+      var x2 = x * Math.cos(node) + z1 * Math.sin(node), z2 = -x * Math.sin(node) + z1 * Math.cos(node);
+      var x3 = x2 * Math.cos(yaw) + z2 * Math.sin(yaw), z3 = -x2 * Math.sin(yaw) + z2 * Math.cos(yaw);
+      var sy = y1 * Math.cos(pitch) + z3 * Math.sin(pitch), d = z3 * Math.cos(pitch) - y1 * Math.sin(pitch);
+      var k = 1 + 0.25 * d / R;
+      return { x: cx + x3 * k, y: cy + sy * k, d: d, k: k };
+    }
+    function colors() {
+      var c = getComputedStyle(host).color || "rgb(40,40,40)", m = c.match(/\d+/g) || [40, 40, 40];
+      var dark = (0.3 * m[0] + 0.59 * m[1] + 0.11 * m[2]) / 255 > 0.5;
+      var a = function (v) { return (dark ? "rgba(255,255,255," : "rgba(0,0,0,") + v + ")"; };
+      return { text: c, a: a };
+    }
+    function font(sz, it) { return (it ? "italic " : "") + sz + "px " + (getComputedStyle(host).fontFamily || "Palatino, serif"); }
+
+    function drawOrbit(b, c) {
+      var M = 90, rad = radius(b), prev = null, lit = hover === b;
+      ctx.lineWidth = lit ? 1 : 0.7;
+      for (var j = 0; j <= M; j++) {
+        var q = project(rad, b.inc, b.node, j / M * Math.PI * 2);
+        if (prev) {
+          ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(q.x, q.y);
+          var base = q.d < 0 ? 0.04 : 0.09;
+          ctx.strokeStyle = c.a(lit ? base * 2.6 : (hover ? base * 0.6 : base)); ctx.stroke();
+        }
+        prev = q;
+      }
+      ctx.setLineDash([]);
+    }
+    function drawLink(p, q, w, on, c) {
+      ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+      var v = Math.min(0.26, 0.07 + w * 0.01);
+      ctx.strokeStyle = c.a(on ? 0.45 : (hover ? v * 0.35 : v)); ctx.lineWidth = on ? 1.1 : 0.7; ctx.stroke();
+    }
+    function drawSun() {
+      var r = 8.5;
+      var g = ctx.createRadialGradient(cx, cy, 1, cx, cy, r * 2.8);
+      g.addColorStop(0, "rgba(246,190,80,0.35)"); g.addColorStop(1, "rgba(246,190,80,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * 2.8, 0, 6.2832); ctx.fill();
+      var b = ctx.createRadialGradient(cx - 2.5, cy - 3, 1, cx, cy, r);
+      b.addColorStop(0, "#fff3d0"); b.addColorStop(0.6, "#efb94e"); b.addColorStop(1, "#c97c22");
+      ctx.fillStyle = b; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = "#5a3306"; ctx.font = font(10); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(String(n), cx, cy + 0.5);
+    }
+    function related(b) {
+      if (!hover) return true; if (b === hover) return true;
+      return links.some(function (L) { return (bodies[L[0]] === hover && bodies[L[1]] === b) || (bodies[L[1]] === hover && bodies[L[0]] === b); });
+    }
+    function drawPlanet(b, c) {
+      var q = b.q, col = PART[b.p.l.part] || ["#ccc", "#888"];
+      var r = b.r * q.k * (hover === b || grab === b ? 1.4 : 1);
+      var dim = hover && !related(b);
+      var g = ctx.createRadialGradient(q.x - r * 0.35, q.y - r * 0.4, r * 0.1, q.x, q.y, r);
+      g.addColorStop(0, col[0]); g.addColorStop(1, col[1]);
+      ctx.globalAlpha = (q.d < 0 ? 0.78 : 1) * (dim ? 0.35 : 1);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = c.text; ctx.globalAlpha = (q.d < 0 ? 0.45 : 0.78) * (dim ? 0.3 : 1);
+      ctx.font = font(10, true); ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText(String(b.p.l.n), q.x + r + 2.5, q.y - r * 0.5);
+      ctx.globalAlpha = 1; b.rr = r;
+    }
+    function draw() {
+      var c = colors();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      bodies.forEach(function (b) {
+        var q = project(radius(b), b.inc, b.node, b.a0 + t * speed(b));
+        q.x += b.off.x; q.y += b.off.y; b.q = q;
+      });
+      bodies.forEach(function (b) { drawOrbit(b, c); });
+      var sun = { x: cx, y: cy };
+      bodies.forEach(function (b) { drawLink(sun, b.q, b.p.w, hover === b, c); });
+      links.forEach(function (L) { var A = bodies[L[0]], B = bodies[L[1]]; drawLink(A.q, B.q, L[2], hover === A || hover === B, c); });
+      var order = bodies.slice().sort(function (a, b) { return a.q.d - b.q.d; }), sunDone = false;
+      order.forEach(function (b) { if (!sunDone && b.q.d >= 0) { drawSun(); sunDone = true; } drawPlanet(b, c); });
+      if (!sunDone) drawSun();
+    }
+    function step(dt) {
+      if (!drag) { yaw += vyaw; pitch = clampP(pitch + vpitch); vyaw *= 0.94; vpitch *= 0.9; }
+      if (!hover && !grab && !reduce) t += dt;
+      bodies.forEach(function (b) {                     // springs pull dragged planets back onto their orbits
+        if (b === grab) return;
+        var o = b.off, k = 70, damp = 7;
+        o.vx += (-k * o.x - damp * o.vx) * dt; o.vy += (-k * o.y - damp * o.vy) * dt;
+        o.x += o.vx * dt; o.y += o.vy * dt;
+        if (Math.abs(o.x) < 0.05 && Math.abs(o.vx) < 0.05) { o.x = 0; o.vx = 0; }
+        if (Math.abs(o.y) < 0.05 && Math.abs(o.vy) < 0.05) { o.y = 0; o.vy = 0; }
+      });
+    }
+    function frame(ts) {
+      var dt = last ? Math.min(0.04, (ts - last) / 1000) : 0; last = ts;
+      step(dt); draw();
+      if (visible) requestAnimationFrame(frame); else last = 0;
+    }
+    function clampP(p) { return Math.max(0.05, Math.min(1.5, p)); }
+    function pick(x, y) {
+      var best = null, bd = 1e9;
+      bodies.forEach(function (b) { if (!b.q) return; var d = Math.hypot(b.q.x - x, b.q.y - y);
+        if (d < b.rr + 7 && d < bd) { bd = d; best = b; } });
+      return best;
+    }
+    function setHover(b) {
+      if (b === hover) return; hover = b;
+      cv.style.cursor = b ? "pointer" : "grab";
+      if (!b) { cap.textContent = rest; cap.classList.remove("on"); cap.title = ""; return; }
+      cap.textContent = b.p.l.n + " · " + b.p.l.title; cap.classList.add("on");
+      cap.title = b.p.via && b.p.via.length ? "via " + b.p.via.join(", ") : "";
+    }
+    function xy(ev) { var r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
+    cv.style.cursor = "grab";
+    cv.addEventListener("pointerdown", function (ev) {
+      var p = xy(ev), b = pick(p[0], p[1]);
+      drag = { x: p[0], y: p[1], x0: p[0], y0: p[1], moved: false, tp: ev.pointerType, on: b };
+      vyaw = vpitch = 0;
+      if (b) { grab = b; b.off.vx = b.off.vy = 0; }
+      try { cv.setPointerCapture(ev.pointerId); } catch (e) {}
+    });
+    cv.addEventListener("pointermove", function (ev) {
+      var p = xy(ev);
+      if (!drag) { setHover(pick(p[0], p[1])); return; }
+      var dx = p[0] - drag.x, dy = p[1] - drag.y; drag.x = p[0]; drag.y = p[1];
+      if (Math.hypot(p[0] - drag.x0, p[1] - drag.y0) > 4) drag.moved = true;
+      if (!drag.moved) return;
+      if (grab) { grab.off.x += dx; grab.off.y += dy; grab.off.vx = dx * 60; grab.off.vy = dy * 60; setHover(grab); cv.style.cursor = "grabbing"; }
+      else { setHover(null); cv.style.cursor = "grabbing"; vyaw = dx * 0.012; vpitch = dy * 0.008; yaw += vyaw; pitch = clampP(pitch + vpitch); }
+    });
+    function end(ev) {
+      if (!drag) return;
+      var d = drag; drag = null; var g = grab; grab = null;
+      if (g) { g.off.vx = Math.max(-600, Math.min(600, g.off.vx)); g.off.vy = Math.max(-600, Math.min(600, g.off.vy)); }
+      cv.style.cursor = hover ? "pointer" : "grab";
+      if (!d.moved && d.on) {
+        if (d.tp !== "mouse" && hover !== d.on) { setHover(d.on); return; }     // touch: first tap names it
+        if (opts.onOpen) opts.onOpen(d.on.p.l.n); else if (window.__turnTo) window.__turnTo(d.on.p.l.href); else window.location.href = d.on.p.l.href;
+      } else if (!d.moved) setHover(null);
+    }
+    cv.addEventListener("pointerup", end);
+    cv.addEventListener("pointercancel", function () { drag = null; grab = null; });
+    cv.addEventListener("pointerleave", function () { if (!drag) setHover(null); });
+    cv.addEventListener("dblclick", function () { yaw = YAW0; pitch = PITCH0; vyaw = vpitch = 0; });
+    cv.addEventListener("keydown", function (ev) {
+      var k = ev.key;
+      if (k === "ArrowLeft") vyaw -= 0.04; else if (k === "ArrowRight") vyaw += 0.04;
+      else if (k === "ArrowUp") vpitch -= 0.03; else if (k === "ArrowDown") vpitch += 0.03;
+      else return;
+      ev.preventDefault();
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        var was = visible; visible = es[0].isIntersecting; if (visible && !was) requestAnimationFrame(frame);
+      }).observe(cv);
+    }
+    var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 120); });
+    size(); draw(); requestAnimationFrame(frame);
+  }
+  window.mountLectureOrbit = mountOrbit;
+})();
+document.addEventListener("DOMContentLoaded", function () {
+  var m = location.pathname.match(/lecture-(\d+)\.html/);
+  if (!m || !window.LECTURE_GRAPH || !window.mountLectureOrbit) return;
+  var n = parseInt(m[1], 10);
+  var box = document.createElement("div"); box.className = "orbit-box";
+  box.innerHTML = '<div class="orbit-title">Interactive graph</div><div class="orbit-host"></div>';
+  var side = document.getElementById("quarto-margin-sidebar");
+  var wide = side && getComputedStyle(side).display !== "none" && side.offsetWidth > 0;
+  var main = document.querySelector("main#quarto-document-content") || document.querySelector("main");
+  if (!wide) {                                   // phones and narrow windows: right under the lecture title
+    if (!main) return;
+    box.classList.add("at-top");
+    var head = main.querySelector("#title-block-header") || main.querySelector("header");
+    if (head && head.parentNode) head.parentNode.insertBefore(box, head.nextSibling); else main.insertBefore(box, main.firstChild);
+    window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n, { ratio: 0.62 });
+    return;
+  }
+  // wide screens: its own layer at the top of the right-hand column, scrolling with the page
+  box.classList.add("in-margin");
+  document.body.appendChild(box);
+  // line the box up with the table of contents column, level with the start of the lecture
+  var tocEl = document.getElementById("TOC");
+  var holder = (tocEl && tocEl.closest(".margin-sidebar")) || side;
+  var top0 = (main ? main.getBoundingClientRect().top : side.getBoundingClientRect().top) + window.scrollY + 8;
+  function place() {
+    var ref = (tocEl && tocEl.getBoundingClientRect().width > 0) ? tocEl.getBoundingClientRect() : side.getBoundingClientRect();
+    var sr = side.getBoundingClientRect();
+    var left = Math.max(ref.left, sr.left), right = Math.min(window.innerWidth - 12, Math.max(ref.right, sr.right));
+    box.style.left = (left + window.scrollX) + "px"; box.style.width = Math.max(180, right - left) + "px"; box.style.top = top0 + "px";
+  }
+  place();
+  window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n);
+  var boxBottom = function () { return top0 + box.offsetHeight + 18; };
+
+  // once the maths has been laid out: footnotes that start beside the box move down below it,
+  // and the table of contents starts below the box and slides up as the box scrolls away
+  function toc() {
+    holder.style.paddingTop = "0px";
+    var gap = Math.max(0, boxBottom() - window.scrollY - holder.getBoundingClientRect().top);
+    holder.style.paddingTop = gap + "px";
+  }
+  (window.__whenReady || function (f) { f(); })(function () {
+    var notes = [].slice.call(document.querySelectorAll("main .column-margin, main .margin-aside, main aside"));
+    var floor = boxBottom();
+    notes.map(function (el) { return { el: el, top: el.getBoundingClientRect().top + window.scrollY, h: el.offsetHeight }; })
+      .sort(function (a, b) { return a.top - b.top; })
+      .forEach(function (o) { if (o.h > 0 && o.top < floor) { o.el.style.position = "relative"; o.el.style.top = (floor - o.top) + "px"; floor = floor + o.h + 12; } });
+    toc();
+  });
+  window.addEventListener("scroll", toc, { passive: true });
+  window.addEventListener("resize", function () { place(); toc(); });
+  toc();
+});
+</script>
+<style>
+/* small connections box at the top of the right-hand column */
+.orbit-box { margin: 0 0 1.4rem; font-family: inherit; }
+.orbit-box .orbit-title { font-weight: 400; font-size: 0.875rem; margin: 0 0 0.35rem; font-weight: 400; opacity: 0.85; }
+.orbit-canvas { display: block; width: 100%; touch-action: none; outline: none;
+  border-top: 1px solid rgba(128,128,128,0.22); border-bottom: 1px solid rgba(128,128,128,0.22); }
+.orbit-canvas:focus-visible { outline: 1px dotted currentColor; outline-offset: 2px; }
+.orbit-caption { font-weight: 400; font-size: 0.8rem; font-style: italic; opacity: 0.6; margin-top: 0.35rem; line-height: 1.3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.3em; }
+.orbit-caption.on { opacity: 0.95; }
+/* phones and narrow windows: the box sits right under the lecture title */
+.orbit-box.at-top { max-width: 420px; margin: 0.4rem 0 1.6rem; }
+.orbit-box.in-margin { position: absolute; z-index: 900; margin: 0; }
+</style>
+<!-- page turning between chapters, hinged on the left like a book's spine -->
+<script>
+(function () {
+  // run layout work once fonts and maths are in place (max 900 ms); the page itself is never hidden
+  var fns = [], done = false;
+  window.__whenReady = function (fn) { if (done) fn(); else fns.push(fn); };
+  function fire() { if (done) return; done = true; fns.forEach(function (f) { try { f(); } catch (e) {} }); document.dispatchEvent(new Event("page-ready")); }
+  document.addEventListener("DOMContentLoaded", function () {
+    var waits = [];
+    if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) waits.push(MathJax.startup.promise);
+    Promise.race([Promise.all(waits), new Promise(function (r) { setTimeout(r, 900); })]).then(function () { requestAnimationFrame(fire); });
+  });
+})();
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var HALF = 300;                                   // each half of the turn, in ms
+  var incoming = null;
+  try { incoming = sessionStorage.getItem("page-turn"); if (incoming) sessionStorage.removeItem("page-turn"); } catch (e) {}
+  if (incoming && !reduce) document.documentElement.classList.add("turn-in-" + incoming);
+
+  function page() { return document.querySelector("main#quarto-document-content") || document.querySelector("main"); }
+  // a sheet of paper over the visible part of the text column, hinged at its left edge
+  function leaf(shade) {
+    var p = page(), r = p.getBoundingClientRect();
+    var stage = document.createElement("div");
+    stage.style.cssText = "position:fixed;inset:0;z-index:2000;pointer-events:none;perspective:1700px;perspective-origin:" + r.left + "px 50%";
+    var l = document.createElement("div");
+    l.style.cssText = "position:absolute;top:0;height:100vh;left:" + r.left + "px;width:" + r.width + "px;transform-origin:0 50%;" +
+      "background:var(--bs-body-bg,#fff);backface-visibility:visible;box-shadow:0 0 30px rgba(0,0,0,0.12)";
+    var g = document.createElement("div");
+    g.style.cssText = "position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0," + shade + "),rgba(0,0,0,0) 60%)";
+    l.appendChild(g); stage.appendChild(l); document.body.appendChild(stage);
+    return { stage: stage, leaf: l };
+  }
+  function shadowOnPage(fromLeft) {
+    var p = page(), r = p.getBoundingClientRect();
+    var s = document.createElement("div");
+    s.style.cssText = "position:fixed;top:0;height:100vh;z-index:1990;pointer-events:none;left:" + r.left + "px;width:" + r.width + "px;" +
+      "background:linear-gradient(90deg,rgba(0,0,0,0.16),rgba(0,0,0,0.04) 35%,rgba(0,0,0,0) 70%)";
+    document.body.appendChild(s);
+    return s;
+  }
+
+  // arriving: finish the turn
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!incoming || reduce) return;
+    if (incoming === "fwd") {
+      // the blank back of the turned page swings over to the left; the new page is already underneath
+      var o = leaf(0.10), sh = shadowOnPage();
+      o.leaf.animate([{ transform: "rotateY(-90deg)" }, { transform: "rotateY(-178deg)", opacity: 0.0 }],
+        { duration: HALF + 120, easing: "cubic-bezier(.2,.6,.3,1)", fill: "forwards" }).onfinish = function () { o.stage.remove(); };
+      sh.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF + 160, easing: "ease-out", fill: "forwards" }).onfinish = function () { sh.remove(); };
+    } else {
+      // the previous page swings down onto the text (CSS animation, running from the first paint)
+      var p = page();
+      if (p) p.addEventListener("animationend", function () { document.documentElement.classList.remove("turn-in-back"); }, { once: true });
+    }
+    document.documentElement.classList.remove("turn-in-fwd");
+  });
+
+  function order() {
+    return [].map.call(document.querySelectorAll("#quarto-sidebar a[href]"), function (a) {
+      return new URL(a.getAttribute("href"), location.href).pathname;
+    }).filter(function (p, i, arr) { return arr.indexOf(p) === i; });
+  }
+  var fetched = {};
+  function prefetch(href) {
+    var u = new URL(href, location.href); u.hash = "";
+    if (fetched[u.href] || u.pathname === location.pathname) return; fetched[u.href] = 1;
+    var l = document.createElement("link"); l.rel = "prefetch"; l.href = u.href; document.head.appendChild(l);
+  }
+  function turnTo(href) {
+    var url = new URL(href, location.href);
+    if (url.pathname === location.pathname || reduce) { location.href = url.href; return; }
+    var list = order(), from = list.indexOf(location.pathname), to = list.indexOf(url.pathname);
+    var p = page();
+    if (from < 0 || to < 0 || !p || !p.animate) { location.href = url.href; return; }
+    var dir = to > from ? "fwd" : "back";
+    try { sessionStorage.setItem("page-turn", dir); } catch (e) {}
+    var box = document.querySelector(".orbit-box.in-margin");
+    if (box) box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF, fill: "forwards" });
+    var go = function () { location.href = url.href; };
+    if (dir === "fwd") {
+      // this page turns over to the left until it is edge-on
+      var r = p.getBoundingClientRect(), par = p.parentNode, pr = par.getBoundingClientRect();
+      par.style.perspective = "1700px";
+      par.style.perspectiveOrigin = (r.left - pr.left) + "px " + (innerHeight / 2 - pr.top) + "px";
+      p.style.transformOrigin = "0px " + (innerHeight / 2 - r.top) + "px";
+      p.animate([{ transform: "rotateY(0deg)", filter: "brightness(1)" }, { transform: "rotateY(-90deg)", filter: "brightness(0.82)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    } else {
+      // the blank back of the previous page swings in from the left until it is edge-on
+      var o = leaf(0.18);
+      o.leaf.style.boxShadow = "0 0 40px rgba(0,0,0,0.22)";
+      o.leaf.animate([{ transform: "rotateY(-176deg)" }, { transform: "rotateY(-90deg)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    }
+  }
+  window.__turnTo = turnTo;
+
+  document.addEventListener("click", function (ev) {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (!a || a.target === "_blank") return;
+    var url = new URL(a.getAttribute("href"), location.href);
+    if (url.origin !== location.origin || !/\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
+    if (url.pathname.split("/").slice(0, -1).join("/") !== location.pathname.split("/").slice(0, -1).join("/")) return;
+    ev.preventDefault(); turnTo(url.href);
+  }, true);
+  // fetch neighbouring chapters early so the next page is ready when the turn needs it
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (a && /\.html(#|$)/.test(a.getAttribute("href")) && !/^https?:/.test(a.getAttribute("href"))) prefetch(a.getAttribute("href"));
+  }, { passive: true });
+  window.addEventListener("load", function () {
+    [].forEach.call(document.querySelectorAll("nav.page-navigation a[href]"), function (a) { prefetch(a.getAttribute("href")); });
+  });
+  window.addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    var p = page(); if (p && p.getAnimations) p.getAnimations().forEach(function (an) { an.cancel(); });
+    [].forEach.call(document.querySelectorAll("body > div[style*='perspective']"), function (s) { s.remove(); });
+  });
+})();
+</script>
+<style>
+html.turn-in-back main#quarto-document-content { transform-origin: 0 50vh; animation: turn-in-back 0.42s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes turn-in-back { from { transform: perspective(1700px) rotateY(-90deg); filter: brightness(0.88); } to { transform: perspective(1700px) rotateY(0deg); filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { html[class*="turn-in-"] main#quarto-document-content { animation: none; } }
+</style>
+<!-- typeset maths inside footnote and cross-reference hover popups -->
+<script>
+(function () {
+  function typeset(el) {
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(function () {});
+  }
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a.footnote-ref, a.quarto-xref, a[role='doc-noteref']");
+    if (!a || !a._tippy || a._tippy.__math) return;
+    var inst = a._tippy, prev = inst.props.onShown;
+    inst.__math = true;
+    inst.setProps({ onShown: function (i) { if (prev) prev(i); typeset(i.popper); } });
+    if (inst.state.isShown) typeset(inst.popper);
+  }, true);
+})();
+</script>
+<!-- opened from the bookshelf: the title page dissolves into the notes -->
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem("shelf-open") === "1") {
+      sessionStorage.removeItem("shelf-open");
+      var t = sessionStorage.getItem("shelf-title") || "";
+      if (!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+        document.documentElement.classList.add("from-shelf");
+        document.documentElement.setAttribute("data-shelf-title", t);
+      }
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+html.from-shelf { background: var(--bs-body-bg, #fff); }
+html.from-shelf body { animation: shelf-in 0.9s cubic-bezier(.16,1,.3,1) 0.35s both; }
+html.from-shelf::before, html.from-shelf::after {
+  position: fixed; left: 0; right: 0; z-index: 9999; pointer-events: none; text-align: center; padding: 0 24px;
+  font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
+  color: var(--bs-body-color, #222); animation: shelf-out 0.8s cubic-bezier(.4,0,.2,1) 0.3s both; }
+html.from-shelf::before { content: attr(data-shelf-title); top: 0; bottom: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--bs-body-bg, #fff); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; padding-bottom: 2.6rem; }
+html.from-shelf::after { content: "Lecture notes"; top: calc(50% + 0.9rem); font-style: italic; opacity: 0.6; font-size: 18px; }
+@keyframes shelf-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes shelf-out { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { html.from-shelf::before, html.from-shelf::after { display: none; } html.from-shelf body { animation: none; } }
 </style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -330,7 +806,8 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -344,6 +821,15 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      refreshSafariScrollbar();
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -528,9 +1014,22 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-lebesgue-integral-and-convergence-theorems" id="toc-the-lebesgue-integral-and-convergence-theorems" class="nav-link active" data-scroll-target="#the-lebesgue-integral-and-convergence-theorems">The Lebesgue integral and convergence theorems</a></li>
-  <li><a href="#convergence-theorems" id="toc-convergence-theorems" class="nav-link" data-scroll-target="#convergence-theorems">Convergence theorems</a></li>
+  <li><a href="#approximation-by-simple-functions" id="toc-approximation-by-simple-functions" class="nav-link active" data-scroll-target="#approximation-by-simple-functions">Approximation by simple functions</a></li>
+  <li><a href="#the-lebesgue-integral" id="toc-the-lebesgue-integral" class="nav-link" data-scroll-target="#the-lebesgue-integral">The Lebesgue integral</a>
+  <ul class="collapse">
+  <li><a href="#nonnegative-simple-functions" id="toc-nonnegative-simple-functions" class="nav-link" data-scroll-target="#nonnegative-simple-functions">Nonnegative simple functions</a></li>
+  <li><a href="#nonnegative-measurable-functions" id="toc-nonnegative-measurable-functions" class="nav-link" data-scroll-target="#nonnegative-measurable-functions">Nonnegative measurable functions</a></li>
+  </ul></li>
+  <li><a href="#convergence-theorems" id="toc-convergence-theorems" class="nav-link" data-scroll-target="#convergence-theorems">Convergence theorems</a>
+  <ul class="collapse">
+  <li><a href="#the-monotone-convergence-theorem" id="toc-the-monotone-convergence-theorem" class="nav-link" data-scroll-target="#the-monotone-convergence-theorem">The monotone convergence theorem</a></li>
+  <li><a href="#fatous-lemma" id="toc-fatous-lemma" class="nav-link" data-scroll-target="#fatous-lemma">Fatou’s lemma</a></li>
+  </ul></li>
+  <li><a href="#integrable-functions" id="toc-integrable-functions" class="nav-link" data-scroll-target="#integrable-functions">Integrable functions</a></li>
+  <li><a href="#the-dominated-convergence-theorem" id="toc-the-dominated-convergence-theorem" class="nav-link" data-scroll-target="#the-dominated-convergence-theorem">The dominated convergence theorem</a>
+  <ul class="collapse">
   <li><a href="#beyond-nonnegative-increasing-sequences" id="toc-beyond-nonnegative-increasing-sequences" class="nav-link" data-scroll-target="#beyond-nonnegative-increasing-sequences">Beyond nonnegative increasing sequences</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -557,7 +1056,9 @@ window.Quarto = {
 </header>
 
 
-<p><strong>Simple function approximation.</strong> If <span class="math inline">\((X,\mathcal M)\)</span> is a measurable space and <span class="math inline">\(f:X\to[0,\infty]\)</span> is measurable, then there exists a sequence <span class="math inline">\((\phi_n)\)</span> of simple functions with <span class="math inline">\(0\le\phi_1\le\phi_2\le\cdots\)</span> such that <span class="math inline">\(\phi_n\to f\)</span> pointwise, and uniformly on any set where <span class="math inline">\(f\)</span> is bounded. <strong>Construction.</strong> For each <span class="math inline">\(n\)</span>, chop <span class="math inline">\([0,2^n)\)</span> into <span class="math inline">\(2^n\cdot2^n=2^{2n}\)</span> pieces of width <span class="math inline">\(\tfrac1{2^n}\)</span> each, and round <span class="math inline">\(f(x)\)</span> <em>down</em> to the left endpoint of whichever piece it lands in (capping at <span class="math inline">\(2^n\)</span> once <span class="math inline">\(f(x)\)</span> gets that large):<span class="math display">\[
+<section id="approximation-by-simple-functions" class="level2">
+<h2 class="anchored" data-anchor-id="approximation-by-simple-functions">Approximation by simple functions</h2>
+<p>If <span class="math inline">\((X,\mathcal M)\)</span> is a measurable space and <span class="math inline">\(f:X\to[0,\infty]\)</span> is measurable, then there exists a sequence <span class="math inline">\((\phi_n)\)</span> of simple functions with <span class="math inline">\(0\le\phi_1\le\phi_2\le\cdots\)</span> such that <span class="math inline">\(\phi_n\to f\)</span> pointwise, and uniformly on any set where <span class="math inline">\(f\)</span> is bounded. <strong>Construction.</strong> For each <span class="math inline">\(n\)</span>, chop <span class="math inline">\([0,2^n)\)</span> into <span class="math inline">\(2^n\cdot2^n=2^{2n}\)</span> pieces of width <span class="math inline">\(\tfrac1{2^n}\)</span> each, and round <span class="math inline">\(f(x)\)</span> <em>down</em> to the left endpoint of whichever piece it lands in (capping at <span class="math inline">\(2^n\)</span> once <span class="math inline">\(f(x)\)</span> gets that large):<span class="math display">\[
 \phi_n(x):=\sum_{k=0}^{2^{2n}-1}\frac{k}{2^n}\,\mathbf 1_{\left\{x:f(x)\in\left[\frac{k}{2^n},\frac{k+1}{2^n}\right)\right\}}\ +\ 2^n\,\mathbf 1_{\{x:f(x)\ge2^n\}}.\]</span> That is: replace <span class="math inline">\(f(x)\)</span> by <span class="math inline">\(f\big(\tfrac{k}{2^n}\big)\)</span> where <span class="math inline">\(\tfrac{k}{2^n}\)</span> is the closest grid point to <span class="math inline">\(f(x)\)</span> <strong>from below</strong>, i.e.&nbsp;<span class="math inline">\(\tfrac{k}{2^n}\le f(x)\)</span>. Each <span class="math inline">\(\phi_n\)</span> is simple: the sets <span class="math inline">\(\big\{x:f(x)\in[\tfrac{k}{2^n},\tfrac{k+1}{2^n})\big\}\)</span> (<span class="math inline">\(k=0,\dots,2^{2n}-1\)</span>) and <span class="math inline">\(\{x:f(x)\ge2^n\}\)</span> are disjoint, measurable (preimages of Borel sets under the measurable <span class="math inline">\(f\)</span>), and cover <span class="math inline">\(X\)</span> (since <span class="math inline">\(f\ge0\)</span>). <strong>Monotonicity, <span class="math inline">\(\phi_n\le\phi_{n+1}\)</span>.</strong> Going from resolution <span class="math inline">\(n\)</span> to <span class="math inline">\(n+1\)</span>, every grid interval of width <span class="math inline">\(\tfrac1{2^n}\)</span> splits into two of width <span class="math inline">\(\tfrac1{2^{n+1}}\)</span>, and rounding down onto a finer grid can only land on an equal-or-larger value than rounding down onto the coarser one; the cap also rises, from <span class="math inline">\(2^n\)</span> to <span class="math inline">\(2^{n+1}\)</span>. So <span class="math inline">\(\phi_n(x)\le\phi_{n+1}(x)\)</span> for every <span class="math inline">\(x\)</span>. <strong>Pointwise convergence.</strong> Fix <span class="math inline">\(x\)</span>. If <span class="math inline">\(f(x)&lt;\infty\)</span>, then once <span class="math inline">\(2^n&gt;f(x)\)</span>, <span class="math inline">\(\phi_n(x)\)</span> sits within <span class="math inline">\(\tfrac1{2^n}\)</span> of <span class="math inline">\(f(x)\)</span> (that’s the grid width), so <span class="math inline">\(\phi_n(x)\to f(x)\)</span>. If <span class="math inline">\(f(x)=\infty\)</span>, then <span class="math inline">\(\phi_n(x)=2^n\to\infty=f(x)\)</span> for every <span class="math inline">\(n\)</span>. <strong>Uniform convergence on bounded sets.</strong> If <span class="math inline">\(f\le M\)</span> on some set <span class="math inline">\(S\)</span>, then for every <span class="math inline">\(n\)</span> with <span class="math inline">\(2^n&gt;M\)</span>, <em>every</em> <span class="math inline">\(x\in S\)</span> satisfies <span class="math inline">\(f(x)&lt;2^n\)</span>, so <span class="math inline">\(\phi_n(x)\)</span> is within <span class="math inline">\(\tfrac1{2^n}\)</span> of <span class="math inline">\(f(x)\)</span> — a bound depending only on <span class="math inline">\(n\)</span>, not on <span class="math inline">\(x\)</span>. Hence <span class="math inline">\(\phi_n\to f\)</span> uniformly on <span class="math inline">\(S\)</span>.</p>
 <div id="fig-viz-exercise45-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -644,8 +1145,11 @@ Figure&nbsp;6.1: Interactive: approximating <span class="math inline">\(f\)</spa
 </figcaption>
 </figure>
 </div>
-<section id="the-lebesgue-integral-and-convergence-theorems" class="level3">
-<h3 class="anchored" data-anchor-id="the-lebesgue-integral-and-convergence-theorems">The Lebesgue integral and convergence theorems</h3>
+</section>
+<section id="the-lebesgue-integral" class="level2">
+<h2 class="anchored" data-anchor-id="the-lebesgue-integral">The Lebesgue integral</h2>
+<section id="nonnegative-simple-functions" class="level3">
+<h3 class="anchored" data-anchor-id="nonnegative-simple-functions">Nonnegative simple functions</h3>
 <p>Before we proceed, we consider the class of nonnegative measurable functions <span class="math display">\[L^+((X, \mathcal M, m)) = \{f: X\rightarrow [0,\infty], \text{f is measurable}\}\]</span></p>
 <div id="r-6-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -653,7 +1157,7 @@ Figure&nbsp;6.1: Interactive: approximating <span class="math inline">\(f\)</spa
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 6.1 — The Lebesgue integral for nonnegative simple functions
+<span class="screen-reader-only">Note</span><strong>Definition 6.1</strong> (The Lebesgue integral for nonnegative simple functions).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -666,7 +1170,7 @@ Figure&nbsp;6.1: Interactive: approximating <span class="math inline">\(f\)</spa
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 6.2 — Integral of nonnegative simple function over specified region
+<span class="screen-reader-only">Note</span><strong>Definition 6.2</strong> (Integral of nonnegative simple function over specified region).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -679,7 +1183,7 @@ Figure&nbsp;6.1: Interactive: approximating <span class="math inline">\(f\)</spa
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 6.3 — Four properties which hold for the integral of nonnegative simple functions
+<span class="screen-reader-only">Important</span><strong>Proposition 6.3</strong> (Four properties which hold for the integral of nonnegative simple functions).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -688,13 +1192,16 @@ Figure&nbsp;6.1: Interactive: approximating <span class="math inline">\(f\)</spa
 </div>
 <p>Note that <span class="math display">\[\int (\phi(x) - \psi(x) ) dm(x) = \int \phi(x) dm(x) - \int \psi(x) dm(x)\]</span>iff at least one of the integrals on the RHS is defined. This is different from property (b) in <a href="./lecture-06.html#r-6-3">Proposition 6.3</a> since in this case, we are integrating nonnegative functions which may lead to a <span class="math inline">\(\infty - \infty\)</span> situation which is not necessarily defined (whereas <span class="math inline">\(\infty + \infty\)</span> is).</p>
 <p>We are now ready to define the integral for all functions in <span class="math inline">\(L^+((X, \mathcal M, m))\)</span>. We will use the idea that we can approximate a measurable function by simple functions.</p>
+</section>
+<section id="nonnegative-measurable-functions" class="level3">
+<h3 class="anchored" data-anchor-id="nonnegative-measurable-functions">Nonnegative measurable functions</h3>
 <div id="r-6-4" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 6.4 — The integral for nonnegative measurable functions
+<span class="screen-reader-only">Note</span><strong>Definition 6.4</strong> (The integral for nonnegative measurable functions).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -713,131 +1220,74 @@ Figure&nbsp;6.1: Interactive: approximating <span class="math inline">\(f\)</spa
   if (typeof React === 'undefined') return;
   const { useState, useEffect, useRef } = React;
   function LebesgueInfimum() {
-    const ACCENT = "#877B31";
-    const ACCENT_LIGHT = "#b5a54a";
-    const ACCENT_DIM = "rgba(135,123,49,0.38)";
-    const FAIL_COL = "#8B2020";
-    const FAIL_LIGHT = "#c24040";
-    const BG = "transparent";
-    const SURFACE = "rgba(128,128,128,0.13)";
+    const ACCENT = "#b08a1e";
+    const RED = "#b84a4a";
     const BORDER = "rgba(128,128,128,0.35)";
     const TEXT = "var(--bs-body-color, #222)";
     const MUTED = "var(--bs-secondary-color, #777)";
-    
     const [n, setN] = useState(2);
     const [mode, setMode] = useState("below");
+    const f = (x) => (x <= 0 ? Infinity : 1 / Math.sqrt(x));
+    const d = Math.pow(2, n), cap = d;
+    const phi = (x) => { const v = f(x); return v >= cap ? cap : Math.floor(v * d) / d; };
     
-    const W = 500, H = 240, PL = 40, PR = 16, PT = 14, PB = 28;
-    const YMAX = 10, SAMPLES = 800;
-    const pw = W - PL - PR, ph = H - PT - PB;
-    const M = Math.pow(2, n);
-    const d = M;
+    const W = 640, H = 300, L = 34, R = 628, T = 14, B = 266, YM = 8;
+    const sx = (x) => L + x * (R - L);
+    const sy = (y) => B - Math.min(y, YM + 0.5) / YM * (B - T);
+    const N = 900, xs = Array.from({ length: N }, (_, i) => (i + 1) / N);
+    const fPath = xs.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(f(x)).toFixed(1)).join(" ");
     
-    function X(x) { return PL + x * pw; }
-    function Y(y) { return PT + ph - (Math.min(y, YMAX) / YMAX) * ph; }
-    function f(x) { return x <= 0 ? Infinity : 1 / Math.sqrt(x); }
-    function phiBelow(x) {
-      const v = f(x);
-      if (v >= M) return M;
-      return Math.floor(v * d) / d;
-    }
-    
-    const nRect = Math.min(8, d);
-    const dxRect = 1 / nRect;
-    const aboveRects = Array.from({ length: nRect }, (_, k) => {
-      const xL = k * dxRect;
-      const xR = (k + 1) * dxRect;
-      const h = xL <= 0 ? Infinity : f(xL);
-      return { xL, xR, h };
+    let below = "", prev = null, intBelow = 0;
+    xs.forEach((x, i) => {
+      const v = phi(x), X = sx(x).toFixed(1);
+      if (i === 0) below = "M" + sx(0).toFixed(1) + " " + sy(v).toFixed(1) + " L" + X + " " + sy(v).toFixed(1);
+      else { if (v !== prev) below += " L" + X + " " + sy(prev).toFixed(1); below += " L" + X + " " + sy(v).toFixed(1); }
+      prev = v; intBelow += v / N;
     });
+    const belowArea = below + " L" + sx(1) + " " + B + " L" + sx(0) + " " + B + " Z";
+    // from above: on [k/2^n, (k+1)/2^n] the smallest value above f is f at the left endpoint (f decreases)
+    const rects = Array.from({ length: d }, (_, k) => ({ a: k / d, b: (k + 1) / d, h: f(k / d) }));
     
-    let pathF = "", pathPhi = "", integralBelow = 0;
-    for (let i = 1; i <= SAMPLES; i++) {
-      const x = i / SAMPLES;
-      const fv = f(x), pv = phiBelow(x);
-      pathF += (i === 1 ? "M" : "L") + X(x).toFixed(1) + "," + Y(fv).toFixed(1);
-      pathPhi += (i === 1 ? "M" : "L") + X(x).toFixed(1) + "," + Y(pv).toFixed(1);
-      integralBelow += pv / SAMPLES;
-    }
+    const el = React.createElement;
+    const btn = (on) => ({ fontFamily: "inherit", fontSize: 15, padding: "2px 12px", borderRadius: 4, cursor: "pointer", background: "transparent",
+      border: "1px solid " + (on ? ACCENT : BORDER), color: on ? ACCENT : TEXT, fontWeight: on ? 700 : 400 });
+    const lab = (x, y, c, kids) => el("text", { x, y, fill: c, fontSize: 15, fontStyle: "italic", fontFamily: "inherit" }, ...kids);
     
-    const yTicks = [0, 2, 4, 6, 8, 10];
-    const xTicks = [0, 0.25, 0.5, 0.75, 1.0];
-    
-    const btn = { background: SURFACE, border: "1px solid " + BORDER, color: ACCENT, padding: "4px 14px", borderRadius: 4, cursor: "pointer", fontSize: 15, fontFamily: "monospace" };
-    const tab = (active) => ({ background: active ? ACCENT_DIM : SURFACE, border: "1px solid " + (active ? ACCENT : BORDER), color: active ? ACCENT_LIGHT : MUTED, padding: "3px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontFamily: "monospace" });
-    
-    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
-      React.createElement("div", { style: { fontSize: 12, color: ACCENT, marginBottom: 14, letterSpacing: 1 } }, "LEBESGUE INTEGRAL: SUPREMUM vs INFIMUM"),
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginBottom: 12, flexWrap: "wrap" } },
-        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13 } },
-          React.createElement("span", { style: { color: MUTED } }, "n ="),
-          React.createElement("span", { style: { color: TEXT, minWidth: 20 } }, n),
-          React.createElement("button", { onClick: () => setN(Math.max(1, n - 1)), style: btn }, "-"),
-          React.createElement("button", { onClick: () => setN(Math.min(5, n + 1)), style: btn }, "+")
-        ),
-        React.createElement("div", { style: { display: "flex", gap: 6 } },
-          React.createElement("button", { onClick: () => setMode("below"), style: tab(mode === "below") }, "sup (from below)"),
-          React.createElement("button", { onClick: () => setMode("above"), style: tab(mode === "above") }, "inf (from above)")
-        )
-      ),
-      React.createElement("div", { style: { marginBottom: 14 } },
-        React.createElement("div", { style: { fontSize: 11, color: MUTED, marginBottom: 4 } },
-          mode === "below"
-            ? "phi_n (gold) = floor(f * 2^n) / 2^n  |  f(x) = x^{-1/2}  |  integral converges to 2"
-            : "each rectangle sits ABOVE f  |  first slab (red) is always infinite  |  integral = inf"
-        ),
-        React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { background: "transparent" } },
-          yTicks.map(y => React.createElement("line", { key: "gy" + y, x1: PL, x2: W - PR, y1: Y(y), y2: Y(y), stroke: BORDER, strokeWidth: 0.5 })),
-          yTicks.map(y => React.createElement("text", { key: "ty" + y, x: PL - 5, y: Y(y) + 3, textAnchor: "end", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, y)),
-          xTicks.map(x => React.createElement("text", { key: "tx" + x, x: X(x), y: H - 10, textAnchor: "middle", fontSize: 10, fill: MUTED, fontFamily: "monospace" }, x)),
-          React.createElement("line", { x1: PL, x2: W - PR, y1: Y(0), y2: Y(0), stroke: MUTED }),
-          React.createElement("line", { x1: PL, x2: PL, y1: PT, y2: Y(0), stroke: MUTED }),
-    
-          mode === "below" && React.createElement("path", { d: pathPhi, fill: "none", stroke: ACCENT, strokeWidth: 2 }),
-    
-          mode === "above" && aboveRects.map((r, k) => {
-            const inf = !isFinite(r.h) || r.h > YMAX;
-            const rectY = inf ? PT : Y(r.h);
-            const rectW = X(r.xR) - X(r.xL) - 1;
-            return [
-              React.createElement("rect", {
-                key: "r" + k,
-                x: X(r.xL), y: rectY,
-                width: rectW, height: Y(0) - rectY,
-                fill: inf ? FAIL_COL : ACCENT,
-                fillOpacity: inf ? 0.45 : 0.25,
-                stroke: inf ? FAIL_LIGHT : ACCENT_LIGHT,
-                strokeWidth: 1
-              }),
-              inf && rectW > 18 && React.createElement("text", {
-                key: "inf" + k,
-                x: X(r.xL) + rectW / 2, y: PT + 16,
-                textAnchor: "middle", fontSize: 11, fill: FAIL_LIGHT, fontFamily: "monospace"
-              }, "\u221e")
-            ];
-          }),
-    
-          React.createElement("path", { d: pathF, fill: "none", stroke: TEXT, strokeWidth: 1.5 })
-        )
-      ),
-      React.createElement("div", { style: { display: "flex", gap: 20, fontSize: 12, borderTop: "1px solid " + BORDER, paddingTop: 12, flexWrap: "wrap" } },
-        React.createElement("div", null,
-          React.createElement("span", { style: { color: MUTED } }, "rectangles: "),
-          React.createElement("span", { style: { color: TEXT } }, nRect)
-        ),
+    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+      el("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 } },
+        el("button", { onClick: () => setMode("below"), style: btn(mode === "below") }, "from below (supremum)"),
+        el("button", { onClick: () => setMode("above"), style: btn(mode === "above") }, "from above (infimum)")),
+      el("div", { style: { display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center", fontSize: 15, marginBottom: 2 } },
+        el("label", { style: { display: "flex", alignItems: "center", gap: 8 } },
+          el("i", null, "n"),
+          el("input", { type: "range", min: 1, max: 5, step: 1, value: n, onChange: (e) => setN(+e.target.value), style: { width: 140, accentColor: ACCENT } }),
+          el("span", null, n)),
         mode === "below"
-          ? React.createElement("div", null,
-              React.createElement("span", { style: { color: MUTED } }, "\u222b\u2080\u00b9 \u03c6\u2099 \u2248 "),
-              React.createElement("span", { style: { color: TEXT } }, integralBelow.toFixed(3)),
-              React.createElement("span", { style: { color: MUTED } }, "  \u2192  2 = \u222b\u2080\u00b9 x^{-1/2} dx")
-            )
-          : React.createElement("div", null,
-              React.createElement("span", { style: { color: MUTED } }, "\u222b\u2080\u00b9 \u03c8\u2099 = "),
-              React.createElement("span", { style: { color: FAIL_LIGHT } }, "\u221e"),
-              React.createElement("span", { style: { color: MUTED } }, "  (first rectangle always has height \u221e)")
-            )
+          ? el("span", { style: { color: ACCENT } }, "∫ ", el("i", null, "φ"), el("sub", null, "n"), " = " + intBelow.toFixed(3) + "  →  2")
+          : el("span", { style: { color: RED } }, "∫ ", el("i", null, "ψ"), el("sub", null, "n"), " = ∞ for every n")),
+      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        el("line", { x1: L, y1: B, x2: R, y2: B, stroke: MUTED, strokeWidth: 1 }),
+        el("line", { x1: L, y1: B, x2: L, y2: T, stroke: MUTED, strokeWidth: 1 }),
+        [0, 2, 4, 6, 8].map((v) => el("text", { key: "y" + v, x: L - 9, y: sy(v) + 4, fill: MUTED, fontSize: 12, textAnchor: "end", fontFamily: "inherit" }, String(v))),
+        [0, 0.5, 1].map((v) => el("text", { key: "x" + v, x: sx(v), y: B + 18, fill: MUTED, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }, String(v))),
+        mode === "below" ? el("g", null,
+          el("path", { d: belowArea, fill: ACCENT, opacity: 0.16, stroke: "none" }),
+          el("path", { d: below, fill: "none", stroke: ACCENT, strokeWidth: 2.2 })) :
+        el("g", null, rects.map((r, k) => {
+          const inf = !isFinite(r.h), top = inf ? T : sy(r.h);
+          return el("g", { key: "r" + k },
+            el("rect", { x: sx(r.a), y: top, width: Math.max(0, sx(r.b) - sx(r.a)), height: B - top,
+              fill: inf ? RED : ACCENT, opacity: inf ? 0.28 : 0.14, stroke: inf ? RED : ACCENT, strokeWidth: 1 }),
+            inf ? el("text", { x: (sx(r.a) + sx(r.b)) / 2, y: T + 18, fill: RED, fontSize: 16, textAnchor: "middle", fontFamily: "inherit" }, "∞") : null);
+        })),
+        el("path", { d: fPath, fill: "none", stroke: TEXT, strokeWidth: 1.8 }),
+        el("line", { x1: R - 150, y1: T + 10, x2: R - 126, y2: T + 10, stroke: TEXT, strokeWidth: 1.8 }),
+        lab(R - 120, T + 15, TEXT, ["f(x) = x", el("tspan", { key: "s", dy: -6, fontSize: 11 }, "−1/2")]),
+        el("line", { x1: R - 150, y1: T + 32, x2: R - 126, y2: T + 32, stroke: mode === "below" ? ACCENT : RED, strokeWidth: 2.2 }),
+        lab(R - 120, T + 37, mode === "below" ? ACCENT : RED, [mode === "below" ? "φ" : "ψ", el("tspan", { key: "n", dy: 4, fontSize: 11 }, "n")])
       )
     );
+    
   }
   var el = document.getElementById('viz-lebesgueinfimum-1');
   if (el) ReactDOM.createRoot(el).render(React.createElement(LebesgueInfimum));
@@ -851,16 +1301,20 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 </div>
 <p>It can be straightforwardly verified that properties (a)-(c) from <a href="./lecture-06.html#r-6-3">Proposition 6.3</a> are also satisfied for nonnegative measurable functions as defined above. In particular, we will prove property (c) in what follows.</p>
 </section>
-<section id="convergence-theorems" class="level3">
-<h3 class="anchored" data-anchor-id="convergence-theorems">Convergence theorems</h3>
+</section>
+<section id="convergence-theorems" class="level2">
+<h2 class="anchored" data-anchor-id="convergence-theorems">Convergence theorems</h2>
+<p>This section presents the three convergence theorems of the course for exchanging a limit with the Lebesgue integral: the monotone convergence theorem, Fatou’s lemma and the dominated convergence theorem.</p>
 <p>In what follows, we discuss three important convergence theorems which answer the question on when the limit and the integral operations commute. The first two, the monotone and dominated Lebesgue convergence theorem, tells us that it is possible to do so under certain restrictions on the sequence of measurable functions.</p>
+<section id="the-monotone-convergence-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="the-monotone-convergence-theorem">The monotone convergence theorem</h3>
 <div id="r-6-5" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 6.5 — Monotone convergence theorem
+<span class="screen-reader-only">Important</span><strong>Theorem 6.5</strong> (Monotone convergence theorem).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -891,7 +1345,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Corollary 6.6 — Linearity of Lebesgue integral for nonnegative measurable functions
+<span class="screen-reader-only">Important</span><strong>Corollary 6.6</strong> (Linearity of Lebesgue integral for nonnegative measurable functions).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -921,7 +1375,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Corollary 6.7 — Exchanging infinite sum and Lebesgue integral
+<span class="screen-reader-only">Important</span><strong>Corollary 6.7</strong> (Exchanging infinite sum and Lebesgue integral).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -950,7 +1404,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Proposition 6.8 — Lebesgue integral zero for nonnegative measurable functions equivalence
+<span class="screen-reader-only">Important</span><strong>Proposition 6.8</strong> (Lebesgue integral zero for nonnegative measurable functions equivalence).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -958,13 +1412,16 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 </div>
 </div>
 <p>Note that the above proposition also implies that if <span class="math inline">\(f = h-g\)</span> then <span class="math inline">\(h=g\)</span> almost everywhere, that is to say, they are equivalent modulo the nullset <span class="math display">\[m(\{x \in X : h(x) \neq g(x)\}) =0\]</span></p>
+</section>
+<section id="fatous-lemma" class="level3">
+<h3 class="anchored" data-anchor-id="fatous-lemma">Fatou’s lemma</h3>
 <div id="r-6-9" class="theorem-box callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 6.9 — Fatou’s lemma
+<span class="screen-reader-only">Important</span><strong>Theorem 6.9</strong> (Fatou’s lemma).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -974,13 +1431,17 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <p>Fatou’s lemma is the best we can do with minimal assumptions about <span class="math inline">\(f_n\)</span>.</p>
 <p>Remember from <a href="./lecture-05.html">Lecture 5</a> we showed that if <span class="math inline">\((f_n)\)</span> is a sequence of measurable functions, then <span class="math inline">\(\liminf f_n\)</span> is measurable also.</p>
 <p>We now relax the assumption that the range of the measurable functions is restricted to the positive reals, and define the integral for general measurable functions.</p>
+</section>
+</section>
+<section id="integrable-functions" class="level2">
+<h2 class="anchored" data-anchor-id="integrable-functions">Integrable functions</h2>
 <div id="r-6-10" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 6.10 — Lebesgue integral for general measurable functions
+<span class="screen-reader-only">Note</span><strong>Definition 6.10</strong> (Lebesgue integral for general measurable functions).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -994,7 +1455,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 6.11 — Lebesgue integrable
+<span class="screen-reader-only">Note</span><strong>Definition 6.11</strong> (Lebesgue integrable).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1013,7 +1474,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Caution</span>Example 6.12
+<span class="screen-reader-only">Caution</span><strong>Example 6.12</strong>.
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1026,7 +1487,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition 6.13 — Conditionally and Absolutely Convergent Series
+<span class="screen-reader-only">Note</span><strong>Definition 6.13</strong> (Conditionally and Absolutely Convergent Series).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1038,6 +1499,8 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <p>A conditionally convergent series is fragile: by the <a href="./lecture-10.html#side-the-riemann-rearrangement-theorem">Riemann rearrangement theorem</a>, its terms can be rearranged to converge to any value we like, or to diverge (see the side topic in <a href="./lecture-10.html">Lecture 10</a>).</p>
 <p>In measure theory, there is no natural analogue of conditional convergence as there is no natural ordering of the domain (sets have no natural ordering of elements, and so the integral is order-independent, which is why we do not encounter conditional convergence here). Remember that a measure must assigned a well-defined value to every measurable set, in particular, for a countable disjoint union, we have the criterion of countable additivity <span class="math display">\[\mu(\bigcup A_n) = \sum \mu(A_n)\]</span>where the LHS is order-invariant (the way we construct the union of sets does not matter), since the LHS is automatically order-invariant, and thus <span class="math display">\[\mu(\bigcup A_{\sigma(n)}) = \sum \mu(A_{\sigma(n)})\]</span>for some permutation <span class="math inline">\(\sigma\)</span>. But by the Riemann rearrangment theorem, a series that is invariant under all permutations holds iff it is absolutely convergent (this is just the contrapositive argument, if its invariant under all permutations, then it is not conditionally convergent, i.e.&nbsp;absolutely convergent). See this <a href="https://math.stackexchange.com/questions/1905785/why-isnt-conditional-convergence-an-issue-when-defining-sigma-additivity-of">Stack Exchange discussion</a> for more details.</p>
 </section>
+<section id="the-dominated-convergence-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="the-dominated-convergence-theorem">The dominated convergence theorem</h2>
 <section id="beyond-nonnegative-increasing-sequences" class="level3">
 <h3 class="anchored" data-anchor-id="beyond-nonnegative-increasing-sequences">Beyond nonnegative increasing sequences</h3>
 <p>The monotone convergence theorem (<a href="#r-6-5">Theorem 6.5</a>) only covers sequences that are nonnegative and increasing. It is natural to ask what happens in the other monotone cases.</p>
@@ -1051,7 +1514,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Theorem 6.14 — Lebesgue Dominated Convergence theorem
+<span class="screen-reader-only">Important</span><strong>Theorem 6.14</strong> (Lebesgue Dominated Convergence theorem).
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1061,6 +1524,7 @@ Figure&nbsp;6.2: Interactive: approximating <span class="math inline">\(x^{-1/2}
 <p>In other words, if a sequence converges pointwise and is dominated by a single integrable function <span class="math inline">\(g\)</span>, called the <em>integrable majorant</em>, then the limit is integrable and we may pass the limit inside the integral. The LDCT makes no assumption about the sign or monotonicity of the <span class="math inline">\(f_n\)</span>. For the nonnegative decreasing sequences above, <span class="math inline">\(g = f_1\)</span> is such a majorant, and requiring it to be integrable is exactly the assumption <span class="math inline">\(\int f_1\, dm &lt; \infty\)</span> that we needed there.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

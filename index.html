@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lecture Notes</title>
+<title>Lecture notes</title>
 <meta name="description" content="Lecture notes from university courses.">
 <script>
   // Shared with the books: Quarto stores "alternate" (dark) or "default" (light) under this key.
@@ -16,146 +16,328 @@
   })();
 </script>
 <style>
+  /* Layout: banner, then one long shelf of books; each course is a spine. */
   :root {
-    --bg: #ffffff; --fg: #2b2b2b; --muted: #6b7079; --line: #e3e5ea;
-    --band: #1e1b4b; --band-fg: #ffffff; --accent: #6b46c1; --card: #fbfbfd;
+    --bg: #f3f2ef; --fg: #26262a; --muted: #6f6d69; --line: #dcd9d3;
+    --wall: linear-gradient(180deg, #f3f2ef 0%, #e9e7e2 100%);
+    --shelf-top: #d9d5cd; --shelf-front: #c4beb2; --shelf-shadow: rgba(60, 50, 35, 0.28);
+    --card: #fbfaf8; --card-line: #dedad3;
+    --page: #ffffff;            /* the book's page colour (Quarto light) */
+    --band-fg: #ffffff;
+    --font: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --bg: #1d1f24; --fg: #e6e6e6; --muted: #9aa0a8; --line: #33363d;
-      --band: #1e1b4b; --band-fg: #ffffff; --accent: #a992f0; --card: #24272d; color-scheme: dark; }
+    :root:not([data-theme="light"]) {
+      --bg: #1c1c1f; --fg: #e7e5e1; --muted: #a3a09a; --line: #34343a;
+      --wall: linear-gradient(180deg, #1c1c1f 0%, #19191b 100%);
+      --shelf-top: #3a3631; --shelf-front: #2b2824; --shelf-shadow: rgba(0, 0, 0, 0.55);
+      --card: #26262a; --card-line: #3a3a40; --page: #222222; color-scheme: dark;
+    }
   }
-  :root[data-theme="dark"] { --bg: #1d1f24; --fg: #e6e6e6; --muted: #9aa0a8; --line: #33363d;
-    --band: #1e1b4b; --band-fg: #ffffff; --accent: #a992f0; --card: #24272d; color-scheme: dark; }
+  :root[data-theme="dark"] {
+    --bg: #1c1c1f; --fg: #e7e5e1; --muted: #a3a09a; --line: #34343a;
+    --wall: linear-gradient(180deg, #1c1c1f 0%, #19191b 100%);
+    --shelf-top: #3a3631; --shelf-front: #2b2824; --shelf-shadow: rgba(0, 0, 0, 0.55);
+    --card: #26262a; --card-line: #3a3a40; --page: #222222; color-scheme: dark;
+  }
 
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg);
-         font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
-         font-size: 18px; line-height: 1.6; transition: background-color 0.3s ease, color 0.3s ease; }
-  header { background-color: var(--band); color: var(--band-fg);
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 18px; line-height: 1.6;
+         transition: background-color 0.3s ease, color 0.3s ease; overflow-x: hidden; }
+  .wrap { max-width: 980px; margin: 0 auto;
+          padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+
+  header { color: var(--band-fg); background-color: #14122e;
            background-image: linear-gradient(90deg, rgba(8,6,24,0.55) 0%, rgba(8,6,24,0.15) 45%, rgba(8,6,24,0) 70%), url("gw-banner.jpg");
            background-size: cover; background-position: right 55%; }
-  header h1, header p { text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
-  .wrap { max-width: 860px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
   header .wrap { padding-block: 3.4rem 3rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
-  h1 { margin: 0; font-weight: 600; font-size: 2.3rem; letter-spacing: 0.01em; text-wrap: balance; }
-  header p { margin: 0.4rem 0 0; opacity: 0.85; font-style: italic; }
-  .theme-toggle { flex: none; display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer;
-                  background: transparent; color: var(--band-fg); border: 1px solid rgba(255,255,255,0.45);
-                  border-radius: 999px; padding: 0.3rem 0.8rem; font: inherit; font-size: 0.9rem; }
-  .theme-toggle:hover { background: rgba(255,255,255,0.12); }
+  h1 { margin: 0; font-weight: 400; font-size: 2.5rem; letter-spacing: 0.01em; text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
+  header p { margin: 0.35rem 0 0; opacity: 0.85; font-style: italic; text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
+  .theme-toggle { flex: none; display: inline-grid; place-items: center; width: 34px; height: 34px; cursor: pointer;
+                  background: transparent; color: var(--band-fg); border: 0; border-radius: 50%; padding: 0; opacity: 0.8; }
+  .theme-toggle:hover { opacity: 1; background: rgba(255,255,255,0.10); }
+  .theme-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .theme-toggle svg { width: 18px; height: 18px; }
-  main .wrap { padding-block: 2.4rem 3rem; }
-  h2 { font-weight: 600; font-size: 1.15rem; letter-spacing: 0.04em; color: var(--muted); margin: 0 0 1rem; }
-  .courses { display: grid; gap: 1.4rem; }
-  a.course { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 260px); gap: 1.4rem; align-items: center;
-             padding: 1.3rem 1.4rem; border: 1px solid var(--line); border-left: 6px solid var(--accent);
-             border-radius: 10px; background: var(--card); color: inherit; text-decoration: none;
-             box-shadow: 0 3px 14px rgba(0,0,0,0.06); transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease; }
-  a.course:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.12); }
-  .course h3 { margin: 0 0 0.2rem; font-size: 1.45rem; font-weight: 600; }
-  .course .meta { color: var(--muted); font-size: 0.95rem; margin: 0 0 0.6rem; }
-  .course p { margin: 0 0 0.6rem; }
-  .course .go { color: var(--accent); font-weight: 600; }
-  .courses { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  a.course:not(.text-only) { grid-column: 1 / -1; }
-  a.course.text-only { grid-template-columns: minmax(0, 1fr); padding-block: 1rem; border-left-color: var(--line); }
-  a.course.text-only h3 { font-size: 1.25rem; }
-  a.course.text-only .meta { margin-bottom: 0.3rem; font-style: italic; }
-  .soon { margin: 1.6rem 0 0; color: var(--muted); font-style: italic; text-align: center; }
-  .course img { width: 100%; height: auto; display: block; }
-  .course img.dark-only { display: none; }
+
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  main { background: var(--wall); flex: 1; }
+  main .wrap { padding-block: 3rem 4rem; }
+  .count { margin: 0 0 0.2rem; font-size: 0.8rem; letter-spacing: 0.22em; color: var(--muted); text-align: center; }
+  .hint { margin: 0 0 2.6rem; font-style: italic; color: var(--muted); text-align: center; font-size: 0.95rem; }
+
+  /* the shelf */
+  .shelf { position: relative; }
+  .books { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 3px;
+           padding: 0 12px; min-height: 270px; z-index: 1; }
+  .plank { position: relative; height: 16px; background: var(--shelf-top); border-radius: 2px 2px 0 0;
+           box-shadow: 0 10px 18px -6px var(--shelf-shadow); }
+  .plank::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 12px; background: var(--shelf-front);
+                  border-radius: 0 0 3px 3px; }
+
+  .book { --h: 240px; --w: 46px; --c: #2f3a4a; --ink: #eadfc2;
+           position: relative; display: block; width: calc(var(--w) * var(--k, 1)); height: calc(var(--h) * var(--k, 1)); flex: none; color: var(--ink); text-decoration: none;
+           border-radius: 2px 2px 1px 1px; transform-origin: 50% 100%;
+           background:
+             linear-gradient(90deg, rgba(0,0,0,0.32) 0%, rgba(255,255,255,0.10) 14%, rgba(255,255,255,0.03) 40%, rgba(0,0,0,0.05) 70%, rgba(0,0,0,0.30) 100%),
+             var(--c);
+           box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18), 2px 0 3px -1px rgba(0,0,0,0.25);
+           transition: transform 0.22s cubic-bezier(.2,.7,.3,1); outline: none; }
+  .book::before, .book::after { content: ""; position: absolute; left: 5px; right: 5px; height: 0;
+                                  border-top: 1px solid var(--ink); opacity: 0.55; }
+  .book::before { top: 14px; box-shadow: 0 3px 0 -0px currentColor; }
+  .book::after { bottom: 30px; }
+  .book .spine { position: absolute; left: 0; right: 0; top: 26px; bottom: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .book .spine span { writing-mode: vertical-rl; white-space: nowrap; font-size: 0.86rem; letter-spacing: 0.04em; line-height: 1.12; text-align: center; }
+  .book .foot { position: absolute; left: 0; right: 0; bottom: 9px; text-align: center; font-size: 0.56rem; letter-spacing: 0.08em; opacity: 0.85; }
+  a.book:hover, a.book:focus-visible, a.book.lift { transform: translateY(-14px); }
+  a.book:focus-visible { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18), 0 0 0 2px var(--fg); }
+  a.book.soon { filter: saturate(0.75); }
+
+  /* hover card */
+  .card { position: absolute; z-index: 5; width: 270px; padding: 0.85rem 1rem 0.9rem; background: var(--card);
+          border: 1px solid var(--card-line); border-radius: 4px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.35);
+          pointer-events: none; opacity: 0; transform: translateY(6px); transition: opacity 0.15s ease, transform 0.15s ease; }
+  .card.on { opacity: 1; transform: none; }
+  .card h2 { margin: 0; font-weight: 400; font-size: 1.25rem; line-height: 1.25; }
+  .card .code { margin: 0.25rem 0 0; font-size: 0.78rem; letter-spacing: 0.14em; color: var(--muted); }
+  .card .meta { margin: 0.15rem 0 0; font-size: 0.92rem; }
+  .card .soonline { margin: 0.3rem 0 0; font-style: italic; color: var(--muted); font-size: 0.92rem; }
+  .card figure { margin: 0.6rem 0 0; }
+  .card img { display: block; width: 100%; height: auto; }
+  .card img.dark-only { display: none; }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .course img.light-only { display: none; }
-    :root:not([data-theme="light"]) .course img.dark-only { display: block; }
+    :root:not([data-theme="light"]) .card img.light-only { display: none; }
+    :root:not([data-theme="light"]) .card img.dark-only { display: block; }
   }
-  :root[data-theme="dark"] .course img.light-only { display: none; }
-  :root[data-theme="dark"] .course img.dark-only { display: block; }
-  @media (max-width: 640px) { .courses { grid-template-columns: minmax(0, 1fr); } header { background-position: 60% 55%; } a.course { grid-template-columns: 1fr; } .course .fig { order: -1; } h1 { font-size: 1.9rem; } }
+  :root[data-theme="dark"] .card img.light-only { display: none; }
+  :root[data-theme="dark"] .card img.dark-only { display: block; }
+
+  /* opening a book: it tips over its bottom corner, tumbles down with the page following it,
+     turns to show its cover, and the cover parts like curtains onto the first page */
+  .scene { transform-origin: 50% 0; will-change: transform; }
+  .stage { position: fixed; inset: 0; z-index: 60; pointer-events: none; perspective: 1500px; perspective-origin: 50% 50%;
+           background: transparent; transform-style: preserve-3d; }
+  .pivot { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; transform-origin: 0 0; }
+  .actor { position: absolute; transform-style: preserve-3d; }
+  .face { position: absolute; top: 0; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .face.spine-face { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18); }
+  .face .pages-x { position: absolute; inset: 0; background: repeating-linear-gradient(90deg, #f4efe4 0 1px, #ddd6c6 1px 2px); }
+  .face .pages-y { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, #f4efe4 0 1px, #ddd6c6 1px 2px); }
+  .art { position: absolute; inset: 0; }
+  .titlesheet { position: fixed; inset: 0; z-index: 70; background: var(--page); color: var(--fg); display: flex; flex-direction: column;
+                align-items: center; justify-content: center; text-align: center; padding: 0 24px; transform: translateY(100%);
+                box-shadow: 0 -24px 48px rgba(0,0,0,0.16); pointer-events: none; }
+  .titlesheet .tt { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; opacity: 0; transform: translateY(14px); }
+  .titlesheet .ts { margin-top: 0.6rem; font-style: italic; color: var(--muted); opacity: 0; transform: translateY(10px); }
+  a.book.gone { visibility: hidden; }
+
+  @media (max-width: 640px) {
+    header { background-position: 60% 55%; }
+    h1 { font-size: 2rem; }
+    .books { gap: 2px; padding: 0 6px; min-height: 230px; }
+    a.book { --k: 0.8; }
+    a.book .foot { font-size: 0.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    a.book, .card { transition: none; }
+  }
 </style>
 </head>
 <body>
+<div class="scene" id="scene">
 <header><div class="wrap">
   <div>
-    <h1>Lecture Notes</h1>
+    <h1>Lecture notes</h1>
     <p>Notes from the university courses I have taken</p>
   </div>
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between light and dark mode">
     <svg id="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
-    <span id="label">Dark</span>
   </button>
 </div></header>
 <main><div class="wrap">
-  <h2>COURSES</h2>
-  <div class="courses">
-    <a class="course" href="integration-theory/">
-      <div>
-        <h3>Integration Theory</h3>
-        <div class="meta">TMV101 / MMA110 · Gothenburg University · Autumn 2026</div>
-        <p>Measure theory, the Lebesgue integral, convergence theorems, signed measures and differentiation. Based on the lecture notes by Jeffrey Steif.</p>
-        <span class="go">Read the notes →</span>
-      </div>
-      <div class="fig">
-        <img class="light-only" src="thomae-light.svg" alt="Thomae's function">
-        <img class="dark-only" src="thomae-dark.svg" alt="Thomae's function">
-      </div>
-    </a>
-    <a class="course text-only" href="gravitation-and-cosmology/">
-      <div>
-        <h3>Gravitation and Cosmology</h3>
-        <div class="meta">Notes coming soon</div>
-        <span class="go">Open →</span>
-      </div>
-    </a>
-    <a class="course text-only" href="quantum-field-theory/">
-      <div>
-        <h3>Quantum Field Theory</h3>
-        <div class="meta">Notes coming soon</div>
-        <span class="go">Open →</span>
-      </div>
-    </a>
-    <a class="course text-only" href="quantum-mechanics/">
-      <div>
-        <h3>Quantum Mechanics</h3>
-        <div class="meta">Notes coming soon</div>
-        <span class="go">Open →</span>
-      </div>
-    </a>
-    <a class="course text-only" href="astroparticle-physics/">
-      <div>
-        <h3>Astroparticle Physics</h3>
-        <div class="meta">Notes coming soon</div>
-        <span class="go">Open →</span>
-      </div>
-    </a>
-    <a class="course text-only" href="conceptual-foundations-of-general-relativity/">
-      <div>
-        <h3>Conceptual Foundations of General Relativity</h3>
-        <div class="meta">Notes coming soon</div>
-        <span class="go">Open →</span>
-      </div>
-    </a>
-    <a class="course text-only" href="functional-analysis/">
-      <div>
-        <h3>Functional Analysis</h3>
-        <div class="meta">Notes coming soon</div>
-        <span class="go">Open →</span>
-      </div>
-    </a>
-    <a class="course text-only" href="statistical-physics/">
-      <div>
-        <h3>Statistical Physics</h3>
-        <div class="meta">Notes coming soon</div>
-        <span class="go">Open →</span>
-      </div>
-    </a>
+  <p class="count" id="count">8 VOLUMES</p>
+  <p class="hint">Hover over a book to see what it is, and pick one to open it.</p>
+  <div class="shelf">
+    <div class="books" id="books"></div>
+    <div class="plank" aria-hidden="true"></div>
+    <div class="card" id="card" aria-hidden="true"></div>
   </div>
-  <p class="soon">More courses will be added soon.</p>
 </div></main>
+</div>
+
+<script>
+  // colour = the course banner colour; thickness grows with the number of lectures
+  var COURSES = [
+    { slug: "integration-theory", title: "Integration Theory", code: "TMV101 / MMA110", lectures: 15,
+      meta: ["Gothenburg University · Autumn 2026", "Taught by Jeffrey Steif · 15 lectures"],
+      img: ["integration-theory/images/thomae-light.svg", "integration-theory/images/thomae-dark.svg"],
+      color: "#1e1b4b", ink: "#e8dcb8", h: 262 },
+    { slug: "functional-analysis", title: "Functional Analysis", lectures: 0, color: "#3d5745", ink: "#e9e1c6", h: 246 },
+    { slug: "quantum-mechanics", title: "Quantum Mechanics", lectures: 0, color: "#7a2f2b", ink: "#f0e2c4", h: 252 },
+    { slug: "statistical-physics", title: "Statistical Physics", lectures: 0, color: "#cbbf9f", ink: "#3a3326", h: 236 },
+    { slug: "quantum-field-theory", title: "Quantum Field Theory", lectures: 0, color: "#1f2b38", ink: "#d9cfb2", h: 258 },
+    { slug: "gravitation-and-cosmology", title: "Gravitation and Cosmology", lectures: 0, color: "#5a4a36", ink: "#eee3c8", h: 250 },
+    { slug: "conceptual-foundations-of-general-relativity", title: "Foundations of General Relativity",
+      full: "Conceptual Foundations of General Relativity", lectures: 0, color: "#4c5a6b", ink: "#ece4cf", h: 266 },
+    { slug: "astroparticle-physics", title: "Astroparticle Physics", lectures: 0, color: "#8a6a2c", ink: "#f6ecd2", h: 240 }
+  ];
+  COURSES.forEach(function (c) { c.w = Math.min(76, 36 + 2 * (c.lectures || 0)); });
+  var HREF = function (c) { return c.slug + "/"; };   // folders on GitHub Pages
+</script>
 <script>
   (function () {
+    var books = document.getElementById("books"), card = document.getElementById("card"), shelf = books.parentNode;
+    document.getElementById("count").textContent = COURSES.length + " VOLUMES";
+    function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+    function fill(c) {
+      var h = "<h2>" + esc(c.full || c.title) + "</h2>";
+      if (c.code) h += '<p class="code">' + esc(c.code) + "</p>";
+      (c.meta || []).forEach(function (m) { h += '<p class="meta">' + esc(m) + "</p>"; });
+      if (!c.meta) h += '<p class="soonline">Notes coming soon</p>';
+      if (c.img) h += '<figure><img class="light-only" src="' + c.img[0] + '" alt=""><img class="dark-only" src="' + c.img[1] + '" alt=""></figure>';
+      card.innerHTML = h;
+    }
+    var shown = null;
+    function show(el, c) {
+      if (shown === el) return; shown = el; fill(c);
+      var s = shelf.getBoundingClientRect(), b = el.getBoundingClientRect();
+      var w = Math.min(270, s.width - 16), x = b.left - s.left + b.width / 2 - w / 2;
+      x = Math.max(8, Math.min(s.width - w - 8, x));
+      card.style.width = w + "px"; card.style.left = x + "px";
+      card.style.top = ""; card.style.bottom = (s.bottom - b.top + 22) + "px";
+      card.classList.add("on");
+    }
+    function hide() { shown = null; card.classList.remove("on"); }
+    var opening = false;
+    COURSES.forEach(function (c) {
+      var a = document.createElement("a");
+      a.className = "book" + (c.meta ? "" : " soon"); a.href = HREF(c);
+      a.style.setProperty("--c", c.color); a.style.setProperty("--ink", c.ink);
+      a.style.setProperty("--h", c.h + "px"); a.style.setProperty("--w", c.w + "px");
+      a.setAttribute("aria-label", (c.full || c.title) + (c.meta ? ", " + c.meta.join(", ") : ", notes coming soon"));
+      a.innerHTML = '<span class="spine"><span>' + esc(c.title) + '</span></span><span class="foot">' + (c.code ? esc(c.code.split(" ")[0]) : "") + "</span>";
+      a.addEventListener("mouseenter", function () { if (!opening) show(a, c); });
+      a.addEventListener("mouseleave", hide);
+      a.addEventListener("focus", function () { show(a, c); });
+      a.addEventListener("blur", hide);
+      a.addEventListener("click", function (ev) {
+        if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button === 1) return;   // new tab: no animation
+        ev.preventDefault(); if (opening) return; opening = true; hide();
+        var go = function () {
+          try {
+            sessionStorage.setItem("shelf-open", "1");
+            // the notes open in the same mode as the shelf
+            var th = document.documentElement.getAttribute("data-theme");
+            var dark = th ? th === "dark" : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+            localStorage.setItem("quarto-color-scheme", dark ? "alternate" : "default");
+          } catch (e) {}
+          location.href = a.href;
+        };
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !Element.prototype.animate) { go(); return; }
+        openBook(a, c, go);
+      });
+      books.appendChild(a);
+    });
+    function fit() {
+      [].forEach.call(books.querySelectorAll("a.book .spine"), function (sp) {
+        var s = sp.firstChild; s.style.whiteSpace = "nowrap"; s.style.fontSize = "";
+        var room = sp.clientHeight, size = parseFloat(getComputedStyle(s).fontSize);
+        while (s.scrollHeight > room && size > 11) { size -= 0.5; s.style.fontSize = size + "px"; }
+        if (s.scrollHeight > room) { s.style.whiteSpace = "normal"; }
+      });
+    }
+    fit(); window.addEventListener("resize", fit);
+    function openBook(el, c, done) {
+      var r = el.getBoundingClientRect(), vw = innerWidth, vh = innerHeight;
+      var w = r.width, h = r.height, T = w, cw = Math.round(h * 0.7);
+      var stage = document.createElement("div"); stage.className = "stage";
+      var actor = document.createElement("div"); actor.className = "actor";
+      var cx = r.left + w / 2, cy = r.top + h / 2;
+      actor.style.width = cw + "px"; actor.style.height = h + "px";
+      actor.style.left = (cx - cw / 2) + "px"; actor.style.top = (cy - h / 2) + "px";
+      actor.style.setProperty("--c", c.color); actor.style.setProperty("--ink", c.ink);
+      var img = c.img ? '<img src="' + c.img[1] + '" alt="">' : "";
+      var cover = '<div class="art"><div class="frame"></div><div class="ct">' + esc(c.full || c.title) + '</div>' + img +
+        '<div class="cc">' + esc(c.code || "LECTURE NOTES") + '</div></div>';
+      var face = function (style, inner) { return '<div class="face" style="' + style + '">' + (inner || "") + '</div>'; };
+      var spine = el.outerHTML.replace(/^<a /, '<div ').replace(/<\/a>$/, '</div>');
+      actor.innerHTML =
+        face("width:" + cw + "px;transform:translateZ(" + T / 2 + "px)", cover) +
+        face("width:" + cw + "px;transform:rotateY(180deg) translateZ(" + T / 2 + "px);background:" + c.color) +
+        face("left:" + (cw - T) / 2 + "px;width:" + T + "px;transform:rotateY(-90deg) translateZ(" + cw / 2 + "px)", spine) +
+        face("left:" + (cw - T) / 2 + "px;width:" + T + "px;transform:rotateY(90deg) translateZ(" + cw / 2 + "px)", '<div class="pages-x" style="box-shadow:inset 3px 0 0 ' + c.color + ',inset -3px 0 0 ' + c.color + '"></div>') +
+        face("width:" + cw + "px;height:" + T + "px;top:" + (h - T) / 2 + "px;transform:rotateX(90deg) translateZ(" + h / 2 + "px)", '<div class="pages-y"></div>') +
+        face("width:" + cw + "px;height:" + T + "px;top:" + (h - T) / 2 + "px;transform:rotateX(-90deg) translateZ(" + h / 2 + "px)", '<div class="pages-y" style="box-shadow:inset 0 0 0 3px ' + c.color + '"></div>');
+      var sp = actor.querySelector(".face div.book");
+      if (sp) { sp.style.width = "100%"; sp.style.height = "100%"; sp.style.transform = "none"; sp.classList.remove("lift"); }
+      stage.appendChild(actor); document.body.appendChild(stage);
+      el.classList.add("gone");
+
+      // a small physics simulation: the book pivots forward over its bottom edge, leaves the shelf,
+      // and falls freely towards the reader, spinning end over end with a slight wobble
+      var g = 2600, dt = 1 / 60, frames = [], tm = 0;
+      var th = 0.05, om = 1.2, k = 3 * g / (2 * h);                   // a nudge at the top
+      var push = function (x, y, z, rx, ry, rz) {
+        frames.push("translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px," + z.toFixed(1) + "px) rotateZ(" + rz.toFixed(2) +
+          "deg) rotateX(" + (-rx * 180 / Math.PI).toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)");
+      };
+      while (th < 1.05) {                                             // tipping phase (about 60 degrees)
+        var sub = 4; for (var q = 0; q < sub; q++) { om += k * Math.sin(th) * dt / sub; th += om * dt / sub; }
+        tm += dt;
+        push(0, h / 2 * (1 - Math.cos(th)), -cw / 2 + h / 2 * Math.sin(th), th, 90, 0);
+      }
+      var y0 = h / 2 * (1 - Math.cos(th)), z0 = -cw / 2 + h / 2 * Math.sin(th);
+      var vy = h / 2 * Math.sin(th) * om, vz = h / 2 * Math.cos(th) * om, tf = 0, exitAt = -1;
+      var bottom = vh - r.top + h;                                    // fully off screen
+      while (true) {
+        tf += dt; tm += dt;
+        var y = y0 + vy * tf + 0.5 * g * tf * tf, z = z0 + vz * tf * 0.9;
+        var x = 26 * Math.sin(tf * 2.1) + 60 * tf;                     // drift
+        var rz = 9 * Math.sin(tf * 5.3) * Math.min(1, tf * 3);         // wobble
+        var ry = 90 - 38 * (1 - Math.exp(-tf * 2.2));                  // turns a little to show its cover
+        push(x, y, z, th + om * 1.08 * tf, ry, rz);
+        if (exitAt < 0 && r.top + y > vh * 0.8) exitAt = frames.length;
+        if (r.top + y - h * 0.6 > vh || frames.length > 240) break;
+      }
+      var D = Math.round(frames.length * dt * 1000);
+      actor.animate(frames.map(function (f) { return { transform: f }; }), { duration: D, easing: "linear", fill: "forwards" });
+      // the page follows the book down
+      var tipMs = Math.round((frames.length - (frames.length - exitAt)) * dt * 1000);
+      document.getElementById("scene").animate([
+        { offset: 0, transform: "translateY(0)" },
+        { offset: 0.3, transform: "translateY(0)", easing: "cubic-bezier(.5,0,.5,1)" },
+        { offset: 1, transform: "translateY(-30vh)" }
+      ], { duration: D + 500, fill: "forwards" });
+      // as it leaves, the title page rises softly
+      var title = c.full || c.title;
+      try { sessionStorage.setItem("shelf-title", title); } catch (e) {}
+      var sheet = document.createElement("div"); sheet.className = "titlesheet";
+      sheet.innerHTML = '<div class="tt">' + esc(title) + '</div><div class="ts">Lecture notes</div>';
+      document.body.appendChild(sheet);
+      var S0 = Math.max(0, exitAt * dt * 1000 - 120), SD = 900;
+      sheet.animate([{ transform: "translateY(100%)", boxShadow: "0 -24px 48px rgba(0,0,0,0.16)" },
+                     { transform: "translateY(0)", boxShadow: "0 0 0 rgba(0,0,0,0)" }],
+        { delay: S0, duration: SD, easing: "cubic-bezier(.16,1,.3,1)", fill: "forwards" });
+      [].forEach.call(sheet.children, function (kid, i) {
+        kid.animate([{ opacity: 0, transform: "translateY(18px)", filter: "blur(4px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }],
+          { delay: S0 + SD * 0.35 + i * 120, duration: 700, easing: "cubic-bezier(.16,1,.3,1)", fill: "forwards" });
+      });
+      setTimeout(done, S0 + SD + 380);
+    }
+    // coming back with the browser's back button: put everything back on the shelf
+    window.addEventListener("pageshow", function () {
+      opening = false;
+      [].forEach.call(document.querySelectorAll("a.book.gone"), function (b) { b.classList.remove("gone"); });
+      [].forEach.call(document.querySelectorAll(".stage, .titlesheet"), function (s) { s.remove(); });
+      var sc = document.getElementById("scene"); if (sc.getAnimations) sc.getAnimations().forEach(function (an) { an.cancel(); });
+    });
+  })();
+
+  (function () {
     var root = document.documentElement, btn = document.getElementById("theme-toggle");
-    var icon = document.getElementById("icon"), label = document.getElementById("label");
+    var icon = document.getElementById("icon");
     var MOON = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
     var SUN = '<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/>';
     function isDark() {
@@ -163,21 +345,14 @@
       if (t) return t === "dark";
       return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     }
-    function render() {                       // the button offers the other mode
-      var dark = isDark();
-      icon.innerHTML = dark ? SUN : MOON;
-      label.textContent = dark ? "Light" : "Dark";
-    }
+    function render() { var d = isDark(); icon.innerHTML = d ? SUN : MOON; btn.title = d ? "Light mode" : "Dark mode"; }
     btn.addEventListener("click", function () {
       var dark = !isDark();
       root.setAttribute("data-theme", dark ? "dark" : "light");
       try { localStorage.setItem("quarto-color-scheme", dark ? "alternate" : "default"); } catch (e) {}
       render();
     });
-    if (window.matchMedia) {
-      var mq = window.matchMedia("(prefers-color-scheme: dark)");
-      if (mq.addEventListener) mq.addEventListener("change", render);
-    }
+    if (window.matchMedia) { var mq = window.matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", render); }
     render();
   })();
 </script>
