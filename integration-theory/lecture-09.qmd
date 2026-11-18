@@ -2,22 +2,20 @@
 title: "Weak and Strong Laws of Large Numbers"
 ---
 
+## Probability spaces and random variables
+
 ::: {#r-9-1 .callout-note .definition-box}
 
-#### Definition 9.1 — Probability space
+#### **Definition 9.1** (Probability space).
 
 A probability space is a measure space $(\Omega, \mathcal M, P)$ with $P(\Omega) = 1$.
 :::
 
-$\Omega$ is our set of outcomes of some random experiment, $\mathcal M$ is the set of events to which we will assign a probability, and $P(A)$ is the probability that an event occurs. 
-
-::: {.column-margin}
-Note that a probability space thus automatically qualifies as finite, and therefore also $\sigma$-finite. This means that we can apply properties of the probability measure such as continuity from above without having to think twice.
-:::
+$\Omega$ is our set of outcomes of some random experiment, $\mathcal M$ is the set of events to which we will assign a probability, and $P(A)$ is the probability that an event occurs.^[A probability space thus automatically qualifies as finite, and therefore also $\sigma$-finite. This means that we can apply properties of the probability measure such as continuity from above without having to think twice.]
 
 ::: {#r-9-2 .callout-note .definition-box}
 
-#### Definition 9.2 — Random variable
+#### **Definition 9.2** (Random variable).
 
 Given a probability space, a random variable is a measurable real-valued function $X$ on $(\Omega, \mathcal M, P)$.
 :::
@@ -26,25 +24,23 @@ A random variable is not random as it is just a function, but if the input $\ome
 
 ::: {#r-9-3 .callout-note .definition-box}
 
-#### Definition 9.3 — Expectation
+#### **Definition 9.3** (Expectation).
 
 If $X$ is a R.V. on a probability space, its expectation is defined by $$E(X) =\int X dP$$ provided it exists, meaning at least one of $\int X^+ dP$ and $\int X^- dP$ is finite.
 :::
 
 ::: {#r-9-4 .callout-note .definition-box}
 
-#### Definition 9.4 — Distribution / Law of a Random Variable
+#### **Definition 9.4** (Distribution / Law of a Random Variable).
 
-Given a r.v. $X$ on a probability space, the distribution or law of $X$ is the probability measure $\mu$ on $(R, \mathcal B)$ given by $$\mu(A) = P(X^{-1}(A))$$
+Given a r.v. $X$ on a probability space, the distribution or law of $X$ is the probability measure $\mu$ on $(R, \mathcal B)$ given by $$\mu(A) = P(X^{-1}(A))$$^[We demand $X$ to be measurable, hence the preimage of $A\subseteq R$ is contained in $\mathcal M$ and we can thus assign a meaningful probability to that event.]
 :::
 
-::: {.column-margin}
-Note that we demand $X$ to be measurable, hence the preimage of $A\subseteq R$ is contained in $\mathcal M$ and we can thus assign a meaningful probability to that event.
-:::
+## Independence
 
 ::: {#r-9-5 .callout-note .definition-box}
 
-#### Definition 9.5 — Independent random variables
+#### **Definition 9.5** (Independent random variables).
 
 (Independent) $n$ r.vs. $X_1, X_2,...,X_n$ on a probability space $(\Omega, \mathcal M, P)$ are called independent if for all Borel sets $B_1, B_2,...,B_n$ $$P(\bigcap_{i=1}^n X_{i}^{-1}(B_i)) = \prod_{i=1}^n P(X_i^{-1}(B_i))$$
 :::
@@ -53,16 +49,23 @@ In other words, if we take the intersection of the preimages of our Borel sets (
 
 ::: {#r-9-6 .callout-note .definition-box}
 
-#### Definition 9.6 — Infinite collection of independent random variables
+#### **Definition 9.6** (Infinite collection of independent random variables).
 
 An **infinite** collection of r.vs. on a probability space $(\Omega, \mathcal M, P)$ is called independent if each finite collection is independent, as above.
 :::
 
-## The law of large numbers
+#### Constructing infinitely many independent random variables
 
+There are two standard ways to build a probability space carrying an infinite sequence of independent random variables.
+
+*An infinite product space.* The product construction of [Lecture 8](lecture-08.qmd) extends to infinitely many probability spaces. If the $n$-th random variable depends only on the $n$-th coordinate, the random variables are independent, essentially by the definition of the product measure.
+
+*The unit interval.* Take $([0,1], \mathcal B_{[0,1]}, m)$ with $m$ the Lebesgue measure, which is a probability measure on $[0,1]$. Every $x \in [0,1]$ has a binary expansion $x = \sum_n a_n(x)/2^n$ with $a_n(x) \in \{0,1\}$, unique except for the countably many dyadic rationals (for example $1/2 = 0.1000\ldots = 0.0111\ldots$). Setting $X_n(x) = 1$ if $a_n(x) = 1$ and $X_n(x) = -1$ otherwise gives an i.i.d. sequence of fair $\pm 1$ coin flips. The strong law of large numbers then says that almost every $x \in [0,1]$ has, asymptotically, equally many $0$s and $1$s in its binary expansion.
+
+## The laws of large numbers
 ::: {#r-9-7 .callout-important .theorem-box}
 
-#### Theorem 9.7 — Weak and strong law of large numbers (special case)
+#### **Theorem 9.7** (Weak and strong law of large numbers (special case)).
 
 Let $X_1, X_2,\ldots$ be independent r.v.s on some probability space such that the distribution of each $X_i$ is $(\delta_1 + \delta_{-1})/2$, i.e. for all $i$,
 $$P(\{\omega : X_i(\omega) = 1\}) = P(\{\omega : X_i(\omega) = -1\}) = 1/2$$
@@ -89,7 +92,7 @@ as $n\to\infty$, so $S_n/n$ converges to $0$ in probability. (This makes sense �
 **Step 1: From summability to a.s. convergence via Borel–Cantelli.**
 
 Assume we can establish:
-$$\sum_{n=1}^\infty P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) < \infty \tag{16}$$
+$$\sum_{n=1}^\infty P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon\right) < \infty$$ {#eq-l09-bc-condition}
 The sets $E_n(\epsilon) := \{|S_n/n| \geq \epsilon\}$ are measurable (preimages of $[\epsilon,\infty)$ under the measurable function $|S_n/n|$, where $S_n$ is just a sum of r.vs. which by definition are real-valued measurable functions, and a sum of measurable functions is also measurable, and the composition of a continuous function $|\cdot |$ with a measurable function is also measurable), so Borel–Cantelli applies:
 $$P\!\left(\left|\frac{S_n}{n}\right| \geq \epsilon \text{ i.o.}\right) = 0 \quad \forall \epsilon > 0$$
 For each integer $k$, define $A_k := \{|S_n/n| \geq 1/k \text{ i.o.}\}$. Then $P(A_k)=0$ for every $k$, and by countable additivity $P(\bigcup_k A_k) = 0$. Taking complements via De Morgan:
@@ -99,7 +102,7 @@ $$P\!\left(\{ \omega : \frac{S_n(\omega)}{n}\to 0\}\right) = 1$$
 
 **Step 2: Second moments are not enough.**
 
-From the WLLN we had $P(|S_n/n|\geq\epsilon)\leq 1/(n\epsilon^2)$, but $\sum_n 1/n = \infty$, so (16) fails and Borel–Cantelli cannot be applied with second moments.
+From the WLLN we had $P(|S_n/n|\geq\epsilon)\leq 1/(n\epsilon^2)$, but $\sum_n 1/n = \infty$, so ([-@eq-l09-bc-condition]) fails and Borel–Cantelli cannot be applied with second moments.
 
 **Step 3: Fourth moment bound.**
 
@@ -120,9 +123,11 @@ $$E(S_n^4) = n + 3n(n-1) = 3n^2 - 2n \leq 3n^2$$
 
 By Markov applied to $(S_n/n)^4$:
 $$P\!\left(\left|\frac{S_n}{n}\right|\geq\epsilon\right) \leq \frac{E[(S_n/n)^4]}{\epsilon^4} \leq \frac{3}{n^2\epsilon^4}$$
-Since $\sum_{n=1}^\infty \frac{3}{n^2\epsilon^4} < \infty$ by the $p$-series test, condition (16) holds and we are done. $\blacksquare$
+Since $\sum_{n=1}^\infty \frac{3}{n^2\epsilon^4} < \infty$ by the $p$-series test, condition ([-@eq-l09-bc-condition]) holds and we are done. $\blacksquare$
 :::
 :::
+
+The two laws say different things about coin flipping. The weak law says that after many flips, the fraction of heads is, with high probability, within any fixed margin of $1/2$, for example in $[0.499, 0.501]$. The strong law says that with probability one, the fraction of heads converges to $1/2$ as the number of flips goes to infinity.
 
 ![Sample averages of fair coin flips settle at the mean $\tfrac12$.](images/l09-law-of-large-numbers.svg){#fig-l09-law-of-large-numbers fig-alt="Sample averages of fair coin flips settle at the mean tfrac12." width="85%"}
 
@@ -132,20 +137,18 @@ WLLN says something like: if you flip a coin a zillion times, then with high pro
 
 ::: {#r-9-8 .callout-important .theorem-box}
 
-#### Theorem 9.8 — Strong law of large numbers: General case
+#### **Theorem 9.8** (Strong law of large numbers: General case).
 
 Let $X_1, X_2,...$ be independent r.vs. with the same distribution (i.i.d.) on some probability space $(\Omega, \mathcal F, P)$ with $E(|X|) < \infty$, then $$\frac{S_n}{n} = \frac{\sum X_i}{n}$$ converges a.e. to $E[X]$.
 :::
 
-Remember that two r.vs. can have the same probability distribution but still live in different probability spaces. For example, the outcome of a fair coin on $\Omega = \{H, T\}$ and the outcome of a fair die being even or odd on $\Omega' = \{1,2,3,4,5,6\}$ have the same Bernoulli$(1/2)$ distribution but live on different spaces.
+Remember that two r.vs. can have the same probability distribution but still live in different probability spaces. For example, the outcome of a fair coin on $\Omega = \{H, T\}$ and the outcome of a fair die being even or odd on $\Omega' = \{1,2,3,4,5,6\}$ have the same Bernoulli$(1/2)$ distribution but live on different spaces.^[**Independent events.** Events $E_1, E_2, \ldots$ are independent if their indicator functions $1_{E_1}, 1_{E_2}, \ldots$ are independent random variables in the sense of [Definition 9.5](lecture-09.qmd#r-9-5) and [Definition 9.6](lecture-09.qmd#r-9-6). Equivalently, $P(E_{i_1}\cap\cdots\cap E_{i_k}) = P(E_{i_1})\cdots P(E_{i_k})$ for every finite set of distinct indices $i_1, \ldots, i_k$.]
 
-::: {.column-margin}
-**Independent events.** Events $E_1, E_2, \ldots$ are independent if their indicator functions $1_{E_1}, 1_{E_2}, \ldots$ are independent random variables in the sense of [Definition 9.5](lecture-09.qmd#r-9-5) and [Definition 9.6](lecture-09.qmd#r-9-6). Equivalently, $P(E_{i_1}\cap\cdots\cap E_{i_k}) = P(E_{i_1})\cdots P(E_{i_k})$ for every finite set of distinct indices $i_1, \ldots, i_k$.
-:::
+## The second Borel–Cantelli lemma
 
 ::: {#r-9-9 .callout-important .lemma-box}
 
-#### Lemma 9.9 — Second Borel–Cantelli Lemma
+#### **Lemma 9.9** (Second Borel–Cantelli Lemma).
 
 Let $(\Omega, \mathcal F, P)$ be a probability space and let $E_1, E_2, \ldots$ be **independent** events. If
 $$\sum_{n=1}^\infty P(E_n) = \infty,$$

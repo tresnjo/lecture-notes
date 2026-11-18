@@ -11,8 +11,8 @@ book:
   search: true
 
   navbar:
-    background: "#1e1b4b"
-    foreground: white
+    background: "#cbbf9f"
+    foreground: "#3a3326"
 
   sidebar:
     style: "docked"
@@ -26,6 +26,7 @@ language:
 
 format:
   html:
+    respect-user-color-scheme: true
     theme:
       light: [flatly, custom.scss]
       dark:  [darkly, custom.scss]

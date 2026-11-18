@@ -2,11 +2,13 @@
 title: "Signed Measures, Jordan–Hahn Decomposition, and Mutual Singularity"
 ---
 
+## Signed measures
+
 So far, we have discussed nonnegative measures. But can we also introduce a well-defined concept of a signed measure? Indeed we can.
 
 ::: {#r-10-1 .callout-note .definition-box}
 
-#### Definition 10.1 — A signed measure
+#### **Definition 10.1** (A signed measure).
 
 If $(X, \mathcal M)$ is a measurable space, a signed measure is a map $\nu: \mathcal M \rightarrow [-\infty, \infty]$ satisfying
 (i) $\nu(\emptyset) = 0$
@@ -46,7 +48,7 @@ So far, a signed measure can feel somewhat uncomfortable, especially if we have 
 
 ::: {#r-10-2 .callout-tip .remark-box}
 
-#### Remark 10.2
+#### **Remark 10.2**.
 
 If $\mu_1, \mu_2$ are finite measures (or at least one is finite), then the difference $\mu_1-\mu_2$ is a signed measure.
 
@@ -61,18 +63,34 @@ where subtracting the series is only possible if at least one of them is finite 
 
 It turns out that every signed measure has the form $\mu_1 - \mu_2$, both being measures with at least one being finite. This is the **Jordan Decomposition Theorem**. Before that, we first prove the Hahn Decomposition Theorem.
 
+## Positive and negative sets
+
 ::: {#r-10-3 .callout-note .definition-box}
 
-#### Definition 10.3 — A positive and negative set
+#### **Definition 10.3** (A positive and negative set).
 
 If $\nu$ is a signed measure on $(X,\mathcal M)$, a set $A \in \mathcal M$ is called a *positive set* if $\nu(B) \geq 0$ $\forall B \subseteq A$ with $B\in \mathcal M$. A is called a negative set (a null set) if $\nu(B) \leq (=) 0$ $\forall B \subseteq A$ with $B\in \mathcal M$.
 :::
 
+Two facts about signed measures that we use below:
+
+1. Continuity from below and from above hold for signed measures, just as for measures.
+2. A measurable subset of a positive set is positive, and a countable union of positive sets is positive.
+
+## The Hahn decomposition
+
 ::: {#r-10-4 .callout-important .theorem-box}
 
-#### Theorem 10.4 — Hahn Decomposition Theorem
+#### **Theorem 10.4** (Hahn Decomposition Theorem).
 
 If $\nu$ is a signed measure on $(X, \mathcal M)$ then $X$ can be partitioned into two sets $P, N \in \mathcal M$ (meaning $P \cup N = X, P \cap N = \emptyset$) with $P$ being a positive set and $N$ a negative set. There is "almost uniqueness" in that if $(P', N')$ is another such partition, then $P \Delta P'$ and $N\Delta N'$ are each null sets.
+:::
+
+::: {.callout-caution .example-box}
+
+#### **Example** (A Hahn decomposition).
+
+On $([0,1], \mathcal B_{[0,1]})$ with Lebesgue measure $m$, let $\nu(A) = m(A \cap [0, 3/4]) - m(A \cap (3/4, 1])$. A Hahn decomposition is $P = [0, 3/4]$, $N = (3/4, 1]$. It is not unique: $P' = [0, 3/4)$, $N' = [3/4, 1]$ also works, since $P' \,\Delta\, P = \{3/4\}$ is a null set for $\nu$. So does $P'' = [0, 3/4] \cup C$, $N'' = (3/4, 1] \setminus C$ with $C$ the Cantor set, since $P'' \,\Delta\, P \subseteq C$ is again a null set. The theorem guarantees uniqueness only up to such null sets.
 :::
 
 ::: {#fig-l10-hahn-decomposition}
@@ -87,37 +105,39 @@ By definition we have $A \Delta B = (A \setminus B) \cup (B \setminus A)$ which 
 
 ::: {#r-10-5 .callout-important .lemma-box}
 
-#### Lemma 10.5 — Existence of positive subset
+#### **Lemma 10.5** (Existence of positive subset).
 
 Let $\nu$ be a signed measure on $(X, \mathcal M, \nu)$ which does not take the value $\infty$. If $\nu(A) > 0$, then there exists a measurable $B \subseteq A$ where $\nu(B) > 0$ and $B$ is a positive set.
 :::
 
 ::: {#r-10-6 .callout-caution .example-box}
 
-#### Example 10.6
+#### **Example 10.6**.
 
 Take $X = \{1,2,3\}$ and $\mathcal M = 2^X$ then take $\nu(\{1\}) = 3$ and $\nu(\{2\}) = -1$ and same for $3$. Then $\nu(X) = 1>0$ but $\{2\}\subseteq X$ and $\nu(\{2\}) = -1$, thus $X$ is not a positive set, although it has positive measure. But if we take $B = \{1\}$ then indeed we have a subset which is also a positive set. From this perspective it makes sense, the positive and negative parts of $A$ may give a positive contribution, but we can find a subset of these which only contribute positively. We can do this using a greedy algorithm, by just at each stage remove the most negative measurable subsets, define that as our new subset, remove the negative measurable subsets, and repeat until the resulting subset is positive. 
 :::
 
 ::: {#r-10-7 .callout-caution .example-box}
 
-#### Example 10.7
+#### **Example 10.7**.
 
 Take $([0,1], \mathcal B_{[0,1]})$ with $\nu(A) = \int_A (2x-1) dm(x)$. If we take $A = [1/4, 1]$ then $\nu(A) > 0$ but it is not a positive set since the density $2x-1 < 0$ on $[1/4, 1/2)$, so why just not remove that interval and define $B = [1/2,1]\subseteq A$ which is measurable and also a positive set. 
 :::
 
 This is different from the two facts we mentioned earlier. The lemma says that we only know that the measure of $A$ is positive, not that it is a positive set. However, it does guarantee that we can always find a subset of $A$ which is positive.
 
+## Mutual singularity and the Jordan decomposition
+
 ::: {#r-10-8 .callout-note .definition-box}
 
-#### Definition 10.8 — Mutually singular measures
+#### **Definition 10.8** (Mutually singular measures).
 
 Two measures $\mu, \nu$ on a measurable space $(X, \mathcal M)$ are mutually singular if $X$ can be partitioned into two disjoint sets $E, F$ in $\mathcal M$ so that $\mu(E) = 0 = \nu(F)$. This is denoted by $\mu \perp \nu$.
 :::
 
 ::: {#r-10-9 .callout-important .theorem-box}
 
-#### Theorem 10.9 — (Jordan decomposition theorem)
+#### **Theorem 10.9** (Jordan decomposition theorem).
 
 If $\nu$ is a signed measure on $(X, \mathcal M)$, then there exists unique measures $\nu^+$ and $\nu^-$ so that $\nu^+ \perp \nu^-$ and $$\nu = \nu^+ - \nu^-$$
 :::
@@ -126,7 +146,7 @@ The measure $\nu^+ + \nu^-$ is called the total variation of $\nu$ and is denote
 
 ::: {#r-10-10 .callout-caution .example-box}
 
-#### Example 10.10
+#### **Example 10.10**.
 
 Why is $\nu(A) = \int_A (2x-1) dx$ a signed measure?
 
@@ -138,7 +158,7 @@ Why is $\nu(A) = \int_A (2x-1) dx$ a signed measure?
 
 ::: {#r-10-11 .callout-caution .example-box}
 
-#### Example 10.11 — Cantor measure minus Lebesgue
+#### **Example 10.11** (Cantor measure minus Lebesgue).
 
 Define $$\nu = \mu_c - m$$on the measurable space $([0,1], \mathcal B_{[0,1]})$ then the Hahn decomposition is simply $P = C$ (the Cantor set) and $N= C^c$ and then we simply have $\nu^+(A) = \mu_c(A \cap C)$ and $\nu^{-1}(A) = m(A \cap C^c)$ for the Jordan decomposition. 
 :::

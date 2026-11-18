@@ -11,7 +11,7 @@ book:
   search: true
 
   navbar:
-    background: "#1e1b4b"
+    background: "#3d5745"
     foreground: white
 
   sidebar:
@@ -26,6 +26,7 @@ language:
 
 format:
   html:
+    respect-user-color-scheme: true
     theme:
       light: [flatly, custom.scss]
       dark:  [darkly, custom.scss]

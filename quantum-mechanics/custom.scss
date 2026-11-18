@@ -15,68 +15,45 @@ h1, h2, h3, h4, h5, h6, .callout-title-container, .sidebar, #TOC, .navbar { font
 
 .math.display { overflow-x: auto; overflow-y: hidden; padding: 0.4em 0; }
 
-/* ---- result boxes: tinted fill, outline, thick coloured edge, soft shadow ---- */
-.callout.theorem-box, .callout.proposition-box, .callout.lemma-box, .callout.corollary-box,
-.callout.definition-box, .callout.remark-box, .callout.example-box, .callout.proof-box {
-  --box: #8b6be0;
-  margin: 1.8rem 0;
-  border: 1px solid color-mix(in srgb, var(--box) 55%, transparent) !important;
-  border-left: 7px solid var(--box) !important;
-  border-radius: 0.55rem;
-  background: color-mix(in srgb, var(--box) 9%, transparent);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
+/* ---- result boxes: a thin coloured rule on the left, no fill, no rounding (amsthm style) ---- */
+$boxes: ".callout.theorem-box, .callout.proposition-box, .callout.lemma-box, .callout.corollary-box, .callout.definition-box, .callout.remark-box, .callout.example-box";
+#{$boxes} {
+  --box: #3a55a3;
+  margin: 1.6rem 0 !important;
+  border: none !important;
+  border-left: 2px solid var(--box) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible;
 }
-.callout.definition-box { --box: #3b8fd9; }
-.callout.remark-box     { --box: #1fa38f; }
-.callout.example-box    { --box: #e08a2e; }
-.callout.proof-box      { --box: #8a9099; }
-
-/* header band + title: bold, sentence case */
-.callout.theorem-box > .callout-header, .callout.proposition-box > .callout-header,
-.callout.lemma-box > .callout-header, .callout.corollary-box > .callout-header,
-.callout.definition-box > .callout-header, .callout.remark-box > .callout-header,
-.callout.example-box > .callout-header, .callout.proof-box > .callout-header {
-  background: color-mix(in srgb, var(--box) 22%, transparent) !important;
-  padding: 0.55rem 1rem;
+.callout.definition-box { --box: #2f7d4a; }
+.callout.remark-box     { --box: #6c7078; }
+.callout.example-box    { --box: #a8612a; }
+#{$boxes} {
+  > .callout-header { background: transparent !important; border: none !important; padding: 0.1rem 0 0 0.85rem !important; }
+  .callout-title-container { color: var(--box) !important; font-weight: 400 !important; }
+  .callout-title-container strong { font-weight: 700; }
+  > .callout-body-container, > .callout-collapse > .callout-body-container { padding: 0.15rem 0 0.25rem 1.9rem !important; }
 }
 .callout-title-container, .callout-header .callout-title-container {
   text-transform: none !important;
   letter-spacing: 0 !important;
   font-family: $pal;
-  font-size: 1.02em;
-  font-weight: 700;
+  font-size: 1em;
 }
-.callout .callout-body-container { padding: 0.5rem 1rem 0.8rem; }
 .callout .callout-icon-container { display: none !important; }
 
-
-/* ---- dark theme: brighter edges, darker tinted fills, light titles ---- */
 $is-dark: lightness($body-bg) < 50%;
-$boxes: ".callout.theorem-box, .callout.proposition-box, .callout.lemma-box, .callout.corollary-box, .callout.definition-box, .callout.remark-box, .callout.example-box, .callout.proof-box";
 @if $is-dark {
-  #{$boxes} {
-    --box: #a992f0;
-    background: color-mix(in srgb, var(--box) 11%, #{$body-bg}) !important;
-    border-color: color-mix(in srgb, var(--box) 45%, #{$body-bg}) !important;
-    border-left-color: var(--box) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
-    color: $body-color;
-  }
-  .callout.definition-box { --box: #6fa8e6; }
-  .callout.remark-box     { --box: #45cdb6; }
-  .callout.example-box    { --box: #f0a35a; }
-  .callout.proof-box      { --box: #a7adb5; }
-  #{$boxes} { > .callout-header { background: color-mix(in srgb, var(--box) 24%, #{$body-bg}) !important; } }
-  #{$boxes} { .callout-title-container { color: color-mix(in srgb, var(--box) 28%, #ffffff) !important; } }
-  #{$boxes} { .callout-body-container, .callout-body-container p { color: $body-color; } }
-} @else {
-  #{$boxes} { .callout-title-container { color: color-mix(in srgb, var(--box) 62%, #1a1a1a) !important; } }
+  #{$boxes} { --box: #93a9ec; color: $body-color; }
+  .callout.definition-box { --box: #7cc596; }
+  .callout.remark-box     { --box: #a9adb5; }
+  .callout.example-box    { --box: #e0a26c; }
 }
 
 /* smooth switch between light and dark */
-body, .callout, .callout-header, .callout-title-container, .callout-body-container,
-.sidebar, .navbar, #TOC, .column-margin, figure, figcaption {
+body, .sidebar, .navbar, #TOC, .column-margin, figure, figcaption {
   transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
@@ -109,11 +86,15 @@ mjx-container[display="true"], mjx-container[jax="CHTML"][display="true"], .math
 main.content, #quarto-document-content, .callout, .callout-body-container, .side-topic { min-width: 0; }
 .callout-body-container { overflow-x: auto; }
 
-/* proof boxes: quieter than the results they belong to */
-.callout.proof-box { box-shadow: none !important; margin: 1rem 0 0.3rem; border-left-width: 4px !important; }
-.callout .callout.proof-box { margin-bottom: 0.1rem; }
-.callout.proof-box > .callout-header { padding: 0.35rem 1rem; }
-.callout.proof-box .callout-title-container { font-weight: 600; font-style: italic; }
+/* proofs: a "Proof" bar inside the result, tinted with the result's colour, that opens and closes */
+.callout.proof-box {
+  margin: 0.7rem 0 0.2rem !important; border: none !important; border-radius: 0 !important; box-shadow: none !important;
+  background: color-mix(in srgb, var(--box, #8a9099) 8%, transparent) !important;
+}
+.callout.proof-box > .callout-header { background: transparent !important; border: none !important; padding: 0.3rem 0.8rem !important; }
+.callout.proof-box .callout-title-container { font-style: italic; font-weight: 400 !important; color: var(--box, inherit) !important; }
+.callout.proof-box .callout-body-container { padding: 0.1rem 0.8rem 0.5rem !important; }
+.callout.proof-box .callout-btn-toggle { color: var(--box, inherit); opacity: 0.8; }
 
 /* index page: compact two-column list under letter headings */
 .book-index ul { columns: 2 18rem; column-gap: 2.5rem; padding-left: 1.1rem; margin-bottom: 0.4rem; }

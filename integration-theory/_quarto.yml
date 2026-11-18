@@ -1,8 +1,10 @@
 project:
   type: book
   output-dir: _book
+  pre-render: _graph.py
   resources:
     - images/
+    - lecture-graph.js
 
 book:
   title: "Integration Theory"
@@ -51,6 +53,7 @@ language:
 
 format:
   html:
+    respect-user-color-scheme: true
     theme:
       light: [flatly, custom.scss]
       dark:  [darkly, custom.scss]

@@ -2,9 +2,11 @@
 title: "General Measure Theory and Carathéodory's Theorem"
 ---
 
+## Measures
+
 ::: {#r-2-1 .callout-note .definition-box}
 
-#### Definition 2.1 — A measure
+#### **Definition 2.1** (A measure).
 
 If $(X, \mathcal{M})$ is a measurable space, a **measure** on $(X, \mathcal{M})$ is a mapping $m$ from $\mathcal{M}$ to $[0, \infty]$ satisfying the following:
 1. $m(\emptyset) = 0$
@@ -20,41 +22,41 @@ A measure space is just a measurable space with a measure on it.
 
 ::: {#r-2-2 .callout-note .definition-box}
 
-#### Definition 2.2 — A complete measure
+#### **Definition 2.2** (A complete measure).
 
 A complete measure is such that if $F\in \mathcal M$ (our $\sigma$-algebra) with $m(F) = 0$ and if $E \subseteq F$ then $m(E) = 0$.
 :::
 
-This definition may sound silly at first, because by monotonicity we know that $m(E) = 0$ if it is a subset. But we have to remember that the measure can only be applied to elements of the $\sigma$-algebra. A complete measure thus tells us that subsets of sets of measure zero, **are in the $\sigma$-algebra** (thus they are measurable).
+This definition may sound silly at first, because by monotonicity we know that $m(E) = 0$ if it is a subset. But we have to remember that the measure can only be applied to elements of the $\sigma$-algebra. A complete measure thus tells us that subsets of sets of measure zero, **are in the $\sigma$-algebra** (thus they are measurable).^[We never assumed $A$ was an element of the $\sigma$-algebra.  See [a good explanation](https://www.youtube.com/watch?v=5bZMCLnI_p4). A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.]
 
-::: {.column-margin}
-Note that we never assumed $A$ was an element of the $\sigma$-algebra.  See [a good explanation](https://www.youtube.com/watch?v=5bZMCLnI_p4). A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.
-:::
+## Null sets and almost everywhere
 
 ::: {#r-2-3 .callout-note .definition-box}
 
-#### Definition 2.3 — Almost Everywhere / Almost Surely
+#### **Definition 2.3** (Almost Everywhere / Almost Surely).
 
 Given a measure space $(X, \mathcal{M}, m)$, a property (formally a subset of $X$ for which a statement about $x$ is either true or false, i.e. $\{x \in X : P(x)\}$, is said to occur **almost everywhere** (abbreviated **a.e.**), or **almost surely** (abbreviated **a.s.**) in probability theory, if the set of $x$'s where the property fails is contained inside a set of measure zero.
 :::
 
 ::: {#r-2-4 .callout-caution .example-box}
 
-#### Example 2.4
+#### **Example 2.4**.
 
 Take $X$ to be the closed interval from 0 to 1 and $\mathcal M$ the Borel $\sigma$-algebra on that set with Lebesgue measure. It turns out that the property that $x$ is irrational (i.e. the property that it fails corresponds to $x$ being a rational which has measure zero) holds almost everywhere. 
 :::
 
+## Finite, $\sigma$-finite and atomic measures
+
 ::: {#r-2-5 .callout-note .definition-box}
 
-#### Definition 2.5 — Finite measure space
+#### **Definition 2.5** (Finite measure space).
 
 A measure space $(X, \mathcal M, \mu)$ is called finite if $\mu(X) < \infty$ and a probability space if $\mu(X) = 1$.
 :::
 
 ::: {#r-2-6 .callout-note .definition-box}
 
-#### Definition 2.6 — $\sigma$-finite measure space
+#### **Definition 2.6** ($\sigma$-finite measure space).
 
 A measure space is called $\sigma$-finite if there exists subsets $A_1,A_2,...$ so that $X = \bigcup_i A_i$ with $\mu(A_i) < \infty \forall i$.
 :::
@@ -63,7 +65,7 @@ $\sigma$-finite is a weaker condition, it only demands that the subsets which ma
 
 ::: {#r-2-7 .callout-note .definition-box}
 
-#### Definition 2.7 — Atoms, Atomic and Continuous Measure Spaces
+#### **Definition 2.7** (Atoms, Atomic and Continuous Measure Spaces).
 
 Assume $(X, \mathcal{M}, \mu)$ is a measure space with all single points being measurable. An **atom** is a point $x$ with $\mu(\{x\}) > 0$.
 
@@ -76,9 +78,11 @@ The Lebesgue measure on the Borel algebra is a continuous measure, so there are 
 
 For the counting measure on $\mathbb R$, it is clear that $A = \mathbb R$ where $\mathbb R^c=\emptyset$. The measure space with the counting measure is thus atomic. 
 
+## The Lebesgue measure
+
 ::: {#r-2-8 .callout-important .theorem-box}
 
-#### Theorem 2.8 — Lebesgue Measure
+#### **Theorem 2.8** (Lebesgue Measure).
 
 There exists a translation invariant measure $m$ on $(\mathbb{R}, \mathcal{B})$ such that:
 $$m([a,b]) = b - a \quad \text{for all } a < b$$
@@ -86,13 +90,22 @@ $$m([a,b]) = b - a \quad \text{for all } a < b$$
 $m$ is the **Lebesgue measure** restricted to $\mathcal{B}$.
 :::
 
+### An outline of the construction
+
+The rest of this lecture constructs the Lebesgue measure in five steps:
+
+1. Define an *outer measure*: a set function defined on all subsets of a set, which is monotone and countably subadditive.
+2. Use the lengths of intervals to define the *Lebesgue outer measure* $\mu^\star$ on all subsets of $\mathbb R$. It is not countably additive on all subsets, which is why the next steps are needed.
+3. Show that $\mu^\star$ assigns to every interval its length.
+4. Apply Carathéodory's theorem: for any outer measure there is a $\sigma$-algebra on which its restriction is a complete measure.
+5. Show that for the Lebesgue outer measure this $\sigma$-algebra contains the Borel sets.
+
 Our length metric is not defined for all subsets, but only those reasonable ones (the Borel sets).
 
-### Step 1
-
+### Step 1: outer measures
 ::: {#r-2-9 .callout-note .definition-box}
 
-#### Definition 2.9 — Outer Measure
+#### **Definition 2.9** (Outer Measure).
 
 An **outer measure** on a set $X$ is a function $\mu^\star: \mathcal{P}(X) \to [0, \infty]$ satisfying:
 
@@ -113,11 +126,10 @@ The outer measure of $E$ is the smallest total length of a countable cover by in
 
 This is to be compared with the [Definition 2.1](lecture-02.qmd#r-2-1) earlier, where the measure only has to satisfy that the measure on the empty set is zero, and being countably additive. Here, we see that we only demand countable subadditivity and monotonicity. 
 
-### Step 2
-
+### Step 2: the Lebesgue outer measure
 ::: {#r-2-10 .callout-note .definition-box}
 
-#### Definition 2.10 — Lebesgue Outer Measure
+#### **Definition 2.10** (Lebesgue Outer Measure).
 
 Let $X = \mathbb{R}$ and $A \subseteq \mathbb{R}$. The **Lebesgue outer measure** is:
 
@@ -130,7 +142,7 @@ In other words if we have a set $A$, we consier all possible unions of open inte
 
 ::: {#r-2-11 .callout-important .theorem-box}
 
-#### Theorem 2.11 — The Lebesgue outer measure $\mu^\star$ is an outer measure on $\mathbb R$
+#### **Theorem 2.11** (The Lebesgue outer measure $\mu^\star$ is an outer measure on $\mathbb R$).
 
 (i) Trivially satisfied. For any $\epsilon > 0$, the empty set can be covered by a single interval $(0,\epsilon)$ with length $\epsilon$, thus $\mu^\star(\emptyset) \leq \epsilon$ and thus $\mu^\star(\emptyset) = 0$.
 
@@ -141,13 +153,12 @@ As additional comments: the first inequality is guaranteed by the definition of 
 In the second line, we first  use that $\bigcup A_j \subseteq \bigcup_{ij} I^j_i$ and $\mu^\star$ is the infimum over all covers, we get the first inequality. Ther est follows trivially.
 :::
 
-### Step 3
-
+### Step 3: intervals get their length
 OK! Now we both defined the outer measure, the Lebesgue outer measure and proved that it is indeed an outer measure. Now we need to show that the Lebesgue outer measure of an interval is given the length of the interval.
 
 ::: {#r-2-12 .callout-important .theorem-box}
 
-#### Theorem 2.12 — The Lebesgue outer measure returns length for intervals
+#### **Theorem 2.12** (The Lebesgue outer measure returns length for intervals).
 
 For each finite interval $I$ we have $\mu^\star(I) = |I|$.
 
@@ -165,13 +176,12 @@ And since $b_k > b$ and $a_1 < a$ and the terms in last term are positive this g
 :::
 :::
 
-### Step 4
-
+### Step 4: Carathéodory's theorem
 Now we defined the outer measure, introduced the Lebesgue outer measure (and proved that it indeed is an outer measure) and that the measure evaluated on finite intervals gives the length of the interval. Now enters step 4, where we apply Caratheodory's theorem.
 
 ::: {#r-2-13 .callout-note .definition-box}
 
-#### Definition 2.13 — $\mu^\star$-Measurable Sets
+#### **Definition 2.13** ($\mu^\star$-Measurable Sets).
 
 If $\mu^\star$ is an outer measure on $X$, we call a subset $A \subseteq X$ **$\mu^\star$-measurable** if for all $E \subseteq X$:
 
@@ -182,13 +192,19 @@ The intuition for this is that the total outer measure of $E$ equals a piece ins
 
 ::: {#r-2-14 .callout-important .theorem-box}
 
-#### Theorem 2.14 — Carathéodory's Theorem
+#### **Theorem 2.14** (Carathéodory's Theorem).
 
 If $\mu^\star$ is an outer measure on $X$, then the collection $\mathcal{M}$ of $\mu^\star$-measurable sets is a $\sigma$-algebra and $\mu^\star$ restricted to $\mathcal{M}$ is a measure, which is also complete.
 :::
 
-### Step 5
+::: {.callout-tip .remark-box}
 
+#### **Remark** (Which space is meant).
+
+"The Lebesgue measure" can refer to either of two measure spaces: $(\mathbb R, \mathcal M, \mu^\star\vert_{\mathcal M})$, where $\mathcal M$ is the $\sigma$-algebra of all $\mu^\star$-measurable sets, or its restriction $(\mathbb R, \mathcal B, \mu^\star\vert_{\mathcal B})$ to the Borel sets. The first is complete; the second is not (see [Lecture 3](lecture-03.qmd)).
+:::
+
+### Step 5: the Borel sets are measurable
 We will return to the proof in a moment. For step 5, we want to show that the Lebesgue outer measure on R, the $\mathcal M$ constructed in step 4 using Carathéodory's theorem contains $\mathcal B$. 
 
 Given $\mathcal M$ is a $\sigma$-algebra and $\mathcal B$ is the smallest $\sigma$-algebra containing all open intervals, it suffices to show that if the open intervals are a subset of $\mathcal M$ then $\mathcal B \subseteq \mathcal M$. Now $\mathcal M$ is the collection of all $\mu^\star$ measurable sets, so we only need to verify that the open intervals $(a,b$) are $\mu^\star$-measurable. It suffices to show this for the rays $(-\infty, a)$ and $(b,\infty$) as $\mathcal M$ is closed under complements and intersections, $(a,b) = (-\infty, b) \cap (-\infty, a)^c$. 

@@ -2,3 +2,5 @@ _book/
 .quarto/
 _site/
 *_files/
+
+lecture-graph.js

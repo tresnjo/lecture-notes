@@ -2,31 +2,31 @@
 title: "Absolute Continuity, Radon–Nikodym Theorem, and Lebesgue Decomposition"
 ---
 
+## Absolute continuity
+
 ::: {#r-11-1 .callout-note .definition-box}
 
-#### Definition 11.1 — Absolute continuity
+#### **Definition 11.1** (Absolute continuity).
 
-Given two measures $\nu, \mu$ on $(X, \mathcal M)$ we say that $\nu$ is absolutely continuous with respect to $\mu$, written $\nu << \mu$, if for all $A \in \mathcal M$ $$\mu(A) = 0$$ implies $\nu(A) = 0$.
-:::
-
-::: {.column-margin}
-Note that it does not mean that $\nu \leq \mu$ or vice versa. For example if we have $\mu$ is the Lebesgue measure on $[0,1]$ and $\nu$ is two times the Lebesgue measure on the same interval, we have both $\nu << \mu$ and $\mu << \nu$.
+Given two measures $\nu, \mu$ on $(X, \mathcal M)$ we say that $\nu$ is absolutely continuous with respect to $\mu$, written $\nu << \mu$, if for all $A \in \mathcal M$ $$\mu(A) = 0$$ implies $\nu(A) = 0$.^[It does not mean that $\nu \leq \mu$ or vice versa. For example if we have $\mu$ is the Lebesgue measure on $[0,1]$ and $\nu$ is two times the Lebesgue measure on the same interval, we have both $\nu << \mu$ and $\mu << \nu$.]
 :::
 
 ::: {#r-11-2 .callout-caution .example-box}
 
-#### Example 11.2 — Measures given by a density
+#### **Example 11.2** (Measures given by a density).
 
-Consider a measure space $(X, \mathcal M, \mu)$ and a function $f\in L^+((X, \mathcal M, \mu))$ then take $$\nu(A) := \int_A f(x) d\mu(x) \tag{1}$$
+Consider a measure space $(X, \mathcal M, \mu)$ and a function $f\in L^+((X, \mathcal M, \mu))$ then take $$\nu(A) := \int_A f(x) d\mu(x)$$ {#eq-l11-density}
 Proving that it is a measure can be done by defining $g_n : = f 1_{\bigcup_{i=1}^n A_i}$ which forms an increasing sequence of measurable functions that converge to $f \cdot 1_{\bigcup_i A_i}$ pw which allows us to apply the MCT $$\nu\left(\bigcup_i A_i\right) = \int f \cdot \mathbf{1}_{\bigcup_i A_i} \, d\mu = \int \lim_{n\to\infty} g_n \, d\mu \underbrace{=}_{\text{MCT}} \lim_{n\to\infty} \int g_n \, d\mu = \lim_{n\to\infty} \sum_{i=1}^n \int_{A_i} f \, d\mu = \sum_{i=1}^\infty \nu(A_i)$$
 If $\mu(A) = 0$, then $\nu(A) = \int_A f d\mu = 0$ and thus $\nu << \mu$. 
 :::
 
-The measure $\nu$ in (1) is often denoted simply by $f\mu$. In fact, any measure which is absolutely continuous with respect to $\mu$ has this form assuming $\sigma$-finiteness.
+The measure $\nu$ in ([-@eq-l11-density]) is often denoted simply by $f\mu$. In fact, any measure which is absolutely continuous with respect to $\mu$ has this form assuming $\sigma$-finiteness.
+
+## The Radon–Nikodym theorem
 
 ::: {#r-11-3 .callout-important .theorem-box}
 
-#### Theorem 11.3 — The Radon-Nikodym theorem
+#### **Theorem 11.3** (The Radon-Nikodym theorem).
 
 Let $\nu, \mu$ be two measures on $(X, \mathcal M)$ with $\nu << \mu$ and with $\nu, \mu$ being $\sigma$-finite. Then, there exists a measurable function $f_0: X \rightarrow [0,\infty)$ such that $\forall A \in \mathcal M$ we have $$\nu(A) = \int_A f_0(x) d\mu(x)$$
 Morever, $f_0$ is unique in the sense that if $g_0$ is another such function, then $$\mu(\{x:f_0(x) \neq g_0(x)\})=0$$In other words $\mu$ is defined up to a $\mu$-null set. Thus any two $f_0, g_0$ agree $\mu$-a.e.
@@ -40,10 +40,12 @@ Note that $\mathcal F$ is nonempty since $f \equiv 0$ is in $\mathcal F$. Theref
 
 **Claim:** There exists $f_0 \in \mathcal F$ for which $\int f_0(x) d\mu(x) = m$, i.e. the supremum is achieved. 
 
-Note that if $h_1, h_2 \in \mathcal F$, then so does $\max\{h_1, h_2\}$, since $$\int_A \max\{h_1, h_2\} d\mu(x) = \int_{A \cap \{h_1 \geq h_2\}} h_1(x) d\mu(x) + \int_{A \cap \{h_1 < h_2\}} h_2(x) d\mu(x) \leq \nu(A \cap \{h_1 \geq h_2\}) + \nu(A \cap \{h_1 > h_2\}) = \nu(A)$$Now we choose $h_1, h_2, ... \in \mathcal F$ so that $$\lim_{n\rightarrow \infty} \int h_n(x) d\mu(x) = m \tag{2}$$**Why can we do this?** Well, by the definition of the supremum, for every $\epsilon > 0$ there exists some $f\in \mathcal F$ with $\int f d\mu > m -\epsilon$, we may thus take $\epsilon = 1/n$ to construct our sequence $h_n \in \mathcal F$.
+Note that if $h_1, h_2 \in \mathcal F$, then so does $\max\{h_1, h_2\}$, since $$\int_A \max\{h_1, h_2\} d\mu(x) = \int_{A \cap \{h_1 \geq h_2\}} h_1(x) d\mu(x) + \int_{A \cap \{h_1 < h_2\}} h_2(x) d\mu(x) \leq \nu(A \cap \{h_1 \geq h_2\}) + \nu(A \cap \{h_1 > h_2\}) = \nu(A)$$Now we choose $h_1, h_2, ... \in \mathcal F$ so that $$\lim_{n\rightarrow \infty} \int h_n(x) d\mu(x) = m$$ {#eq-l11-sup}
+
+**Why can we do this?** Well, by the definition of the supremum, for every $\epsilon > 0$ there exists some $f\in \mathcal F$ with $\int f d\mu > m -\epsilon$, we may thus take $\epsilon = 1/n$ to construct our sequence $h_n \in \mathcal F$.
 
 If we let $g_n:= \max\{h_1,...,h_n\}$, then each $g_n \in \mathcal F$ (by induction) and $g_n$ is increasing and $$\int h_n(x) d\mu(x) \leq \int g_n d\mu \leq m$$
-where the left inequality holds since $g_n \geq h_n$ by definition. The right inequality holds because $g_n \in \mathcal F$ and thus $\int g_n d\mu \leq m$ by definition of m. By the squeeze theorem of (2), we thus have
+where the left inequality holds since $g_n \geq h_n$ by definition. The right inequality holds because $g_n \in \mathcal F$ and thus $\int g_n d\mu \leq m$ by definition of m. By the squeeze theorem and ([-@eq-l11-sup]), we thus have
 
 $$\lim_{n\rightarrow \infty} \int g_n d\mu  = m$$
 
@@ -51,12 +53,12 @@ If we can move $\lim_{n\rightarrow \infty}$ inside the integral, we have found o
 
 Now we define $$\nu_0 := \nu - f_0 \mu$$and our goal is to show that it is the zero measure, meaning that $\nu_0(A) = 0 \forall A \in \mathcal M$. Note that by construction of $f_0$, we have $\nu_0(A) \geq 0$. 
 
-By showing $\nu_0(X) = 0$ is true, and using the fact that $\nu_0$ is a positive measure by construction, we have $\nu_0(A) = 0 \forall A \in \mathcal M$. Thus, from now on, assume for sake of contradiction that $\nu_0(X) > 0$. This is just a finite number, and since $\mu$ is finite by assumption, there exists an $\epsilon > 0$ so that $$\nu_0(X) - \epsilon \mu(X) > 0 \tag{3}$$
+By showing $\nu_0(X) = 0$ is true, and using the fact that $\nu_0$ is a positive measure by construction, we have $\nu_0(A) = 0 \forall A \in \mathcal M$. Thus, from now on, assume for sake of contradiction that $\nu_0(X) > 0$. This is just a finite number, and since $\mu$ is finite by assumption, there exists an $\epsilon > 0$ so that $$\nu_0(X) - \epsilon \mu(X) > 0$$ {#eq-l11-positive}
 Now let $(P,N)$ be the Hahn decomposition for the signed measure $$\nu_0 - \epsilon \mu$$which is just the difference of two positive measures. This construction always exists, so far so good!
 
-When constructing the Hahn decomposition, we either have $\mu(P) = 0$ or $\mu(P) > 0$, since $\mu$ is a measure. We will see that both cases leads to a contradiction, assuming $\nu_0(X) > 0$ (or equivalently statement (3)).
+When constructing the Hahn decomposition, we either have $\mu(P) = 0$ or $\mu(P) > 0$, since $\mu$ is a measure. We will see that both cases leads to a contradiction, assuming $\nu_0(X) > 0$ (or equivalently ([-@eq-l11-positive])).
 
-**Case 1:** $\mu(P) = 0$, then since $\nu << \mu$ we have that $\nu(P) = 0$ and hence $(\nu_0 - \epsilon \mu)(P) = (\nu - f_0 \mu - \epsilon \mu)(P) = 0$, contradicting (3) since $$(\nu_0 - \epsilon \mu)(X) = (\nu_0 - \epsilon \mu)(P) + (\nu_0 - \epsilon \mu)(N) = (\nu_0 - \epsilon \mu)(N)$$but by the Hahn decomposition that is $\leq 0$ and not $>0$. 
+**Case 1:** $\mu(P) = 0$, then since $\nu << \mu$ we have that $\nu(P) = 0$ and hence $(\nu_0 - \epsilon \mu)(P) = (\nu - f_0 \mu - \epsilon \mu)(P) = 0$, contradicting ([-@eq-l11-positive]) since $$(\nu_0 - \epsilon \mu)(X) = (\nu_0 - \epsilon \mu)(P) + (\nu_0 - \epsilon \mu)(N) = (\nu_0 - \epsilon \mu)(N)$$but by the Hahn decomposition that is $\leq 0$ and not $>0$. 
 
 **Case 2:** $\mu(P) > 0$. Note that $$g_0 = f_0 + \epsilon 1_P \in \mathcal F$$As follows from$$\int_A (f_0 + \epsilon 1_p) d\mu(x) = \int_A f_0 d\mu(x) + \epsilon \mu(P \cap A) \leq \int_A f_0 d\mu(x) + \nu_0(P \cap A) \leq \int_A f_0 d\mu(x) + \nu_0(A) = \nu(A)$$
 where we used that $\nu_0(P \cap A) \geq \epsilon \mu(P\cap A)$ since $P \cap A \subseteq P$ is a positive subset and similarly $\nu_0(P \cap A) \leq \nu_0(A)$ by monotonicity (with $\nu_0$ being a positive measure). 
@@ -79,7 +81,7 @@ The Radon–Nikodym derivative is the density whose area over $A$ is $\nu(A)$.
 
 ::: {#r-11-4 .callout-tip .remark-box}
 
-#### Remark 11.4 — About the Radon–Nikodym theorem
+#### **Remark 11.4** (About the Radon–Nikodym theorem).
 
 1. We call $f_0$ in the above theorem for the Radon-Nikodym derivative of $\nu$ with respect to $\mu$.
 2. If $\mu$ is Lebesgue measure on $(R, \mathcal B)$ and $\nu$ is the distribution of a random variable which is absolutely continuous with respect to $\mu$, then $f_0$ is simply the probability density function from elementary probability.
@@ -93,7 +95,7 @@ Conversely, given a function $F$ with these properties, [Proposition 4.4](lectur
 
 ::: {#r-11-5 .callout-caution .example-box}
 
-#### Example 11.5 — Sampling from a distribution via its CDF
+#### **Example 11.5** (Sampling from a distribution via its CDF).
 
 The fact that every CDF comes with a random variable is also useful in practice, for simulating random variables with a given distribution. Generate $U \sim \mathcal U(0,1)$ and set $X = F_X^{-1}(U)$. When $F_X$ is continuous and strictly increasing,
 $$P(X \le x) = P\big(U \le F_X(x)\big) = F_X(x),$$
@@ -226,9 +228,11 @@ The KL divergence is also the standard training objective for normalizing flows,
 Interactive: a one-dimensional normalizing flow $T_t$ carries the base distribution $\mathcal N(0,1)$ to a two-bump target. The density $p_t$ follows from the change of variables formula, and $KL(p_t \,\|\, \text{target})$ drops to $0$ at $t=1$.
 :::
 
+## The Lebesgue decomposition
+
 ::: {#r-11-6 .callout-important .theorem-box}
 
-#### Theorem 11.6 — Lebesgue Decomposition Theorem
+#### **Theorem 11.6** (Lebesgue Decomposition Theorem).
 
 Let $\nu, \mu$ be two measures on $(X, \mathcal M)$, with $\nu, \mu$ being $\sigma$-finite. Then there exists unique measures $\nu_{ac}, \nu_s$ so that $$\nu = \nu_{ac} + \nu_s$$where $$\nu_{ac} << \mu$$ and $$\nu_s \perp \mu$$
 :::
@@ -237,9 +241,11 @@ The decompositions is relate to the measure $\mu$. The measure is split into an 
 
 We mention some other important but simple decompositions. Given any $\sigma$-finite mesure space $(X, \mathcal M, \mu)$ with single points being measurable, we can decompose $\mu$ into an atomic peice and continuous piece. If $\mathcal A$ is the set of atoms, we write $$\mu = \mu\vert_{A} + \mu\vert_{A^c}$$and it is easy to check that these are mutually singular.
 
+## An $\epsilon$-$\delta$ characterisation
+
 ::: {#r-11-7 .callout-important .proposition-box}
 
-#### Proposition 11.7 — Measure-theoretic analogue of $\epsilon-\delta$ continuity
+#### **Proposition 11.7** (Measure-theoretic analogue of $\epsilon-\delta$ continuity).
 
 Let $\mu, \nu$ be measures with $\nu$ finite. Then $\nu <<  \mu$ iff $\forall \epsilon > 0$, there exists $\delta > 0$ so that for all measurable sets $A$ we have $$\mu(A) < \delta$$ implies $$\nu(A) < \epsilon$$
 

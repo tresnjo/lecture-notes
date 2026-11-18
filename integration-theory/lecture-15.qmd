@@ -2,13 +2,23 @@
 title: "Functions of Bounded Variation, Absolute Continuity, and the FTC"
 ---
 
+## Functions of bounded variation
+
 ::: {#r-15-1 .callout-note .definition-box}
 
-#### Definition 15.1 — Total variation, bounded variation and unbounded variation
+#### **Definition 15.1** (Total variation, bounded variation and unbounded variation).
 
 If $f:[0,1]\rightarrow \mathbb R$ we define the total variation of $f$ on $[a,b] \subseteq [a,b]$ to be $$TV_{[a,b]}(f) := \sup \{\sum_{i=1}^n |f(x_i) - f(x_{i-1}) \} : a = x_0 < x_1 < x_2 <...<x_n = b\}$$
 We say $f$ is of bounded variation on $[a,b]$ if $TV_{[a,b]}f < \infty$ and of unbounded variation otherwise.
 :::
+
+Some basic facts about total variation:
+
+1. If $f$ is increasing, then $TV_{[a,b]}(f) = f(b) - f(a)$.
+2. $TV_{[a,b]}(-f) = TV_{[a,b]}(f)$.
+3. The indicator function of the rationals has unbounded variation on every nontrivial interval.
+
+For example, $f(x) = x \cos(\pi / (2x))$ (with $f(0) = 0$) has unbounded variation on $[0, 1]$, since it oscillates infinitely often near $0$ with amplitudes that decay too slowly. On $[\epsilon, 1]$ for any $\epsilon > 0$ it has a continuous derivative and hence bounded variation. The paths of Brownian motion are another standard example of unbounded variation.
 
 ::: {#fig-l15-bounded-variation}
 ```{=html}
@@ -103,23 +113,40 @@ Interactive: refining the partition (each refinement halves every interval) can 
 
 ::: {#r-15-2 .callout-important .theorem-box}
 
-#### Theorem 15.2 — $f$ is of bounded variation iff
+#### **Theorem 15.2** ($f$ is of bounded variation iff).
 
 $f$ is of bounded variation if and only if there exist increasing functions $g,h$ so that $f = g-h$
 :::
 
+Writing a function of bounded variation as $f = g - h$ with $g, h$ increasing lets us integrate against $f$. The *Lebesgue–Stieltjes integral* of $r$ with respect to $f$ is
+$$\int r(x) \, df(x) := \int r(x) \, d\mu_g(x) - \int r(x) \, d\mu_h(x),$$
+where $\mu_g, \mu_h$ are the measures associated with $g, h$. It is not defined when $f$ has unbounded variation. When $f$ is continuously differentiable, $\int r(x) \, df(x) = \int r(x) f'(x) \, dx$.
+
 There is a one-to-one correspondence between signed measures and right-continuous functions of bounded variation, which we discuss hereafter.
+
+## Absolutely continuous functions
 
 ::: {#r-15-3 .callout-note .definition-box}
 
-#### Definition 15.3 — Absolutely continuous function
+#### **Definition 15.3** (Absolutely continuous function).
 
 $f : [0,1] \rightarrow \mathbb{R}$ is absolutely continuous if for all $\epsilon > 0$, there exists $\delta > 0$ so that if $0 \leq x_1 < y_1 < x_2 < y_2 < \ldots < x_n < y_n \leq 1$ and $$\sum_{i=1}^n (y_i - x_i) < \delta$$, then $$\sum_{i=1}^n |f(y_i) - f(x_i)| < \epsilon$$
 :::
 
+Absolute continuity says that if the total length of a collection of intervals is small, then the total change of $f$ over them is small too. Since a null set can be covered by intervals of arbitrarily small total length, $f$ cannot increase on a set of measure zero. Taking $n = 1$ in the definition shows that an absolutely continuous function is continuous, and hence uniformly continuous on the compact interval $[0,1]$.
+
+::: {.callout-caution .example-box}
+
+#### **Example** (The Cantor function is not absolutely continuous).
+
+At stage $n$ of the Cantor set construction, $2^n$ closed intervals $[x_i, y_i]$ remain, of total length $(2/3)^n \to 0$. The Cantor function $F_C$ is constant on each removed middle third and increasing, so all of its growth happens on the remaining intervals:
+$$\sum_{i=1}^{2^n} |F_C(y_i) - F_C(x_i)| = F_C(1) - F_C(0) = 1.$$
+With $\epsilon = 1/2$, no $\delta > 0$ works: choosing $n$ with $(2/3)^n < \delta$ gives intervals of total length below $\delta$ on which $F_C$ changes by $1 > \epsilon$.
+:::
+
 ::: {#r-15-4 .callout-important .proposition-box}
 
-#### Proposition 15.4 — Absolute continuity of a function
+#### **Proposition 15.4** (Absolute continuity of a function).
 
 Let $f$ be a nonnegative right-continuous increasing function on $[0,1]$ with $f(0) = 0$. Then $f$ is absolutely continuous if and only if $\mu_f << m$ where $m$ is the Lebesgue measure.
 :::
@@ -128,19 +155,18 @@ This is consistent with the result for Cantor ternary function (which is n.n. ri
 
 ::: {#r-15-5 .callout-important .proposition-box}
 
-#### Proposition 15.5 — Absolute continuity implies bounded variation
+#### **Proposition 15.5** (Absolute continuity implies bounded variation).
 
 If $f:[0,1] \rightarrow \mathbb R$ is absolutely continuous, then it has bounded variation.
 :::
 
-### The fundamental theorem of calculus
-
+## The second fundamental theorem of calculus
 If $f:[0,1] \rightarrow \mathbb R$ is increasing, does $$\int_0^1 f'(x) dx = f(1) - f(0) ?$$
 Recall that an increasing function has a derivative a.e ([Theorem 14.7](lecture-14.qmd#r-14-7)).
 
 ::: {#r-15-6 .callout-caution .example-box}
 
-#### Example 15.6 — The FTC fails for the Cantor function
+#### **Example 15.6** (The FTC fails for the Cantor function).
 
 The Cantor ternary function $F_C$ ([Theorem 4.6](lecture-04.qmd#r-4-6)) is increasing and continuous, with $F_C(0) = 0$ and $F_C(1) = 1$. By [Corollary 4.7](lecture-04.qmd#r-4-7) (c), $F_C' = 0$ almost everywhere: $F_C$ is constant on each open interval removed in the construction of the Cantor set, and these intervals have total length $1$. Hence
 $$\int_0^1 F_C'(x)\,dx = 0 < 1 = F_C(1) - F_C(0).$$
@@ -149,14 +175,14 @@ So the answer to the question above is no in general: being increasing, and even
 
 ::: {#r-15-7 .callout-important .theorem-box}
 
-#### Theorem 15.7 — The fundamental theorem of calculus for monotone increasing functions
+#### **Theorem 15.7** (The fundamental theorem of calculus for monotone increasing functions).
 
 If $f:[0,1]\rightarrow \mathbb R$ is monotone increasing, then $$\int_0^1 f'(x) dx \leq f(1) - f(0)$$
 :::
 
 ::: {#r-15-8 .callout-important .theorem-box}
 
-#### Theorem 15.8
+#### **Theorem 15.8**.
 
 Let $f$ be a nonneg right-continuous monotone increasing function on $[0,1]$ with $f(0) = 0$. Let $\mu_f$ be the associated measure on $[0,1]$ and consider the Lebesgue decomposition $\mu_f = \mu_s + \mu_{ac}$ with respect to Lebesgue measure. Then:
 
@@ -171,7 +197,7 @@ Let $f$ be a nonneg right-continuous monotone increasing function on $[0,1]$ wit
 
 ::: {#r-15-9 .callout-caution .example-box}
 
-#### Example 15.9 — A singular measure
+#### **Example 15.9** (A singular measure).
 
 By [Theorem 15.8](lecture-15.qmd#r-15-8), we have that $\mu_C$ is singular iff $F'_C(x) = 0$ lebesgue a.e., which we know is true. So the Cantor measure is a singular measure. 
 :::

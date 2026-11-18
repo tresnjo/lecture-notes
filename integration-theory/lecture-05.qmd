@@ -2,6 +2,8 @@
 title: "Preliminaries for Integration Theory"
 ---
 
+## Riemann versus Lebesgue integration
+
 The Lebesgue integral makes a simple but essential change to the construction of the Riemann integral. Recall how the Riemann integral is built: we partition the domain $[a,b]$ into small intervals, evaluate the function at a point in each interval, and add up these values weighted by the lengths of the intervals. Then we let the intervals shrink. If these Riemann sums converge to the same limit no matter which points we pick, the function is called **Riemann integrable**, and the limit is its integral.
 
 The key **shift in perspective** is:
@@ -10,7 +12,7 @@ The key **shift in perspective** is:
 
 ::: {#r-5-1 .callout-important .theorem-box}
 
-#### Theorem 5.1 — A bounded function is RI iff
+#### **Theorem 5.1** (A bounded function is RI iff).
 
 If $f$ is a bounded function, then $f$ is RI iff the set $\{x: f\  \text{is not continous at}\  x\}$ has Lebesgue measure 0.
 :::
@@ -23,11 +25,10 @@ Another example of a function which is Riemann integrable, but very much reminds
 
 The idea of the Lebesgue integral is to partition the $y$-axis, and approximate the integral by $$\sum a_i m(\{x: f(x) \in [a_i, a_{i+1}]\})$$*Note that when we break up the y-axis this way, the structure of the domain is irrelevant for us, which is why we can perform the integration on any measure space.*
 
-### Measurable functions
-
+## Measurable functions
 ::: {#r-5-2 .callout-note .definition-box}
 
-#### Definition 5.2 — A measurable function
+#### **Definition 5.2** (A measurable function).
 
 If $(X,\mathcal{M})$ is a measurable space, a mapping $f:X\to\mathbb{R}$ is called measurable if for all $B\in\mathcal{B}$ (recall that $\mathcal{B}$ is the collection of Borel sets in $\mathbb{R}$), we have $$f^{-1}(B):=\{x\in X:f(x)\in B\}\in\mathcal{M}$$
 :::
@@ -44,7 +45,7 @@ The idea of a function being measurable is that every preimage of any Borel set 
 
 ::: {#r-5-3 .callout-note .definition-box}
 
-#### Definition 5.3 — A measurable mapping between two sets
+#### **Definition 5.3** (A measurable mapping between two sets).
 
 More generally, if $(X,\mathcal{M})$ and $(Y,\mathcal{N})$ are measurable spaces, a mapping $f:X\to Y$ is called measurable if for all $E\in\mathcal{N}$,
 $$f^{-1}(E)\in\mathcal{M}.$$
@@ -54,9 +55,9 @@ If the mapping is from the Lebesgue $\sigma$-algebra to the Borel $\sigma$-algeb
 
 ::: {#r-5-4 .callout-important .proposition-box}
 
-#### Proposition 5.4 — Sum of measurable functions and product of measurable functions
+#### **Proposition 5.4** (Sum of measurable functions and product of measurable functions).
 
-If $f,g$ are measurable, then $f+g$ and $fg$ are measurable.
+If $f,g$ are measurable, then $f+g$ and $fg$ are measurable.^[The composition of two Lebesgue measurable functions is not Lebesgue measurable necessarily (this is a consequence of the fact the Borel sigma algebra is contained (without equality) in the Lebesgue measurable $\sigma$-algebra).]
 
 ::: {.callout-note .proof-box collapse="true"}
 
@@ -68,17 +69,13 @@ As for $fg$ we have $$fg = 1/2((f+g)^2 - f^2 - g^2)$$As it is trivial that the n
 :::
 :::
 
-::: {.column-margin}
-Note that the composition of two Lebesgue measurable functions is not Lebesgue measurable necessarily (this is a consequence of the fact the Borel sigma algebra is contained (without equality) in the Lebesgue measurable $\sigma$-algebra).
-:::
-
 **Notation:** $\overline{\mathbb R} = \mathbb R \cup \{-\infty, +\infty\}$. 
 
 We want limits of measurable functions to be measurable. From now on, we restrict to real-valued measurable functions.
 
 ::: {#r-5-5 .callout-important .proposition-box}
 
-#### Proposition 5.5 — Supremum of sequence of measurable functions is measurable
+#### **Proposition 5.5** (Supremum of sequence of measurable functions is measurable).
 
 If $(f_n)_n$ is a sequence of measurable functions, then $\sup_j f_j$ is a measurable function where $$(\sup_j f_j) (x) := \sup_j (f_j(x))$$with the same definition for $\inf_j f_j$.
 The proof follows by defining $\tilde f := (\sup_j f_j)(x)$ and $\{x \in X: \tilde f(x) > \alpha\} \in \mathcal M$ $\forall \alpha \in \mathbb R$. Clearly if $\tilde f(x) > \alpha$ then there exists some $j$ (or multiple) where $f_j(x) > \alpha$, hence we have $$\{x \in X: \tilde f(x) > \alpha\} = \bigcup_j \{x \in X: f_j(x) > \alpha\}$$which is a possibly countable union of measurable sets, and thus it is a measurable function. The proof for the infimum is identical, except we replace the union with intersection over all $j$.
@@ -92,7 +89,7 @@ So far we have shown that the supremum of a sequence of measurable functions is 
 
 ::: {#r-5-6 .callout-important .proposition-box}
 
-#### Proposition 5.6 — Measurability of $\limsup$ of Functions
+#### **Proposition 5.6** (Measurability of $\limsup$ of Functions).
 
 If $f_1, f_2, \ldots$ is a sequence of measurable functions, then $\limsup_j f_j$ is a measurable function, where:
 $$\left(\limsup_j f_j\right)(x) := \limsup_j (f_j(x))$$
@@ -109,9 +106,11 @@ We have that $\lim\sup_j f_j = \inf_k(\sup_{n\geq k} f_n)$ where $\sup_{n\geq k}
 
 We will now proceed with introducing simple functions. That we also introduced in  but in a probabilistic context. The definition is identical, but the indicator function is no longer interpreted as a Bernoulli random variable.
 
+## Simple functions
+
 ::: {#r-5-7 .callout-note .definition-box}
 
-#### Definition 5.7 — Simple function
+#### **Definition 5.7** (Simple function).
 
 A simple function on a measurable space is a function of the form $f(x) = \sum c_i I_{E_i}$ where $c_i \in \mathbb R$ and$E_i$ are pairwise disjonit sets in $\mathcal M$, with $I_{E_1}$ being the indicator function of $E_i$.
 :::

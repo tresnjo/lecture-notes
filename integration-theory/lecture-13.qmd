@@ -2,14 +2,20 @@
 title: "Hardy–Littlewood Maximal Function and the Maximal Theorem"
 ---
 
+## Local integrability and averages
+
 In what follows, we will denote $B(x,r)$ the open ball centered at $x$ with radius $r$. 
 
 ::: {#r-13-1 .callout-note .definition-box}
 
-#### Definition 13.1 — Locally integrable
+#### **Definition 13.1** (Locally integrable).
 
 A function $f:\mathbb R^n \rightarrow \mathbb R$ is said to be locally integrable, or in $L_\mathrm{loc}^1$, if $f$ is integrable with respect to Lebesgue measure when restricted to any compact set. (or equivalently, if for every $x$ there is an $r > 0$ such that $f$ is integrable on $B(x,r)$ wrt to Lebesgue measure.)
 :::
+
+Every integrable function is locally integrable, since for compact $K$,
+$$\int_K |f| \, dm \leq \int_{\mathbb R^n} |f| \, dm < \infty, \qquad\text{so}\qquad L^1(\mathbb R^n) \subseteq L^1_{\mathrm{loc}}(\mathbb R^n).$$
+The inclusion is strict: the constant function $1$ is locally integrable but not integrable on $\mathbb R^n$.
 
 For $f\in L_\mathrm{loc}^1$, $x\in \mathbb R^n$, and $r > 0$ we define $$A_r f(x) = \frac{1}{m(B(x,r))} \int_{B(x,r)} f(y) dm(y)$$which is simply the average of $f$ over the ball around $x$ with radius $r$. This can be seen interpreted as the mean value of $f$ over the ball centered around $x$ with radius $r$. 
 
@@ -18,9 +24,11 @@ Some additional remarks:
 1. If $f$ is continuous at $x$, it is easy to see that $$\lim_{r\rightarrow 0} A_r f(x) = f(x)$$
 2. This cannot occur for all $f$ since if we modify it at a single point, it would fail there. Take for example $\tilde f(x) =1$ but $\tilde f(y) = 0, y \neq x$, then the limit becomes $0$ as $r\rightarrow 0$ whereas the LHS is $1$.
 
+## The Hardy–Littlewood maximal function
+
 ::: {#r-13-2 .callout-note .definition-box}
 
-#### Definition 13.2 — Hardy-Littlewood Maximal function
+#### **Definition 13.2** (Hardy-Littlewood Maximal function).
 
 If $f\in L^1_\mathrm{loc}(\mathbb R^n)$, then the Hardy-Littlewood maximal function $Hf$ is defined by $$Hf(x) := \sup_{r> 0} A_r|f|(x)$$
 :::
@@ -127,9 +135,11 @@ This functions essentially computes the average over the absolute value of $f$ o
 
 One can verify that $Hf$ is a measurable function by noting  $$(Hf)^{-1}(\alpha, \infty) =\bigcup_{r>0} (A_r|f|)^{-1}\{(\alpha, \infty)\}$$where $A_rf$ is a continuous function for $f\in L^1_\mathrm{loc}$, and thus we have preimages of open sets under continuous functions which are still open, and thus $(Hf)^{-1}(\alpha, \infty)$ is a union of open sets. 
 
+## The maximal theorem
+
 ::: {#r-13-3 .callout-important .theorem-box}
 
-#### Theorem 13.3 — (Hardy-Littlewood Maximal Theorem)
+#### **Theorem 13.3** (Hardy-Littlewood Maximal Theorem).
 
 If $f\in L^1(\mathbb R^n)$, then $\forall \alpha > 0$ we have $$m(\{x: Hf(x) > \alpha\}) \leq \frac{3^n}{\alpha} \int |f|dm(x)$$
 
@@ -142,3 +152,6 @@ However, by our choice of $r_x$'s, i.e. $A_{r_{x_i}}|f|(x_i) > \alpha$, we have 
 as desired. $\square$
 :::
 :::
+
+The maximal theorem says that the worst local average of $f$ can be large only on a small set. If $f \in L^1$, its total mass is finite, so it cannot have large averages everywhere: the measure of the set where $Hf > \alpha$ is at most $3^n \|f\|_1 / \alpha$, which tends to zero as $\alpha \to \infty$.
+

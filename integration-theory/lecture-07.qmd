@@ -2,9 +2,11 @@
 title: "Different Notions of Convergence and Markov & Chebyshev Inequalities"
 ---
 
+## Modes of convergence
+
 ::: {#r-7-1 .callout-important .lemma-box}
 
-#### Lemma 7.1 — Collection of points where $f_n\rightarrow f$ p.w. forms a measurable set
+#### **Lemma 7.1** (Collection of points where $f_n\rightarrow f$ p.w. forms a measurable set).
 
 If $(f_n)$ and $f$ are measurable functions on $(X,\mathcal M, m)$ then $\{x: f_n(x) \rightarrow f(x)\}\in \mathcal M$.
 
@@ -16,11 +18,13 @@ The definition of the limit is that $\forall m \exists k : \forall k \geq n ,|f_
 :::
 :::
 
+Is a limit of measurable functions always measurable? If $f_n \to f$ *everywhere*, yes. If $f_n \to f$ only *almost everywhere*, then $f$ is determined only up to a null set. On a complete measure space $f$ is still measurable, since every subset of a null set is measurable. On an incomplete space it need not be: take a non-measurable subset $E$ of a null set and $f_n = 0$ for all $n$. Then $f_n \to \mathbf 1_E$ almost everywhere, but $\mathbf 1_E$ is not measurable.
+
 The lemma essentially says that the set of points where $f_n(x)$ converge to $f(x)$ constitutes a measurable set.
 
 ::: {#r-7-2 .callout-note .definition-box}
 
-#### Definition 7.2 — Convergence a.e. and in measure
+#### **Definition 7.2** (Convergence a.e. and in measure).
 
 If the sequence $(f_n)$ and $f$ are measurable functions on $(X, \mathcal M, m)$, then we say (i) $f_n$ converges to $f$ a.e. if $$m(\{x: f_n(x) \nrightarrow f(x)\}) = 0$$ (in other words, the set of points which do not converge to $f$ have measure zero). (ii) $f_n$ converges to $f$ in *measure* if $\forall \epsilon > 0$ we have $$\lim_{n\rightarrow \infty} m(\{x: |f_n(x) - f(x)| > \epsilon\}) = 0$$
 :::
@@ -31,7 +35,7 @@ In the various convergence theorems we have encountered so far, e.g. LDC, one on
 
 ::: {#r-7-3 .callout-important .proposition-box}
 
-#### Proposition 7.3 — Relation between convergence in measure and a.e
+#### **Proposition 7.3** (Relation between convergence in measure and a.e).
 
 Relation between convergence in measure and  convergence a.e. with examples.
 1. There is an example where convergence almost everywhere (a.e.) occurs but not convergence in measure.
@@ -56,19 +60,97 @@ In light of the typewriter sequence above, we can certainly select a subsequence
 :::
 :::
 
+## Egoroff's theorem
+
 ::: {#r-7-4 .callout-important .theorem-box}
 
-#### Theorem 7.4 — Egoroff's theorem
+#### **Theorem 7.4** (Egoroff's theorem).
 
+Let $(X, \mathcal M, \mu)$ be a finite measure space and let $f_n, f$ be measurable real-valued functions with $f_n \to f$ almost everywhere. Then for every $\epsilon > 0$ there is a set $E \in \mathcal M$ with $\mu(E) < \epsilon$ such that $f_n \to f$ uniformly on $E^c$.
 :::
 
 It tells us that we will have uniform convergence except on a small set. This is useful in probability theory (which is the canonical example of a finite measure space). It tells us that we can pick an arbitrarily small set for which on the remaining good set $E^c$, convergence is uniform. We can thus promote the state of pw or a.e. convergence to the statement of uniform convergence on an arbitrarily large region. In this sense, finite measure spaces are well-behaved. 
 
-### Markov and Chebyshev inequalities
+::: {.callout-caution .example-box}
 
+#### **Example** ($x^n$ on $[0,1]$).
+
+Take $[0,1]$ with Lebesgue measure and $f_n(x) = x^n$. Then $f_n \to f$ pointwise, where $f = 0$ on $[0,1)$ and $f(1) = 1$. The convergence is not uniform on $[0,1)$, since $\sup_{[0,1)} x^n = 1$ for every $n$: however large $n$ is, points close enough to $1$ still have $x^n$ close to $1$.
+
+Egoroff's theorem says that removing a small set fixes this. Given $\epsilon > 0$, take $E = (1 - \epsilon/2, 1]$, so that $m(E) = \epsilon/2 < \epsilon$ and $E^c = [0, 1 - \epsilon/2]$. On $E^c$,
+$$\sup_{x \in E^c} |x^n - 0| = (1 - \epsilon/2)^n \to 0,$$
+so $f_n \to 0$ uniformly on $E^c$. The bad set $E$ cannot be removed entirely, but it can be made as small as we like. @fig-viz-egoroff-1 shows $E$ and $E^c$ for adjustable $\epsilon$ and $n$.
+:::
+
+::: {#fig-viz-egoroff-1}
+```{=html}
+<div id="viz-egoroff-1" class="viz"></div>
+<script>
+(function() {
+  if (typeof React === 'undefined') return;
+  const { useState, useEffect, useRef } = React;
+  function Egoroff() {
+    const ACCENT = "#b08a1e";
+    const RED = "#b84a4a";
+    const GREEN = "#3f8a5a";
+    const BORDER = "rgba(128,128,128,0.35)";
+    const TEXT = "var(--bs-body-color, #222)";
+    const MUTED = "var(--bs-secondary-color, #777)";
+    const [eps, setEps] = useState(0.2);
+    const [n, setN] = useState(8);
+    const cut = 1 - eps / 2;                       // E = (1 - eps/2, 1], E^c = [0, 1 - eps/2]
+    const sup = Math.pow(cut, n);
+    
+    const W = 640, H = 290, L = 34, R = 628, T = 16, B = 246;
+    const sx = (x) => L + x * (R - L);
+    const sy = (y) => B - y * (B - T);
+    const xs = Array.from({ length: 401 }, (_, i) => i / 400);
+    const curve = (k) => xs.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(Math.pow(x, k)).toFixed(1)).join(" ");
+    const ghosts = [1, 2, 4].filter((k) => k < n);
+    
+    const el = React.createElement;
+    const slider = (label, v, min, max, step, set, fmt) => el("label", { style: { display: "flex", alignItems: "center", gap: 8 } },
+      el("i", null, label), el("input", { type: "range", min, max, step, value: v, onChange: (e) => set(+e.target.value), style: { width: 130, accentColor: ACCENT } }),
+      el("span", { style: { minWidth: 34 } }, fmt(v)));
+    
+    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+      el("div", { style: { display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center", fontSize: 15, marginBottom: 2 } },
+        slider("ε", eps, 0.02, 0.6, 0.01, setEps, (v) => v.toFixed(2)),
+        slider("n", n, 1, 60, 1, setN, (v) => String(v)),
+        el("span", { style: { color: GREEN } }, "sup", el("sub", null, "E", el("sup", null, "c")), " |", el("i", null, "x"), el("sup", null, "n"), " − 0| = " + sup.toFixed(3))),
+      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        el("rect", { x: sx(0), y: T, width: sx(cut) - sx(0), height: B - T, fill: GREEN, opacity: 0.07 }),
+        el("rect", { x: sx(cut), y: T, width: sx(1) - sx(cut), height: B - T, fill: RED, opacity: 0.12 }),
+        el("line", { x1: L, y1: B, x2: R, y2: B, stroke: MUTED, strokeWidth: 1 }),
+        el("line", { x1: L, y1: B, x2: L, y2: T, stroke: MUTED, strokeWidth: 1 }),
+        [0, 0.5, 1].map((v) => el("text", { key: "y" + v, x: L - 9, y: sy(v) + 4, fill: MUTED, fontSize: 12, textAnchor: "end", fontFamily: "inherit" }, String(v))),
+        [0, 0.5, 1].map((v) => el("text", { key: "x" + v, x: sx(v), y: B + 18, fill: MUTED, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }, String(v))),
+        ghosts.map((k) => el("path", { key: "g" + k, d: curve(k), fill: "none", stroke: MUTED, strokeWidth: 1, opacity: 0.45 })),
+        el("line", { x1: L, y1: sy(sup), x2: sx(cut), y2: sy(sup), stroke: GREEN, strokeWidth: 1.2, strokeDasharray: "5 4" }),
+        el("path", { d: curve(n), fill: "none", stroke: ACCENT, strokeWidth: 2.2 }),
+        el("circle", { cx: sx(1), cy: sy(1), r: 3.5, fill: ACCENT }),
+        el("text", { x: (sx(0) + sx(cut)) / 2, y: B - 10, fill: GREEN, fontSize: 15, fontStyle: "italic", textAnchor: "middle", fontFamily: "inherit" }, "E", el("tspan", { dy: -6, fontSize: 11 }, "c")),
+        el("text", { x: (sx(cut) + sx(1)) / 2, y: B - 10, fill: RED, fontSize: 15, fontStyle: "italic", textAnchor: "middle", fontFamily: "inherit" }, "E"),
+        el("text", { x: sx(0.08), y: T + 14, fill: ACCENT, fontSize: 15, fontStyle: "italic", fontFamily: "inherit" }, "x", el("tspan", { dy: -6, fontSize: 11 }, "n"))
+      )
+    );
+    
+  }
+  var el = document.getElementById('viz-egoroff-1');
+  if (el) ReactDOM.createRoot(el).render(React.createElement(Egoroff));
+})();
+</script>
+```
+
+Egoroff's theorem for $x^n$ on $[0,1]$: outside the small set $E$ near $1$, the convergence to $0$ is uniform.
+:::
+
+Finiteness of the measure is needed. On $\mathbb R$ with Lebesgue measure, $f_n = \mathbf 1_{[n, \infty)}$ converges to $0$ everywhere. But if $m(E) < 1$, then $E^c$ meets every $[n, \infty)$ (which has infinite measure), so $\sup_{E^c} f_n = 1$ for all $n$ and the convergence is never uniform on $E^c$.
+
+## Markov, Chebyshev and Hölder inequalities
 ::: {#r-7-5 .callout-important .theorem-box}
 
-#### Theorem 7.5 — Markov's inequality
+#### **Theorem 7.5** (Markov's inequality).
 
 Let $f$ be a nonnegative measurable function on $(X, \mathcal M, m)$, then $\forall \alpha >0$ one has $$m(\{x: f(x) \geq \alpha \}) \leq \frac{\int f dm}{\alpha}$$
 
@@ -90,7 +172,7 @@ Markov’s inequality: the gold rectangles of height $\alpha$ fit under the grap
 
 ::: {#r-7-6 .callout-important .theorem-box}
 
-#### Theorem 7.6 — Chebyshev's inequality
+#### **Theorem 7.6** (Chebyshev's inequality).
 
 Let $f$ be a measurable function on $(X, \mathcal M, m)$ with $\int |f| dm < \infty$, then for any $\alpha > 0$ one has $$m(\{x:|f(x) - \int f dm| \geq \alpha\}) \leq \frac{\int (f- \int f dm)^2 dm}{\alpha^2}$$
 The proof follows by applying Markov's inequality to the nonnegative function $(f(x)-\int f dm)^2$.
@@ -100,7 +182,7 @@ From a probabilistic view, the Chebyshev inequality has both the mean and varian
 
 ::: {#r-7-7 .callout-important .theorem-box}
 
-#### Theorem 7.7 — Hölder's inequality
+#### **Theorem 7.7** (Hölder's inequality).
 
 Let $(X, \mathcal M, \mu)$ be a measure space and $p,q \in [1,\infty]$ with $1/p + 1/q = 1$, then for all measurable functions $f,g$ on $X$ $$||fg||_1 \leq ||f||_p ||g||_q$$
 :::

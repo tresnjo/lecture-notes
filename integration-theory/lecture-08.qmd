@@ -2,11 +2,13 @@
 title: "Product Measures"
 ---
 
+## Product measures
+
 Our goal of this new chapter is to, given two measure spaces, define a product of them. For the product space, we should obviously use ($X\times Y$). For the $\sigma$-algebra, it should be the smallest which contains the so-called "rectangles" $$\mathcal R = \{A \times B : A \in \mathcal M, B \in \mathcal N\}$$whose $\sigma$-algebra $\mathcal M \otimes \mathcal N \equiv \sigma(\mathcal R)$ we denote as $\mathcal M \otimes \mathcal N$. It is clear that if we did have a product measure, then it should satisfy $$(\mu \times \nu)(A \times B) = \mu(A) \nu(B) \qquad \forall A \in \mathcal M, B \in \mathcal N$$
 
 ::: {#r-8-1 .callout-important .theorem-box}
 
-#### Theorem 8.1 — Existence of product measures
+#### **Theorem 8.1** (Existence of product measures).
 
 There exists a measure $\mu \times \nu$ on the measurable space
 $(X\times Y, \mathcal M \otimes \mathcal N)$ such that
@@ -19,9 +21,11 @@ Moreover, $\mu\times\nu$ is the unique measure satisfying these
 properties if both $\mu,\nu$ are $\sigma$-finite.
 :::
 
+## Sections
+
 ::: {#r-8-2 .callout-note .definition-box}
 
-#### Definition 8.2 — Sections
+#### **Definition 8.2** (Sections).
 
 If $E\subseteq X \times Y$, the $x$-section of $E$ is
 
@@ -36,7 +40,7 @@ $$E^y := \{x \in X : (x,y) \in E\}$$
 
 ::: {#r-8-3 .callout-note .definition-box}
 
-#### Definition 8.3 — Sections of functions
+#### **Definition 8.3** (Sections of functions).
 
 If $f : X \times Y \rightarrow \mathbb{R}$, we let for a fixed $x\in X$
 
@@ -49,7 +53,7 @@ $$f^y: X \rightarrow \mathbb{R} \quad \text{given by} \quad f^y(x) := f(x,y)$$
 
 ::: {#r-8-4 .callout-important .proposition-box}
 
-#### Proposition 8.4 — Sections of measurable sets are measurable and sections of functions are measurable
+#### **Proposition 8.4** (Sections of measurable sets are measurable and sections of functions are measurable).
 
 **(i)** If $E \in \mathcal{M} \otimes \mathcal{N}$ then for all $x\in X$,
 $$E_x \in \mathcal{N}$$ and for all $y\in Y$, $$E^y \in \mathcal{M}$$
@@ -61,11 +65,11 @@ $$E_x \in \mathcal{N}$$ and for all $y\in Y$, $$E^y \in \mathcal{M}$$
 
 ::: {#r-8-5 .callout-important .theorem-box}
 
-#### Theorem 8.5 — Fubini's theorem for sets
+#### **Theorem 8.5** (Fubini's theorem for sets).
 
 Let $(X,\mathcal M, \mu)$ and $(Y,\mathcal N, \nu)$ be $\sigma$-finite measure spaces. If $E\in\mathcal M \otimes \mathcal N$, then the maps $x\rightarrow \nu(E_x)$ and $y\rightarrow \mu(E^y)$ are measurable functions on $X$ and $Y$ respectively, furthermore
 
-$$(\mu \times \nu)(E) = \int_X \nu(E_x) d\mu(x) = \int_Y \mu(E^y) d\nu(y)$$
+$$(\mu \times \nu)(E) = \int_X \nu(E_x) d\mu(x) = \int_Y \mu(E^y) d\nu(y)$$^[$x\rightarrow \nu(E_X)$ is a map from $X\rightarrow [0,\infty]$ since $E_x$ is a subset of $Y$ and $\nu(E_x) \in [0,\infty]$.]
 
 ::: {.callout-note .proof-box collapse="true"}
 
@@ -88,15 +92,12 @@ $$(\mu \times \nu)(A \times B) = \int_X 1_A(x) \nu(B) d\mu(x) = \int_X \nu((A\ti
 
 **Step 4.** Moving to the $\sigma$-finite case, let $X_1\subseteq X_2\ldots$ have finite measure with $X=\bigcup X_i$ and $Y_1\subseteq Y_2\ldots$ with $Y = \bigcup Y_i$. **NTS: Note that this is different from the sigma-finite definition where we do not demand an increasing sequence of subsets, however, given any exhaustion $\{A_n\}$ we can simply replace it with $X_n:= \bigcup_{i=1}^n A_i$.** Consider the measure $(\mu \times \nu)\vert_{X_n \times Y_n}$ which is a finite measure on $(X \times Y, \mathcal M \otimes \mathcal N)$. It is easy to see that $(\mu \times \nu)\vert_{X_n \times Y_n} = \mu \vert_{X_n} \times \nu \vert_{Y_n}$ (this follow from the fact that $\mu \vert_{X_n}(A) = \mu(X_n \cap A) \leq \mu(X_n) < \infty$, and thus we have a product of finite measures which is finite).
 By the finite case, for each $E \in \mathcal M \otimes \mathcal N$, the map $x\rightarrow \nu \vert_{Y_n}(E_x) = \nu(Y_n\cap E_x)$ is measurable on $(X, \mathcal M)$ and
-$$\mu\times\nu((X_n\times Y_n)\cap E) = (\mu\times\nu)|_{X_n\times Y_n}(E) = \int_X \nu|_{Y_n}(E_x)\,d\mu|_{X_n}(x) = \int_X \mathbf{1}_{X_n}\nu(Y_n\cap E_x)\,d\mu(x)$$
-Using continuity from below and letting $n\to\infty$, we conclude that $x\to\nu(E_x)$ is measurable on $(X,\mathcal{M})$. Also, letting $n\to\infty$ in the above display, using continuity from below, the fact that product of two measurable functions is measurable, and the MCT, we conclude that
+$$\mu\times\nu((X_n\times Y_n)\cap E) = (\mu\times\nu)|_{X_n\times Y_n}(E) = \int_X \nu|_{Y_n}(E_x)\,d\mu|_{X_n}(x) = \int_X \mathbf{1}_{X_n}\nu(Y_n\cap E_x)\,d\mu(x)$$ {#eq-l08-truncated}
+
+Using continuity from below and letting $n\to\infty$, we conclude that $x\to\nu(E_x)$ is measurable on $(X,\mathcal{M})$. Also, letting $n\to\infty$ in ([-@eq-l08-truncated]), using continuity from below, the fact that product of two measurable functions is measurable, and the MCT, we conclude that
 $$(\mu\times\nu)(E) = \int_X \nu(E_x)\,d\mu(x)$$
 as desired. $\square$
 :::
-:::
-
-::: {.column-margin}
-Note that $x\rightarrow \nu(E_X)$ is a map from $X\rightarrow [0,\infty]$ since $E_x$ is a subset of $Y$ and $\nu(E_x) \in [0,\infty]$. 
 :::
 
 ### Counterexample without $\sigma$-finiteness
@@ -107,13 +108,12 @@ $$\mathcal D^c = \bigcup \{B \in \mathcal B : B \subseteq \mathcal D^c\}.$$
 Each open interval is a Borel set, so each $B$ is a measurable rectangle. The product $\sigma$-algebra is closed under countable unions and complements, so $\mathcal D^c$, and hence $\mathcal D$, belongs to it.
 Note that $\mathcal D_x = \{x\}$ for each $x\in X$ and $\mathcal D^y = \{y\}$ for each $y\in Y$. The map $x\rightarrow \nu(\mathcal D_x)$ is the constant function 1 (which is measurable) whereas $y\rightarrow \mu(\mathcal D^y)$ is the constant function 0 (which is measurable). However, we now have $$\int_X \nu(\mathcal D_x)\, d\mu(x) = 1 \neq 0 = \int_Y \mu(\mathcal D^y)\, d\nu(y).$$
 
-### The Fubini and Tonelli theorems
-
+## The Fubini and Tonelli theorems
 [Theorem 8.5](lecture-08.qmd#r-8-5) was a special case of a more general theorem which we now present. 
 
 ::: {#r-8-6 .callout-important .theorem-box}
 
-#### Theorem 8.6 — Tonelli and Fubini
+#### **Theorem 8.6** (Tonelli and Fubini).
 
 Let $(X,\mathcal M, \mu)$ and $(Y, \mathcal N, \nu)$ be $\sigma$-finite measure spaces.
 
@@ -125,11 +125,17 @@ $$\int_{X \times Y} f(x,y) d(\mu \times \nu)(x,y) = \int_X g(x) d\mu(x)$$
 **(b) (Fubini)** If $f\in L^1(X\times Y, \mathcal M \otimes \mathcal N, \mu \times \nu)$ then $f_x \in L^1(Y, \mathcal N, \nu)$ for $\mu$-a.e. $x\in X$. Furthermore,
 $$g(x) = \int_Y f_x(y) d\nu(y) \in L^1(X, \mathcal M, \mu)$$
 which is defined $\mu$-a.e. x, belongs to $L^1(X, \mathcal M, \mu)$ and
-$$\int_{X\times Y} f(x,y) d(\mu \times \nu)(x,y) = \int_X g(x) d\mu(x)$$
+$$\int_{X\times Y} f(x,y) d(\mu \times \nu)(x,y) = \int_X g(x) d\mu(x)$$^[For Tonelli, we assume $f\in L^+$, i.e. $f\geq 0$ and measurable in the product space. It thus follows from [Proposition 8.4](lecture-08.qmd#r-8-4) that each section $f_x$ is $\mathcal N$-measurable, and since $f_x \geq 0$ (from $f \geq 0$), we also have $f_x \in L^+(Y,\mathcal N, \nu)$ for free.]
 :::
 
-::: {.column-margin}
-Note that for Tonelli, we assume $f\in L^+$, i.e. $f\geq 0$ and measurable in the product space. It thus follows from [Proposition 8.4](lecture-08.qmd#r-8-4) that each section $f_x$ is $\mathcal N$-measurable, and since $f_x \geq 0$ (from $f \geq 0$), we also have $f_x \in L^+(Y,\mathcal N, \nu)$ for free.
+::: {.callout-caution .example-box}
+
+#### **Example** (Fubini needs integrability).
+
+Let $X = Y = \mathbb N$ with the counting measure on the power set, and
+$$f(m,n) = \begin{cases} 1 & m = n, \\ -1 & m = n+1, \\ 0 & \text{otherwise.} \end{cases}$$
+In the infinite matrix $(f(m,n))$, each row contains a $1$ on the diagonal, and every row except the first also contains a $-1$ just left of it. Summing each row first, row $1$ gives $1$ and every other row gives $0$, so the iterated sum is $1$. Summing each column first, every column contains one $1$ and one $-1$ and gives $0$, so the iterated sum is $0$. Both iterated integrals are finite but different. This does not contradict [Theorem 8.6](#r-8-6), because $f \notin L^1(\mathbb N \times \mathbb N)$:
+$$\int_{\mathbb N \times \mathbb N} |f| \, d(\mu \times \nu) = \infty.$$
 :::
 
 In the Tonelli case, there is no integrability requirement, i.e the double integral could be infinite, but the iterated integral formula holds unconditionally. In the Fubini case, $f$ is Lebesgue integrable, (remember that $f\in L^1$ implies that it is Lebesgue integrable. See [Lecture 6](lecture-06.qmd)). 

@@ -2,11 +2,10 @@
 title: "Premeasures, Distribution Functions and the Cantor Set"
 ---
 
-### Other important constructions of measures
-
+## Premeasures
 ::: {#r-4-1 .callout-note .definition-box}
 
-#### Definition 4.1 — Premeasure
+#### **Definition 4.1** (Premeasure).
 
 If $X$ is a set and $\mathcal{A}$ is an algebra on $X$, a function $\mu_0 : \mathcal{A} \to [0, \infty]$ is called a **premeasure** if:
 
@@ -20,7 +19,7 @@ Had $\mathcal A$ been a $\sigma$-algebra, this would have just been our usual me
 
 ::: {#r-4-2 .callout-important .theorem-box}
 
-#### Theorem 4.2 — Extension of Premeasure to Measure
+#### **Theorem 4.2** (Extension of Premeasure to Measure).
 
 If $\mu_0$ is a premeasure on $(X, \mathcal{A})$, then there exists a measure $\mu$ on $(X, \sigma(\mathcal{A}))$ with:
 $$\mu(A) = \mu_0(A) \quad \text{for all } A \in \mathcal{A}$$
@@ -32,11 +31,10 @@ If $\mu_0$ is $\sigma$-finite on $X$, then $\mu$ is unique.
 
 The theorem is an existence theorem. It tells us that if we have a premeasure on an algebra, we can generate a minimal $\sigma$-algebra from $\mathcal A$ on which the measures agree. In particular, if the premeasure is $\sigma$-finite, then it is also unique. 
 
-### Distribution functions for Borel sets
-
+## Distribution functions
 ::: {#r-4-3 .callout-important .proposition-box}
 
-#### Proposition 4.3 — CDF of a Borel Measure
+#### **Proposition 4.3** (CDF of a Borel Measure).
 
 Let $\mu$ be a finite Borel measure on $[0,1]$ and define $F: [0,1] \to [0, \mu([0,1])]$ by:
 $$F(x) := \mu([0,x])$$
@@ -64,7 +62,7 @@ It tells us that given a measure, we have an associated distribution function.
 
 ::: {#r-4-4 .callout-important .proposition-box}
 
-#### Proposition 4.4 — Borel Measure from CDF
+#### **Proposition 4.4** (Borel Measure from CDF).
 
 Let $F$ be a nonneg­ative, weakly increasing and right continuous function on $[0,1]$ mapping into $[0, \infty)$. Then there exists a unique finite Borel measure $\mu$ on $[0,1]$ satisfying:
 $$F(x) := \mu([0,x])$$
@@ -74,8 +72,7 @@ The proposition tells us that given a distribution function, we have an associat
 
 It turns out that if $F(x) = x$, we get the Lebesgue measure. The $F$ corresponding to a measure $\mu$ will be denoted by $F_\mu$ ([Proposition 4.3](lecture-04.qmd#r-4-3)) and the $\mu$ corresponding to a given $F$ as above will be denoted by $\mu_F$ ([Proposition 4.4](lecture-04.qmd#r-4-4))
 
-### The Cantor set, the Cantor ternary function and the Cantor measure
-
+## The Cantor set, the Cantor function and the Cantor measure
 The Cantor set is constructed by splitting the $[0,1]$ interval in three intervals, and removnig the middle third. The process is then repeated for the two intervals, each time removnig the middle third from each of the intervals from the previous set. $C_n$ then consists of $2^n$ disjoint closed intervals, each of length $1/3^n$. The Cantor set is defined to be $$ C\equiv \bigcap_n C_n$$
 
 ::: {#fig-viz-cantorset-1}
@@ -86,89 +83,40 @@ The Cantor set is constructed by splitting the $[0,1]$ interval in three interva
   if (typeof React === 'undefined') return;
   const { useState, useEffect, useRef } = React;
   function CantorSet() {
-    const ACCENT = "#877B31";
-    const ACCENT_LIGHT = "#b5a54a";
-    const ACCENT_DIM = "rgba(135,123,49,0.38)";
-    const BG = "transparent";
-    const SURFACE = "rgba(128,128,128,0.13)";
+    const ACCENT = "#b08a1e";
     const BORDER = "rgba(128,128,128,0.35)";
     const TEXT = "var(--bs-body-color, #222)";
     const MUTED = "var(--bs-secondary-color, #777)";
+    const [k, setK] = useState(3);
+    const segs = (lvl) => { let s = [[0, 1]]; for (let i = 0; i < lvl; i++) s = s.flatMap(([a, b]) => { const t = (b - a) / 3; return [[a, a + t], [b - t, b]]; }); return s; };
     
-    const [levels, setLevels] = useState(1);
+    const W = 640, L = 46, R = 628, ROW = 30, BAR = 9, T = 10;
+    const H = T + ROW * (k + 1) + 26;
+    const sx = (x) => L + x * (R - L);
+    const el = React.createElement;
     
-    function changeLevel(delta) {
-      const next = Math.min(7, Math.max(0, levels + delta));
-      setLevels(next);
-    }
-    
-    function cantorSegments(level) {
-      if (level === 0) return [[0, 1]];
-      const prev = cantorSegments(level - 1);
-      const next = [];
-      for (let i = 0; i < prev.length; i++) {
-        const [a, b] = prev[i];
-        const third = (b - a) / 3;
-        next.push([a, a + third]);
-        next.push([b - third, b]);
-      }
-      return next;
-    }
-    
-    const W = 500;
-    const BAR_H = 10;
-    const PAD_X = 30;
-    const PAD_Y = 16;
-    const ROW_H = 28;
-    const svgH = PAD_Y * 2 + ROW_H * (levels + 1);
-    const remaining = Math.pow(2/3, levels + 1);
-    const totalRemoved = 1 - remaining;
-    
-    function Row(props) {
-      const segs = cantorSegments(props.level);
-      const innerW = W - 2 * PAD_X;
-      const y = PAD_Y + props.level * ROW_H;
-      return React.createElement("g", null,
-        React.createElement("rect", { x: PAD_X, y: y, width: innerW, height: BAR_H, fill: SURFACE, rx: 1 }),
-        segs.map((seg, i) =>
-          React.createElement("rect", {
-            key: i,
-            x: PAD_X + seg[0] * innerW,
-            y: y,
-            width: (seg[1] - seg[0]) * innerW,
-            height: BAR_H,
-            fill: props.level === levels ? ACCENT : ACCENT_DIM,
-            rx: 1
-          })
-        ),
-        React.createElement("text", {
-          x: PAD_X - 6, y: y + BAR_H / 2 + 4,
-          textAnchor: "end", fontSize: 10, fill: MUTED, fontFamily: "monospace"
-        }, "n=" + props.level)
-      );
-    }
-    
-    const btnStyle = { background: SURFACE, border: "1px solid " + BORDER, color: ACCENT, padding: "4px 14px", borderRadius: 4, cursor: "pointer", fontSize: 15, fontFamily: "monospace" };
-    
-    return React.createElement("div", { style: { fontFamily: "inherit", color: TEXT } },
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 18, fontSize: 13 } },
-        React.createElement("span", { style: { color: MUTED } }, "levels ="),
-        React.createElement("span", { style: { color: TEXT, minWidth: 20 } }, levels),
-        React.createElement("button", { onClick: () => changeLevel(-1), style: btnStyle }, "-"),
-        React.createElement("button", { onClick: () => changeLevel(+1), style: btnStyle }, "+")
-      ),
-      React.createElement("div", { style: { marginBottom: 16 } },
-        React.createElement("div", { style: { fontSize: 11, color: MUTED, marginBottom: 4 } }, "construction levels 0 to " + levels),
-        React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + svgH, style: { background: "transparent" } },
-          Array.from({ length: levels + 1 }, (_, i) => React.createElement(Row, { key: i, level: i }))
-        )
-      ),
-      React.createElement("div", { style: { display: "flex", gap: 24, fontSize: 12, borderTop: "1px solid " + BORDER, paddingTop: 12 } },
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "segments: "), React.createElement("span", { style: { color: TEXT } }, Math.pow(2, levels))),
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "measure remaining: "), React.createElement("span", { style: { color: ACCENT_LIGHT } }, "(2/3)^" + (levels+1) + " = " + remaining.toFixed(4))),
-        React.createElement("div", null, React.createElement("span", { style: { color: MUTED } }, "measure removed: "), React.createElement("span", { style: { color: TEXT } }, totalRemoved.toFixed(4)))
+    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+      el("div", { style: { display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center", fontSize: 15, marginBottom: 4 } },
+        el("label", { style: { display: "flex", alignItems: "center", gap: 8 } },
+          el("i", null, "n"),
+          el("input", { type: "range", min: 0, max: 7, step: 1, value: k, onChange: (e) => setK(+e.target.value), style: { width: 140, accentColor: ACCENT } }),
+          el("span", null, k)),
+        el("span", { style: { color: MUTED } }, "2", el("sup", null, k), " = " + Math.pow(2, k) + " intervals"),
+        el("span", { style: { color: ACCENT } }, "total length (2/3)", el("sup", null, k), " = " + Math.pow(2 / 3, k).toFixed(4))),
+      el("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block", background: "transparent" } },
+        Array.from({ length: k + 1 }, (_, lvl) => {
+          const y = T + lvl * ROW, cur = lvl === k;
+          return el("g", { key: lvl },
+            el("line", { x1: sx(0), y1: y + BAR / 2, x2: sx(1), y2: y + BAR / 2, stroke: BORDER, strokeWidth: 1 }),
+            segs(lvl).map(([a, b], i) => el("rect", { key: i, x: sx(a), y, width: Math.max(0.6, sx(b) - sx(a)), height: BAR,
+              fill: ACCENT, opacity: cur ? 1 : 0.35 })),
+            el("text", { x: L - 10, y: y + BAR - 0.5, fill: cur ? TEXT : MUTED, fontSize: 14, fontStyle: "italic", textAnchor: "end", fontFamily: "inherit" },
+              "C", el("tspan", { dy: 4, fontSize: 10 }, String(lvl))));
+        }),
+        [[0, "0"], [1 / 3, "1/3"], [2 / 3, "2/3"], [1, "1"]].map(([v, s]) => el("text", { key: s, x: sx(v), y: H - 6, fill: MUTED, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }, s))
       )
     );
+    
   }
   var el = document.getElementById('viz-cantorset-1');
   if (el) ReactDOM.createRoot(el).render(React.createElement(CantorSet));
@@ -181,7 +129,7 @@ Interactive: the first steps of the Cantor set construction.
 
 ::: {#r-4-5 .callout-important .proposition-box}
 
-#### Proposition 4.5 — Properties of the Cantor set
+#### **Proposition 4.5** (Properties of the Cantor set).
 
 The Cantor set is a nonempty compact set with Lebesgue measure of 0 and has no isolated points. It is also the set of points in $[0,1]$ whose ternary expansion only contains 0's and 2's.
 
@@ -326,16 +274,18 @@ Any closed set in R without isolated points is uncountable, and thus the Cantor 
 Interactive: the approximations to the Cantor function (devil’s staircase).
 :::
 
+### The Cantor function
+
 ::: {#r-4-6 .callout-important .theorem-box}
 
-#### Theorem 4.6 — Cantor Ternary Function
+#### **Theorem 4.6** (Cantor Ternary Function).
 
 The sequence $(f_n)$ converges uniformly to a (necessarily continuous) limit function $F_C$, which we call the **Cantor ternary function**.
 :::
 
 ::: {#r-4-7 .callout-important .corollary-box}
 
-#### Corollary 4.7 — Properties of the Cantor Ternary Function
+#### **Corollary 4.7** (Properties of the Cantor Ternary Function).
 
 **(a)** $F_C$ is a weakly increasing function on $[0,1]$ with $F_C(0) = 0$ and $F_C(1) = 1$
 **(b)** $F_C$ is continuous.
@@ -351,9 +301,11 @@ We may now define the Cantor Ternary measure denoted by $\mu_C$ as follows $$\mu
 :::
 :::
 
+### The Cantor measure
+
 ::: {#r-4-8 .callout-important .theorem-box}
 
-#### Theorem 4.8 — Properties of the Cantor ternary measure
+#### **Theorem 4.8** (Properties of the Cantor ternary measure).
 
 $\mu_C$ is a continuous measure and where $\mu_C(C) = 1, \mu_C(C^c) = 0$.
 :::
@@ -362,30 +314,34 @@ To gain intuition for this result, note that $$\mu_C(C^c) = \mu_C([0,1] \setminu
 
 The fact that it is continuous follows from the fact that $F_c$ is continuous (both left- and right continuous). And since it is also left-continuous, this implies that there are no atoms and thus the measure space is complete.
 
-### The Borel-Cantelli lemma
-
+## The Borel–Cantelli lemma
 This lemma is useful, especially in probability theory.
 
 ::: {#r-4-9 .callout-note .definition-box}
 
-#### Definition 4.9 — $\limsup$ and $\liminf$ of Sets
+#### **Definition 4.9** ($\limsup$ and $\liminf$ of Sets).
 
 If $E_1, E_2, \ldots$ is a sequence of measurable sets in a measure space, we let:
 
 $$\limsup E_i := \bigcap_{n=1}^\infty \left(\bigcup_{k=n}^\infty E_k\right)$$
 
-also written $(E_n \text{ i.o.})$ — **infinitely often** — since $x \in \limsup E_i$ if and only if $x$ is contained in infinitely many $E_n$'s.
+also written $(E_n \text{ i.o.})$ — **infinitely often** — since $x \in \limsup E_i$ if and only if $x$ is contained in infinitely many $E_n$'s.^[Definitionally, the limsup is also a measurable set since it is constructed from countable set operations.]
 :::
 
-::: {.column-margin}
-Note that definitionally, the limsup is also a measurable set since it is constructed from countable set operations.
+::: {.callout-caution .example-box}
+
+#### **Example** ($\limsup$ of intervals).
+
+- *Shrinking intervals.* $E_n = [0, 1/n]$ gives $\limsup E_n = \{0\}$, since $0$ is the only point that lies in infinitely many $E_n$.
+- *Growing intervals.* $E_n = [0, 1 - 1/n]$ gives $\limsup E_n = [0, 1)$; the point $1$ lies in no $E_n$.
+- *Moving intervals.* For the typewriter sequence of intervals sweeping across $[0,1]$ over and over (it appears again in [Lecture 7](lecture-07.qmd)), every point is covered infinitely often, so $\limsup E_n = [0,1]$.
 :::
 
 Let $T_n \equiv \bigcup_{k=n}^\infty E_k$, then if $x\in \lim \sup E_i$, it must follow that $x\in T_n$ for all $n$. This in turn implies that $x$ appears in some $E_k$ with $k\geq 1$. some $E_k$ with $k\geq 2$ etc... In other words, $x$ could be in every odd one, or it could be in $1_1, E_{10}, E_{100}$ etc..., that is still infinitely often. It is thus all the points $x$ that appear in infinitely many of the $E_n$'s. 
 
 ::: {#r-4-10 .callout-important .lemma-box}
 
-#### Lemma 4.10 — First Borel–Cantelli Lemma
+#### **Lemma 4.10** (First Borel–Cantelli Lemma).
 
 Let $E_1, E_2, \ldots$ be a sequence of measurable sets in the measure space $(X, \mathcal{M}, m)$. If:
 $$\sum_i m(E_i) < \infty$$
@@ -401,5 +357,7 @@ The first inequality follows from monotonicity using the fact that $\limsup E_i 
 Since $\sum_i m(E_i) < \infty$, the tail $\sum_{k=n}^\infty m(E_k) \to 0$ as $n \to \infty$. Hence $m(\limsup E_i) = 0$. $\square$
 :::
 :::
+
+The converse of the first Borel–Cantelli lemma is false. For $E_n = [0, 1/n]$ with the Lebesgue measure $m$, we have $\sum_n m(E_n) = \sum_n 1/n = \infty$, yet $m(\limsup E_n) = m(\{0\}) = 0$. A partial converse does hold for independent events: the second Borel–Cantelli lemma ([Lemma 9.9](lecture-09.qmd#r-9-9)).
 
 From probabilistic view, it says that sum of probabilities of events is finite, the probability that infinitely many of them occur is zero (for any sequence of events). There is also a second Borel–Cantelli lemma ([Lemma 9.9](lecture-09.qmd#r-9-9)): if the events are independent and the sum of their probabilities is infinite, then the probability that infinitely many of them occur is 1. A consequence of the second Borel-Cantelli lemma is the infinite monkey theorem, discussed in [Lecture 9](lecture-09.qmd).
