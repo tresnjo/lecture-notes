@@ -349,6 +349,7 @@ html { background: var(--bs-body-bg, #fff); }
     });
     return w;
   }
+  var touchy = !!(window.matchMedia && matchMedia("(hover: none) and (pointer: coarse)").matches), lastRange = null;
   function hideBar() { if (bar) bar.hidden = true; }
   function showBar(rect) {
     if (!bar) {
@@ -358,8 +359,11 @@ html { background: var(--bs-body-bg, #fff); }
       cm.addEventListener("mousedown", function (e) { e.preventDefault(); });
       cm.addEventListener("click", function () { create("yellow", true); });
       bar.appendChild(cm); document.body.appendChild(bar);
+      bar.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") e.preventDefault(); });
+      if (touchy) bar.classList.add("docked");
     }
     bar.hidden = false;
+    if (touchy) return;              // phones: docked at the bottom of the screen, clear of the system copy/paste menu
     var x = rect.left + rect.width / 2 + scrollX - bar.offsetWidth / 2, y = rect.top + scrollY - bar.offsetHeight - 10;
     if (rect.top < 70) y = rect.bottom + scrollY + 10;
     bar.style.left = Math.max(8 + scrollX, Math.min(x, scrollX + innerWidth - bar.offsetWidth - 8)) + "px"; bar.style.top = y + "px";
@@ -374,7 +378,7 @@ html { background: var(--bs-body-bg, #fff); }
     return r;
   }
   function create(color, withNote) {
-    var r = selectionInMain(); if (!r) return hideBar();
+    var r = selectionInMain() || lastRange; lastRange = null; if (!r) return hideBar();
     var m = textNodes(), a = toOffset(m, r.startContainer, r.startOffset), b = toOffset(m, r.endContainer, r.endOffset);
     var t = fullText(m), quote = t.slice(a, b);
     if (!quote.trim()) return hideBar();
@@ -515,7 +519,15 @@ html { background: var(--bs-body-bg, #fff); }
       (data.hl.length ? '<span class="ann-count">' + data.hl.length + '</span>' : "");
     fab.addEventListener("click", togglePanel); document.body.appendChild(fab);
     var up = function () { setTimeout(function () { var r = selectionInMain(); if (r) showBar(r.getBoundingClientRect()); else hideBar(); }, 10); };
-    document.addEventListener("mouseup", up); document.addEventListener("touchend", up);
+    if (touchy) {                    // phones: follow the selection itself, since its handles are dragged
+      var hideT;
+      document.addEventListener("selectionchange", function () {
+        clearTimeout(hideT);
+        var r = selectionInMain();
+        if (r) { lastRange = r.cloneRange(); showBar(r.getBoundingClientRect()); }
+        else hideT = setTimeout(function () { lastRange = null; hideBar(); }, 400);
+      });
+    } else { document.addEventListener("mouseup", up); }
     document.addEventListener("keyup", function (e) { if (e.shiftKey || e.key === "Shift") up(); });
     document.addEventListener("click", function (e) {
       var t = e.target.closest && e.target.closest("[data-ann]");
@@ -548,6 +560,11 @@ mark.ann-hl.has-note { text-decoration: underline dotted; text-underline-offset:
   box-shadow: 0 8px 24px -8px rgba(0,0,0,0.3); }
 .ann-bar { display: flex; align-items: center; gap: 10px; padding: 5px 8px; }
 .ann-swatches { display: inline-flex; gap: 6px; }
+.ann-bar.docked { position: fixed; left: calc(50% - 28px) !important; top: auto !important; transform: translateX(-50%);
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px)); gap: 14px; padding: 9px 14px; border-radius: 0; }
+.ann-bar.docked .ann-swatches { gap: 12px; }
+.ann-bar.docked .ann-sw { width: 28px; height: 28px; }
+.ann-bar.docked .ann-txt { font-size: 16px; padding: 4px 6px; }
 .ann-sw { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(128,128,128,0.45); padding: 0; cursor: pointer; background: var(--ann-yellow); }
 .ann-sw[data-color="green"] { background: var(--ann-green); } .ann-sw[data-color="blue"] { background: var(--ann-blue); } .ann-sw[data-color="pink"] { background: var(--ann-pink); }
 .ann-sw.on { outline: 2px solid currentColor; outline-offset: 1px; }
