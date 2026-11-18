@@ -49,9 +49,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f35c72360ebcb66d6d3db0c1456767d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c412589ea12dacdcd5b9c18c6e5ec1be.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-f35c72360ebcb66d6d3db0c1456767d8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c33fc9910ef040db6f0943c475fe2c9a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ac577b559e42394f1423815a3ab9106f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-c33fc9910ef040db6f0943c475fe2c9a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -292,6 +292,36 @@ html.turn-in-back main#quarto-document-content { transform-origin: 0 50vh; anima
   }, true);
 })();
 </script>
+<!-- a way back to the bookshelf from every course -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var brand = document.querySelector(".navbar .navbar-brand-container") || document.querySelector(".navbar .navbar-brand");
+  if (!brand || document.querySelector(".shelf-back")) return;
+  var a = document.createElement("a");
+  a.className = "shelf-back"; a.href = "../"; a.title = "Back to all lecture notes";
+  a.innerHTML = '<span class="arrow" aria-hidden="true">←</span><span class="txt">Lecture notes</span>';
+  brand.parentNode.insertBefore(a, brand);
+  a.addEventListener("click", function (ev) {
+    if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button !== 0) return;
+    try { sessionStorage.setItem("shelf-return", "1"); } catch (e) {}
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !document.body.animate) return;
+    ev.preventDefault();
+    var href = a.href;
+    document.body.animate([{ transform: "none", opacity: 1 }, { transform: "translateY(28px)", opacity: 0 }],
+      { duration: 320, easing: "cubic-bezier(.5,0,.75,.3)", fill: "forwards" }).onfinish = function () { location.href = href; };
+  });
+});
+</script>
+<style>
+html { background: var(--bs-body-bg, #fff); }
+.shelf-back { display: inline-flex; align-items: center; gap: 0.4rem; margin-right: 1.1rem; padding-right: 1.1rem;
+  border-right: 1px solid color-mix(in srgb, currentColor 35%, transparent); color: inherit !important; opacity: 0.75; text-decoration: none !important;
+  font-size: 0.95rem; white-space: nowrap; }
+.navbar .shelf-back { color: var(--bs-navbar-color, currentColor) !important; }
+.shelf-back:hover, .shelf-back:focus-visible { opacity: 1; }
+.shelf-back .arrow { font-size: 1.05em; }
+@media (max-width: 575.98px) { .shelf-back .txt { display: none; } .shelf-back { margin-right: 0.6rem; padding-right: 0.6rem; } }
+</style>
 <!-- opened from the bookshelf: the title page dissolves into the notes -->
 <script>
 (function () {

@@ -143,6 +143,18 @@
   @media (prefers-reduced-motion: reduce) {
     a.book, .card { transition: none; }
   }
+
+/* scrollbars: thin, quiet, in the page's own colours */
+html { scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.45) transparent; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.38); border-radius: 0; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: rgba(128,128,128,0.6); }
+/* the chapter list on the left: only visible while the pointer is over it */
+#quarto-sidebar, #quarto-sidebar .sidebar-menu-container { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+#quarto-sidebar:hover, #quarto-sidebar:hover .sidebar-menu-container { scrollbar-color: rgba(128,128,128,0.45) transparent; }
+#quarto-sidebar::-webkit-scrollbar-thumb, #quarto-sidebar .sidebar-menu-container::-webkit-scrollbar-thumb { background-color: transparent; }
+#quarto-sidebar:hover::-webkit-scrollbar-thumb, #quarto-sidebar:hover .sidebar-menu-container::-webkit-scrollbar-thumb { background-color: rgba(128,128,128,0.4); }
 </style>
 </head>
 <body>
@@ -228,6 +240,7 @@
         var go = function () {
           try {
             sessionStorage.setItem("shelf-open", "1");
+            sessionStorage.setItem("shelf-last", c.slug);
             // the notes open in the same mode as the shelf
             var th = document.documentElement.getAttribute("data-theme");
             var dark = th ? th === "dark" : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -249,7 +262,8 @@
       });
     }
     fit(); window.addEventListener("resize", fit);
-    function openBook(el, c, done) {
+    // the 3D book (spine, covers, page edges) placed exactly over a spine on the shelf
+    function buildActor(el, c) {
       var r = el.getBoundingClientRect(), vw = innerWidth, vh = innerHeight;
       var w = r.width, h = r.height, T = w, cw = Math.round(h * 0.7);
       var stage = document.createElement("div"); stage.className = "stage";
@@ -273,11 +287,14 @@
       var sp = actor.querySelector(".face div.book");
       if (sp) { sp.style.width = "100%"; sp.style.height = "100%"; sp.style.transform = "none"; sp.classList.remove("lift"); }
       stage.appendChild(actor); document.body.appendChild(stage);
-      el.classList.add("gone");
 
-      // a small physics simulation: the book pivots forward over its bottom edge, leaves the shelf,
-      // and falls freely towards the reader, spinning end over end with a slight wobble
-      var g = 2600, dt = 1 / 60, frames = [], tm = 0;
+      return { stage: stage, actor: actor, r: r, w: w, h: h, cw: cw, vw: vw, vh: vh };
+    }
+    // a small physics simulation: the book pivots forward over its bottom edge, leaves the shelf,
+    // and falls freely towards the reader, spinning end over end with a slight wobble
+    function fallFrames(A) {
+      var r = A.r, h = A.h, cw = A.cw, vh = A.vh, dt = 1 / 60;
+      var g = 2600, frames = [], tm = 0;
       var th = 0.05, om = 1.2, k = 3 * g / (2 * h);                   // a nudge at the top
       var push = function (x, y, z, rx, ry, rz) {
         frames.push("translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px," + z.toFixed(1) + "px) rotateZ(" + rz.toFixed(2) +
@@ -301,6 +318,12 @@
         if (exitAt < 0 && r.top + y > vh * 0.8) exitAt = frames.length;
         if (r.top + y - h * 0.6 > vh || frames.length > 240) break;
       }
+      return { frames: frames, exitAt: exitAt, dt: dt };
+    }
+    function openBook(el, c, done) {
+      var A = buildActor(el, c), actor = A.actor, r = A.r, h = A.h, cw = A.cw, vh = A.vh;
+      el.classList.add("gone");
+      var F = fallFrames(A), frames = F.frames, exitAt = F.exitAt, dt = F.dt;
       var D = Math.round(frames.length * dt * 1000);
       actor.animate(frames.map(function (f) { return { transform: f }; }), { duration: D, easing: "linear", fill: "forwards" });
       // the page follows the book down
@@ -326,12 +349,37 @@
       });
       setTimeout(done, S0 + SD + 380);
     }
-    // coming back with the browser's back button: put everything back on the shelf
-    window.addEventListener("pageshow", function () {
+    // coming back (back button or the "Lecture notes" link): reset, then slide the book back into its place
+    function putBack() {
+      var slug = null, ret = false;
+      try { slug = sessionStorage.getItem("shelf-last"); ret = sessionStorage.getItem("shelf-return") === "1"; sessionStorage.removeItem("shelf-return"); } catch (e) {}
+      return { slug: slug, ret: ret };
+    }
+    function reinsert(slug) {
+      var el = books.querySelector('a.book[href^="' + slug + '/"]');
+      var c = COURSES.filter(function (x) { return x.slug === slug; })[0];
+      if (!el || !c || !el.animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      // the opening fall, played backwards: the book tumbles up out of the screen and stands back in its slot
+      var A = buildActor(el, c), F = fallFrames(A);
+      el.classList.add("gone");
+      var rev = F.frames.slice().reverse().map(function (f) { return { transform: f }; });
+      var D = Math.round(F.frames.length * F.dt * 1000);
+      var an = A.actor.animate(rev, { duration: D, easing: "linear", fill: "forwards" });
+      an.onfinish = function () { el.classList.remove("gone"); A.stage.remove(); };
+      // the shelf comes back up with it, mirroring how the page followed the book down
+      document.getElementById("scene").animate([
+        { transform: "translateY(-30vh)" },
+        { transform: "translateY(0)", offset: 0.7, easing: "cubic-bezier(.5,0,.5,1)" },
+        { transform: "translateY(0)" }
+      ], { duration: D + 300 });
+    }
+    window.addEventListener("pageshow", function (e) {
       opening = false;
       [].forEach.call(document.querySelectorAll("a.book.gone"), function (b) { b.classList.remove("gone"); });
       [].forEach.call(document.querySelectorAll(".stage, .titlesheet"), function (s) { s.remove(); });
       var sc = document.getElementById("scene"); if (sc.getAnimations) sc.getAnimations().forEach(function (an) { an.cancel(); });
+      var b = putBack();
+      if (b.slug && (b.ret || e.persisted)) reinsert(b.slug);
     });
   })();
 
