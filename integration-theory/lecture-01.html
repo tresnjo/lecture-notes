@@ -409,52 +409,73 @@ document.addEventListener("DOMContentLoaded", function () {
   var box = document.createElement("div"); box.className = "orbit-box";
   box.innerHTML = '<div class="orbit-title">Interactive graph</div><div class="orbit-host"></div>';
   var side = document.getElementById("quarto-margin-sidebar");
-  var wide = side && getComputedStyle(side).display !== "none" && side.offsetWidth > 0;
   var main = document.querySelector("main#quarto-document-content") || document.querySelector("main");
-  if (!wide) {                                   // phones and narrow windows: right under the lecture title
-    if (!main) return;
-    box.classList.add("at-top");
-    var head = main.querySelector("#title-block-header") || main.querySelector("header");
-    if (head && head.parentNode) head.parentNode.insertBefore(box, head.nextSibling); else main.insertBefore(box, main.firstChild);
-    window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n, { ratio: 0.62 });
-    return;
-  }
-  // wide screens: its own layer at the top of the right-hand column, scrolling with the page
-  box.classList.add("in-margin");
-  document.body.appendChild(box);
-  // line the box up with the table of contents column, level with the start of the lecture
+  if (!main) return;
+  var head = main.querySelector("#title-block-header") || main.querySelector("header");
   var tocEl = document.getElementById("TOC");
   var holder = (tocEl && tocEl.closest(".margin-sidebar")) || side;
-  var top0 = (main ? main.getBoundingClientRect().top : side.getBoundingClientRect().top) + window.scrollY + 8;
-  function place() {
-    var ref = (tocEl && tocEl.getBoundingClientRect().width > 0) ? tocEl.getBoundingClientRect() : side.getBoundingClientRect();
-    var sr = side.getBoundingClientRect();
-    var left = Math.max(ref.left, sr.left), right = Math.min(window.innerWidth - 12, Math.max(ref.right, sr.right));
-    box.style.left = (left + window.scrollX) + "px"; box.style.width = Math.max(180, right - left) + "px"; box.style.top = top0 + "px";
-  }
-  place();
-  window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n);
-  var boxBottom = function () { return top0 + box.offsetHeight + 18; };
+  var opts = { ratio: 0.9 };
+  var mode = null, ready = false, moved = [];
 
-  // once the maths has been laid out: footnotes that start beside the box move down below it,
-  // and the table of contents starts below the box and slides up as the box scrolls away
+  function isWide() { return !!(side && getComputedStyle(side).display !== "none" && side.offsetWidth > 0); }
+  function top0() { return main.getBoundingClientRect().top + window.scrollY + 8; }
+  function boxBottom() { return top0() + box.offsetHeight + 18; }
+
+  // wide screens: its own layer at the top of the right-hand column, lined up with the table of contents
+  function place() {
+    if (mode !== "wide") return;
+    var t = tocEl && tocEl.getBoundingClientRect().width > 0 ? tocEl.getBoundingClientRect() : side.getBoundingClientRect();
+    var sr = side.getBoundingClientRect();
+    var left = Math.max(t.left, sr.left), right = Math.min(document.documentElement.clientWidth - 12, Math.max(t.right, sr.right));
+    box.style.left = (left + window.scrollX) + "px"; box.style.width = Math.max(180, right - left) + "px"; box.style.top = top0() + "px";
+  }
+  // the table of contents starts below the box and slides up as the box scrolls away
   function toc() {
+    if (!holder) return;
     holder.style.paddingTop = "0px";
+    if (mode !== "wide") return;
     var gap = Math.max(0, boxBottom() - window.scrollY - holder.getBoundingClientRect().top);
     holder.style.paddingTop = gap + "px";
   }
-  (window.__whenReady || function (f) { f(); })(function () {
+  // footnotes that would start beside the box or the contents move down below them
+  function clearNotes() { moved.forEach(function (el) { el.style.position = ""; el.style.top = ""; }); moved = []; }
+  function pushNotes() {
+    clearNotes();
+    if (mode !== "wide") return;
     var notes = [].slice.call(document.querySelectorAll("main .column-margin, main .margin-aside, main aside"));
-    var realToc = side.querySelector("nav#TOC");                    // the list of sections sits below the box
+    var realToc = side.querySelector("nav#TOC");
     var floor = boxBottom() + (realToc ? realToc.offsetHeight + 28 : 0);
     notes.map(function (el) { return { el: el, top: el.getBoundingClientRect().top + window.scrollY, h: el.offsetHeight }; })
       .sort(function (a, b) { return a.top - b.top; })
-      .forEach(function (o) { if (o.h > 0 && o.top < floor) { o.el.style.position = "relative"; o.el.style.top = (floor - o.top) + "px"; floor = floor + o.h + 12; } });
-    toc();
-  });
+      .forEach(function (o) {
+        if (o.h > 0 && o.top < floor) { o.el.style.position = "relative"; o.el.style.top = (floor - o.top) + "px"; moved.push(o.el); floor += o.h + 12; }
+      });
+  }
+
+  function layout() {
+    var want = isWide() ? "wide" : "narrow";
+    if (want !== mode) {
+      mode = want;
+      if (mode === "wide") {                         // out of the text, onto its own layer
+        box.classList.remove("at-top"); box.classList.add("in-margin"); opts.ratio = 0.9;
+        document.body.appendChild(box);
+      } else {                                       // phones and narrow windows: right under the lecture title
+        box.classList.remove("in-margin"); box.classList.add("at-top"); opts.ratio = 0.62;
+        box.style.left = box.style.top = box.style.width = "";
+        if (head && head.parentNode) head.parentNode.insertBefore(box, head.nextSibling); else main.insertBefore(box, main.firstChild);
+      }
+      if (box.querySelector("canvas")) window.dispatchEvent(new Event("resize"));   // let the graph redraw at its new size
+    }
+    place();
+    if (ready) { toc(); pushNotes(); toc(); } else toc();
+  }
+
+  layout();
+  window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n, opts);
+  (window.__whenReady || function (f) { f(); })(function () { ready = true; layout(); });
   window.addEventListener("scroll", toc, { passive: true });
-  window.addEventListener("resize", function () { place(); toc(); });
-  toc();
+  var rt; window.addEventListener("resize", function () { place(); toc(); clearTimeout(rt); rt = setTimeout(layout, 150); });
+  if ("ResizeObserver" in window) new ResizeObserver(function () { clearTimeout(rt); rt = setTimeout(layout, 150); }).observe(main);
 });
 </script>
 <style>
@@ -469,7 +490,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .orbit-caption.on { opacity: 0.95; }
 /* phones and narrow windows: the box sits right under the lecture title */
 .orbit-box.at-top { max-width: 420px; margin: 0.4rem 0 1.6rem; }
-.orbit-box.in-margin { position: absolute; z-index: 900; margin: 0; }
+.orbit-box.in-margin { position: absolute; z-index: 1100; margin: 0; }
 </style>
 <!-- page turning between chapters, hinged on the left like a book's spine -->
 <script>
