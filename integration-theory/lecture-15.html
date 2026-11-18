@@ -320,10 +320,10 @@ ul.task-list li input[type="checkbox"] {
       if (visible) requestAnimationFrame(frame); else last = 0;
     }
     function clampP(p) { return Math.max(0.05, Math.min(1.5, p)); }
-    function pick(x, y) {
-      var best = null, bd = 1e9;
+    function pick(x, y, slack) {
+      var best = null, bd = 1e9, s = slack == null ? 7 : slack;      // fingers get a much larger target
       bodies.forEach(function (b) { if (!b.q) return; var d = Math.hypot(b.q.x - x, b.q.y - y);
-        if (d < b.rr + 7 && d < bd) { bd = d; best = b; } });
+        if (d < b.rr + s && d < bd) { bd = d; best = b; } });
       return best;
     }
     function setHover(b) {
@@ -336,7 +336,7 @@ ul.task-list li input[type="checkbox"] {
     function xy(ev) { var r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
     cv.style.cursor = "grab";
     cv.addEventListener("pointerdown", function (ev) {
-      var p = xy(ev), b = pick(p[0], p[1]);
+      var p = xy(ev), b = pick(p[0], p[1], ev.pointerType === "mouse" ? 7 : 20);
       drag = { x: p[0], y: p[1], x0: p[0], y0: p[1], moved: false, tp: ev.pointerType, on: b };
       vyaw = vpitch = 0;
       if (b) { grab = b; b.off.vx = b.off.vy = 0; }
@@ -347,7 +347,7 @@ ul.task-list li input[type="checkbox"] {
       if (pinch) return;
       if (!drag) { setHover(pick(p[0], p[1])); return; }
       var dx = p[0] - drag.x, dy = p[1] - drag.y; drag.x = p[0]; drag.y = p[1];
-      if (Math.hypot(p[0] - drag.x0, p[1] - drag.y0) > 4) drag.moved = true;
+      if (Math.hypot(p[0] - drag.x0, p[1] - drag.y0) > (drag.tp === "mouse" ? 4 : 12)) drag.moved = true;
       if (!drag.moved) return;
       if (grab) { grab.off.x += dx; grab.off.y += dy; grab.off.vx = dx * 60; grab.off.vy = dy * 60; setHover(grab); cv.style.cursor = "grabbing"; }
       else { setHover(null); cv.style.cursor = "grabbing"; vyaw = dx * 0.012; vpitch = dy * 0.008; yaw += vyaw; pitch = clampP(pitch + vpitch); }
@@ -358,7 +358,12 @@ ul.task-list li input[type="checkbox"] {
       if (g) { g.off.vx = Math.max(-600, Math.min(600, g.off.vx)); g.off.vy = Math.max(-600, Math.min(600, g.off.vy)); }
       cv.style.cursor = hover ? "pointer" : "grab";
       if (!d.moved && d.on) {
-        if (d.tp !== "mouse" && hover !== d.on) { setHover(d.on); return; }     // touch: first tap names it
+        var go = d.on;
+        if (d.tp !== "mouse") {                       // touch: name the lecture for a moment, then turn to it
+          setHover(go);
+          setTimeout(function () { if (opts.onOpen) opts.onOpen(go.p.l.n); else if (window.__turnTo) window.__turnTo(go.p.l.href); else window.location.href = go.p.l.href; }, 260);
+          return;
+        }
         if (opts.onOpen) opts.onOpen(d.on.p.l.n); else if (window.__turnTo) window.__turnTo(d.on.p.l.href); else window.location.href = d.on.p.l.href;
       } else if (!d.moved) setHover(null);
     }
@@ -777,6 +782,7 @@ html { background: var(--bs-body-bg, #fff); }
     });
     return w;
   }
+  var touchy = !!(window.matchMedia && matchMedia("(hover: none) and (pointer: coarse)").matches), lastRange = null;
   function hideBar() { if (bar) bar.hidden = true; }
   function showBar(rect) {
     if (!bar) {
@@ -786,8 +792,11 @@ html { background: var(--bs-body-bg, #fff); }
       cm.addEventListener("mousedown", function (e) { e.preventDefault(); });
       cm.addEventListener("click", function () { create("yellow", true); });
       bar.appendChild(cm); document.body.appendChild(bar);
+      bar.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") e.preventDefault(); });
+      if (touchy) bar.classList.add("docked");
     }
     bar.hidden = false;
+    if (touchy) return;              // phones: docked at the bottom of the screen, clear of the system copy/paste menu
     var x = rect.left + rect.width / 2 + scrollX - bar.offsetWidth / 2, y = rect.top + scrollY - bar.offsetHeight - 10;
     if (rect.top < 70) y = rect.bottom + scrollY + 10;
     bar.style.left = Math.max(8 + scrollX, Math.min(x, scrollX + innerWidth - bar.offsetWidth - 8)) + "px"; bar.style.top = y + "px";
@@ -802,7 +811,7 @@ html { background: var(--bs-body-bg, #fff); }
     return r;
   }
   function create(color, withNote) {
-    var r = selectionInMain(); if (!r) return hideBar();
+    var r = selectionInMain() || lastRange; lastRange = null; if (!r) return hideBar();
     var m = textNodes(), a = toOffset(m, r.startContainer, r.startOffset), b = toOffset(m, r.endContainer, r.endOffset);
     var t = fullText(m), quote = t.slice(a, b);
     if (!quote.trim()) return hideBar();
@@ -943,7 +952,15 @@ html { background: var(--bs-body-bg, #fff); }
       (data.hl.length ? '<span class="ann-count">' + data.hl.length + '</span>' : "");
     fab.addEventListener("click", togglePanel); document.body.appendChild(fab);
     var up = function () { setTimeout(function () { var r = selectionInMain(); if (r) showBar(r.getBoundingClientRect()); else hideBar(); }, 10); };
-    document.addEventListener("mouseup", up); document.addEventListener("touchend", up);
+    if (touchy) {                    // phones: follow the selection itself, since its handles are dragged
+      var hideT;
+      document.addEventListener("selectionchange", function () {
+        clearTimeout(hideT);
+        var r = selectionInMain();
+        if (r) { lastRange = r.cloneRange(); showBar(r.getBoundingClientRect()); }
+        else hideT = setTimeout(function () { lastRange = null; hideBar(); }, 400);
+      });
+    } else { document.addEventListener("mouseup", up); }
     document.addEventListener("keyup", function (e) { if (e.shiftKey || e.key === "Shift") up(); });
     document.addEventListener("click", function (e) {
       var t = e.target.closest && e.target.closest("[data-ann]");
@@ -976,6 +993,11 @@ mark.ann-hl.has-note { text-decoration: underline dotted; text-underline-offset:
   box-shadow: 0 8px 24px -8px rgba(0,0,0,0.3); }
 .ann-bar { display: flex; align-items: center; gap: 10px; padding: 5px 8px; }
 .ann-swatches { display: inline-flex; gap: 6px; }
+.ann-bar.docked { position: fixed; left: calc(50% - 28px) !important; top: auto !important; transform: translateX(-50%);
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px)); gap: 14px; padding: 9px 14px; border-radius: 0; }
+.ann-bar.docked .ann-swatches { gap: 12px; }
+.ann-bar.docked .ann-sw { width: 28px; height: 28px; }
+.ann-bar.docked .ann-txt { font-size: 16px; padding: 4px 6px; }
 .ann-sw { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(128,128,128,0.45); padding: 0; cursor: pointer; background: var(--ann-yellow); }
 .ann-sw[data-color="green"] { background: var(--ann-green); } .ann-sw[data-color="blue"] { background: var(--ann-blue); } .ann-sw[data-color="pink"] { background: var(--ann-pink); }
 .ann-sw.on { outline: 2px solid currentColor; outline-offset: 1px; }
