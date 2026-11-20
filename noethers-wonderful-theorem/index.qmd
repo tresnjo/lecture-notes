@@ -1,0 +1,26 @@
+# Preface {.unnumbered}
+
+These notes are a self-study of the book ***Emmy Noether's Wonderful Theorem*** by Dwight E. Neuenschwander. They contain my main summaries from each chapter, together with my solutions to some of his exercises and a few discussions of my own along the way.
+
+The book builds up to Noether's theorem, the statement that every continuous symmetry of a physical theory comes with a conserved quantity, and then explores its consequences in mechanics and field theory.
+
+## Chapters
+
+**Chapter 1 — Introduction to Symmetries**
+: What a symmetry is · Galilean and Poincaré invariance · A first link between translation symmetry and momentum conservation · Invariance versus conservation · Covariance
+
+**Chapter 2 — Functionals**
+: Functionals as maps from paths to numbers · The action and the Lagrangian · Fermat's principle · Exercises on path-dependent functionals and Hamilton's principle
+
+More chapters will be added as I read on.
+
+## Notation
+
+| Symbol | Meaning |
+|--------|---------|
+| $\mathbf r,\ \mathbf p$ | Position and momentum vectors |
+| $\dot q = dq/dt$ | Time derivative |
+| $q^\mu(t),\ \mu = 1,\ldots,N$ | Generalized coordinates |
+| $L(q^\mu, \dot q^\mu, t)$ | Lagrangian |
+| $S[q^\mu]$ | Action functional, with square brackets for the argument of a functional |
+| $C^2([a,b], \mathbb R^N)$ | Twice continuously differentiable paths $[a,b] \to \mathbb R^N$ |

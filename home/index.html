@@ -69,6 +69,8 @@
 
   /* the shelf */
   .shelf { position: relative; }
+  .shelf-group + .shelf-group { margin-top: 3.6rem; }
+  .shelf-label { margin: 0 0 1.1rem; font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
   .books { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 3px;
            padding: 0 12px; min-height: 270px; z-index: 1; }
   .plank { position: relative; height: 16px; background: var(--shelf-top); border-radius: 2px 2px 0 0;
@@ -168,7 +170,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.45) transparen
 <header><div class="wrap">
   <div>
     <h1>Lecture notes</h1>
-    <p>Notes from the university courses I have taken</p>
+    <p>Notes from the university courses I have taken and the books I am reading</p>
   </div>
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between light and dark mode">
     <svg id="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
@@ -177,11 +179,8 @@ html { scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.45) transparen
 <main><div class="wrap">
   <p class="count" id="count">8 VOLUMES</p>
   <p class="hint">Hover over a book to see what it is, and pick one to open it.</p>
-  <div class="shelf">
-    <div class="books" id="books"></div>
-    <div class="plank" aria-hidden="true"></div>
-    <div class="card" id="card" aria-hidden="true"></div>
-  </div>
+  <div id="shelves"></div>
+  <div class="card" id="card" aria-hidden="true"></div>
 </div></main>
 </div>
 
@@ -199,14 +198,30 @@ html { scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.45) transparen
     { slug: "gravitation-and-cosmology", title: "Gravitation and Cosmology", lectures: 0, color: "#5a4a36", ink: "#eee3c8", h: 250 },
     { slug: "conceptual-foundations-of-general-relativity", title: "Foundations of General Relativity",
       full: "Conceptual Foundations of General Relativity", lectures: 0, color: "#4c5a6b", ink: "#ece4cf", h: 266 },
-    { slug: "astroparticle-physics", title: "Astroparticle Physics", lectures: 0, color: "#8a6a2c", ink: "#f6ecd2", h: 240 }
+    { slug: "astroparticle-physics", title: "Astroparticle Physics", lectures: 0, color: "#8a6a2c", ink: "#f6ecd2", h: 240 },
+    { slug: "noethers-wonderful-theorem", shelf: "reading", title: "Emmy Noether's Wonderful Theorem",
+      full: "Notes from Emmy Noether's Wonderful Theorem", code: "D. E. NEUENSCHWANDER", foot: "D.E.N.", lectures: 2,
+      meta: ["Self-study of the book by Dwight E. Neuenschwander", "Chapter summaries and exercise solutions · 2 chapters"],
+      color: "#4a2545", ink: "#efdfc4", h: 270 }
+  ];
+  // one shelf per kind of notes
+  var SHELVES = [
+    { id: "courses", label: "University courses" },
+    { id: "reading", label: "Reading notes" }
   ];
   COURSES.forEach(function (c) { c.w = Math.min(76, 36 + 2 * (c.lectures || 0)); });
   var HREF = function (c) { return c.slug + "/"; };   // folders on GitHub Pages
 </script>
 <script>
   (function () {
-    var books = document.getElementById("books"), card = document.getElementById("card"), shelf = books.parentNode;
+    var root = document.getElementById("shelves"), card = document.getElementById("card"), rows = {};
+    SHELVES.forEach(function (s) {
+      if (!COURSES.some(function (c) { return (c.shelf || "courses") === s.id; })) return;
+      var g = document.createElement("section"); g.className = "shelf-group"; g.setAttribute("aria-label", s.label);
+      g.innerHTML = '<p class="shelf-label">' + s.label + '</p><div class="shelf"><div class="books"></div><div class="plank" aria-hidden="true"></div></div>';
+      root.appendChild(g); rows[s.id] = g.querySelector(".books");
+    });
+    var books = root;
     document.getElementById("count").textContent = COURSES.length + " VOLUMES";
     function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
     function fill(c) {
@@ -220,6 +235,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.45) transparen
     var shown = null;
     function show(el, c) {
       if (shown === el) return; shown = el; fill(c);
+      var shelf = el.closest(".shelf"); if (card.parentNode !== shelf) shelf.appendChild(card);
       var s = shelf.getBoundingClientRect(), b = el.getBoundingClientRect();
       var w = Math.min(270, s.width - 16), x = b.left - s.left + b.width / 2 - w / 2;
       x = Math.max(8, Math.min(s.width - w - 8, x));
@@ -235,7 +251,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.45) transparen
       a.style.setProperty("--c", c.color); a.style.setProperty("--ink", c.ink);
       a.style.setProperty("--h", c.h + "px"); a.style.setProperty("--w", c.w + "px");
       a.setAttribute("aria-label", (c.full || c.title) + (c.meta ? ", " + c.meta.join(", ") : ", notes coming soon"));
-      a.innerHTML = '<span class="spine"><span>' + esc(c.title) + '</span></span><span class="foot">' + (c.code ? esc(c.code.split(" ")[0]) : "") + "</span>";
+      a.innerHTML = '<span class="spine"><span>' + esc(c.title) + '</span></span><span class="foot">' + esc(c.foot != null ? c.foot : (c.code ? c.code.split(" ")[0] : "")) + "</span>";
       a.addEventListener("mouseenter", function () { if (!opening) show(a, c); });
       a.addEventListener("mouseleave", hide);
       a.addEventListener("focus", function () { show(a, c); });
@@ -257,7 +273,7 @@ html { scrollbar-width: thin; scrollbar-color: rgba(128,128,128,0.45) transparen
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !Element.prototype.animate) { go(); return; }
         openBook(a, c, go);
       });
-      books.appendChild(a);
+      rows[c.shelf || "courses"].appendChild(a);
     });
     function fit() {
       [].forEach.call(books.querySelectorAll("a.book .spine"), function (sp) {
