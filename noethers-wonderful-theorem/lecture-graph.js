@@ -1,0 +1,1 @@
+window.LECTURE_GRAPH = {"lectures": [{"n": 1, "title": "Introduction to Symmetries", "href": "lecture-01.html", "part": "Noether's theorem", "results": 4}, {"n": 2, "title": "Functionals", "href": "lecture-02.html", "part": "Noether's theorem", "results": 2}], "edges": [{"from": 2, "to": 1, "w": 5, "via": ["invariance", "conservation laws"]}]};

@@ -1,0 +1,122 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Notes from Emmy Noether’s Wonderful Theorem",
+    "section": "",
+    "text": "Preface\nThese notes are a self-study of the book Emmy Noether’s Wonderful Theorem by Dwight E. Neuenschwander. They contain my main summaries from each chapter, together with my solutions to some of his exercises and a few discussions of my own along the way.\nThe book builds up to Noether’s theorem, the statement that every continuous symmetry of a physical theory comes with a conserved quantity, and then explores its consequences in mechanics and field theory.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#chapters",
+    "href": "index.html#chapters",
+    "title": "Notes from Emmy Noether’s Wonderful Theorem",
+    "section": "Chapters",
+    "text": "Chapters\n\nChapter 1 — Introduction to Symmetries\n\nWhat a symmetry is · Galilean and Poincaré invariance · A first link between translation symmetry and momentum conservation · Invariance versus conservation · Covariance\n\nChapter 2 — Functionals\n\nFunctionals as maps from paths to numbers · The action and the Lagrangian · Fermat’s principle · Exercises on path-dependent functionals and Hamilton’s principle\n\n\nMore chapters will be added as I read on.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#notation",
+    "href": "index.html#notation",
+    "title": "Notes from Emmy Noether’s Wonderful Theorem",
+    "section": "Notation",
+    "text": "Notation\n\n\n\n\n\n\n\nSymbol\nMeaning\n\n\n\n\n\\(\\mathbf r,\\ \\mathbf p\\)\nPosition and momentum vectors\n\n\n\\(\\dot q = dq/dt\\)\nTime derivative\n\n\n\\(q^\\mu(t),\\ \\mu = 1,\\ldots,N\\)\nGeneralized coordinates\n\n\n\\(L(q^\\mu, \\dot q^\\mu, t)\\)\nLagrangian\n\n\n\\(S[q^\\mu]\\)\nAction functional, with square brackets for the argument of a functional\n\n\n\\(C^2([a,b], \\mathbb R^N)\\)\nTwice continuously differentiable paths \\([a,b] \\to \\mathbb R^N\\)",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html",
+    "href": "lecture-01.html",
+    "title": "1  Introduction to Symmetries",
+    "section": "",
+    "text": "What is a symmetry?\nA symmetry can, qualitatively speaking, be thought of as a transformation which leaves a physical system unchanged. A simple example of a symmetry is rotating a ball in 3D space, or some 2D shape which is symmetric under reflections along some axis, like a square.\nWhat is considered a symmetry is also theory-dependent. For example, in the theory of Newtonian mechanics, one of the three axioms is Newton’s second law, which relates the acceleration experienced by a material object to the total external force acting on it: \\[m \\ddot{\\mathbf{r}} = \\mathbf{F}. \\tag{1.1}\\] In the forceless case \\(\\mathbf{F} = 0\\), the equation is left invariant by any spatial transformation of the form \\[\\mathbf{r}' = \\underbrace{R}_{\\text{rotation}}\\,\\mathbf{r} - \\underbrace{\\mathbf{v}t}_{\\text{boost}} + \\underbrace{\\mathbf{a}}_{\\text{translation}}, \\tag{1.2}\\] where the second contribution is the transformation between coordinates of two reference frames that only differ by a constant relative motion. The equation is also left invariant under the time translation \\[t' = t + s.\\]\nIn total, there are 10 free parameters which describe the full symmetry of this equation: 3 for rotations,1 3 for boosts since the velocity vector is 3-dimensional, 3 for spatial translations, and 1 for time translation. This symmetry of Newtonian mechanics goes under the name of Galilean invariance. In the theory of special relativity, Galilean invariance is replaced by Poincaré invariance (which we will discuss later).\nIn these notes, we will learn that each symmetry of a theory is related to some conservation law. Translation invariance in space is related to conservation of momentum, whereas translation invariance in time is related to conservation of energy. This goes under the more general name of Noether’s theorem.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Symmetries</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#what-is-a-symmetry",
+    "href": "lecture-01.html#what-is-a-symmetry",
+    "title": "1  Introduction to Symmetries",
+    "section": "",
+    "text": "NoteDefinition 1.1 (Symmetry).\n\n\n\nA symmetry of a physical system is a transformation which leaves the system unchanged.\n\n\n\n\n\n\n\n\n\nFigure 1.1: The same point \\(P\\) seen from two frames. \\(S'\\) is rotated relative to \\(S\\), its origin is shifted, and it moves with constant velocity \\(\\mathbf v\\). In the absence of forces, Newton’s second law takes the same form in both frames.\n\n\n\n\n1 A rotation is always defined with respect to an axis. An axis is defined as normal to a plane spanned by two basis vectors, and in 3-dimensional space there are \\(\\binom{3}{2} = 3\\) ways to choose such a plane.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Symmetries</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#a-first-simple-example",
+    "href": "lecture-01.html#a-first-simple-example",
+    "title": "1  Introduction to Symmetries",
+    "section": "A first simple example",
+    "text": "A first simple example\nFor a conservative force field, we have \\(\\mathbf{F} = -\\nabla V(\\mathbf{r})\\), and thus Newton’s law (1.1) reduces to \\[\\dot{\\mathbf{p}} = -\\nabla V(\\mathbf{r}). \\tag{1.3}\\] Now apply an infinitesimal spatial translation \\(\\mathbf{r} \\to \\mathbf{r} + \\boldsymbol{\\epsilon}\\) and perform a Taylor expansion of the potential: \\[V(\\mathbf{r} + \\boldsymbol{\\epsilon}) = V(\\mathbf{r}) + \\boldsymbol{\\epsilon} \\cdot \\nabla V(\\mathbf{r}) + \\mathcal{O}(\\epsilon^2).\\] Under this translation, the change in the potential is, to first order in \\(\\epsilon\\), \\[\\delta V = \\boldsymbol{\\epsilon} \\cdot \\nabla V(\\mathbf{r}).\\] If the physics remains the same under translations in every direction \\(\\boldsymbol\\epsilon\\), we must have \\(\\delta V = 0\\), which holds if and only if \\(\\nabla V = 0\\), which by (1.3) in turn implies that momentum is conserved. Therefore, translation symmetry of the potential is related to conservation of momentum. This makes sense: if there is no gradient of the underlying force field, it looks the same everywhere, and there is no preferred direction for a force to act.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Symmetries</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#invariance-and-conservation",
+    "href": "lecture-01.html#invariance-and-conservation",
+    "title": "1  Introduction to Symmetries",
+    "section": "Invariance and conservation",
+    "text": "Invariance and conservation\n\n\n\n\n\n\nNoteDefinition 1.2 (Invariance).\n\n\n\nA quantity is invariant under a transformation if its numerical value is unchanged by that transformation. Invariance compares quantities between reference frames.\n\n\n\n\n\n\n\n\nNoteDefinition 1.3 (Conservation).\n\n\n\nA quantity is conserved during a process if its value does not change throughout that process. Conservation compares a quantity before and after a process within a fixed frame.\n\n\nNoether’s theorem relates conservation laws to invariance, and thereby to symmetries. In the following example, we highlight the distinction between invariance and conservation.\n\n\n\n\n\n\nCautionExample (Threshold energy for \\(p + p \\rightarrow 3p + \\bar{p}\\)).\n\n\n\nProblem. A proton of mass \\(m\\) with kinetic energy \\(K\\) strikes a proton at rest in the lab frame. Find the minimal threshold energy \\(K_\\text{th}\\) to induce the reaction \\(p + p \\rightarrow 3p + \\bar{p}\\).\nIn solving this problem, we make use of the fact that conservation of 4-momentum means the quantity \\(E^2 - p^2c^2\\) is preserved during the process, and Lorentz invariance means it takes the same value in all inertial frames. We will compute the quantity in both the lab frame and the centre of mass frame.\nLab frame. The total energy of the two particles before the collision is \\(K + mc^2\\) for the moving proton and \\(mc^2\\) for the stationary proton. The total momentum is simply the momentum \\(p\\) of the moving particle, with \\(p^2c^2 = (K + mc^2)^2 - m^2c^4\\): \\[E_\\text{tot}^2 - p_\\text{tot}^2c^2 = (K+2mc^2)^2 - p^2c^2 = 4m^2c^4 + 2Kmc^2. \\tag{1.4}\\]\nCM frame at threshold. The total momentum is zero by definition. At threshold, none of the original kinetic energy goes into kinetic energy of the products. It is instead entirely converted into the rest energy of the three protons and the single antiproton, with total rest energy \\(4mc^2\\): \\[E_\\text{tot}^2 - p_\\text{tot}^2c^2 = (4mc^2)^2 = 16m^2c^4. \\tag{1.5}\\]\nSince the quantity is Lorentz invariant, we equate (1.4) and (1.5), which gives \\(2Kmc^2 = 12m^2c^4\\), so the threshold energy is \\(K_\\text{th} = 6mc^2\\).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Symmetries</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#covariance",
+    "href": "lecture-01.html#covariance",
+    "title": "1  Introduction to Symmetries",
+    "section": "Covariance",
+    "text": "Covariance\nBefore proceeding, we also have to discuss the concept of covariance. Returning to (1.1), it is important to stress that \\(\\mathbf{F} = m\\mathbf{a}\\) is a relation between two abstract vectors \\(\\mathbf{a}\\) (acceleration) and \\(\\mathbf{F}\\) (force) and a scalar \\(m\\).2 A vector is simply an element of an abstract vector space, and one cannot speak of its components without first introducing a basis. A basis, in turn, defines a coordinate system: a useful construct for solving problems, but not part of the physics itself.\n2 It is difficult not to read \\(\\mathbf{F} = m\\mathbf{a}\\) as a statement about vectors in three-dimensional space, and indeed, knowing the space is three-dimensional already implies something about the basis: the dimension of a vector space is defined as the cardinality of a basis. So in naming the dimension we have implicitly acknowledged that a basis exists, even if we have not chosen one explicitly. The notion of a basis typically introduced in introductory linear algebra courses is a so-called Hamel basis: a subset \\(B\\subseteq V\\) is a (Hamel) basis if (1) every finite \\(\\{e_1,\\ldots,e_n\\} \\subseteq B\\) is linearly independent, i.e. \\(\\sum_{i=1}^n \\lambda_i e_i = 0\\) iff \\(\\lambda_i=0\\) for all \\(i\\), and (2) for every \\(v\\in V\\) there is a finite subset \\(\\{e_1,\\ldots,e_n\\}\\subseteq B\\) and complex numbers \\(v_1,\\ldots,v_n\\) such that \\(v=\\sum_{i=1}^n v_i e_i\\) (based on this lecture).\n\n\n\n\n\nNoteDefinition 1.4 (Covariance).\n\n\n\nAn equation is covariant if it takes the same form in all reference frames, i.e. it is independent of the choice of coordinate system.\n\n\nIf we aim to write physical laws that transcend a specific choice of coordinate system (which we do, since the equations governing the universe should hold irrespective of our coordinate choice), we must write them in a covariant way. For example, in Cartesian coordinates the equation reads \\[m\\ddot{x} = F_x, \\quad m\\ddot{y} = F_y, \\quad m\\ddot{z} = F_z,\\] while in polar coordinates the same law takes the form \\[m(\\ddot{r} - r\\dot{\\theta}^2) = F_r, \\quad m(r\\ddot{\\theta} + 2\\dot{r}\\dot{\\theta}) = F_\\theta.\\] The components look different, but both sets of equations express the one coordinate-free statement \\(m\\mathbf a = \\mathbf F\\).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Symmetries</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-02.html",
+    "href": "lecture-02.html",
+    "title": "2  Functionals",
+    "section": "",
+    "text": "Functionals and the action\nAs we will see shortly, the quantities whose invariance leads to conservation laws are called functionals. We define a functional more formally below.\nIn what follows, \\(V\\) will represent a space of functions and we will take the field to be \\(\\mathbb R\\). This will allow us to map functions (or if you will, curves) to real numbers.\nIt will become clearer later why we require the \\(q^\\mu\\) to be twice differentiable. To spoil it for the reader: a Lagrangian depending on up to \\(k\\)-th order time derivatives yields equations of motion (to be defined later) involving derivatives of order up to \\(2k\\). Since we will take \\(L\\) to depend on \\(q^\\mu\\) and \\(\\dot{q}^\\mu\\) only, the resulting equations involve at most second-order time derivatives, which is the typical situation in physics.1\nSo far, the functional seems rather abstract, and we will postpone our discussion of the Lagrangian for now. To get a better feeling for the purpose of a functional, we consider some examples.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Functionals</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-02.html#functionals-and-the-action",
+    "href": "lecture-02.html#functionals-and-the-action",
+    "title": "2  Functionals",
+    "section": "",
+    "text": "NoteDefinition 2.1 (Functional).\n\n\n\nA functional \\(F\\) is a map \\(F: V\\rightarrow \\mathbb F\\) from some vector space \\(V\\) to some field \\(\\mathbb F\\).\n\n\n\n\n\n\n\n\n\nNoteDefinition 2.2 (Action and Lagrangian).\n\n\n\nLet \\(V\\) be the space of twice continuously differentiable paths \\[C^2([a,b],\\, \\mathbb{R}^N) = \\bigl\\{\\, q : [a,b] \\to \\mathbb{R}^N \\;\\big|\\; q \\text{ is twice continuously differentiable}\\,\\bigr\\},\\] where \\(t \\in [a,b]\\) is time, and \\(q^\\mu(t)\\), \\(\\mu = 1,\\ldots, N\\), denotes \\(N\\) dependent variables (which we will later refer to as generalized coordinates). The functional \\(S: C^2([a,b], \\mathbb{R}^N) \\to \\mathbb{R}\\) is given by \\[S[q^\\mu] = \\int_a^b L\\bigl(q^\\mu(t),\\, \\dot{q}^\\mu(t),\\, t\\bigr)\\, dt, \\tag{2.1}\\] where the integrand \\(L : \\mathbb{R}^N \\times \\mathbb{R}^N \\times \\mathbb{R} \\to \\mathbb{R}\\) is called the Lagrangian.\n\n\n\n1 There are exceptions to this, and higher-derivative theories do exist. A notable example is the Lorentz–Abraham–Dirac force: a charged particle undergoing acceleration emits electromagnetic radiation, and the recoil from this radiation acts back on the particle itself. It turns out that the equation governing the position of this particle involves the jerk of the position (the third-order time derivative).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Functionals</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-02.html#fermats-principle",
+    "href": "lecture-02.html#fermats-principle",
+    "title": "2  Functionals",
+    "section": "Fermat’s principle",
+    "text": "Fermat’s principle\n\n\n\n\n\n\nCautionExample (Light travelling through a medium).\n\n\n\nConsider light travelling through a medium with refractive index \\(n(\\mathbf{r})\\), where \\(c\\) is the speed of light in vacuum, so that the local speed of light in the medium is \\(c/n(\\mathbf{r})\\). It turns out that the path light takes is the one that minimises the travel time. To each curve \\(\\gamma\\) connecting two fixed points in space we can associate the travel time \\[T[\\gamma] = \\frac{1}{c}\\int_\\gamma n(\\mathbf{r})\\, ds, \\tag{2.2}\\] where \\(ds\\) is the arc length element along \\(\\gamma\\). The actual path of light is the one that minimises \\(T\\). This result is known as Fermat’s principle, and \\(T\\) is an example of a functional: it takes a whole curve as input and returns a single number.\n\n\n\n\n\n\n\n\nFigure 2.1: Every curve \\(\\gamma\\) from \\(A\\) to \\(B\\) gets a travel time \\(T[\\gamma]\\). Light follows the one with the least travel time: straight in each medium, bent at the interface according to Snell’s law.\n\n\n\nFor two uniform media, the functional (2.2) becomes easy to work with. Within each medium \\(n\\) is constant, so the fastest path is straight there, and the only freedom left is where the path crosses the interface. The functional then reduces to an ordinary function \\(T(x)\\) of the crossing point \\(x\\), and setting \\(T'(x) = 0\\) gives Snell’s law \\(n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2\\). You can find this minimum by hand below.\n\n\n\n\n\n\n\nFigure 2.2: Interactive: drag the crossing point (or the point on the curve) to change the path from \\(A\\) to \\(B\\). The right panel shows the travel time of each path; at its minimum, \\(n_1\\sin\\theta_1 = n_2\\sin\\theta_2\\).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Functionals</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-02.html#exercises",
+    "href": "lecture-02.html#exercises",
+    "title": "2  Functionals",
+    "section": "Exercises",
+    "text": "Exercises\nTo conclude this relatively short chapter, we work through some problems from the book.\n\n\n\n\n\n\nCautionExercise Q2.a (When are these functionals non-trivial?).\n\n\n\nWhen are the following functionals non-trivial, that is, when does their value depend on the full path rather than just the endpoints?\n(a) Mechanical work as a particle moves from position \\(\\mathbf{a}\\) to position \\(\\mathbf{b}\\), acted upon by force \\(\\mathbf{F}\\): \\[W = \\int_{\\mathbf a}^{\\mathbf b} \\mathbf{F} \\cdot d\\mathbf{r}.\\]\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nFor non-conservative force fields, the work becomes path-dependent. For conservative force fields, the work depends only on the endpoints.\n\n\n\n(b) The voltage induced by Faraday’s law, \\(\\oint_\\mathcal{C} \\mathbf{E} \\cdot d\\mathbf{r}\\), where \\(\\mathbf{E}\\) is the electric field and \\(\\mathcal{C}\\) a closed path.\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nSame as in (a). \\(\\mathbf{E}\\) is conservative if and only if \\(\\nabla \\times \\mathbf{E} = 0\\), which by Faraday’s law \\(\\nabla\\times\\mathbf E = -\\partial_t\\mathbf B\\) holds exactly when \\(\\partial_t \\mathbf{B} = 0\\). So once \\(\\partial_t \\mathbf{B} \\neq 0\\), the integral is a non-trivial functional.\n\n\n\n(c) The flux of an electric, magnetic, or gravitational vector field through a specific surface.\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nThe flux is \\(\\Phi = \\int_S \\mathbf{F} \\cdot d\\mathbf{S}\\) over some surface \\(S\\). If \\(\\nabla \\cdot \\mathbf{F} = 0\\), the flux depends only on the boundary of \\(S\\) by Gauss’s theorem. So it is only a non-trivial functional whenever \\(\\nabla \\cdot \\mathbf{F} \\neq 0\\).\n\n\n\n\n\n\n\n\n\n\n\nCautionExercise Q2.c (Functionals that are not definite integrals).\n\n\n\nConstruct one or more functionals that are not definite integrals.\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nTwo examples: \\(S[f] := \\sup_{t \\in [a,b]} f(t)\\), which returns the maximum value of \\(f\\) on the interval, and \\(S[f] := \\#\\{t \\in [a,b] \\mid f(t) = 0\\}\\), which counts the number of zeros of \\(f\\).\n\n\n\n\n\n\n\n\n\n\n\nCautionExercise 2.2 (Hamilton’s principle).\n\n\n\nAccording to Hamilton’s principle, the action functional \\[\\Gamma = \\int_0^T (K - U)\\, dt, \\tag{2.3}\\] when minimized, determines the particle’s trajectory. Define the total mechanical energy \\(E = K + U\\) and the kinetic energy \\(K = \\frac{1}{2}m\\dot{x}^2\\).\n(b) Show that \\(\\Gamma = \\displaystyle\\int_{x(0)}^{x(T)} p\\, dx - \\int_0^T E\\, dt\\), where \\(p = m\\dot x\\).\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nSince \\(K - U = 2K - E\\), we have \\(\\Gamma = \\int_0^T 2K\\,dt - \\int_0^T E\\,dt\\). Since \\(p = m\\dot{x}\\), we have \\(2K = p\\dot{x}\\), so \\[\\int_0^T 2K\\,dt = \\int_0^T p\\dot{x}\\,dt = \\int_{x(0)}^{x(T)} p\\,dx\\] by substituting \\(dx = \\dot{x}\\,dt\\).\n\n\n\n(c) Show that \\(p = \\dfrac{\\partial \\Gamma}{\\partial x}\\) and \\(E = -\\dfrac{\\partial \\Gamma}{\\partial t}\\).\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nDifferentiating with respect to the upper limit \\(x\\) gives \\(p\\) by the fundamental theorem of calculus, whereas differentiating with respect to the upper limit \\(t\\) gives \\(-E\\) from the second integral.\n\n\n\n(d) If \\(E = \\text{const.}\\), show that Hamilton’s principle reduces to \\(\\displaystyle\\int_{x(0)}^{x(T)} p\\, dx = \\min\\).\n\n\n\n\n\n\nNoteSolution\n\n\n\n\n\nIf \\(E = \\text{const.}\\), then \\(\\int_0^T E\\,dt = ET\\) is a constant independent of the path. Minimising \\(\\Gamma\\) in (2.3) therefore reduces to minimising \\(\\int_{x(0)}^{x(T)} p\\,dx\\) alone.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Functionals</span>"
+    ]
+  }
+]
