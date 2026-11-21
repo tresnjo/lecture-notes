@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-11-20">
+<meta name="dcterms.date" content="2026-11-21">
 
 <title>Gravitation and Cosmology</title>
 <style>
@@ -329,7 +329,10 @@ html { background: var(--bs-body-bg, #fff); }
 @media (max-width: 575.98px) { .shelf-back .txt { display: none; } .shelf-back { margin-right: 0.6rem; padding-right: 0.6rem; } }
 /* the table of contents always stays open in the right-hand column (never a dropdown) */
 #quarto-toc-toggle { display: none !important; }
-#quarto-margin-sidebar > * { opacity: 1 !important; overflow: visible !important; pointer-events: auto !important; }
+#quarto-margin-sidebar > * { opacity: 1 !important; overflow: visible !important; }
+/* the column itself lets clicks through to the footnotes beside it; only the contents list is clickable */
+#quarto-margin-sidebar, #quarto-margin-sidebar > * { pointer-events: none !important; }
+#quarto-margin-sidebar nav#TOC, #quarto-margin-sidebar nav#TOC * { pointer-events: auto !important; }
 #quarto-margin-sidebar { z-index: 1000 !important; }
 #quarto-margin-sidebar nav#TOC { background: var(--bs-body-bg, #fff); position: relative; z-index: 3; padding-top: 0.5rem; padding-bottom: 0.6rem; box-shadow: 0 -4rem 0 0 var(--bs-body-bg, #fff), 0 0.9rem 0.8rem -0.4rem var(--bs-body-bg, #fff); }
 </style>
@@ -981,7 +984,7 @@ html.from-shelf::after { content: "Lecture notes"; top: calc(50% + 0.9rem); font
     <div>
     <div class="quarto-title-meta-heading">Last edited</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 20, 2026</p>
+      <p class="date">November 21, 2026</p>
     </div>
   </div>
   

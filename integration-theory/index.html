@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-11-20">
+<meta name="dcterms.date" content="2026-11-21">
 
 <title>Integration Theory</title>
 <style>
@@ -157,7 +157,10 @@ ul.task-list li input[type="checkbox"] {
    that are connected to each other.
    Drag the background to rotate and tilt (with momentum). Drag a planet to pull it off its orbit;
    it springs back when released. Hover a planet to highlight its links, click it to open the lecture,
-   double-click the background to reset the view. */
+   double-click the background to reset the view.
+   Other books are other solar systems: when this lecture links to a lecture in another book (or is
+   linked from one), that book appears as a distant star with the linked lectures as its planets,
+   joined to this lecture by a dashed line. */
 (function () {
   var PART = {
     "Measure Theory": ["#e3a689", "#a9583a"],
@@ -192,13 +195,32 @@ ul.task-list li input[type="checkbox"] {
     rest = "";
     cap.textContent = rest;
     cv.setAttribute("role", "img");
-    cv.setAttribute("aria-label", "Lecture " + n + " " + label + ". Drag to rotate, drag a planet to move it.");
+    var others = {}; (G.external || []).forEach(function (e) { if (e.local === n) others[((G.books || {})[e.book] || { title: e.book }).title] = 1; });
+    var otherList = Object.keys(others);
+    cv.setAttribute("aria-label", "Lecture " + n + " " + label + (otherList.length ? "; linked with " + otherList.join(", ") : "") + ". Drag to rotate, drag a planet to move it.");
 
     // links between planets (Obsidian-style edges among the neighbours)
     var set = {}; list.forEach(function (p, i) { set[p.l.n] = i; });
     var links = [];
     G.edges.forEach(function (e) {
       if (e.from in set && e.to in set) links.push([set[e.from], set[e.to], e.w]);
+    });
+
+    // other books linked to or from this lecture: each one a distant solar system
+    var systems = [], sysBy = {};
+    (G.external || []).forEach(function (e) {
+      if (e.local !== n) return;
+      var s = sysBy[e.book];
+      if (!s) { s = sysBy[e.book] = { info: (G.books || {})[e.book] || { title: e.book, color: "#777777" }, items: [] }; systems.push(s); }
+      s.items.push(e);
+    });
+    var shrink = systems.length ? 0.64 : 1;
+    var extBodies = [];
+    systems.forEach(function (s, k) {
+      s.node = Math.PI / 2 - YAW0 + (k - (systems.length - 1) / 2) * 0.95; s.inc = 0;   // far side, top of the view
+      s.items.forEach(function (e, j) {
+        extBodies.push({ ext: e, s: s, a0: j * 2.399963 + k, r: 4.2, off: { x: 0, y: 0, vx: 0, vy: 0 } });
+      });
     });
 
     var ctx = cv.getContext("2d"), W, H, dpr, cx, cy, R;
@@ -212,17 +234,17 @@ ul.task-list li input[type="checkbox"] {
     });
 
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var zoom = 1, zoomTo = 1, pinch = null, pts = {};
+    var zoom = 1, zoomTo = 1, pinch = null, pts = {}, anchor = null;   // zoom happens about the anchor (cursor or pinch centre)
     var t = 0, yaw = YAW0, pitch = PITCH0, vyaw = 0, vpitch = 0, hover = null, drag = null, grab = null, last = 0, visible = true;
 
     function size() {
       dpr = window.devicePixelRatio || 1;
       W = host.clientWidth || 260; H = Math.round(W * (opts.ratio || 0.9));
       cv.width = W * dpr; cv.height = H * dpr; cv.style.height = H + "px";
-      cx = W / 2; cy = H / 2; R = W * 0.4;
+      cx = W / 2; cy = H / 2; R = W * 0.4; anchor = null;
     }
-    function radius(b) { return R * zoom * (0.24 + 0.76 * b.f); }
-    function speed(b) { var x = radius(b) / R; return 0.06 * Math.pow(x, -1.5); }                // Kepler-ish
+    function radius(b) { return R * zoom * shrink * (0.24 + 0.76 * b.f); }
+    function speed(b) { var x = radius(b) / (R * shrink); return 0.06 * Math.pow(x, -1.5); }                // Kepler-ish
     function project(rad, inc, node, a) {
       var x = rad * Math.cos(a), z = rad * Math.sin(a);
       var y1 = -z * Math.sin(inc), z1 = z * Math.cos(inc);
@@ -237,6 +259,54 @@ ul.task-list li input[type="checkbox"] {
       var dark = (0.3 * m[0] + 0.59 * m[1] + 0.11 * m[2]) / 255 > 0.5;
       var a = function (v) { return (dark ? "rgba(255,255,255," : "rgba(0,0,0,") + v + ")"; };
       return { text: c, a: a };
+    }
+    function mix(hex, w) {                              // blend a #rrggbb colour with white
+      var v = parseInt(hex.slice(1), 16), r = v >> 16 & 255, g = v >> 8 & 255, b = v & 255;
+      return "rgb(" + Math.round(r + (255 - r) * w) + "," + Math.round(g + (255 - g) * w) + "," + Math.round(b + (255 - b) * w) + ")";
+    }
+    function placeSystems() {
+      systems.forEach(function (s) { s.q = project(R * zoom * 1.2, s.inc, s.node, t * 0.01); });
+      extBodies.forEach(function (b) {
+        var c = b.s.q, rs = R * zoom * 0.2 * c.k, a = b.a0 + t * 0.32;
+        b.q = { x: c.x + rs * Math.cos(a) + b.off.x, y: c.y + rs * 0.42 * Math.sin(a) + b.off.y, d: c.d + rs * Math.sin(a), k: c.k };
+      });
+    }
+    function drawSystem(s, c) {
+      var q = s.q, col = s.info.color, rs = R * zoom * 0.2 * q.k, dim = hover && !(hover.s === s);
+      ctx.globalAlpha = dim ? 0.4 : 1;
+      ctx.beginPath(); ctx.ellipse(q.x, q.y, rs, rs * 0.42, 0, 0, 6.2832);
+      ctx.strokeStyle = c.a(0.1); ctx.lineWidth = 0.7; ctx.stroke();
+      var r = 6.5 * Math.sqrt(zoom) * q.k;
+      var g = ctx.createRadialGradient(q.x, q.y, 1, q.x, q.y, r * 2.6);
+      g.addColorStop(0, mix(col, 0.55).replace("rgb", "rgba").replace(")", ",0.35)")); g.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r * 2.6, 0, 6.2832); ctx.fill();
+      var b = ctx.createRadialGradient(q.x - r * 0.3, q.y - r * 0.35, 0.5, q.x, q.y, r);
+      b.addColorStop(0, mix(col, 0.8)); b.addColorStop(1, mix(col, 0.25));
+      ctx.fillStyle = b; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
+      ctx.font = font(9.5, true); ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = c.text;
+      ctx.globalAlpha = dim ? 0.25 : 0.62;
+      var label = s.info.title, w = ctx.measureText(label).width;
+      ctx.fillText(label, Math.max(w / 2 + 3, Math.min(W - w / 2 - 3, q.x)), q.y - rs * 0.42 - 16);
+      ctx.globalAlpha = 1;
+    }
+    function drawBridge(b, c) {                         // dashed line from this lecture to the other book's lecture
+      var on = hover === b, col = mix(b.s.info.color, 0.45);
+      ctx.save(); ctx.setLineDash([3, 4]);
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(b.q.x, b.q.y);
+      ctx.strokeStyle = col; ctx.globalAlpha = on ? 0.9 : (hover ? 0.18 : 0.42); ctx.lineWidth = on ? 1.2 : 0.8; ctx.stroke();
+      ctx.restore();
+    }
+    function drawExt(b, c) {
+      var q = b.q, col = b.s.info.color, r = b.r * Math.sqrt(zoom) * q.k * (hover === b || grab === b ? 1.4 : 1);
+      var dim = hover && hover !== b;
+      var g = ctx.createRadialGradient(q.x - r * 0.35, q.y - r * 0.4, r * 0.1, q.x, q.y, r);
+      g.addColorStop(0, mix(col, 0.7)); g.addColorStop(1, mix(col, 0.2));
+      ctx.globalAlpha = dim ? 0.35 : 1;
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = c.text; ctx.globalAlpha = dim ? 0.25 : 0.75;
+      ctx.font = font(9.5, true); ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText(String(b.ext.n), q.x + r + 2, q.y - r * 0.5);
+      ctx.globalAlpha = 1; b.rr = r;
     }
     function font(sz, it) { return (it ? "italic " : "") + sz + "px " + (getComputedStyle(host).fontFamily || "Palatino, serif"); }
 
@@ -271,7 +341,7 @@ ul.task-list li input[type="checkbox"] {
       ctx.fillText(String(n), cx, cy + 0.5);
     }
     function related(b) {
-      if (!hover) return true; if (b === hover) return true;
+      if (!hover) return true; if (b === hover) return true; if (hover.ext) return false;
       return links.some(function (L) { return (bodies[L[0]] === hover && bodies[L[1]] === b) || (bodies[L[1]] === hover && bodies[L[0]] === b); });
     }
     function drawPlanet(b, c) {
@@ -294,6 +364,10 @@ ul.task-list li input[type="checkbox"] {
         var q = project(radius(b), b.inc, b.node, b.a0 + t * speed(b));
         q.x += b.off.x; q.y += b.off.y; b.q = q;
       });
+      placeSystems();
+      systems.forEach(function (s) { drawSystem(s, c); });
+      extBodies.forEach(function (b) { drawBridge(b, c); });
+      extBodies.forEach(function (b) { drawExt(b, c); });
       bodies.forEach(function (b) { drawOrbit(b, c); });
       var sun = { x: cx, y: cy };
       bodies.forEach(function (b) { drawLink(sun, b.q, b.p.w, hover === b, c); });
@@ -303,10 +377,17 @@ ul.task-list li input[type="checkbox"] {
       if (!sunDone) drawSun();
     }
     function step(dt) {
+      var z0 = zoom;
       zoom += (zoomTo - zoom) * Math.min(1, dt * 12);
+      if (anchor && z0 > 0) {                          // keep the point under the cursor fixed while zooming
+        var r = zoom / z0; cx = anchor[0] - (anchor[0] - cx) * r; cy = anchor[1] - (anchor[1] - cy) * r;
+      }
+      if (zoomTo <= 1.0001) {                          // fully zoomed out: drift back to the middle
+        cx += (W / 2 - cx) * Math.min(1, dt * 6); cy += (H / 2 - cy) * Math.min(1, dt * 6);
+      }
       if (!drag) { yaw += vyaw; pitch = clampP(pitch + vpitch); vyaw *= 0.94; vpitch *= 0.9; }
       if (!hover && !grab && !reduce) t += dt;
-      bodies.forEach(function (b) {                     // springs pull dragged planets back onto their orbits
+      bodies.concat(extBodies).forEach(function (b) {   // springs pull dragged planets back onto their orbits
         if (b === grab) return;
         var o = b.off, k = 70, damp = 7;
         o.vx += (-k * o.x - damp * o.vx) * dt; o.vy += (-k * o.y - damp * o.vy) * dt;
@@ -323,7 +404,7 @@ ul.task-list li input[type="checkbox"] {
     function clampP(p) { return Math.max(0.05, Math.min(1.5, p)); }
     function pick(x, y, slack) {
       var best = null, bd = 1e9, s = slack == null ? 7 : slack;      // fingers get a much larger target
-      bodies.forEach(function (b) { if (!b.q) return; var d = Math.hypot(b.q.x - x, b.q.y - y);
+      bodies.concat(extBodies).forEach(function (b) { if (!b.q) return; var d = Math.hypot(b.q.x - x, b.q.y - y);
         if (d < b.rr + s && d < bd) { bd = d; best = b; } });
       return best;
     }
@@ -331,6 +412,7 @@ ul.task-list li input[type="checkbox"] {
       if (b === hover) return; hover = b;
       cv.style.cursor = b ? "pointer" : "grab";
       if (!b) { cap.textContent = rest; cap.classList.remove("on"); cap.title = ""; return; }
+      if (b.ext) { cap.textContent = b.s.info.title + " · " + b.ext.n + " · " + b.ext.title; cap.classList.add("on"); cap.title = ""; return; }
       cap.textContent = b.p.l.n + " · " + b.p.l.title; cap.classList.add("on");
       cap.title = b.p.via && b.p.via.length ? "via " + b.p.via.join(", ") : "";
     }
@@ -353,6 +435,10 @@ ul.task-list li input[type="checkbox"] {
       if (grab) { grab.off.x += dx; grab.off.y += dy; grab.off.vx = dx * 60; grab.off.vy = dy * 60; setHover(grab); cv.style.cursor = "grabbing"; }
       else { setHover(null); cv.style.cursor = "grabbing"; vyaw = dx * 0.012; vpitch = dy * 0.008; yaw += vyaw; pitch = clampP(pitch + vpitch); }
     });
+    function open(b) {
+      if (b.ext) { window.location.href = b.ext.href; return; }
+      if (opts.onOpen) opts.onOpen(b.p.l.n); else if (window.__turnTo) window.__turnTo(b.p.l.href); else window.location.href = b.p.l.href;
+    }
     function end(ev) {
       if (!drag) return;
       var d = drag; drag = null; var g = grab; grab = null;
@@ -362,20 +448,21 @@ ul.task-list li input[type="checkbox"] {
         var go = d.on;
         if (d.tp !== "mouse") {                       // touch: name the lecture for a moment, then turn to it
           setHover(go);
-          setTimeout(function () { if (opts.onOpen) opts.onOpen(go.p.l.n); else if (window.__turnTo) window.__turnTo(go.p.l.href); else window.location.href = go.p.l.href; }, 260);
+          setTimeout(function () { open(go); }, 260);
           return;
         }
-        if (opts.onOpen) opts.onOpen(d.on.p.l.n); else if (window.__turnTo) window.__turnTo(d.on.p.l.href); else window.location.href = d.on.p.l.href;
+        open(d.on);
       } else if (!d.moved) setHover(null);
     }
     cv.addEventListener("pointerup", end);
     cv.addEventListener("pointercancel", function () { drag = null; grab = null; });
     cv.addEventListener("pointerleave", function () { if (!drag) setHover(null); });
-    cv.addEventListener("dblclick", function () { yaw = YAW0; pitch = PITCH0; vyaw = vpitch = 0; zoomTo = 1; });
+    cv.addEventListener("dblclick", function () { yaw = YAW0; pitch = PITCH0; vyaw = vpitch = 0; zoomTo = 1; anchor = null; });
     // zoom: mouse wheel or trackpad over the graph, or a two-finger pinch
     var clampZ = function (z) { return Math.max(0.6, Math.min(3.2, z)); };
     cv.addEventListener("wheel", function (ev) {
       ev.preventDefault();
+      anchor = xy(ev);
       zoomTo = clampZ(zoomTo * Math.exp(-ev.deltaY * (ev.ctrlKey ? 0.01 : 0.0015)));
     }, { passive: false });
     cv.addEventListener("pointerdown", function (ev) {
@@ -387,7 +474,7 @@ ul.task-list li input[type="checkbox"] {
       if (!(ev.pointerId in pts)) return;
       pts[ev.pointerId] = [ev.clientX, ev.clientY];
       var ids = Object.keys(pts);
-      if (pinch && ids.length === 2) { var a = pts[ids[0]], c = pts[ids[1]]; zoomTo = clampZ(pinch.z * Math.hypot(a[0] - c[0], a[1] - c[1]) / Math.max(1, pinch.d)); }
+      if (pinch && ids.length === 2) { var a = pts[ids[0]], c = pts[ids[1]], r0 = cv.getBoundingClientRect(); anchor = [(a[0] + c[0]) / 2 - r0.left, (a[1] + c[1]) / 2 - r0.top]; zoomTo = clampZ(pinch.z * Math.hypot(a[0] - c[0], a[1] - c[1]) / Math.max(1, pinch.d)); }
     });
     var lift = function (ev) { delete pts[ev.pointerId]; if (Object.keys(pts).length < 2) pinch = null; };
     cv.addEventListener("pointerup", lift); cv.addEventListener("pointercancel", lift);
@@ -681,7 +768,10 @@ html { background: var(--bs-body-bg, #fff); }
 @media (max-width: 575.98px) { .shelf-back .txt { display: none; } .shelf-back { margin-right: 0.6rem; padding-right: 0.6rem; } }
 /* the table of contents always stays open in the right-hand column (never a dropdown) */
 #quarto-toc-toggle { display: none !important; }
-#quarto-margin-sidebar > * { opacity: 1 !important; overflow: visible !important; pointer-events: auto !important; }
+#quarto-margin-sidebar > * { opacity: 1 !important; overflow: visible !important; }
+/* the column itself lets clicks through to the footnotes beside it; only the contents list is clickable */
+#quarto-margin-sidebar, #quarto-margin-sidebar > * { pointer-events: none !important; }
+#quarto-margin-sidebar nav#TOC, #quarto-margin-sidebar nav#TOC * { pointer-events: auto !important; }
 #quarto-margin-sidebar { z-index: 1000 !important; }
 #quarto-margin-sidebar nav#TOC { background: var(--bs-body-bg, #fff); position: relative; z-index: 3; padding-top: 0.5rem; padding-bottom: 0.6rem; box-shadow: 0 -4rem 0 0 var(--bs-body-bg, #fff), 0 0.9rem 0.8rem -0.4rem var(--bs-body-bg, #fff); }
 </style>
@@ -1486,7 +1576,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Last edited</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 20, 2026</p>
+      <p class="date">November 21, 2026</p>
     </div>
   </div>
   
