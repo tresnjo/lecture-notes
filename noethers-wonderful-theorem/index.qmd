@@ -1,6 +1,6 @@
 # Preface {.unnumbered}
 
-These notes are a self-study of the book ***Emmy Noether's Wonderful Theorem*** by Dwight E. Neuenschwander. They contain my main summaries from each chapter, together with my solutions to some of his exercises and a few discussions of my own along the way.
+These notes are a self-study of the book ***Emmy Noether's Wonderful Theorem*** by Dwight E. Neuenschwander [[1]](#ref-1). They contain my main summaries from each chapter, together with my solutions to some of his exercises and a few discussions of my own along the way.
 
 The book builds up to Noether's theorem, the statement that every continuous symmetry of a physical theory comes with a conserved quantity, and then explores its consequences in mechanics and field theory.
 
@@ -11,6 +11,12 @@ The book builds up to Noether's theorem, the statement that every continuous sym
 
 **Chapter 2 — Functionals**
 : Functionals as maps from paths to numbers · The action and the Lagrangian · Fermat's principle · Exercises on path-dependent functionals and Hamilton's principle
+
+**Chapter 3 — The Euler–Lagrange Equations and the Hamiltonian**
+: Extremal problems · The Lagrangian up to a total derivative · The Euler–Lagrange equations · The harmonic oscillator · Generalized momentum, the Hamiltonian and energy conservation
+
+**Chapter 4 — The Legendre Transformation**
+: A one-dimensional example · The Hamiltonian as a Legendre transform · When the transformation can be performed · A singular example: the spring pendulum
 
 More chapters will be added as I read on.
 
@@ -24,3 +30,7 @@ More chapters will be added as I read on.
 | $L(q^\mu, \dot q^\mu, t)$ | Lagrangian |
 | $S[q^\mu]$ | Action functional, with square brackets for the argument of a functional |
 | $C^2([a,b], \mathbb R^N)$ | Twice continuously differentiable paths $[a,b] \to \mathbb R^N$ |
+
+## References {.unnumbered}
+
+1. []{#ref-1}D. E. Neuenschwander, *Emmy Noether's Wonderful Theorem*, revised and updated edition, Johns Hopkins University Press, Baltimore, 2017. [press.jhu.edu](https://www.press.jhu.edu/books/title/11438/emmy-noethers-wonderful-theorem)

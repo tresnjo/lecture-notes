@@ -21,7 +21,7 @@ This set is a Borel set in $[0,1]$, and since every Borel-set is Lebesgue measur
 
 The classical example of a function which is not RI is the Dirichlet function, but it will be Lebesgue integrable. The Dirichlet function is bounded, but is discontinuous everywhere, and is thus consistent with [Theorem 5.1](lecture-05.qmd#r-5-1) above.  
 
-Another example of a function which is Riemann integrable, but very much reminds about the Dirichlet function is Thomae's function. See this [Stack Exchange discussion](https://math.stackexchange.com/questions/1458139/why-is-dirichlet-function-not-riemann-integrable-and-thomaes-function-is).
+Another example of a function which is Riemann integrable, but very much reminds about the Dirichlet function is Thomae's function. See this Stack Exchange discussion [[1]](#ref-1).
 
 The idea of the Lebesgue integral is to partition the $y$-axis, and approximate the integral by $$\sum a_i m(\{x: f(x) \in [a_i, a_{i+1}]\})$$*Note that when we break up the y-axis this way, the structure of the domain is irrelevant for us, which is why we can perform the integration on any measure space.*
 
@@ -116,3 +116,7 @@ A simple function on a measurable space is a function of the form $f(x) = \sum c
 :::
 
 Simple functions can approximate any measurable function pointwise.
+
+## References {.unnumbered}
+
+1. []{#ref-1}Mathematics Stack Exchange, question on why the Dirichlet function is not Riemann integrable while Thomae's function is. <https://math.stackexchange.com/questions/1458139>

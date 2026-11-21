@@ -89,6 +89,47 @@ for n, t in text.items():
 out = {"lectures": [lec[k] for k in sorted(lec)],
        "edges": [{"from": a, "to": b, "w": e["w"], "via": e["via"][:3]}
                  for (a, b), e in sorted(edges.items()) if e["w"] >= 2]}
+# ---- links between books: every book is its own solar system --------------------------------
+# A lecture here that links to ../<other-book>/lecture-NN.html, or a lecture in another book that
+# links to one of ours, makes that other book appear as a distant system in the graph.
+def _book_info(d):
+    y = os.path.join(d, "_quarto.yml")
+    y = open(y, encoding="utf-8").read() if os.path.exists(y) else ""
+    t = re.search(r'^\s*title:\s*"?(.*?)"?\s*$', y, re.M)
+    c = re.search(r'background:\s*"?(#[0-9a-fA-F]{6})', y)
+    title = t.group(1) if t else os.path.basename(os.path.abspath(d))
+    return {"slug": os.path.basename(os.path.abspath(d)), "title": re.sub(r"^Notes from ", "", title),
+            "color": c.group(1) if c else "#777777"}
+
+def _lec_title(d, m):
+    f = os.path.join(d, "lecture-%02d.qmd" % m)
+    if not os.path.exists(f): return None
+    r = re.search(r'^title:\s*"(.*)"', open(f, encoding="utf-8").read(), re.M)
+    return r.group(1) if r else "Lecture %d" % m
+
+_here = os.path.basename(os.getcwd())
+_link = r"\.\./([a-z0-9-]+)/lecture-(\d+)\.(?:html|qmd)"
+_ext = {}
+def _add_ext(local, slug, m, d):
+    if local not in lec or slug == _here or (local, slug, m) in _ext: return
+    title = _lec_title(os.path.join("..", slug), m)
+    if title is None: return
+    _ext[(local, slug, m)] = {"local": local, "book": slug, "n": m, "title": title,
+                              "href": "../%s/lecture-%02d.html" % (slug, m), "dir": d}
+
+for n, t in text.items():                                    # from this book to others
+    for slug, m in re.findall(_link, t): _add_ext(n, slug, int(m), "out")
+for f in sorted(glob.glob(os.path.join("..", "*", "lecture-*.qmd"))):   # from other books to this one
+    slug = os.path.basename(os.path.dirname(os.path.abspath(f)))
+    if slug == _here: continue
+    m = int(re.search(r"lecture-(\d+)", os.path.basename(f)).group(1))
+    for s2, k in re.findall(_link, clean(open(f, encoding="utf-8").read())):
+        if s2 == _here: _add_ext(int(k), slug, m, "in")
+
+out["book"] = _book_info(".")
+out["external"] = [_ext[k] for k in sorted(_ext)]
+out["books"] = {s: _book_info(os.path.join("..", s)) for s in sorted({e["book"] for e in out["external"]})}
+
 with open("lecture-graph.js", "w", encoding="utf-8") as fh:
     fh.write("window.LECTURE_GRAPH = " + json.dumps(out, ensure_ascii=False) + ";\n")
 print("lecture-graph.js: %d lectures, %d connections" % (len(out["lectures"]), len(out["edges"])))

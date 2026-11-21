@@ -23,7 +23,7 @@ For unsigned series, conditional convergence is not possible, so either the seri
 ::: {#side-the-riemann-rearrangement-theorem .side-topic}
 **Side topic: The Riemann rearrangement theorem**
 
-The [Riemann rearrangement theorem](https://en.wikipedia.org/wiki/Riemann_series_theorem) says that if a real series $\sum_n a_n$ converges but not absolutely, then for every $L \in [-\infty, \infty]$ there is a rearrangement $\sigma$ of $\mathbb N$ such that
+The Riemann rearrangement theorem [[1]](#ref-1) says that if a real series $\sum_n a_n$ converges but not absolutely, then for every $L \in [-\infty, \infty]$ there is a rearrangement $\sigma$ of $\mathbb N$ such that
 $$\sum_{n=1}^\infty a_{\sigma(n)} = L.$$
 One can even choose $\sigma$ so that the partial sums oscillate and approach no limit at all, finite or infinite.
 
@@ -162,3 +162,7 @@ Why is $\nu(A) = \int_A (2x-1) dx$ a signed measure?
 
 Define $$\nu = \mu_c - m$$on the measurable space $([0,1], \mathcal B_{[0,1]})$ then the Hahn decomposition is simply $P = C$ (the Cantor set) and $N= C^c$ and then we simply have $\nu^+(A) = \mu_c(A \cap C)$ and $\nu^{-1}(A) = m(A \cap C^c)$ for the Jordan decomposition. 
 :::
+
+## References {.unnumbered}
+
+1. []{#ref-1}Riemann series theorem, *Wikipedia*. <https://en.wikipedia.org/wiki/Riemann_series_theorem>

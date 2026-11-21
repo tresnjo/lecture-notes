@@ -99,7 +99,7 @@ Conversely, given a function $F$ with these properties, [Proposition 4.4](lectur
 
 The fact that every CDF comes with a random variable is also useful in practice, for simulating random variables with a given distribution. Generate $U \sim \mathcal U(0,1)$ and set $X = F_X^{-1}(U)$. When $F_X$ is continuous and strictly increasing,
 $$P(X \le x) = P\big(U \le F_X(x)\big) = F_X(x),$$
-so $X$ has the CDF $F_X$. This requires being able to evaluate $F_X^{-1}$, which is not always easy (see [simulation via the CDF](https://data140.org/textbook/content/chapter-16/simulation-via-the-cdf/)).
+so $X$ has the CDF $F_X$. This requires being able to evaluate $F_X^{-1}$, which is not always easy (see [[1]](#ref-1)).
 
 For example, one way to generate a normal $\mathcal N(\mu, \sigma^2)$ random variable is to start from $U \sim \mathcal U(0,1)$, set $Z = \Phi^{-1}(U)$, which has the standard normal distribution, and finally let $X = \sigma Z + \mu$. Here $\Phi^{-1}$ has no closed form, but it is easy to evaluate numerically.
 :::
@@ -119,7 +119,7 @@ where $\frac{d\mu}{d\nu}$ is the Radon–Nikodym derivative of $\mu$ with respec
 
 $$KL(\mu \,\|\, \nu) = \int p(x)\log\frac{p(x)}{q(x)}\, dx.$$
 
-The KL divergence is also the standard training objective for normalizing flows, where one minimizes the KL divergence between a target distribution and a transformed base distribution; see the review by [Papamakarios et al. (2021)](https://jmlr.org/papers/v22/19-1028.html).
+The KL divergence is also the standard training objective for normalizing flows, where one minimizes the KL divergence between a target distribution and a transformed base distribution; see the review by Papamakarios et al. [[2]](#ref-2).
 :::
 
 ::: {#fig-viz-normalizingflow-1}
@@ -259,3 +259,8 @@ $\Leftarrow:$ We prove the contrapositive argument. If the $\epsilon-\delta$ con
 :::
 
 This is the measure-theoretic analogue of $\epsilon-\delta$ continuity, where the role of distance bw points is replaced by $\mu$ and the distance between function values is played by $\nu(A)$. So the propositoin $\nu << \mu$ is equivalent to $\nu$ being continuous with respect to $\mu$.
+
+## References {.unnumbered}
+
+1. []{#ref-1}Simulation via the CDF, in the *Data 140* textbook (UC Berkeley), Chapter 16. [data140.org](https://data140.org/textbook/content/chapter-16/simulation-via-the-cdf/)
+2. []{#ref-2}G. Papamakarios, E. Nalisnick, D. J. Rezende, S. Mohamed and B. Lakshminarayanan, *Normalizing Flows for Probabilistic Modeling and Inference*, Journal of Machine Learning Research **22** (2021). <https://jmlr.org/papers/v22/19-1028.html>

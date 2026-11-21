@@ -27,7 +27,7 @@ A measure space is just a measurable space with a measure on it.
 A complete measure is such that if $F\in \mathcal M$ (our $\sigma$-algebra) with $m(F) = 0$ and if $E \subseteq F$ then $m(E) = 0$.
 :::
 
-This definition may sound silly at first, because by monotonicity we know that $m(E) = 0$ if it is a subset. But we have to remember that the measure can only be applied to elements of the $\sigma$-algebra. A complete measure thus tells us that subsets of sets of measure zero, **are in the $\sigma$-algebra** (thus they are measurable).^[We never assumed $A$ was an element of the $\sigma$-algebra.  See [a good explanation](https://www.youtube.com/watch?v=5bZMCLnI_p4). A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.]
+This definition may sound silly at first, because by monotonicity we know that $m(E) = 0$ if it is a subset. But we have to remember that the measure can only be applied to elements of the $\sigma$-algebra. A complete measure thus tells us that subsets of sets of measure zero, **are in the $\sigma$-algebra** (thus they are measurable).^[We never assumed $A$ was an element of the $\sigma$-algebra.  See this video for a good explanation [[1]](#ref-1). A complete measure is a measure space where every subset of every null set is measurable. A null set is an element of the sigma-algebra whose measure is zero.]
 
 ## Null sets and almost everywhere
 
@@ -213,3 +213,7 @@ Let $E \subseteq R$ and assume $a \notin E$, we have $E = (E\cap (-\infty, a)) \
 In other words, we are considering the two regions intersected by the ray $(-\infty, a)$, and covering them with separate open intervals. The final inequality comes form the fact that the outer measure as an infimum over all coverings. Taking the infimum of the LHS, we obtain exactly what we wanted to show. Therefore indeed we have shown that any open intervals is a subset of $\mathcal M$. 
 
 To conclude our construction of the Lebesgue measure, we defined an outer measure, by step 4 (Carathadory) we obtain a measure space $(R, \mathcal M, \mu^\star\vert_{\mathcal M})$ where $\mathcal M$ is the set of all $\mu^\star$-measurable sets. By step 3, we have that the outer measure of intervals are given by their length, and by step 5 we have the Borel set being a subset of $\mathcal M$, thus restricting $\mu^\star$ from $\mathcal M$ to $\mathcal B$ gives us the measure space $(R, \mathcal B, \mu^\star \vert_{\mathcal B})$. By definition from the outer measure, it is also translation invariant.
+
+## References {.unnumbered}
+
+1. []{#ref-1}Video explanation of complete measures and null sets (YouTube). <https://www.youtube.com/watch?v=5bZMCLnI_p4>

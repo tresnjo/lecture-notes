@@ -21,12 +21,12 @@ In what follows, $V$ will represent a space of functions and we will take the fi
 
 Let $V$ be the space of twice continuously differentiable paths
 $$C^2([a,b],\, \mathbb{R}^N) = \bigl\{\, q : [a,b] \to \mathbb{R}^N \;\big|\; q \text{ is twice continuously differentiable}\,\bigr\},$$
-where $t \in [a,b]$ is time, and $q^\mu(t)$, $\mu = 1,\ldots, N$, denotes $N$ dependent variables (which we will later refer to as generalized coordinates). The functional $S: C^2([a,b], \mathbb{R}^N) \to \mathbb{R}$ is given by
+where $t \in [a,b]$ is time, and $q^\mu(t)$, $\mu = 1,\ldots, N$, denotes $N$ dependent variables (which we will later refer to as generalized coordinates). The **action** is the functional $S: C^2([a,b], \mathbb{R}^N) \to \mathbb{R}$ given by
 $$S[q^\mu] = \int_a^b L\bigl(q^\mu(t),\, \dot{q}^\mu(t),\, t\bigr)\, dt,$$ {#eq-action}
-where the integrand $L : \mathbb{R}^N \times \mathbb{R}^N \times \mathbb{R} \to \mathbb{R}$ is called the **Lagrangian**.
+where the integrand $L : \mathbb{R}^N \times \mathbb{R}^N \times \mathbb{R} \to \mathbb{R}$ is called the **Lagrangian**. We take $L$ to be twice continuously differentiable in all its arguments. The action assigns a single real number to every path $q^\mu$.
 :::
 
-It will become clearer later why we require the $q^\mu$ to be twice differentiable. To spoil it for the reader: a Lagrangian depending on up to $k$-th order time derivatives yields equations of motion (to be defined later) involving derivatives of order up to $2k$. Since we will take $L$ to depend on $q^\mu$ and $\dot{q}^\mu$ only, the resulting equations involve at most second-order time derivatives, which is the typical situation in physics.[^3]
+It will become clearer later why we require the $q^\mu$ and $L$ to be twice continuously differentiable; for everything that follows, this much smoothness will suffice. To spoil it for the reader: a Lagrangian depending on up to $k$-th order time derivatives yields equations of motion (to be defined later) involving derivatives of order up to $2k$. Since we will take $L$ to depend on $q^\mu$ and $\dot{q}^\mu$ only, the resulting equations involve at most second-order time derivatives, which is the typical situation in physics.[^3]
 
 So far, the functional seems rather abstract, and we will postpone our discussion of the Lagrangian for now. To get a better feeling for the purpose of a functional, we consider some examples.
 
@@ -100,13 +100,14 @@ For two uniform media, the functional ([-@eq-fermat]) becomes easy to work with.
     const move = (ev) => { if (dragging.current) setX(fromEvent(ev)); };
     const up = () => { dragging.current = false; };
     const el = React.createElement;
-    const btn = { font: "inherit", fontSize: 14, padding: "3px 10px", background: "transparent", color: TEXT, border: "1px solid " + BORDER, borderRadius: 3 };
+    const PAL = '"Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", P052, serif';
+    const btn = { font: "inherit", fontFamily: PAL, fontSize: 16, padding: "1px 2px", background: "transparent", color: TEXT, border: "none", borderBottom: "1.5px solid " + ACCENT, borderRadius: 0, cursor: "pointer", fontStyle: "italic" };
     const slider = (label, v, set) => el("label", { style: { display: "flex", alignItems: "center", gap: 8 } },
       el("i", null, label[0]), el("sub", { style: { marginLeft: -6 } }, label[1]),
       el("input", { type: "range", min: 1, max: 2.5, step: 0.01, value: v, onChange: (e) => set(+e.target.value), style: { width: 110, accentColor: BLUE } }),
       el("span", { style: { minWidth: 34 } }, v.toFixed(2)));
 
-    return el("div", { style: { fontFamily: "inherit", color: TEXT } },
+    return el("div", { style: { fontFamily: PAL, color: TEXT } },
       el("div", { style: { display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center", fontSize: 15, marginBottom: 6 } },
         slider("n1", n1, setN1), slider("n2", n2, setN2),
         el("button", { type: "button", style: btn, onClick: glide }, "find the fastest path")),
@@ -115,20 +116,20 @@ For two uniform media, the functional ([-@eq-fermat]) becomes easy to work with.
         el("rect", { x: PL, y: my(0), width: PR - PL, height: PB - my(0), fill: BLUE, opacity: 0.06 + 0.1 * (n2 - 1) / 1.5 }),
         el("rect", { x: PL, y: PT, width: PR - PL, height: my(0) - PT, fill: BLUE, opacity: 0.06 + 0.1 * (n1 - 1) / 1.5 }),
         el("line", { x1: PL, y1: my(0), x2: PR, y2: my(0), stroke: BORDER, strokeWidth: 1.2 }),
-        el("text", { x: PL + 6, y: my(0) - 8, fill: MUTED, fontSize: 13, fontFamily: "inherit", fontStyle: "italic" }, "n₁"),
-        el("text", { x: PL + 6, y: my(0) + 20, fill: MUTED, fontSize: 13, fontFamily: "inherit", fontStyle: "italic" }, "n₂"),
+        el("text", { x: PL + 6, y: my(0) - 8, fill: MUTED, fontSize: 13, fontFamily: PAL, fontStyle: "italic" }, "n₁"),
+        el("text", { x: PL + 6, y: my(0) + 20, fill: MUTED, fontSize: 13, fontFamily: PAL, fontStyle: "italic" }, "n₂"),
         // the fastest path, faintly, for comparison
         !atMin && el("polyline", { points: [mx(A.x), my(A.y), mx(best), my(0), mx(B.x), my(B.y)].join(","), fill: "none", stroke: ACCENT, strokeWidth: 1, strokeDasharray: "4 4", opacity: 0.6 }),
         el("line", { x1: mx(x), y1: my(0.85), x2: mx(x), y2: my(-0.85), stroke: BORDER, strokeDasharray: "2 3" }),
         el("polyline", { points: [mx(A.x), my(A.y), mx(x), my(0), mx(B.x), my(B.y)].join(","), fill: "none", stroke: atMin ? ACCENT : PLUM, strokeWidth: 2.2, strokeLinejoin: "round" }),
         el("circle", { cx: mx(x), cy: my(0), r: 7, fill: atMin ? ACCENT : PLUM, stroke: "var(--bs-body-bg, #fff)", strokeWidth: 1.5, style: { cursor: "ew-resize" } }),
-        el("circle", { cx: mx(A.x), cy: my(A.y), r: 3.5, fill: TEXT }), el("text", { x: mx(A.x) - 10, y: my(A.y) - 6, fill: TEXT, fontSize: 14, fontStyle: "italic", fontFamily: "inherit" }, "A"),
-        el("circle", { cx: mx(B.x), cy: my(B.y), r: 3.5, fill: TEXT }), el("text", { x: mx(B.x) + 6, y: my(B.y) + 16, fill: TEXT, fontSize: 14, fontStyle: "italic", fontFamily: "inherit" }, "B"),
+        el("circle", { cx: mx(A.x), cy: my(A.y), r: 3.5, fill: TEXT }), el("text", { x: mx(A.x) - 10, y: my(A.y) - 6, fill: TEXT, fontSize: 14, fontStyle: "italic", fontFamily: PAL }, "A"),
+        el("circle", { cx: mx(B.x), cy: my(B.y), r: 3.5, fill: TEXT }), el("text", { x: mx(B.x) + 6, y: my(B.y) + 16, fill: TEXT, fontSize: 14, fontStyle: "italic", fontFamily: PAL }, "B"),
         // T(x)
         el("line", { x1: GL, y1: GB, x2: GR, y2: GB, stroke: BORDER }),
         el("line", { x1: GL, y1: GT - 10, x2: GL, y2: GB, stroke: BORDER }),
-        el("text", { x: GL + 6, y: GT - 16, fill: MUTED, fontSize: 13, fontFamily: "inherit", fontStyle: "italic" }, "travel time  T"),
-        el("text", { x: GR, y: GB + 20, fill: MUTED, fontSize: 13, fontFamily: "inherit", fontStyle: "italic", textAnchor: "end" }, "crossing point  x"),
+        el("text", { x: GL + 6, y: GT - 16, fill: MUTED, fontSize: 13, fontFamily: PAL, fontStyle: "italic" }, "travel time  T"),
+        el("text", { x: GR, y: GB + 20, fill: MUTED, fontSize: 13, fontFamily: PAL, fontStyle: "italic", textAnchor: "end" }, "crossing point  x"),
         el("path", { d: curve, fill: "none", stroke: BLUE, strokeWidth: 1.8 }),
         el("line", { x1: gx(best), y1: gy(tmin), x2: gx(best), y2: GB, stroke: ACCENT, strokeDasharray: "3 3", opacity: 0.8 }),
         el("circle", { cx: gx(x), cy: gy(T(x)), r: 6, fill: atMin ? ACCENT : PLUM, stroke: "var(--bs-body-bg, #fff)", strokeWidth: 1.5 })
@@ -227,7 +228,7 @@ by substituting $dx = \dot{x}\,dt$.
 
 #### Solution
 
-Differentiating with respect to the upper limit $x$ gives $p$ by the fundamental theorem of calculus, whereas differentiating with respect to the upper limit $t$ gives $-E$ from the second integral.
+Differentiating with respect to the upper limit $x$ gives $p$ by the first fundamental theorem of calculus (see [Theorem 12.2](../integration-theory/lecture-12.html#r-12-2) in the Integration Theory notes), whereas differentiating with respect to the upper limit $t$ gives $-E$ from the second integral, by the same theorem.
 :::
 
 **(d)** If $E = \text{const.}$, show that Hamilton's principle reduces to $\displaystyle\int_{x(0)}^{x(T)} p\, dx = \min$.
@@ -240,4 +241,8 @@ If $E = \text{const.}$, then $\int_0^T E\,dt = ET$ is a constant independent of 
 :::
 :::
 
-[^3]: There are exceptions to this, and higher-derivative theories do exist. A notable example is the Lorentz–Abraham–Dirac force: a charged particle undergoing acceleration emits electromagnetic radiation, and the recoil from this radiation acts back on the particle itself. It turns out that the equation governing the position of this particle involves the jerk of the position (the third-order time derivative).
+## References {.unnumbered}
+
+1. []{#ref-1}Abraham–Lorentz force, *Wikipedia*. [en.wikipedia.org](https://en.wikipedia.org/wiki/Abraham%E2%80%93Lorentz_force)
+
+[^3]: There are exceptions to this. A notable example is the Lorentz–Abraham–Dirac force [[1]](#ref-1): a charged particle undergoing acceleration emits electromagnetic radiation, and the recoil from this radiation acts back on the particle itself. It turns out that the equation governing the position of this particle involves the jerk of the position (the third-order time derivative).

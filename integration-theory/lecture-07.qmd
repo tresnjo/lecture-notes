@@ -51,7 +51,7 @@ For example, if we take $f_n = 1_{[n, n+1]}$ we have that $f_n \rightarrow 0$ a.
 Fix $\epsilon > 0$ and let $E_N = \{x: |f_n(x) - f(x)| \geq \epsilon, n\geq N\}$. We note that $E_1 \supseteq E_2 \supseteq E_3$ and $\bigcap_k E_k \subseteq \{x: f_n(x) \nrightarrow f(x)\}$ and by assumption $m(\bigcap_k E_k) = 0$. From continuity from above we have $m(\bigcap_k E_k) = \lim_{N\rightarrow \infty} m(E_N)$ assuming $m(E_1) < \infty$ (which followws from the fact that $m(X) < \infty$ since $E_1 \subseteq X$) and thus $m(E_N)\rightarrow 0$, which is precisely the definition of convergence in measure. 
 
 3. Convergence in measure does not imply convergence a.e., even if the measure space is finite.
-A nice construction is the typewriter sequence. See also this [discussion of the typewriter sequence](https://math.stackexchange.com/questions/1412091/the-typewriter-sequence)
+A nice construction is the typewriter sequence. See also this discussion of the typewriter sequence [[1]](#ref-1)
 $$f_n(x) = \mathbb 1_{[\frac{n-2^k}{2^k}, \frac{n-2^k + 1}{2^k}]}$$:
 where $k = \lfloor \log_2 n\rfloor$
 It converges to $0$ in measure as for any $\epsilon > 0$ we have that $\{f_n > \epsilon\} = \{f_n = 1\}$ which has length $1/2^k$ at stage $k$ and clearly goes to zero in limit as $k\rightarrow \infty$. But it does not converge a.e. since at very stage $k$ there is an interval that eventually hits the point. 
@@ -186,3 +186,7 @@ From a probabilistic view, the Chebyshev inequality has both the mean and varian
 
 Let $(X, \mathcal M, \mu)$ be a measure space and $p,q \in [1,\infty]$ with $1/p + 1/q = 1$, then for all measurable functions $f,g$ on $X$ $$||fg||_1 \leq ||f||_p ||g||_q$$
 :::
+
+## References {.unnumbered}
+
+1. []{#ref-1}Mathematics Stack Exchange, question on the typewriter sequence. <https://math.stackexchange.com/questions/1412091>
