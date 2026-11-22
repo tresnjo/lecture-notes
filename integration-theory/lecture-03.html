@@ -1561,6 +1561,7 @@ window.Quarto = {
   <li><a href="#the-borel-sets-and-mathcal-m" id="toc-the-borel-sets-and-mathcal-m" class="nav-link" data-scroll-target="#the-borel-sets-and-mathcal-m">The Borel sets and <span class="math inline">\(\mathcal M\)</span></a></li>
   <li><a href="#uniqueness-of-the-lebesgue-measure-on-mathcal-b" id="toc-uniqueness-of-the-lebesgue-measure-on-mathcal-b" class="nav-link" data-scroll-target="#uniqueness-of-the-lebesgue-measure-on-mathcal-b">Uniqueness of the Lebesgue measure on <span class="math inline">\(\mathcal B\)</span></a></li>
   <li><a href="#nonmeasurable-sets" id="toc-nonmeasurable-sets" class="nav-link" data-scroll-target="#nonmeasurable-sets">Nonmeasurable sets</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -1735,7 +1736,7 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>There does not exist a translation invariant measure on all subsets of R which gives length for intervals.</p>
+<p>There does not exist a translation invariant measure on all subsets of R which gives length for intervals.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1755,6 +1756,56 @@ Figure&nbsp;3.1: The Carathéodory test: <span class="math inline">\(A\)</span> 
 </div>
 </div>
 </div>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;It turns out that no Lebesgue-esque measure exists in infinite dimensions: on an infinite-dimensional separable normed linear space, there is no translation invariant Borel measure that assigns finite, positive measure to open balls. This matters when integrating over spaces of paths, which are infinite-dimensional, as in Feynman’s path integral. For further reading, see <a href="#ref-1">[1]</a> and <a href="#ref-2">[2]</a>.</p></div></div><div id="r-3-3" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><strong>Definition 3.3</strong> (Banach measure).
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <em>Banach measure</em> on <span class="math inline">\(\mathbb R^n\)</span> is a set function <span class="math inline">\(\beta : \mathcal P(\mathbb R^n) \to [0, \infty]\)</span> which <a href="#ref-3">[3]</a></p>
+<ul>
+<li>is finitely additive: <span class="math inline">\(\beta(A \sqcup B) = \beta(A) + \beta(B)\)</span>;</li>
+<li>agrees with the Lebesgue measure <span class="math inline">\(\mu\)</span> on Lebesgue measurable sets;</li>
+<li>is preserved under isometries <span class="math inline">\(f\)</span> of <span class="math inline">\(\mathbb R^n\)</span>: <span class="math inline">\(\beta(f(A)) = \beta(A)\)</span>.</li>
+</ul>
+</div>
+</div>
+<div id="r-3-4" class="remark-box callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span><strong>Remark 3.4</strong> (Banach–Tarski).
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A Banach measure (<a href="#r-3-3">Definition 3.3</a>) exists on <span class="math inline">\(\mathbb R\)</span> and <span class="math inline">\(\mathbb R^2\)</span>, but by <a href="#r-3-2">Theorem 3.2</a> it cannot be countably additive. On <span class="math inline">\(\mathbb R^3\)</span> and above it does not exist (assuming the axiom of choice). This is the <em>Banach–Tarski paradox</em> <a href="#ref-4">[4]</a>: a ball in <span class="math inline">\(\mathbb R^3\)</span> can be cut into finitely many pieces which, after rotations and translations, reassemble into two balls of the same size (<a href="#fig-l03-banach-tarski" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>). Had a Banach measure <span class="math inline">\(\beta\)</span> existed on <span class="math inline">\(\mathbb R^3\)</span>, we would get <span class="math inline">\(\beta(B) = 2\beta(B)\)</span> for the ball <span class="math inline">\(B\)</span>, a contradiction. The resolution to the paradox is that the pieces which have been constructed cannot be assigned a meaningful volume. Using only ZF, that is, without the axiom of choice, one cannot arrive at the Banach–Tarski paradox (see the footnote on ZF and the axiom of choice in <a href="#nonmeasurable-sets">Nonmeasurable sets</a>).</p>
+<div id="fig-l03-banach-tarski" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-l03-banach-tarski-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="themed-figure" style="max-width: 640px; margin: 0 auto;"><img src="images/l03-banach-tarski-light.svg" class="light-content figure-img" alt="Banach–Tarski schematic: one ball cut into five pieces, which are rotated and translated into two balls of the same size."><img src="images/l03-banach-tarski-dark.svg" class="dark-content figure-img" alt="Banach–Tarski schematic: one ball cut into five pieces, which are rotated and translated into two balls of the same size."></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l03-banach-tarski-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Schematic of the Banach–Tarski paradox: one ball is cut into five pieces <span class="math inline">\(A_1, \dots, A_5\)</span>, which are rotated and translated into two balls of the original size.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li><span id="ref-1"></span>A. Alexanderian, <em>On non-existence of Lebesgue-like measures in infinite dimensions</em>, North Carolina State University (2025). <a href="https://aalexan3.math.ncsu.edu/articles/infdim_meas.pdf">aalexan3.math.ncsu.edu</a></li>
+<li><span id="ref-2"></span>Infinite-dimensional Lebesgue measure, <em>Wikipedia</em>. <a href="https://en.wikipedia.org/wiki/Infinite-dimensional_Lebesgue_measure">en.wikipedia.org</a></li>
+<li><span id="ref-3"></span>Banach measure, <em>Wikipedia</em>. <a href="https://en.wikipedia.org/wiki/Banach_measure">en.wikipedia.org</a></li>
+<li><span id="ref-4"></span>Banach–Tarski paradox, <em>Wikipedia</em>. <a href="https://en.wikipedia.org/wiki/Banach%E2%80%93Tarski_paradox">en.wikipedia.org</a></li>
+</ol>
 
 
 </section>
