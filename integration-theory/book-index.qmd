@@ -25,6 +25,8 @@ Every named definition, result and side topic, and the terms defined inside defi
 
 ## B
 
+- Banach measure — [Definition 3.3](lecture-03.qmd#r-3-3)
+- Banach–Tarski paradox — [Remark 3.4](lecture-03.qmd#r-3-4)
 - Borel algebra — [Definition 1.4](lecture-01.qmd#r-1-4)
 - Borel Measure from CDF — [Proposition 4.4](lecture-04.qmd#r-4-4)
 - Borel sets — [Definition 1.4](lecture-01.qmd#r-1-4)

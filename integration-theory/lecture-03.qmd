@@ -161,7 +161,7 @@ It is natural to ask if $\mathcal M$ (the set of all $\mu^\star$-measurable sets
 
 #### **Theorem 3.2** (Non-existence of translation invariant measure on R).
 
-There does not exist a translation invariant measure on all subsets of R which gives length for intervals.
+There does not exist a translation invariant measure on all subsets of R which gives length for intervals.^[It turns out that no Lebesgue-esque measure exists in infinite dimensions: on an infinite-dimensional separable normed linear space, there is no translation invariant Borel measure that assigns finite, positive measure to open balls. This matters when integrating over spaces of paths, which are infinite-dimensional, as in Feynman's path integral. For further reading, see [[1]](#ref-1) and [[2]](#ref-2).]
 
 ::: {.callout-note .proof-box collapse="true"}
 
@@ -179,3 +179,36 @@ Note that the sets in the union of the LHS are disjoint. Assume some $u \in A + 
 The two steps give us a contraction. QED. $\square$
 :::
 :::
+
+::: {#r-3-3 .callout-note .definition-box}
+
+#### **Definition 3.3** (Banach measure).
+
+A *Banach measure* on $\mathbb R^n$ is a set function $\beta : \mathcal P(\mathbb R^n) \to [0, \infty]$ which [[3]](#ref-3)
+
+- is finitely additive: $\beta(A \sqcup B) = \beta(A) + \beta(B)$;
+- agrees with the Lebesgue measure $\mu$ on Lebesgue measurable sets;
+- is preserved under isometries $f$ of $\mathbb R^n$: $\beta(f(A)) = \beta(A)$.
+:::
+
+::: {#r-3-4 .callout-tip .remark-box}
+
+#### **Remark 3.4** (Banach–Tarski).
+
+A Banach measure ([Definition 3.3](#r-3-3)) exists on $\mathbb R$ and $\mathbb R^2$, but by [Theorem 3.2](#r-3-2) it cannot be countably additive. On $\mathbb R^3$ and above it does not exist (assuming the axiom of choice). This is the *Banach–Tarski paradox* [[4]](#ref-4): a ball in $\mathbb R^3$ can be cut into finitely many pieces which, after rotations and translations, reassemble into two balls of the same size ([@fig-l03-banach-tarski]). Had a Banach measure $\beta$ existed on $\mathbb R^3$, we would get $\beta(B) = 2\beta(B)$ for the ball $B$, a contradiction. The resolution to the paradox is that the pieces which have been constructed cannot be assigned a meaningful volume. Using only ZF, that is, without the axiom of choice, one cannot arrive at the Banach–Tarski paradox (see the footnote on ZF and the axiom of choice in [Nonmeasurable sets](#nonmeasurable-sets)).
+
+::: {#fig-l03-banach-tarski}
+```{=html}
+<div class="themed-figure" style="max-width: 640px; margin: 0 auto;"><img src="images/l03-banach-tarski-light.svg" class="light-content figure-img" alt="Banach–Tarski schematic: one ball cut into five pieces, which are rotated and translated into two balls of the same size."><img src="images/l03-banach-tarski-dark.svg" class="dark-content figure-img" alt="Banach–Tarski schematic: one ball cut into five pieces, which are rotated and translated into two balls of the same size."></div>
+```
+
+Schematic of the Banach–Tarski paradox: one ball is cut into five pieces $A_1, \dots, A_5$, which are rotated and translated into two balls of the original size.
+:::
+:::
+
+## References {.unnumbered}
+
+1. []{#ref-1}A. Alexanderian, *On non-existence of Lebesgue-like measures in infinite dimensions*, North Carolina State University (2025). [aalexan3.math.ncsu.edu](https://aalexan3.math.ncsu.edu/articles/infdim_meas.pdf)
+2. []{#ref-2}Infinite-dimensional Lebesgue measure, *Wikipedia*. [en.wikipedia.org](https://en.wikipedia.org/wiki/Infinite-dimensional_Lebesgue_measure)
+3. []{#ref-3}Banach measure, *Wikipedia*. [en.wikipedia.org](https://en.wikipedia.org/wiki/Banach_measure)
+4. []{#ref-4}Banach–Tarski paradox, *Wikipedia*. [en.wikipedia.org](https://en.wikipedia.org/wiki/Banach%E2%80%93Tarski_paradox)
