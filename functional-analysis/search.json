@@ -4,9 +4,109 @@
     "href": "index.html",
     "title": "Functional Analysis",
     "section": "",
-    "text": "Preface\nThese are my own notes from the course Functional Analysis. The lecture notes will be added here soon.",
+    "text": "Preface\nFunctional analysis extends linear algebra and calculus to infinite-dimensional vector spaces.\nThese are notes from the course Functional Analysis. They are based on the book Functional Analysis, Spectral Theory, and Applications by Manfred Einsiedler and Thomas Ward [1]. The notes build on measure and integration theory, and link back to my Integration Theory notes where needed.",
     "crumbs": [
       "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#lectures",
+    "href": "index.html#lectures",
+    "title": "Functional Analysis",
+    "section": "Lectures",
+    "text": "Lectures\n\nLecture 1 — Norms\n\nNorms and normed vector spaces · The induced metric and topology · Continuous maps · Equivalence of norms · Semi-norms and Hausdorff spaces · The quotient norm · Strict sub-additivity\n\n\nMore lectures will be added as the course goes on.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#notation",
+    "href": "index.html#notation",
+    "title": "Functional Analysis",
+    "section": "Notation",
+    "text": "Notation\n\n\n\n\n\n\n\nSymbol\nMeaning\n\n\n\n\n\\((V, \\lVert\\cdot\\rVert)\\)\nNormed vector space\n\n\n\\(\\lVert v\\rVert_1,\\ \\lVert v\\rVert_2,\\ \\lVert v\\rVert_\\infty\\)\nThe \\(1\\)-, Euclidean and supremum norms on \\(\\mathbb R^d\\)\n\n\n\\(d(v, w) = \\lVert v - w\\rVert\\)\nMetric induced by a norm\n\n\n\\(B_\\varepsilon(x)\\)\nOpen ball of radius \\(\\varepsilon\\) around \\(x\\)\n\n\n\\((X, \\mathcal O)\\)\nTopological space with topology \\(\\mathcal O\\)\n\n\n\\(C_b(X)\\)\nContinuous bounded functions \\(X \\to \\mathbb R\\)\n\n\n\\(V_0\\)\nKernel \\(\\{v : \\lVert v\\rVert = 0\\}\\) of a semi-norm\n\n\n\\(V/W\\), \\(\\ v + W\\)\nQuotient space and cosets",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "Functional Analysis",
+    "section": "References",
+    "text": "References\n\nM. Einsiedler and T. Ward, Functional Analysis, Spectral Theory, and Applications, Graduate Texts in Mathematics 276, Springer, Cham, 2017. springer.com",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html",
+    "href": "lecture-01.html",
+    "title": "1  Norms",
+    "section": "",
+    "text": "Norms\nFunctional analysis extends linear algebra and calculus to infinite-dimensional vector spaces, typically spaces of functions. The first ingredient we need is a way of measuring the size of a vector.\nIn words, the line segment between any two points of \\(K\\) stays inside \\(K\\) (Figure 1.1).\nA good way to picture a norm is through its unit ball \\(\\{v : \\|v\\| \\leq 1\\}\\). For the three norms on \\(\\mathbb R^2\\) above these are a diamond, a disc and a square (Figure 1.2). The unit ball of a norm is always convex: if \\(\\|k_1\\|, \\|k_2\\| \\leq 1\\), the triangle inequality and homogeneity give \\(\\|(1-t)k_1 + t k_2\\| \\leq (1-t) + t = 1\\).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Norms</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#norms",
+    "href": "lecture-01.html#norms",
+    "title": "1  Norms",
+    "section": "",
+    "text": "NoteDefinition 1.1 (Convex set). [1, §2.1]\n\n\n\nA subset \\(K\\) of a vector space \\(V\\) is convex if, together with any two of its points \\(k_1, k_2\\), it contains every point \\[(1-t)k_1 + t k_2, \\qquad t \\in [0,1],\\] on the segment between them.\n\n\n\n\n\n\n\n\n\nFigure 1.1: Left: a convex set contains the whole segment from \\(k_1\\) to \\(k_2\\). Right: in a non-convex set the segment can leave the set.\n\n\n\n\n\n\n\n\n\nNoteDefinition 1.2 (Norm and normed vector space). [1, Def. 2.1]\n\n\n\nLet \\(V\\) be a vector space over \\(\\mathbb R\\) or \\(\\mathbb C\\). A function \\(\\|\\cdot\\| : V \\to \\mathbb R\\) is a norm if, for all \\(v, w \\in V\\) and all scalars \\(\\alpha\\),\n\n\\(\\|v\\| \\geq 0\\), with equality only for \\(v = 0\\) (strict positivity);\n\\(\\|\\alpha v\\| = |\\alpha|\\,\\|v\\|\\) (homogeneity);\n\\(\\|v + w\\| \\leq \\|v\\| + \\|w\\|\\) (triangle inequality).\n\nA vector space together with a norm, \\((V, \\|\\cdot\\|)\\), is a normed vector space.\n\n\n\n\n\n\n\n\nCautionExample 1.3 (Normed real vector spaces). [1, Ex. 2.2]\n\n\n\nEach of the following is a normed real vector space.\n\n\\(\\mathbb R^d\\) with the Euclidean norm \\(\\|v\\|_2 = \\bigl(|v_1|^2 + \\cdots + |v_d|^2\\bigr)^{1/2}\\).\n\\(\\mathbb R^d\\) with the supremum norm \\(\\|v\\|_\\infty = \\max_k |v_k|\\).\n\\(\\mathbb R^d\\) with \\(\\|v\\|_1 = |v_1| + \\cdots + |v_d|\\).\nThe space \\(C_b(X)\\) of bounded continuous functions \\(f : X \\to \\mathbb R\\) on a topological space \\(X\\), normed by the supremum \\(\\|f\\|_\\infty = \\sup_{x \\in X} |f(x)|\\).\n\n\n\n\n\n\n\n\n\n\nFigure 1.2: The unit balls of \\(\\|\\cdot\\|_1\\), \\(\\|\\cdot\\|_2\\) and \\(\\|\\cdot\\|_\\infty\\) in \\(\\mathbb R^2\\). They are nested because \\(\\|v\\|_\\infty \\leq \\|v\\|_2 \\leq \\|v\\|_1\\).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Norms</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#normed-spaces-as-metric-and-topological-spaces",
+    "href": "lecture-01.html#normed-spaces-as-metric-and-topological-spaces",
+    "title": "1  Norms",
+    "section": "Normed spaces as metric and topological spaces",
+    "text": "Normed spaces as metric and topological spaces\n\n\n\n\n\n\nImportantLemma 1.4 (Associated metric). [1, Lem. 2.4]\n\n\n\nLet \\((V, \\|\\cdot\\|)\\) be a normed vector space. For all \\(v, w \\in V\\) the reverse triangle inequality \\[\\bigl|\\|v\\| - \\|w\\|\\bigr| \\leq \\|v - w\\| \\tag{1.1}\\] holds. The function \\(d(v, w) = \\|v - w\\|\\) is a metric on \\(V\\), and the norm \\(V \\to \\mathbb R\\) is continuous for the topology of this metric.\n\n\nThe lemma is a mouthful, so let us break it into its components. Equation (1.1) says that if \\(\\|v - w\\| \\to 0\\), then also \\(\\bigl|\\|v\\| - \\|w\\|\\bigr| \\to 0\\), which is exactly continuity of the norm. The second part says that every normed vector space is also a metric space.\n\n\n\n\n\n\nImportantProposition 1.5 (Every normed space is a metric space). [1, proof of Lem. 2.4]\n\n\n\nLet \\((V, \\|\\cdot\\|)\\) be a normed vector space. Then \\(d(x, y) := \\|x - y\\|\\) defines a metric on \\(V\\).\n\n\n\n\n\n\nNoteProof\n\n\n\n\n\nNon-negativity. \\(d(x, y) = \\|x - y\\| \\geq 0\\) by positivity of the norm.\nDefiniteness. \\(d(x, y) = 0 \\iff \\|x - y\\| = 0 \\iff x = y\\).\nSymmetry. \\(d(x, y) = \\|x - y\\| = \\|{-(y - x)}\\| = \\|y - x\\| = d(y, x)\\) by homogeneity.\nTriangle inequality. \\(d(x, z) = \\|(x - y) + (y - z)\\| \\leq \\|x - y\\| + \\|y - z\\| = d(x, y) + d(y, z)\\). \\(\\square\\)\n\n\n\n\n\nWhat does continuous with respect to the topology induced by \\(d\\) really mean? We first recall what a topology is.\n\n\n\n\n\n\nNoteDefinition 1.6 (Topological space).\n\n\n\nA topological space is a pair \\((X, \\mathcal O)\\), where \\(\\mathcal O \\subseteq \\mathcal P(X)\\) is a topology on \\(X\\), meaning\n\n\\(\\emptyset, X \\in \\mathcal O\\);\n\\(O, O' \\in \\mathcal O \\Rightarrow O \\cap O' \\in \\mathcal O\\) (closed under finite intersections);\n\\(\\{O_i\\}_{i \\in I} \\subseteq \\mathcal O \\Rightarrow \\bigcup_{i \\in I} O_i \\in \\mathcal O\\) (closed under arbitrary unions).\n\nThe elements of \\(\\mathcal O\\) are called open sets.\n\n\nGiven a metric \\(d\\) on a set \\(X\\), we induce a topology as follows.\n\n\n\n\n\n\nNoteDefinition 1.7 (Metric topology).\n\n\n\nGiven a metric space \\((X, d)\\), the topology induced by \\(d\\) is \\[\\mathcal O_d = \\{ U \\subseteq X \\mid \\forall x \\in U\\ \\exists \\varepsilon &gt; 0 : B_\\varepsilon(x) \\subseteq U \\},\\] where \\(B_\\varepsilon(x) = \\{ y \\in X \\mid d(x, y) &lt; \\varepsilon \\}\\) is the open ball of radius \\(\\varepsilon\\) centred at \\(x\\).\n\n\n\n\n\n\nNoteProof that \\(\\mathcal O_d\\) is a topology\n\n\n\n\n\n\\(\\emptyset\\) and \\(X\\). The condition is vacuous for \\(\\emptyset\\), and every ball \\(B_\\varepsilon(x)\\) lies in \\(X\\).\nFinite intersections. Let \\(U, U' \\in \\mathcal O_d\\) and \\(x \\in U \\cap U'\\). There are \\(\\varepsilon, \\varepsilon' &gt; 0\\) with \\(B_\\varepsilon(x) \\subseteq U\\) and \\(B_{\\varepsilon'}(x) \\subseteq U'\\). With \\(\\delta = \\min(\\varepsilon, \\varepsilon')\\) we get \\(B_\\delta(x) \\subseteq U \\cap U'\\), so \\(U \\cap U' \\in \\mathcal O_d\\).\nArbitrary unions. Let \\(\\{U_i\\}_{i \\in I} \\subseteq \\mathcal O_d\\) and \\(x \\in \\bigcup_i U_i\\). Then \\(x \\in U_j\\) for some \\(j\\), and some ball \\(B_\\varepsilon(x) \\subseteq U_j \\subseteq \\bigcup_i U_i\\). Hence \\(\\bigcup_i U_i \\in \\mathcal O_d\\). \\(\\square\\)\n\n\n\n\n\nSo a set is open when every one of its points has a small ball around it that stays inside the set (Figure 1.3). A normed vector space always has an associated metric, and hence always an induced topology.\n\n\n\n\n\n\nFigure 1.3: An open set \\(U\\): every point has a ball around it inside \\(U\\). Points near the edge, like \\(y\\), need a smaller radius.\n\n\n\n\n\n\n\n\n\nNoteDefinition 1.8 (Continuous map).\n\n\n\nA map \\(f : X \\to Y\\) between topological spaces \\((X, \\mathcal O_X)\\) and \\((Y, \\mathcal O_Y)\\) is continuous if preimages of open sets are open: \\[U \\in \\mathcal O_Y \\implies f^{-1}(U) \\in \\mathcal O_X.\\]\n\n\nThis is the same idea as for measurable functions in integration theory, where preimages of measurable sets are required to be measurable. There the structure on the sets is a \\(\\sigma\\)-algebra; here it is a topology instead.\nIn Lemma 1.4 we have \\(f = \\|\\cdot\\| : V \\to \\mathbb R\\), where \\(V\\) carries the topology \\(\\mathcal O_d\\) induced by \\(d(v, w) = \\|v - w\\|\\), and \\(\\mathbb R\\) carries the standard topology \\(\\mathcal O_{\\text{std}}\\) induced by the absolute value \\(|\\cdot|\\). The second part of the lemma asserts that \\[\\forall\\, U \\in \\mathcal O_{\\text{std}}: \\quad \\|\\cdot\\|^{-1}(U) \\in \\mathcal O_d.\\]",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Norms</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#equivalence-of-norms",
+    "href": "lecture-01.html#equivalence-of-norms",
+    "title": "1  Norms",
+    "section": "Equivalence of norms",
+    "text": "Equivalence of norms\nDifferent norms may in principle produce different topologies. The strictest way to compare two norms would be to demand \\(\\|v\\| = \\|v\\|'\\) for all \\(v \\in V\\). We relax this and instead compare norms through the topologies they induce.\n\n\n\n\n\n\nImportantLemma 1.9 (Equivalence of norms). [1, Lem. 2.5]\n\n\n\nTwo norms \\(\\|\\cdot\\|\\) and \\(\\|\\cdot\\|'\\) on \\(V\\) give the same topology exactly when they agree up to a constant factor: there is a \\(c \\geq 1\\) with \\[\\frac1c \\|v\\|' \\leq \\|v\\| \\leq c \\|v\\|' \\qquad \\text{for every } v \\in V.\\] Such norms are called equivalent.\n\n\n\n\n\n\n\n\nCautionExample 1.10 (Equivalent norms on \\(\\mathbb R^d\\)).\n\n\n\n\n\\(\\|\\cdot\\|_\\infty\\) and \\(\\|\\cdot\\|_2\\), with \\(c = \\sqrt d\\): \\(\\ \\|v\\|_\\infty \\leq \\|v\\|_2 \\leq \\sqrt d\\, \\|v\\|_\\infty\\).\n\\(\\|\\cdot\\|_2\\) and \\(\\|\\cdot\\|_1\\), with \\(c = \\sqrt d\\): \\(\\ \\|v\\|_2 \\leq \\|v\\|_1 \\leq \\sqrt d\\, \\|v\\|_2\\).\n\\(\\|\\cdot\\|_\\infty\\) and \\(\\|\\cdot\\|_1\\), with \\(c = d\\): \\(\\ \\|v\\|_\\infty \\leq \\|v\\|_1 \\leq d\\, \\|v\\|_\\infty\\).\n\n\n\nGeometrically, equivalence means that a scaled copy of each unit ball fits inside the other; in Figure 1.2 the square fits in the disc after shrinking by \\(\\sqrt 2\\), and the disc fits in the square as it is. Every ball for one norm therefore contains a ball for the other around the same point, so both norms have the same open sets.\n\n\n\n\n\n\nImportantProposition 1.11 (Equivalence in finite dimensions). [1, Prop. 2.6]\n\n\n\nFor every \\(d \\geq 1\\), all norms on \\(\\mathbb R^d\\) are equivalent to each other.\n\n\nSince every finite-dimensional real (complex) vector space of dimension \\(n\\) is isomorphic to \\(\\mathbb R^n\\) (\\(\\mathbb C^n\\)), see Theorem 1.12, any two norms on a finite-dimensional space induce the same topology. On infinite-dimensional spaces, different norms generally produce different topologies.\n\n\n\n\n\n\nImportantTheorem 1.12 (Finite-dimensional vector spaces are isomorphic to \\(\\mathbb R^n\\)).\n\n\n\nLet \\(V\\) be a finite-dimensional vector space over \\(\\mathbb R\\) with \\(\\dim V = n\\). Then \\(V \\cong \\mathbb R^n\\).\n\n\n\n\n\n\nNoteProof\n\n\n\n\n\nSince \\(\\dim V = n\\), there exists a basis \\(\\{e_1, \\ldots, e_n\\}\\) of \\(V\\). Define \\[T : \\mathbb R^n \\to V, \\qquad T(\\alpha_1, \\ldots, \\alpha_n) = \\sum_{k=1}^n \\alpha_k e_k.\\]\nLinearity. For \\(x = (\\alpha_1, \\ldots, \\alpha_n)\\), \\(y = (\\beta_1, \\ldots, \\beta_n) \\in \\mathbb R^n\\) and \\(\\lambda \\in \\mathbb R\\), \\[T(x + \\lambda y) = \\sum_{k=1}^n (\\alpha_k + \\lambda \\beta_k) e_k = T(x) + \\lambda T(y).\\]\nSurjectivity. Since \\(\\{e_1, \\ldots, e_n\\}\\) spans \\(V\\), every \\(v \\in V\\) can be written \\(v = \\sum_k \\alpha_k e_k = T(\\alpha_1, \\ldots, \\alpha_n)\\).\nInjectivity. For a linear map, \\(T(x) = T(y) \\Rightarrow x = y\\) amounts to \\(T(x) = 0 \\Rightarrow x = 0\\). If \\(T(x) = \\sum_k \\alpha_k e_k = 0\\), linear independence of the basis gives \\(\\alpha_k = 0\\) for all \\(k\\), so \\(\\ker T = \\{0\\}\\).\nHence \\(T\\) is a bijective linear map, i.e. a linear isomorphism, and \\(V \\cong \\mathbb R^n\\). \\(\\square\\)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Norms</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#semi-norms-and-the-quotient-norm",
+    "href": "lecture-01.html#semi-norms-and-the-quotient-norm",
+    "title": "1  Norms",
+    "section": "Semi-norms and the quotient norm",
+    "text": "Semi-norms and the quotient norm\n\n\n\n\n\n\nNoteDefinition 1.13 (Semi-norm). [1, Def. 2.11]\n\n\n\nA semi-norm (or pseudo-norm) on a vector space \\(V\\) is a function \\(\\|\\cdot\\| : V \\to \\mathbb R_{\\geq 0}\\) that is homogeneous and satisfies the triangle inequality, but may vanish on non-zero vectors.\n\n\nUnlike a norm, a semi-norm does not demand \\(\\|v\\| = 0 \\Rightarrow v = 0\\). Non-zero vectors can have zero semi-norm, and so two distinct points can have zero distance from each other.\n\n\n\n\n\n\nTipRemark 1.14 (The topology induced by a semi-norm). [1, §2.1.2]\n\n\n\nDefining \\(d(v, w) = \\|v - w\\|\\) as in Lemma 1.4 now gives a pseudo-metric, which can assign distance zero to distinct points, and Definition 1.7 still turns it into a topology on \\(V\\). This topology need not be Hausdorff (Definition 1.15 below).\n\n\n\n\n\n\n\n\nNoteDefinition 1.15 (Hausdorff space).\n\n\n\nA topological space \\((X, \\mathcal O)\\) is Hausdorff if for all \\(x \\neq y\\) in \\(X\\) there exist open sets \\(U_x, U_y \\in \\mathcal O\\) with \\(x \\in U_x\\), \\(y \\in U_y\\) and \\(U_x \\cap U_y = \\emptyset\\).\n\n\nIn other words, any two distinct points can be separated by neighbourhoods that do not intersect (Figure 1.4). The standard topology on \\(\\mathbb R\\) is Hausdorff.\n\n\n\n\n\n\nCautionExample 1.16 (A non-Hausdorff space).\n\n\n\nLet \\(X = \\mathbb R\\) and \\[\\mathcal O = \\{\\emptyset, \\mathbb R\\} \\cup \\{(a, \\infty) \\mid a \\in \\mathbb R\\}.\\] This is a topology, but it is not Hausdorff: for \\(x &lt; y\\), every open set containing \\(x\\) is of the form \\((a, \\infty)\\) with \\(a &lt; x\\) (or \\(\\mathbb R\\)), and so also contains \\(y\\).\n\n\n\n\n\n\n\n\nFigure 1.4: Left: in a Hausdorff space, \\(x\\) and \\(y\\) have disjoint neighbourhoods. Right: in Example 1.16, every open set \\((a, \\infty)\\) containing \\(x\\) also contains every \\(y &gt; x\\).\n\n\n\nFor a semi-norm, the induced topology is Hausdorff precisely when the semi-norm is a norm. Indeed, a vector \\(v \\neq 0\\) with \\(\\|v\\| = 0\\) lies in every ball \\(B_\\varepsilon(0)\\), so \\(v\\) and \\(0\\) cannot be separated.\n\n\n\n\n\n\nCautionExample 1.17 (Promoting the \\(L^1\\) semi-norm to a norm). [1, Ex. 2.12]\n\n\n\nFor a measure space \\((X, \\mathcal B, \\mu)\\), let \\(L^1_\\mu(X)\\) be the space of measurable functions \\(f : X \\to \\mathbb R\\) that are integrable with respect to \\(\\mu\\) (see Lecture 6 of the integration theory notes). Here the elements are actual functions, not equivalence classes. The integral \\[\\|f\\|_1 = \\int_X |f| \\, d\\mu\\] is a semi-norm on this space, but in general not a norm, since \\(\\|f\\|_1 = 0\\) only forces \\(f = 0\\) \\(\\mu\\)-a.e. Identifying functions that agree \\(\\mu\\)-a.e., via \\(f \\sim g \\Leftrightarrow f = g\\) \\(\\mu\\)-a.e., turns it into a norm. This is the quotient construction of Lemma 1.19 with \\(W = V_0\\), the functions that vanish a.e.\n\n\n\n\n\n\n\n\nImportantLemma 1.18 (Kernel of a semi-norm). [1, Lem. 2.14]\n\n\n\nFor a semi-norm on \\(V\\), the vectors of zero semi-norm, \\(V_0 = \\{v \\in V \\mid \\|v\\| = 0\\}\\), form a linear subspace, and this subspace is closed in the topology the semi-norm induces.\n\n\n\\(V_0\\) is a linear subspace (as is easily verified), and it is closed since it is the preimage of the closed set \\(\\{0\\}\\)1 under the continuous map \\(v \\mapsto \\|v\\|\\) (see Lemma 1.4).\n1 Closed in the standard topology \\(\\mathcal O_{\\text{std}}\\) on \\(\\mathbb R\\), which we assume unless otherwise stated: its complement \\((-\\infty, 0) \\cup (0, \\infty)\\) is open. This depends on the topology; in the discrete topology, where every subset is open, every set is also closed.\n\n\n\n\n\nImportantLemma 1.19 (Quotient norm). [1, Lem. 2.15]\n\n\n\nLet \\(\\|\\cdot\\|\\) be a semi-norm on \\(V\\) and \\(W \\subseteq V\\) a closed subspace. On the quotient space \\(V/W = \\{v + W \\mid v \\in V\\}\\), \\[\\|v + W\\|_{V/W} = \\inf_{w \\in W} \\|v + w\\|\\] is a norm. When \\(W = V_0\\) is the kernel of the semi-norm (closed by Lemma 1.18), this norm is simply \\(\\|v + V_0\\|_{V/V_0} = \\|v\\|\\).\n\n\nThe quotient norm finds the smallest norm among all representatives of the coset \\(v + W\\). Geometrically, it is the size of the smallest ball around \\(0\\) that touches the coset (Figure 1.5). For \\(W = V_0\\), every representative has the same semi-norm, since \\(\\|v\\| - \\|w\\| \\leq \\|v + w\\| \\leq \\|v\\| + \\|w\\|\\) with \\(\\|w\\| = 0\\).\n\n\n\n\n\n\n\nFigure 1.5: The quotient norm in \\(V = \\mathbb R^2\\). Left: a subspace \\(W\\) and the coset \\(v + W\\); the shaded ball is the smallest one around \\(0\\) that touches the coset, at \\(v + w^*\\). Right: the norm along the coset, whose infimum is \\(\\|v + W\\|\\). With the semi-norm \\(\\|(x, y)\\| = |y|\\), the kernel \\(V_0\\) is the \\(x\\)-axis and the norm is constant along the coset.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Norms</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#strict-sub-additivity",
+    "href": "lecture-01.html#strict-sub-additivity",
+    "title": "1  Norms",
+    "section": "Strict sub-additivity",
+    "text": "Strict sub-additivity\n\n\n\n\n\n\nNoteDefinition 1.20 (Strictly sub-additive norm). [1, Def. 2.17]\n\n\n\nA norm on \\(V\\) is strictly sub-additive if equality in the triangle inequality only occurs for vectors pointing in the same direction: \\[\\|v + w\\| &lt; \\|v\\| + \\|w\\|\\] for all \\(v, w \\in V\\), except when \\(v\\) and \\(w\\) are both non-negative real multiples of \\(v + w\\).\n\n\n\n\n\n\n\n\nCautionExample 1.21 (Strictly sub-additive norms on \\(\\mathbb R^n\\)).\n\n\n\nStrictly sub-additive: \\((\\mathbb R^n, \\|\\cdot\\|_p)\\) for \\(1 &lt; p &lt; \\infty\\), since Minkowski’s inequality is strict unless the vectors are proportional.\nNot strictly sub-additive:\n\n\\((\\mathbb R^2, \\|\\cdot\\|_1)\\): \\(v = (1, 0)\\) and \\(w = (0, 1)\\) are not proportional, yet \\(\\|v + w\\|_1 = 2 = \\|v\\|_1 + \\|w\\|_1\\).\n\\((\\mathbb R^2, \\|\\cdot\\|_\\infty)\\): \\(v = (1, 1)\\) and \\(w = (1, 0)\\) are not proportional, yet \\(\\|v + w\\|_\\infty = 2 = \\|v\\|_\\infty + \\|w\\|_\\infty\\) (compare [1, Ex. 2.19]).\n\n\n\n\n\n\n\n\n\nFigure 1.6: The vectors \\(v = (1, 0)\\) and \\(w = (0, 1)\\). In \\(\\|\\cdot\\|_2\\) the diagonal is strictly shorter than the two legs; in \\(\\|\\cdot\\|_1\\) it has the same length, as does any staircase path between the endpoints.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Norms</span>"
+    ]
+  },
+  {
+    "objectID": "lecture-01.html#references",
+    "href": "lecture-01.html#references",
+    "title": "1  Norms",
+    "section": "References",
+    "text": "References\n\nM. Einsiedler and T. Ward, Functional Analysis, Spectral Theory, and Applications, Graduate Texts in Mathematics 276, Springer, Cham, 2017. Chapter 2. springer.com",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Norms</span>"
     ]
   }
 ]
