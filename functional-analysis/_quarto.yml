@@ -1,6 +1,10 @@
 project:
   type: book
   output-dir: _book
+  pre-render: _graph.py
+  resources:
+    - images/
+    - lecture-graph.js
 
 book:
   title: "Functional Analysis"
@@ -20,6 +24,7 @@ book:
 
   chapters:
     - index.qmd
+    - lecture-01.qmd
 
 language:
   title-block-published: "Last edited"
