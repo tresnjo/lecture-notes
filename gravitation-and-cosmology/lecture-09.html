@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; The Riemann Tensor – Gravitation and Cosmology</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./lecture-10.html" rel="next">
+<link href="./lecture-08.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3e80c2c7eb5d420c55e6d90c5024856f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-b4f7236dafa21aed8d54434ee2ad8477.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-3e80c2c7eb5d420c55e6d90c5024856f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<style>
+/* Visualizations: no box, blend into the page; only controls + figure stay visible */
+.viz { margin: 1.6em 0; max-width: 100%; }
+.viz svg { max-width: 680px; width: 100%; height: auto; display: block; margin: 0 auto; }
+.viz div[style*="letter-spacing: 1px"],   /* title */
+.viz div[style*="font-size: 11px"],       /* captions, legends */
+.viz div[style*="border-top"],            /* stat footers */
+.viz div[style*="border-left"] { display: none !important; }  /* explanatory notes */
+.viz button { cursor: pointer; }
+</style>
+<style>
+/* land a little above a cross-referenced box, clear of the top bar */
+[id] { scroll-margin-top: 4.5rem; }
+</style>
+<script>
+/* Keep a linked box (#r-9-4 etc.) at the top while math and figures above it finish rendering. */
+(function () {
+  var stop = false, until = 0;
+  function target() {
+    var h = decodeURIComponent(location.hash.slice(1));
+    return h ? document.getElementById(h) : null;
+  }
+  function pin() {
+    if (stop || Date.now() > until) return;
+    var el = target(); if (!el) return;
+    var off = el.getBoundingClientRect().top - 72;
+    if (Math.abs(off) > 2) window.scrollBy(0, off);
+  }
+  function arm() {
+    stop = false; until = Date.now() + 4000;
+    pin();
+    var ticks = 0, t = setInterval(function () { pin(); if (++ticks > 40 || stop) clearInterval(t); }, 100);
+  }
+  ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (ev) {
+    window.addEventListener(ev, function () { stop = true; }, { passive: true });
+  });
+  window.addEventListener("hashchange", arm);
+  window.addEventListener("load", function () { if (location.hash) arm(); });
+  document.addEventListener("DOMContentLoaded", function () {
+    if (location.hash) arm();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(pin);
+  });
+})();
+</script>
+<style>
+/* phones: let long chapter titles wrap instead of running off the screen */
+#quarto-sidebar .sidebar-item-container, #quarto-sidebar .sidebar-link { min-width: 0; max-width: 100%; }
+#quarto-sidebar .sidebar-link, #quarto-sidebar .menu-text, #quarto-sidebar .chapter-title {
+  white-space: normal !important; overflow-wrap: anywhere; }
+#quarto-sidebar .sidebar-link .menu-text { display: flex; gap: 0.35em; line-height: 1.3; }
+#quarto-sidebar .chapter-number { flex: none; }
+@media (max-width: 991.98px) {
+  #quarto-sidebar { max-width: 100vw; overflow-x: hidden; font-size: 0.95rem; }
+  #quarto-sidebar .sidebar-menu-container { padding-right: 0.8rem; }
+  /* the bar under the banner: one line, cut off with … */
+  .quarto-secondary-nav .quarto-page-breadcrumbs, .quarto-secondary-nav nav { min-width: 0; flex: 1 1 auto; overflow: hidden; }
+  .quarto-secondary-nav .breadcrumb { flex-wrap: nowrap; white-space: nowrap; overflow: hidden; margin: 0; }
+  .quarto-secondary-nav .breadcrumb-item { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .quarto-secondary-nav .breadcrumb-item:not(:last-child) { display: none; }
+  .quarto-secondary-nav .breadcrumb-item + .breadcrumb-item::before { display: none; }
+  .navbar-brand .navbar-title { white-space: normal; }
+  h1.title, .quarto-title h1 { overflow-wrap: break-word; }
+}
+</style>
+<!-- lecture solar system (Interactive graph box) -->
+<script src="lecture-graph.js"></script>
+<script>
+/* Interactive graph: a small 3D solar system of lectures.
+   The current lecture is the sun. Every connected lecture is a planet on its own tilted orbit:
+   lectures it builds on sit closest (strongest connection innermost, solid orbits), later lectures
+   that build on it further out (dashed orbits). Faint links join the sun to each planet and planets
+   that are connected to each other.
+   Drag the background to rotate and tilt (with momentum). Drag a planet to pull it off its orbit;
+   it springs back when released. Hover a planet to highlight its links, click it to open the lecture,
+   double-click the background to reset the view.
+   Other books are other solar systems: when this lecture links to a lecture in another book (or is
+   linked from one), that book appears as a distant star with the linked lectures as its planets,
+   joined to this lecture by a dashed line. */
+(function () {
+  var PART = {
+    "Measure Theory": ["#e3a689", "#a9583a"],
+    "Integration": ["#9cc0dc", "#3a6f99"],
+    "Signed Measures and Differentiation": ["#e6d3a3", "#a9862f"],
+    "Noether's theorem": ["#d9b6cf", "#7a4570"],
+    "Normed spaces": ["#a9c7b2", "#3d5745"],
+    "Interpretation of GR": ["#b9c4d1", "#4c5a6b"],
+    "Covariant phase space": ["#cdbfd9", "#5d4b70"],
+    "Exercises": ["#e3d3ae", "#8a6a2c"],
+    "Foundations": ["#d9cbb0", "#5a4a36"],
+    "Curvature and the Einstein equations": ["#c3cfd9", "#3f5668"],
+    "Applications": ["#dcc0b2", "#7a4532"],
+    "Cosmology": ["#c8d3b8", "#4f6138"]
+  };
+  var YAW0 = -0.35, PITCH0 = 0.6, MAXP = 9;
+
+  function mountOrbit(host, G, n, opts) {
+    opts = opts || {};
+    var byN = {}; G.lectures.forEach(function (l) { byN[l.n] = l; });
+    if (!byN[n]) return;
+    var inner = [], outer = [];
+    G.edges.forEach(function (e) {
+      if (e.from === n) inner.push({ l: byN[e.to], via: e.via, w: e.w, kind: "in" });
+      else if (e.to === n) outer.push({ l: byN[e.from], via: e.via, w: e.w, kind: "out" });
+    });
+    var byW = function (a, b) { return b.w - a.w || a.l.n - b.l.n; };
+    inner.sort(byW); outer.sort(byW);
+    inner = inner.slice(0, 7); outer = outer.slice(0, Math.max(0, MAXP - inner.length));
+    var list = inner.concat(outer);
+
+    host.innerHTML = "";
+    var cv = document.createElement("canvas"); cv.className = "orbit-canvas"; cv.tabIndex = 0;
+    var cap = document.createElement("div"); cap.className = "orbit-caption";
+    host.appendChild(cv); host.appendChild(cap);
+    var nums = function (a) { return a.slice().sort(function (x, y) { return x.l.n - y.l.n; }).map(function (p) { return p.l.label || p.l.n; }).join(", "); };
+    var rest = (inner.length ? "builds on " + nums(inner) : "") + (inner.length && outer.length ? " · " : "") +
+      (outer.length ? "used in " + nums(outer) : "");
+    var label = rest || "no connections yet";
+    rest = "";
+    cap.textContent = rest;
+    cv.setAttribute("role", "img");
+    var others = {}; (G.external || []).forEach(function (e) { if (e.local === n) others[((G.books || {})[e.book] || { title: e.book }).title] = 1; });
+    var otherList = Object.keys(others);
+    cv.setAttribute("aria-label", (byN[n].label ? "Exercise " + byN[n].label : "Lecture " + n) + " " + label + (otherList.length ? "; linked with " + otherList.join(", ") : "") + ". Drag to rotate, drag a planet to move it.");
+
+    // links between planets (Obsidian-style edges among the neighbours)
+    var set = {}; list.forEach(function (p, i) { set[p.l.n] = i; });
+    var links = [];
+    G.edges.forEach(function (e) {
+      if (e.from in set && e.to in set) links.push([set[e.from], set[e.to], e.w]);
+    });
+
+    // other books linked to or from this lecture: each one a distant solar system
+    var systems = [], sysBy = {};
+    (G.external || []).forEach(function (e) {
+      if (e.local !== n) return;
+      var s = sysBy[e.book];
+      if (!s) { s = sysBy[e.book] = { info: (G.books || {})[e.book] || { title: e.book, color: "#777777" }, items: [] }; systems.push(s); }
+      s.items.push(e);
+    });
+    var shrink = systems.length ? 0.64 : 1;
+    var extBodies = [];
+    systems.forEach(function (s, k) {
+      s.node = Math.PI / 2 - YAW0 + (k - (systems.length - 1) / 2) * 0.95; s.inc = 0;   // far side, top of the view
+      s.items.forEach(function (e, j) {
+        extBodies.push({ ext: e, s: s, a0: j * 2.399963 + k, r: 4.2, off: { x: 0, y: 0, vx: 0, vy: 0 } });
+      });
+    });
+
+    var ctx = cv.getContext("2d"), W, H, dpr, cx, cy, R;
+    var N = list.length;
+    var bodies = list.map(function (p, i) {
+      var f = N > 1 ? i / (N - 1) : 0.5;
+      return { p: p, i: i, f: f, a0: (i * 2.399963) % (Math.PI * 2),                     // golden-angle start phases
+        inc: 0.42 * Math.sin(i * 2.1 + n * 0.7), node: i * 1.17 + n * 0.3,
+        r: 2.8 + Math.sqrt(Math.max(1, p.l.results)) * 1.1,
+        off: { x: 0, y: 0, vx: 0, vy: 0 } };
+    });
+
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var zoom = 1, zoomTo = 1, pinch = null, pts = {}, anchor = null;   // zoom happens about the anchor (cursor or pinch centre)
+    var t = 0, yaw = YAW0, pitch = PITCH0, vyaw = 0, vpitch = 0, hover = null, drag = null, grab = null, last = 0, visible = true;
+
+    function size() {
+      dpr = window.devicePixelRatio || 1;
+      W = host.clientWidth || 260; H = Math.round(W * (opts.ratio || 0.9));
+      cv.width = W * dpr; cv.height = H * dpr; cv.style.height = H + "px";
+      cx = W / 2; cy = H / 2; R = W * 0.4; anchor = null;
+    }
+    function radius(b) { return R * zoom * shrink * (0.24 + 0.76 * b.f); }
+    function speed(b) { var x = radius(b) / (R * shrink); return 0.06 * Math.pow(x, -1.5); }                // Kepler-ish
+    function project(rad, inc, node, a) {
+      var x = rad * Math.cos(a), z = rad * Math.sin(a);
+      var y1 = -z * Math.sin(inc), z1 = z * Math.cos(inc);
+      var x2 = x * Math.cos(node) + z1 * Math.sin(node), z2 = -x * Math.sin(node) + z1 * Math.cos(node);
+      var x3 = x2 * Math.cos(yaw) + z2 * Math.sin(yaw), z3 = -x2 * Math.sin(yaw) + z2 * Math.cos(yaw);
+      var sy = y1 * Math.cos(pitch) + z3 * Math.sin(pitch), d = z3 * Math.cos(pitch) - y1 * Math.sin(pitch);
+      var k = 1 + 0.25 * d / (R * zoom);
+      return { x: cx + x3 * k, y: cy + sy * k, d: d, k: k };
+    }
+    function colors() {
+      var c = getComputedStyle(host).color || "rgb(40,40,40)", m = c.match(/\d+/g) || [40, 40, 40];
+      var dark = (0.3 * m[0] + 0.59 * m[1] + 0.11 * m[2]) / 255 > 0.5;
+      var a = function (v) { return (dark ? "rgba(255,255,255," : "rgba(0,0,0,") + v + ")"; };
+      return { text: c, a: a };
+    }
+    function mix(hex, w) {                              // blend a #rrggbb colour with white
+      var v = parseInt(hex.slice(1), 16), r = v >> 16 & 255, g = v >> 8 & 255, b = v & 255;
+      return "rgb(" + Math.round(r + (255 - r) * w) + "," + Math.round(g + (255 - g) * w) + "," + Math.round(b + (255 - b) * w) + ")";
+    }
+    function placeSystems() {
+      systems.forEach(function (s) { s.q = project(R * zoom * 1.2, s.inc, s.node, t * 0.01); });
+      extBodies.forEach(function (b) {
+        var c = b.s.q, rs = R * zoom * 0.2 * c.k, a = b.a0 + t * 0.32;
+        b.q = { x: c.x + rs * Math.cos(a) + b.off.x, y: c.y + rs * 0.42 * Math.sin(a) + b.off.y, d: c.d + rs * Math.sin(a), k: c.k };
+      });
+    }
+    function drawSystem(s, c) {
+      var q = s.q, col = s.info.color, rs = R * zoom * 0.2 * q.k, dim = hover && !(hover.s === s);
+      ctx.globalAlpha = dim ? 0.4 : 1;
+      ctx.beginPath(); ctx.ellipse(q.x, q.y, rs, rs * 0.42, 0, 0, 6.2832);
+      ctx.strokeStyle = c.a(0.1); ctx.lineWidth = 0.7; ctx.stroke();
+      var r = 6.5 * Math.sqrt(zoom) * q.k;
+      var g = ctx.createRadialGradient(q.x, q.y, 1, q.x, q.y, r * 2.6);
+      g.addColorStop(0, mix(col, 0.55).replace("rgb", "rgba").replace(")", ",0.35)")); g.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r * 2.6, 0, 6.2832); ctx.fill();
+      var b = ctx.createRadialGradient(q.x - r * 0.3, q.y - r * 0.35, 0.5, q.x, q.y, r);
+      b.addColorStop(0, mix(col, 0.8)); b.addColorStop(1, mix(col, 0.25));
+      ctx.fillStyle = b; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
+      ctx.font = font(9.5, true); ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillStyle = c.text;
+      ctx.globalAlpha = dim ? 0.25 : 0.62;
+      var label = s.info.title, w = ctx.measureText(label).width;
+      ctx.fillText(label, Math.max(w / 2 + 3, Math.min(W - w / 2 - 3, q.x)), q.y - rs * 0.42 - 16);
+      ctx.globalAlpha = 1;
+    }
+    function drawBridge(b, c) {                         // dashed line from this lecture to the other book's lecture
+      var on = hover === b, col = mix(b.s.info.color, 0.45);
+      ctx.save(); ctx.setLineDash([3, 4]);
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(b.q.x, b.q.y);
+      ctx.strokeStyle = col; ctx.globalAlpha = on ? 0.9 : (hover ? 0.18 : 0.42); ctx.lineWidth = on ? 1.2 : 0.8; ctx.stroke();
+      ctx.restore();
+    }
+    function drawExt(b, c) {
+      var q = b.q, col = b.s.info.color, r = b.r * Math.sqrt(zoom) * q.k * (hover === b || grab === b ? 1.4 : 1);
+      var dim = hover && hover !== b;
+      var g = ctx.createRadialGradient(q.x - r * 0.35, q.y - r * 0.4, r * 0.1, q.x, q.y, r);
+      g.addColorStop(0, mix(col, 0.7)); g.addColorStop(1, mix(col, 0.2));
+      ctx.globalAlpha = dim ? 0.35 : 1;
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = c.text; ctx.globalAlpha = dim ? 0.25 : 0.75;
+      ctx.font = font(9.5, true); ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText(String(b.ext.n), q.x + r + 2, q.y - r * 0.5);
+      ctx.globalAlpha = 1; b.rr = r;
+    }
+    function font(sz, it) { return (it ? "italic " : "") + sz + "px " + (getComputedStyle(host).fontFamily || "Palatino, serif"); }
+
+    function drawOrbit(b, c) {
+      var M = 90, rad = radius(b), prev = null, lit = hover === b;
+      ctx.lineWidth = lit ? 1 : 0.7;
+      for (var j = 0; j <= M; j++) {
+        var q = project(rad, b.inc, b.node, j / M * Math.PI * 2);
+        if (prev) {
+          ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(q.x, q.y);
+          var base = q.d < 0 ? 0.04 : 0.09;
+          ctx.strokeStyle = c.a(lit ? base * 2.6 : (hover ? base * 0.6 : base)); ctx.stroke();
+        }
+        prev = q;
+      }
+      ctx.setLineDash([]);
+    }
+    function drawLink(p, q, w, on, c) {
+      ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+      var v = Math.min(0.26, 0.07 + w * 0.01);
+      ctx.strokeStyle = c.a(on ? 0.45 : (hover ? v * 0.35 : v)); ctx.lineWidth = on ? 1.1 : 0.7; ctx.stroke();
+    }
+    function drawSun() {
+      var r = 8.5 * Math.sqrt(zoom);
+      var g = ctx.createRadialGradient(cx, cy, 1, cx, cy, r * 2.8);
+      g.addColorStop(0, "rgba(246,190,80,0.35)"); g.addColorStop(1, "rgba(246,190,80,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r * 2.8, 0, 6.2832); ctx.fill();
+      var b = ctx.createRadialGradient(cx - 2.5, cy - 3, 1, cx, cy, r);
+      b.addColorStop(0, "#fff3d0"); b.addColorStop(0.6, "#efb94e"); b.addColorStop(1, "#c97c22");
+      ctx.fillStyle = b; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = "#5a3306"; ctx.font = font(10); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(String(byN[n].label || n), cx, cy + 0.5);
+    }
+    function related(b) {
+      if (!hover) return true; if (b === hover) return true; if (hover.ext) return false;
+      return links.some(function (L) { return (bodies[L[0]] === hover && bodies[L[1]] === b) || (bodies[L[1]] === hover && bodies[L[0]] === b); });
+    }
+    function drawPlanet(b, c) {
+      var q = b.q, col = PART[b.p.l.part] || ["#ccc", "#888"];
+      var r = b.r * Math.sqrt(zoom) * q.k * (hover === b || grab === b ? 1.4 : 1);
+      var dim = hover && !related(b);
+      var g = ctx.createRadialGradient(q.x - r * 0.35, q.y - r * 0.4, r * 0.1, q.x, q.y, r);
+      g.addColorStop(0, col[0]); g.addColorStop(1, col[1]);
+      ctx.globalAlpha = (q.d < 0 ? 0.78 : 1) * (dim ? 0.35 : 1);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = c.text; ctx.globalAlpha = (q.d < 0 ? 0.45 : 0.78) * (dim ? 0.3 : 1);
+      ctx.font = font(10, true); ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText(String(b.p.l.label || b.p.l.n), q.x + r + 2.5, q.y - r * 0.5);
+      ctx.globalAlpha = 1; b.rr = r;
+    }
+    function draw() {
+      var c = colors();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      bodies.forEach(function (b) {
+        var q = project(radius(b), b.inc, b.node, b.a0 + t * speed(b));
+        q.x += b.off.x; q.y += b.off.y; b.q = q;
+      });
+      placeSystems();
+      systems.forEach(function (s) { drawSystem(s, c); });
+      extBodies.forEach(function (b) { drawBridge(b, c); });
+      extBodies.forEach(function (b) { drawExt(b, c); });
+      bodies.forEach(function (b) { drawOrbit(b, c); });
+      var sun = { x: cx, y: cy };
+      bodies.forEach(function (b) { drawLink(sun, b.q, b.p.w, hover === b, c); });
+      links.forEach(function (L) { var A = bodies[L[0]], B = bodies[L[1]]; drawLink(A.q, B.q, L[2], hover === A || hover === B, c); });
+      var order = bodies.slice().sort(function (a, b) { return a.q.d - b.q.d; }), sunDone = false;
+      order.forEach(function (b) { if (!sunDone && b.q.d >= 0) { drawSun(); sunDone = true; } drawPlanet(b, c); });
+      if (!sunDone) drawSun();
+    }
+    function step(dt) {
+      var z0 = zoom;
+      zoom += (zoomTo - zoom) * Math.min(1, dt * 12);
+      if (anchor && z0 > 0) {                          // keep the point under the cursor fixed while zooming
+        var r = zoom / z0; cx = anchor[0] - (anchor[0] - cx) * r; cy = anchor[1] - (anchor[1] - cy) * r;
+      }
+      if (zoomTo <= 1.0001) {                          // fully zoomed out: drift back to the middle
+        cx += (W / 2 - cx) * Math.min(1, dt * 6); cy += (H / 2 - cy) * Math.min(1, dt * 6);
+      }
+      if (!drag) { yaw += vyaw; pitch = clampP(pitch + vpitch); vyaw *= 0.94; vpitch *= 0.9; }
+      if (!hover && !grab && !reduce) t += dt;
+      bodies.concat(extBodies).forEach(function (b) {   // springs pull dragged planets back onto their orbits
+        if (b === grab) return;
+        var o = b.off, k = 70, damp = 7;
+        o.vx += (-k * o.x - damp * o.vx) * dt; o.vy += (-k * o.y - damp * o.vy) * dt;
+        o.x += o.vx * dt; o.y += o.vy * dt;
+        if (Math.abs(o.x) < 0.05 && Math.abs(o.vx) < 0.05) { o.x = 0; o.vx = 0; }
+        if (Math.abs(o.y) < 0.05 && Math.abs(o.vy) < 0.05) { o.y = 0; o.vy = 0; }
+      });
+    }
+    function frame(ts) {
+      var dt = last ? Math.min(0.04, (ts - last) / 1000) : 0; last = ts;
+      step(dt); draw();
+      if (visible) requestAnimationFrame(frame); else last = 0;
+    }
+    function clampP(p) { return Math.max(0.05, Math.min(1.5, p)); }
+    function pick(x, y, slack) {
+      var best = null, bd = 1e9, s = slack == null ? 7 : slack;      // fingers get a much larger target
+      bodies.concat(extBodies).forEach(function (b) { if (!b.q) return; var d = Math.hypot(b.q.x - x, b.q.y - y);
+        if (d < b.rr + s && d < bd) { bd = d; best = b; } });
+      return best;
+    }
+    function setHover(b) {
+      if (b === hover) return; hover = b;
+      cv.style.cursor = b ? "pointer" : "grab";
+      if (!b) { cap.textContent = rest; cap.classList.remove("on"); cap.title = ""; return; }
+      if (b.ext) { cap.textContent = b.s.info.title + " · " + b.ext.n + " · " + b.ext.title; cap.classList.add("on"); cap.title = ""; return; }
+      cap.textContent = (b.p.l.label || b.p.l.n) + " · " + b.p.l.title; cap.classList.add("on");
+      cap.title = b.p.via && b.p.via.length ? "via " + b.p.via.join(", ") : "";
+    }
+    function xy(ev) { var r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
+    cv.style.cursor = "grab";
+    cv.addEventListener("pointerdown", function (ev) {
+      var p = xy(ev), b = pick(p[0], p[1], ev.pointerType === "mouse" ? 7 : 20);
+      drag = { x: p[0], y: p[1], x0: p[0], y0: p[1], moved: false, tp: ev.pointerType, on: b };
+      vyaw = vpitch = 0;
+      if (b) { grab = b; b.off.vx = b.off.vy = 0; }
+      try { cv.setPointerCapture(ev.pointerId); } catch (e) {}
+    });
+    cv.addEventListener("pointermove", function (ev) {
+      var p = xy(ev);
+      if (pinch) return;
+      if (!drag) { setHover(pick(p[0], p[1])); return; }
+      var dx = p[0] - drag.x, dy = p[1] - drag.y; drag.x = p[0]; drag.y = p[1];
+      if (Math.hypot(p[0] - drag.x0, p[1] - drag.y0) > (drag.tp === "mouse" ? 4 : 12)) drag.moved = true;
+      if (!drag.moved) return;
+      if (grab) { grab.off.x += dx; grab.off.y += dy; grab.off.vx = dx * 60; grab.off.vy = dy * 60; setHover(grab); cv.style.cursor = "grabbing"; }
+      else { setHover(null); cv.style.cursor = "grabbing"; vyaw = dx * 0.012; vpitch = dy * 0.008; yaw += vyaw; pitch = clampP(pitch + vpitch); }
+    });
+    function open(b) {
+      if (b.ext) { window.location.href = b.ext.href; return; }
+      if (opts.onOpen) opts.onOpen(b.p.l.n); else if (window.__turnTo) window.__turnTo(b.p.l.href); else window.location.href = b.p.l.href;
+    }
+    function end(ev) {
+      if (!drag) return;
+      var d = drag; drag = null; var g = grab; grab = null;
+      if (g) { g.off.vx = Math.max(-600, Math.min(600, g.off.vx)); g.off.vy = Math.max(-600, Math.min(600, g.off.vy)); }
+      cv.style.cursor = hover ? "pointer" : "grab";
+      if (!d.moved && d.on) {
+        var go = d.on;
+        if (d.tp !== "mouse") {                       // touch: name the lecture for a moment, then turn to it
+          setHover(go);
+          setTimeout(function () { open(go); }, 260);
+          return;
+        }
+        open(d.on);
+      } else if (!d.moved) setHover(null);
+    }
+    cv.addEventListener("pointerup", end);
+    cv.addEventListener("pointercancel", function () { drag = null; grab = null; });
+    cv.addEventListener("pointerleave", function () { if (!drag) setHover(null); });
+    cv.addEventListener("dblclick", function () { yaw = YAW0; pitch = PITCH0; vyaw = vpitch = 0; zoomTo = 1; anchor = null; });
+    // zoom: mouse wheel or trackpad over the graph, or a two-finger pinch
+    var clampZ = function (z) { return Math.max(0.6, Math.min(3.2, z)); };
+    cv.addEventListener("wheel", function (ev) {
+      ev.preventDefault();
+      anchor = xy(ev);
+      zoomTo = clampZ(zoomTo * Math.exp(-ev.deltaY * (ev.ctrlKey ? 0.01 : 0.0015)));
+    }, { passive: false });
+    cv.addEventListener("pointerdown", function (ev) {
+      pts[ev.pointerId] = [ev.clientX, ev.clientY];
+      var ids = Object.keys(pts);
+      if (ids.length === 2) { var a = pts[ids[0]], c = pts[ids[1]]; pinch = { d: Math.hypot(a[0] - c[0], a[1] - c[1]), z: zoomTo }; drag = null; grab = null; }
+    });
+    cv.addEventListener("pointermove", function (ev) {
+      if (!(ev.pointerId in pts)) return;
+      pts[ev.pointerId] = [ev.clientX, ev.clientY];
+      var ids = Object.keys(pts);
+      if (pinch && ids.length === 2) { var a = pts[ids[0]], c = pts[ids[1]], r0 = cv.getBoundingClientRect(); anchor = [(a[0] + c[0]) / 2 - r0.left, (a[1] + c[1]) / 2 - r0.top]; zoomTo = clampZ(pinch.z * Math.hypot(a[0] - c[0], a[1] - c[1]) / Math.max(1, pinch.d)); }
+    });
+    var lift = function (ev) { delete pts[ev.pointerId]; if (Object.keys(pts).length < 2) pinch = null; };
+    cv.addEventListener("pointerup", lift); cv.addEventListener("pointercancel", lift);
+    cv.addEventListener("keydown", function (ev) {
+      var k = ev.key;
+      if (k === "ArrowLeft") vyaw -= 0.04; else if (k === "ArrowRight") vyaw += 0.04;
+      else if (k === "ArrowUp") vpitch -= 0.03; else if (k === "ArrowDown") vpitch += 0.03;
+      else return;
+      ev.preventDefault();
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        var was = visible; visible = es[0].isIntersecting; if (visible && !was) requestAnimationFrame(frame);
+      }).observe(cv);
+    }
+    var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { size(); draw(); }, 120); });
+    size(); draw(); requestAnimationFrame(frame);
+  }
+  window.mountLectureOrbit = mountOrbit;
+})();
+document.addEventListener("DOMContentLoaded", function () {
+  var m = location.pathname.match(/lecture-(\d+)\.html/), mx = location.pathname.match(/exercise-([a-z])\.html/);
+  if ((!m && !mx) || !window.LECTURE_GRAPH || !window.mountLectureOrbit) return;
+  var n = m ? parseInt(m[1], 10) : 100 + mx[1].charCodeAt(0) - 96;   // exercises are 101, 102, ... labelled A, B, ...
+  var box = document.createElement("div"); box.className = "orbit-box";
+  box.innerHTML = '<div class="orbit-title">Interactive graph</div><div class="orbit-host"></div>';
+  var side = document.getElementById("quarto-margin-sidebar");
+  var main = document.querySelector("main#quarto-document-content") || document.querySelector("main");
+  if (!main) return;
+  var head = main.querySelector("#title-block-header") || main.querySelector("header");
+  var tocEl = document.getElementById("TOC");
+  var holder = (tocEl && tocEl.closest(".margin-sidebar")) || side;
+  var opts = { ratio: 0.9 };
+  var mode = null, ready = false, moved = [];
+
+  function isWide() { return !!(side && getComputedStyle(side).display !== "none" && side.offsetWidth > 0); }
+  function top0() { return main.getBoundingClientRect().top + window.scrollY + 8; }
+  function boxBottom() { return top0() + box.offsetHeight + 18; }
+
+  // wide screens: its own layer at the top of the right-hand column, lined up with the table of contents
+  function place() {
+    if (mode !== "wide") return;
+    var t = tocEl && tocEl.getBoundingClientRect().width > 0 ? tocEl.getBoundingClientRect() : side.getBoundingClientRect();
+    var sr = side.getBoundingClientRect();
+    var left = Math.max(t.left, sr.left), right = Math.min(document.documentElement.clientWidth - 12, Math.max(t.right, sr.right));
+    box.style.left = (left + window.scrollX) + "px"; box.style.width = Math.max(180, right - left) + "px"; box.style.top = top0() + "px";
+  }
+  // the table of contents starts below the box and slides up as the box scrolls away
+  function toc() {
+    if (!holder) return;
+    holder.style.paddingTop = "0px";
+    if (mode !== "wide") return;
+    var gap = Math.max(0, boxBottom() - window.scrollY - holder.getBoundingClientRect().top);
+    holder.style.paddingTop = gap + "px";
+  }
+  // footnotes that would start beside the box or the contents move down below them
+  function clearNotes() { moved.forEach(function (el) { el.style.position = ""; el.style.top = ""; }); moved = []; }
+  function pushNotes() {
+    clearNotes();
+    if (mode !== "wide") return;
+    var notes = [].slice.call(document.querySelectorAll("main .column-margin, main .margin-aside, main aside"));
+    var realToc = side.querySelector("nav#TOC");
+    var floor = boxBottom() + (realToc ? realToc.offsetHeight + 28 : 0);
+    notes.map(function (el) { return { el: el, top: el.getBoundingClientRect().top + window.scrollY, h: el.offsetHeight }; })
+      .sort(function (a, b) { return a.top - b.top; })
+      .forEach(function (o) {
+        if (o.h > 0 && o.top < floor) { o.el.style.position = "relative"; o.el.style.top = (floor - o.top) + "px"; moved.push(o.el); floor += o.h + 12; }
+      });
+  }
+
+  function layout() {
+    var want = isWide() ? "wide" : "narrow";
+    if (want !== mode) {
+      mode = want;
+      if (mode === "wide") {                         // out of the text, onto its own layer
+        box.classList.remove("at-top"); box.classList.add("in-margin"); opts.ratio = 0.9;
+        document.body.appendChild(box);
+      } else {                                       // phones and narrow windows: right under the lecture title
+        box.classList.remove("in-margin"); box.classList.add("at-top"); opts.ratio = 0.62;
+        box.style.left = box.style.top = box.style.width = "";
+        if (head && head.parentNode) head.parentNode.insertBefore(box, head.nextSibling); else main.insertBefore(box, main.firstChild);
+      }
+      if (box.querySelector("canvas")) window.dispatchEvent(new Event("resize"));   // let the graph redraw at its new size
+    }
+    place();
+    if (ready) { toc(); pushNotes(); toc(); } else toc();
+  }
+
+  layout();
+  window.mountLectureOrbit(box.querySelector(".orbit-host"), window.LECTURE_GRAPH, n, opts);
+  (window.__whenReady || function (f) { f(); })(function () { ready = true; layout(); });
+  window.addEventListener("scroll", toc, { passive: true });
+  var rt; window.addEventListener("resize", function () { place(); toc(); clearTimeout(rt); rt = setTimeout(layout, 150); });
+  if ("ResizeObserver" in window) new ResizeObserver(function () { clearTimeout(rt); rt = setTimeout(layout, 150); }).observe(main);
+});
+</script>
+<style>
+/* small connections box at the top of the right-hand column */
+.orbit-box { margin: 0 0 1.4rem; font-family: inherit; }
+.orbit-box .orbit-title { font-weight: 400; font-size: 0.875rem; margin: 0 0 0.35rem; font-weight: 400; opacity: 0.85; }
+.orbit-canvas { display: block; width: 100%; touch-action: none; outline: none;
+  border-top: 1px solid rgba(128,128,128,0.22); border-bottom: 1px solid rgba(128,128,128,0.22); }
+.orbit-canvas:focus-visible { outline: 1px dotted currentColor; outline-offset: 2px; }
+.orbit-caption { font-weight: 400; font-size: 0.8rem; font-style: italic; opacity: 0.6; margin-top: 0.35rem; line-height: 1.3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.3em; }
+.orbit-caption.on { opacity: 0.95; }
+/* phones and narrow windows: the box sits right under the lecture title */
+.orbit-box.at-top { max-width: 420px; margin: 0.4rem 0 1.6rem; }
+.orbit-box.in-margin { position: absolute; z-index: 1100; margin: 0; }
+</style>
+<!-- page turning between chapters, hinged on the left like a book's spine -->
+<script>
+(function () {
+  // run layout work once fonts and maths are in place (max 900 ms); the page itself is never hidden
+  var fns = [], done = false;
+  window.__whenReady = function (fn) { if (done) fn(); else fns.push(fn); };
+  function fire() { if (done) return; done = true; fns.forEach(function (f) { try { f(); } catch (e) {} }); document.dispatchEvent(new Event("page-ready")); }
+  document.addEventListener("DOMContentLoaded", function () {
+    var waits = [];
+    if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) waits.push(MathJax.startup.promise);
+    Promise.race([Promise.all(waits), new Promise(function (r) { setTimeout(r, 900); })]).then(function () { requestAnimationFrame(fire); });
+  });
+})();
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var HALF = 300;                                   // each half of the turn, in ms
+  var incoming = null;
+  try { incoming = sessionStorage.getItem("page-turn"); if (incoming) sessionStorage.removeItem("page-turn"); } catch (e) {}
+  if (incoming && !reduce) document.documentElement.classList.add("turn-in-" + incoming);
+
+  function page() { return document.querySelector("main#quarto-document-content") || document.querySelector("main"); }
+  // a sheet of paper over the visible part of the text column, hinged at its left edge
+  function leaf(shade) {
+    var p = page(), r = p.getBoundingClientRect();
+    var stage = document.createElement("div");
+    stage.style.cssText = "position:fixed;inset:0;z-index:2000;pointer-events:none;perspective:1700px;perspective-origin:" + r.left + "px 50%";
+    var l = document.createElement("div");
+    l.style.cssText = "position:absolute;top:0;height:100vh;left:" + r.left + "px;width:" + r.width + "px;transform-origin:0 50%;" +
+      "background:var(--bs-body-bg,#fff);backface-visibility:visible;box-shadow:0 0 30px rgba(0,0,0,0.12)";
+    var g = document.createElement("div");
+    g.style.cssText = "position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0," + shade + "),rgba(0,0,0,0) 60%)";
+    l.appendChild(g); stage.appendChild(l); document.body.appendChild(stage);
+    return { stage: stage, leaf: l };
+  }
+  function shadowOnPage(fromLeft) {
+    var p = page(), r = p.getBoundingClientRect();
+    var s = document.createElement("div");
+    s.style.cssText = "position:fixed;top:0;height:100vh;z-index:1990;pointer-events:none;left:" + r.left + "px;width:" + r.width + "px;" +
+      "background:linear-gradient(90deg,rgba(0,0,0,0.16),rgba(0,0,0,0.04) 35%,rgba(0,0,0,0) 70%)";
+    document.body.appendChild(s);
+    return s;
+  }
+
+  // arriving: finish the turn
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!incoming || reduce) return;
+    if (incoming === "fwd") {
+      // the blank back of the turned page swings over to the left; the new page is already underneath
+      var o = leaf(0.10), sh = shadowOnPage();
+      o.leaf.animate([{ transform: "rotateY(-90deg)" }, { transform: "rotateY(-178deg)", opacity: 0.0 }],
+        { duration: HALF + 120, easing: "cubic-bezier(.2,.6,.3,1)", fill: "forwards" }).onfinish = function () { o.stage.remove(); };
+      sh.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF + 160, easing: "ease-out", fill: "forwards" }).onfinish = function () { sh.remove(); };
+    } else {
+      // the previous page swings down onto the text (CSS animation, running from the first paint)
+      var p = page();
+      if (p) p.addEventListener("animationend", function () { document.documentElement.classList.remove("turn-in-back"); }, { once: true });
+    }
+    document.documentElement.classList.remove("turn-in-fwd");
+  });
+
+  function order() {
+    return [].map.call(document.querySelectorAll("#quarto-sidebar a[href]"), function (a) {
+      return new URL(a.getAttribute("href"), location.href).pathname;
+    }).filter(function (p, i, arr) { return arr.indexOf(p) === i; });
+  }
+  var fetched = {};
+  function prefetch(href) {
+    var u = new URL(href, location.href); u.hash = "";
+    if (fetched[u.href] || u.pathname === location.pathname) return; fetched[u.href] = 1;
+    var l = document.createElement("link"); l.rel = "prefetch"; l.href = u.href; document.head.appendChild(l);
+  }
+  function turnTo(href) {
+    var url = new URL(href, location.href);
+    if (url.pathname === location.pathname || reduce) { location.href = url.href; return; }
+    var list = order(), from = list.indexOf(location.pathname), to = list.indexOf(url.pathname);
+    var p = page();
+    if (from < 0 || to < 0 || !p || !p.animate) { location.href = url.href; return; }
+    var dir = to > from ? "fwd" : "back";
+    try { sessionStorage.setItem("page-turn", dir); } catch (e) {}
+    var box = document.querySelector(".orbit-box.in-margin");
+    if (box) box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: HALF, fill: "forwards" });
+    var go = function () { location.href = url.href; };
+    if (dir === "fwd") {
+      // this page turns over to the left until it is edge-on
+      var r = p.getBoundingClientRect(), par = p.parentNode, pr = par.getBoundingClientRect();
+      par.style.perspective = "1700px";
+      par.style.perspectiveOrigin = (r.left - pr.left) + "px " + (innerHeight / 2 - pr.top) + "px";
+      p.style.transformOrigin = "0px " + (innerHeight / 2 - r.top) + "px";
+      p.animate([{ transform: "rotateY(0deg)", filter: "brightness(1)" }, { transform: "rotateY(-90deg)", filter: "brightness(0.82)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    } else {
+      // the blank back of the previous page swings in from the left until it is edge-on
+      var o = leaf(0.18);
+      o.leaf.style.boxShadow = "0 0 40px rgba(0,0,0,0.22)";
+      o.leaf.animate([{ transform: "rotateY(-176deg)" }, { transform: "rotateY(-90deg)" }],
+        { duration: HALF, easing: "cubic-bezier(.5,0,.75,.4)", fill: "forwards" }).onfinish = go;
+    }
+  }
+  window.__turnTo = turnTo;
+
+  document.addEventListener("click", function (ev) {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (!a || a.target === "_blank") return;
+    var url = new URL(a.getAttribute("href"), location.href);
+    if (url.origin !== location.origin || !/\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
+    if (url.pathname.split("/").slice(0, -1).join("/") !== location.pathname.split("/").slice(0, -1).join("/")) return;
+    ev.preventDefault(); turnTo(url.href);
+  }, true);
+  // fetch neighbouring chapters early so the next page is ready when the turn needs it
+  document.addEventListener("mouseover", function (ev) {
+    var a = ev.target.closest && ev.target.closest("a[href]");
+    if (a && /\.html(#|$)/.test(a.getAttribute("href")) && !/^https?:/.test(a.getAttribute("href"))) prefetch(a.getAttribute("href"));
+  }, { passive: true });
+  window.addEventListener("load", function () {
+    [].forEach.call(document.querySelectorAll("nav.page-navigation a[href]"), function (a) { prefetch(a.getAttribute("href")); });
+  });
+  window.addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    var p = page(); if (p && p.getAnimations) p.getAnimations().forEach(function (an) { an.cancel(); });
+    [].forEach.call(document.querySelectorAll("body > div[style*='perspective']"), function (s) { s.remove(); });
+  });
+})();
+</script>
+<style>
+html.turn-in-back main#quarto-document-content { transform-origin: 0 50vh; animation: turn-in-back 0.42s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes turn-in-back { from { transform: perspective(1700px) rotateY(-90deg); filter: brightness(0.88); } to { transform: perspective(1700px) rotateY(0deg); filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { html[class*="turn-in-"] main#quarto-document-content { animation: none; } }
+</style>
+<!-- typeset maths inside footnote and cross-reference hover popups -->
+<script>
+(function () {
+  function typeset(el) {
+    if (!el || el.__typesetting || !(window.MathJax && MathJax.typesetPromise)) return;
+    if (!/\\\(|\\\[|\$\$/.test(el.textContent)) return;                   // nothing to typeset
+    el.__typesetting = true;
+    var go = function () { MathJax.typesetPromise([el]).catch(function () {}).then(function () { el.__typesetting = false; }); };
+    if (MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(go); else go();
+  }
+  // tippy adds its popups to <body> when they open, and may refill them later
+  new MutationObserver(function (muts) {
+    muts.forEach(function (m) {
+      [].forEach.call(m.addedNodes, function (n) {
+        if (n.nodeType !== 1) return;
+        var root = n.matches && n.matches("[data-tippy-root]") ? n : (n.closest && n.closest("[data-tippy-root]"));
+        if (root) typeset(root.querySelector(".tippy-content") || root);
+      });
+    });
+  }).observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
+<!-- a way back to the bookshelf from every course -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var brand = document.querySelector(".navbar .navbar-brand-container") || document.querySelector(".navbar .navbar-brand");
+  if (!brand || document.querySelector(".shelf-back")) return;
+  var a = document.createElement("a");
+  a.className = "shelf-back"; a.href = "../"; a.title = "Back to all notes";
+  a.innerHTML = '<span class="arrow" aria-hidden="true">←</span><span class="txt">Notes</span>';
+  brand.parentNode.insertBefore(a, brand);
+  a.addEventListener("click", function (ev) {
+    if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button !== 0) return;
+    try { sessionStorage.setItem("shelf-return", "1"); } catch (e) {}
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !document.body.animate) return;
+    ev.preventDefault();
+    var href = a.href;
+    document.body.animate([{ transform: "none", opacity: 1 }, { transform: "translateY(28px)", opacity: 0 }],
+      { duration: 320, easing: "cubic-bezier(.5,0,.75,.3)", fill: "forwards" }).onfinish = function () { location.href = href; };
+  });
+});
+</script>
+<style>
+html { background: var(--bs-body-bg, #fff); }
+.shelf-back { display: inline-flex; align-items: center; gap: 0.4rem; margin-right: 1.1rem; padding-right: 1.1rem;
+  border-right: 1px solid color-mix(in srgb, currentColor 35%, transparent); color: inherit !important; opacity: 0.75; text-decoration: none !important;
+  font-size: 0.95rem; white-space: nowrap; }
+.navbar .shelf-back { color: var(--bs-navbar-color, currentColor) !important; }
+.shelf-back:hover, .shelf-back:focus-visible { opacity: 1; }
+.shelf-back .arrow { font-size: 1.05em; }
+@media (max-width: 575.98px) { .shelf-back .txt { display: none; } .shelf-back { margin-right: 0.6rem; padding-right: 0.6rem; } }
+/* the table of contents always stays open in the right-hand column (never a dropdown) */
+#quarto-toc-toggle { display: none !important; }
+#quarto-margin-sidebar > * { opacity: 1 !important; overflow: visible !important; }
+/* the column itself lets clicks through to the footnotes beside it; only the contents list is clickable */
+#quarto-margin-sidebar, #quarto-margin-sidebar > * { pointer-events: none !important; }
+#quarto-margin-sidebar nav#TOC, #quarto-margin-sidebar nav#TOC * { pointer-events: auto !important; }
+#quarto-margin-sidebar { z-index: 1000 !important; }
+#quarto-margin-sidebar nav#TOC { background: var(--bs-body-bg, #fff); position: relative; z-index: 3; padding-top: 0.5rem; padding-bottom: 0.6rem; box-shadow: 0 -4rem 0 0 var(--bs-body-bg, #fff), 0 0.9rem 0.8rem -0.4rem var(--bs-body-bg, #fff); }
+</style>
+
+<!-- remember the last pages read across all books, and offer a way back to the previous book -->
+<script>
+(function () {
+  var KEY = "ln-trail";
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
+  function save(tr) { try { localStorage.setItem(KEY, JSON.stringify(tr.slice(0, 12))); } catch (e) {} }
+  var parts = location.pathname.split("/"), file = parts.pop() || "index.html", slug = parts.pop() || "";
+  if (!/\.html$/.test(file)) file = "index.html";
+  var key = slug + "/" + file;
+  function entry() {
+    var b = document.querySelector(".navbar-title"), n = document.querySelector("h1.title .chapter-number"),
+        c = document.querySelector("h1.title .chapter-title") || document.querySelector("h1.title");
+    return { k: key, b: b ? b.textContent.trim() : slug, t: ((n ? n.textContent.trim() + " " : "") + (c ? c.textContent.trim() : "")).trim(), y: 0 };
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    var tr = load(), me = entry();
+    var prev = null;
+    for (var i = 0; i < tr.length; i++) if (tr[i].k.split("/")[0] !== slug) { prev = tr[i]; break; }
+    tr = tr.filter(function (e) { return e.k !== key; });
+    tr.unshift(me); save(tr);
+    // keep the reading position of this page up to date
+    var saveY = function () { var t2 = load(); for (var j = 0; j < t2.length; j++) if (t2[j].k === key) { t2[j].y = Math.round(window.scrollY); break; } save(t2); };
+    window.addEventListener("pagehide", saveY);
+    document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") saveY(); });
+    // returning through the chip: restore where the reader was
+    try {
+      var r = JSON.parse(sessionStorage.getItem("ln-restore") || "null");
+      if (r && r.k === key) { sessionStorage.removeItem("ln-restore");
+        window.addEventListener("load", function () { setTimeout(function () { window.scrollTo(0, r.y); }, 60); }); }
+    } catch (e) {}
+    if (!prev) return;
+    var back = document.querySelector(".shelf-back"); if (!back || document.querySelector(".trail-back")) return;
+    var a = document.createElement("a");
+    a.className = "trail-back"; a.href = "../" + prev.k;
+    a.title = "Back to " + prev.b + (prev.t ? ": " + prev.t : "");
+    a.innerHTML = '<span class="arrow" aria-hidden="true">↩</span><span class="txt"></span>';
+    a.querySelector(".txt").textContent = prev.b + (prev.t ? " · " + prev.t : "");
+    a.addEventListener("click", function () { try { sessionStorage.setItem("ln-restore", JSON.stringify({ k: prev.k, y: prev.y || 0 })); } catch (e) {} });
+    back.parentNode.insertBefore(a, back.nextSibling);
+  });
+})();
+</script>
+<style>
+.trail-back { display: inline-flex; align-items: center; gap: 0.4rem; margin-right: 1.1rem; padding-right: 1.1rem; max-width: 22rem;
+  border-right: 1px solid color-mix(in srgb, currentColor 35%, transparent); color: var(--bs-navbar-color, currentColor) !important;
+  opacity: 0.75; text-decoration: none !important; font-size: 0.95rem; font-style: italic; white-space: nowrap; }
+.trail-back .txt { overflow: hidden; text-overflow: ellipsis; }
+.trail-back:hover, .trail-back:focus-visible { opacity: 1; }
+@media (max-width: 991.98px) { .trail-back { max-width: 12rem; } }
+@media (max-width: 575.98px) { .trail-back .txt { display: none; } .trail-back { margin-right: 0.6rem; padding-right: 0.6rem; } }
+</style>
+<!-- personal study layer: highlights, comments and notes, saved only in this browser -->
+<script>
+(function () {
+  var COLORS = { yellow: "Yellow", green: "Green", blue: "Blue", pink: "Pink" };
+  var dir = location.pathname.replace(/[^\/]*$/, "");               // this course
+  var KEY = "ln-notes:" + location.pathname;
+  function load(k) { try { return JSON.parse(localStorage.getItem(k) || "null") || { hl: [], pad: "" }; } catch (e) { return { hl: [], pad: "" }; } }
+  function save(k, d) { try { localStorage.setItem(k, JSON.stringify(d)); return true; } catch (e) { return false; } }
+  var data = load(KEY);
+  var main;
+
+  // ---------- text model of the lecture (maths counts as one atom, figures are skipped) ----------
+  function skip(el) {
+    return el.closest && el.closest(".viz, .orbit-box, .ann-ui, script, style, mjx-container, .callout-header, nav, .quarto-title-breadcrumbs");
+  }
+  function textNodes() {
+    var out = [], pos = 0, w = document.createTreeWalker(main, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) { return n.nodeValue && !skip(n.parentElement) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; } });
+    var n; while ((n = w.nextNode())) { out.push({ n: n, s: pos }); pos += n.nodeValue.length; }
+    return { list: out, len: pos };
+  }
+  function fullText(m) { return m.list.map(function (x) { return x.n.nodeValue; }).join(""); }
+  function toOffset(m, node, off) {
+    if (node.nodeType === 3) { for (var i = 0; i < m.list.length; i++) if (m.list[i].n === node) return m.list[i].s + off; }
+    var el = node.nodeType === 1 ? (node.childNodes[off] || node) : node;
+    for (var j = 0; j < m.list.length; j++) {
+      var p = el.compareDocumentPosition(m.list[j].n);
+      if (el === m.list[j].n || (p & Node.DOCUMENT_POSITION_FOLLOWING) || (p & Node.DOCUMENT_POSITION_CONTAINED_BY)) return m.list[j].s;
+    }
+    return m.len;
+  }
+  function wrap(m, start, end, h) {
+    m.list.forEach(function (x) {
+      var a = Math.max(start, x.s), b = Math.min(end, x.s + x.n.nodeValue.length);
+      if (b <= a) return;
+      var node = x.n;
+      if (b - x.s < node.nodeValue.length) node.splitText(b - x.s);
+      if (a - x.s > 0) node = node.splitText(a - x.s);
+      if (!node.nodeValue.trim()) return;
+      var mk = document.createElement("mark");
+      mk.className = "ann-hl" + (h.note ? " has-note" : ""); mk.dataset.ann = h.id; mk.dataset.color = h.color;
+      node.parentNode.insertBefore(mk, node); mk.appendChild(node);
+    });
+  }
+  function mathIn(range, h) {
+    [].forEach.call(main.querySelectorAll("mjx-container"), function (mj) {
+      if (range.intersectsNode(mj)) { mj.classList.add("ann-math"); mj.dataset.ann = h.id; mj.dataset.color = h.color; }
+    });
+  }
+  function unwrap(id) {
+    [].forEach.call(main.querySelectorAll('[data-ann="' + id + '"]'), function (el) {
+      if (el.tagName === "MARK") { var p = el.parentNode; while (el.firstChild) p.insertBefore(el.firstChild, el); p.removeChild(el); p.normalize(); }
+      else { el.classList.remove("ann-math"); delete el.dataset.ann; delete el.dataset.color; }
+    });
+  }
+  function rangeFor(m, start, end) {
+    var r = document.createRange(), sN = null, eN = null;
+    for (var i = 0; i < m.list.length; i++) {
+      var x = m.list[i], L = x.n.nodeValue.length;
+      if (!sN && start < x.s + L) { r.setStart(x.n, start - x.s); sN = 1; }
+      if (sN && end <= x.s + L) { r.setEnd(x.n, end - x.s); eN = 1; break; }
+    }
+    return sN && eN ? r : null;
+  }
+  // find a saved quote again, using the text around it to pick the right occurrence
+  function locate(text, h) {
+    var best = -1, bestScore = -1, from = 0, i;
+    while ((i = text.indexOf(h.quote, from)) >= 0) {
+      var score = 0, pre = text.slice(Math.max(0, i - h.pre.length), i), suf = text.slice(i + h.quote.length, i + h.quote.length + h.suf.length);
+      for (var k = 1; k <= pre.length && pre[pre.length - k] === h.pre[h.pre.length - k]; k++) score++;
+      for (k = 0; k < suf.length && suf[k] === h.suf[k]; k++) score++;
+      if (score > bestScore) { bestScore = score; best = i; }
+      from = i + 1;
+    }
+    return best;
+  }
+  function paint(h) {
+    var m = textNodes(), t = fullText(m), at = locate(t, h);
+    if (at < 0) return false;
+    var r = rangeFor(m, at, at + h.quote.length); if (r) mathIn(r, h);
+    wrap(m, at, at + h.quote.length, h);
+    return true;
+  }
+
+  // ---------- small UI pieces ----------
+  var bar, pop, panel, fab, current = null;
+  function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+  function swatches(onPick, active) {
+    var w = el("span", "ann-swatches");
+    Object.keys(COLORS).forEach(function (c) {
+      var b = el("button", "ann-sw" + (c === active ? " on" : "")); b.type = "button"; b.dataset.color = c; b.title = COLORS[c] + " highlighter";
+      b.setAttribute("aria-label", COLORS[c] + " highlighter");
+      b.addEventListener("mousedown", function (e) { e.preventDefault(); });
+      b.addEventListener("click", function () { onPick(c); });
+      w.appendChild(b);
+    });
+    return w;
+  }
+  var touchy = !!(window.matchMedia && matchMedia("(hover: none) and (pointer: coarse)").matches), lastRange = null;
+  function hideBar() { if (bar) bar.hidden = true; }
+  function showBar(rect) {
+    if (!bar) {
+      bar = el("div", "ann-ui ann-bar"); bar.setAttribute("role", "toolbar"); bar.setAttribute("aria-label", "Highlight selection");
+      bar.appendChild(swatches(function (c) { create(c, false); }));
+      var cm = el("button", "ann-txt", "Comment"); cm.type = "button";
+      cm.addEventListener("mousedown", function (e) { e.preventDefault(); });
+      cm.addEventListener("click", function () { create("yellow", true); });
+      bar.appendChild(cm); document.body.appendChild(bar);
+      bar.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") e.preventDefault(); });
+      if (touchy) bar.classList.add("docked");
+    }
+    bar.hidden = false;
+    if (touchy) return;              // phones: docked at the bottom of the screen, clear of the system copy/paste menu
+    var x = rect.left + rect.width / 2 + scrollX - bar.offsetWidth / 2, y = rect.top + scrollY - bar.offsetHeight - 10;
+    if (rect.top < 70) y = rect.bottom + scrollY + 10;
+    bar.style.left = Math.max(8 + scrollX, Math.min(x, scrollX + innerWidth - bar.offsetWidth - 8)) + "px"; bar.style.top = y + "px";
+  }
+  function selectionInMain() {
+    var s = getSelection(); if (!s || s.isCollapsed || !s.rangeCount) return null;
+    var r = s.getRangeAt(0);
+    if (!main.contains(r.commonAncestorContainer)) return null;
+    var c = r.commonAncestorContainer.nodeType === 1 ? r.commonAncestorContainer : r.commonAncestorContainer.parentElement;
+    if (c.closest(".viz, .orbit-box, .ann-ui, input, textarea")) return null;
+    if (!s.toString().trim()) return null;
+    return r;
+  }
+  function create(color, withNote) {
+    var r = selectionInMain() || lastRange; lastRange = null; if (!r) return hideBar();
+    var m = textNodes(), a = toOffset(m, r.startContainer, r.startOffset), b = toOffset(m, r.endContainer, r.endOffset);
+    var t = fullText(m), quote = t.slice(a, b);
+    if (!quote.trim()) return hideBar();
+    var h = { id: "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), color: color, quote: quote,
+      pre: t.slice(Math.max(0, a - 40), a), suf: t.slice(b, b + 40), note: "", at: Date.now() };
+    mathIn(r, h); wrap(m, a, b, h);
+    data.hl.push(h); persist();
+    getSelection().removeAllRanges(); hideBar();
+    if (withNote) openPop(h.id, true);
+  }
+  function persist() {
+    if (!save(KEY, data)) flash("Could not save: this browser is blocking storage.");
+    if (fab) { var c = fab.querySelector(".ann-count"); if (!c && data.hl.length) { c = el("span", "ann-count"); fab.appendChild(c); }
+      if (c) { if (data.hl.length) c.textContent = data.hl.length; else c.remove(); } }
+    refreshPanel();
+  }
+  function find(id) { return data.hl.filter(function (h) { return h.id === id; })[0]; }
+  function closePop() { if (pop) { pop.hidden = true; current = null; } }
+  function openPop(id, focus) {
+    var h = find(id); if (!h) return;
+    current = id;
+    if (!pop) { pop = el("div", "ann-ui ann-pop"); pop.setAttribute("role", "dialog"); pop.setAttribute("aria-label", "Highlight"); document.body.appendChild(pop); }
+    pop.innerHTML = "";
+    var top = el("div", "ann-pop-top");
+    top.appendChild(swatches(function (c) { h.color = c; [].forEach.call(main.querySelectorAll('[data-ann="' + id + '"]'), function (e) { e.dataset.color = c; }); persist(); openPop(id); }, h.color));
+    var del = el("button", "ann-txt ann-del", "Remove"); del.type = "button";
+    del.addEventListener("click", function () { unwrap(id); data.hl = data.hl.filter(function (x) { return x.id !== id; }); persist(); closePop(); });
+    top.appendChild(del); pop.appendChild(top);
+    var ta = el("textarea", "ann-note"); ta.id = "ann-note-" + id; ta.rows = 3; ta.placeholder = "Add a comment…"; ta.value = h.note || "";
+    ta.setAttribute("aria-label", "Comment on this highlight");
+    ta.addEventListener("input", function () {
+      h.note = ta.value; persist();
+      [].forEach.call(main.querySelectorAll('mark[data-ann="' + id + '"]'), function (e) { e.classList.toggle("has-note", !!h.note.trim()); });
+    });
+    pop.appendChild(ta);
+    pop.hidden = false;
+    var first = main.querySelector('[data-ann="' + id + '"]'), rr = first ? first.getBoundingClientRect() : { left: 100, bottom: 100 };
+    pop.style.left = Math.max(8 + scrollX, Math.min(rr.left + scrollX, scrollX + innerWidth - pop.offsetWidth - 8)) + "px";
+    pop.style.top = (rr.bottom + scrollY + 8) + "px";
+    if (focus) ta.focus();
+  }
+  var toast;
+  function flash(msg) {
+    if (!toast) { toast = el("div", "ann-ui ann-toast"); toast.setAttribute("role", "status"); document.body.appendChild(toast); }
+    toast.textContent = msg; toast.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { toast.hidden = true; }, 2600);
+  }
+
+  // ---------- the notes panel ----------
+  function courseKeys() {
+    var out = [];
+    try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf("ln-notes:" + dir) === 0) out.push(k); } } catch (e) {}
+    return out;
+  }
+  function pageTitle(path) {
+    var a = document.querySelector('#quarto-sidebar a[href$="' + path.split("/").pop() + '"]');
+    return a ? a.textContent.replace(/\s+/g, " ").trim() : path.split("/").pop();
+  }
+  function refreshPanel() {
+    if (!panel || panel.hidden) return;
+    var list = panel.querySelector(".ann-list"); list.innerHTML = "";
+    var keys = courseKeys().sort(function (a, b) { return a.localeCompare(b); }), any = false;
+    keys.forEach(function (k) {
+      var d = load(k), path = k.slice(9); if (!d.hl.length && !(d.pad || "").trim()) return;
+      any = true;
+      var sec = el("section", "ann-group"); sec.appendChild(el("h4", null, "")); sec.firstChild.textContent = pageTitle(path);
+      if ((d.pad || "").trim() && path !== location.pathname) { var pd = el("p", "ann-padprev"); pd.textContent = d.pad.slice(0, 160) + (d.pad.length > 160 ? "…" : ""); sec.appendChild(pd); }
+      d.hl.forEach(function (h) {
+        var a = el("a", "ann-item"); a.href = path.split("/").pop() + "#" + h.id; a.dataset.color = h.color;
+        var q = el("span", "ann-q"); q.textContent = h.quote.replace(/\s+/g, " ").trim(); a.appendChild(q);
+        if (h.note) { var nt = el("span", "ann-n"); nt.textContent = h.note; a.appendChild(nt); }
+        if (path === location.pathname) a.addEventListener("click", function (e) { e.preventDefault(); jump(h.id); });
+        sec.appendChild(a);
+      });
+      list.appendChild(sec);
+    });
+    if (!any) list.appendChild(el("p", "ann-empty", "Select text in a lecture to highlight it or add a comment. Your highlights from every lecture in this course will be listed here."));
+  }
+  function jump(id) {
+    var t = main.querySelector('[data-ann="' + id + '"]'); if (!t) return;
+    t.scrollIntoView({ block: "center", behavior: "smooth" });
+    [].forEach.call(main.querySelectorAll('[data-ann="' + id + '"]'), function (e) { e.classList.remove("ann-pulse"); void e.offsetWidth; e.classList.add("ann-pulse"); });
+  }
+  function exportAll() {
+    var out = { kind: "lecture-notes-annotations", course: dir, saved: new Date().toISOString(), pages: {} };
+    courseKeys().forEach(function (k) { out.pages[k.slice(9)] = load(k); });
+    var blob = new Blob([JSON.stringify(out, null, 1)], { type: "application/json" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = (dir.split("/").filter(Boolean).pop() || "notes") + "-my-notes.json";
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    flash("Backup saved as " + a.download);
+  }
+  function importFile(file) {
+    var fr = new FileReader();
+    fr.onload = function () {
+      try {
+        var d = JSON.parse(fr.result); if (!d || !d.pages) throw 0;
+        var n = 0;
+        Object.keys(d.pages).forEach(function (path) {
+          var k = "ln-notes:" + path, cur = load(k), inc = d.pages[path], ids = {};
+          cur.hl.forEach(function (h) { ids[h.id] = 1; });
+          (inc.hl || []).forEach(function (h) { if (!ids[h.id]) { cur.hl.push(h); n++; } });
+          if ((inc.pad || "").trim() && !(cur.pad || "").trim()) cur.pad = inc.pad;
+          save(k, cur);
+        });
+        flash("Imported " + n + " highlight" + (n === 1 ? "" : "s") + ". Reloading…"); setTimeout(function () { location.reload(); }, 900);
+      } catch (e) { flash("That file is not a notes backup from this site."); }
+    };
+    fr.readAsText(file);
+  }
+  function buildPanel() {
+    panel = el("aside", "ann-ui ann-panel"); panel.hidden = true; panel.setAttribute("aria-label", "My notes");
+    panel.innerHTML = '<div class="ann-head"><h3>My notes</h3><button type="button" class="ann-close" aria-label="Close my notes">×</button></div>' +
+      '<label class="ann-label" for="ann-pad">Notes for this page</label>' +
+      '<textarea id="ann-pad" class="ann-pad" rows="7" placeholder="Summaries, questions, things to revisit…"></textarea>' +
+      '<div class="ann-label">Highlights in this course</div><div class="ann-list"></div>' +
+      '<div class="ann-foot"><p>Saved only in this browser, on this computer.</p>' +
+      '<div class="ann-btns"><button type="button" class="ann-txt" id="ann-export">Export backup</button>' +
+      '<label class="ann-txt ann-file">Import backup<input type="file" id="ann-import" accept="application/json,.json"></label></div></div>';
+    document.body.appendChild(panel);
+    var pad = panel.querySelector("#ann-pad"); pad.value = data.pad || "";
+    pad.addEventListener("input", function () { data.pad = pad.value; persist(); });
+    panel.querySelector(".ann-close").addEventListener("click", togglePanel);
+    panel.querySelector("#ann-export").addEventListener("click", exportAll);
+    panel.querySelector("#ann-import").addEventListener("change", function (e) { if (e.target.files[0]) importFile(e.target.files[0]); });
+  }
+  function togglePanel() {
+    if (!panel) buildPanel();
+    panel.hidden = !panel.hidden; fab.setAttribute("aria-expanded", String(!panel.hidden));
+    document.documentElement.classList.toggle("ann-open", !panel.hidden);
+    if (!panel.hidden) { refreshPanel(); panel.querySelector(".ann-pad").focus(); }
+  }
+
+  function init() {
+    main = document.querySelector("main#quarto-document-content"); if (!main) return;
+    data.hl.forEach(function (h) { paint(h); });
+    fab = el("button", "ann-ui ann-fab"); fab.type = "button"; fab.setAttribute("aria-label", "My notes"); fab.setAttribute("aria-expanded", "false"); fab.title = "My notes";
+    fab.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>' +
+      (data.hl.length ? '<span class="ann-count">' + data.hl.length + '</span>' : "");
+    fab.addEventListener("click", togglePanel); document.body.appendChild(fab);
+    var up = function () { setTimeout(function () { var r = selectionInMain(); if (r) showBar(r.getBoundingClientRect()); else hideBar(); }, 10); };
+    if (touchy) {                    // phones: follow the selection itself, since its handles are dragged
+      var hideT;
+      document.addEventListener("selectionchange", function () {
+        clearTimeout(hideT);
+        var r = selectionInMain();
+        if (r) { lastRange = r.cloneRange(); showBar(r.getBoundingClientRect()); }
+        else hideT = setTimeout(function () { lastRange = null; hideBar(); }, 400);
+      });
+    } else { document.addEventListener("mouseup", up); }
+    document.addEventListener("keyup", function (e) { if (e.shiftKey || e.key === "Shift") up(); });
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest && e.target.closest("[data-ann]");
+      if (t && main.contains(t) && !(getSelection() && !getSelection().isCollapsed)) { e.preventDefault(); openPop(t.dataset.ann); return; }
+      if (pop && !pop.hidden && !e.target.closest(".ann-pop")) closePop();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      if (pop && !pop.hidden) closePop(); else if (panel && !panel.hidden) togglePanel(); else hideBar();
+    });
+    if (/^#a[0-9a-z]+$/.test(location.hash) && find(location.hash.slice(1))) setTimeout(function () { jump(location.hash.slice(1)); }, 300);
+  }
+  // wait for the maths to be typeset so highlights land in the right place
+  if (window.__whenReady) window.__whenReady(init); else document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+<style>
+:root { --ann-yellow: rgba(255, 210, 40, 0.38); --ann-green: rgba(70, 190, 110, 0.30); --ann-blue: rgba(80, 150, 255, 0.28); --ann-pink: rgba(255, 100, 170, 0.26); }
+mark.ann-hl { color: inherit; padding: 0 0.05em; border-radius: 0; cursor: pointer; background: var(--ann-yellow); }
+mark.ann-hl[data-color="green"], .ann-math[data-color="green"] { background: var(--ann-green); }
+mark.ann-hl[data-color="blue"], .ann-math[data-color="blue"] { background: var(--ann-blue); }
+mark.ann-hl[data-color="pink"], .ann-math[data-color="pink"] { background: var(--ann-pink); }
+.ann-math { background: var(--ann-yellow); cursor: pointer; }
+mark.ann-hl.has-note { text-decoration: underline dotted; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.ann-pulse { animation: ann-pulse 1.2s ease-out; }
+@keyframes ann-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 190, 40, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(255, 190, 40, 0); } }
+
+.ann-ui { font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif; color: var(--bs-body-color, #222); }
+.ann-bar, .ann-pop, .ann-toast { position: absolute; z-index: 2150; background: var(--bs-body-bg, #fff); border: 1px solid rgba(128,128,128,0.35);
+  box-shadow: 0 8px 24px -8px rgba(0,0,0,0.3); }
+.ann-bar { display: flex; align-items: center; gap: 10px; padding: 5px 8px; }
+.ann-swatches { display: inline-flex; gap: 6px; }
+.ann-bar.docked { position: fixed; left: calc(50% - 28px) !important; top: auto !important; transform: translateX(-50%);
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px)); gap: 14px; padding: 9px 14px; border-radius: 0; }
+.ann-bar.docked .ann-swatches { gap: 12px; }
+.ann-bar.docked .ann-sw { width: 28px; height: 28px; }
+.ann-bar.docked .ann-txt { font-size: 16px; padding: 4px 6px; }
+.ann-sw { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(128,128,128,0.45); padding: 0; cursor: pointer; background: var(--ann-yellow); }
+.ann-sw[data-color="green"] { background: var(--ann-green); } .ann-sw[data-color="blue"] { background: var(--ann-blue); } .ann-sw[data-color="pink"] { background: var(--ann-pink); }
+.ann-sw.on { outline: 2px solid currentColor; outline-offset: 1px; }
+.ann-txt { font: inherit; font-size: 0.85rem; background: none; border: 0; padding: 2px 4px; color: inherit; cursor: pointer; opacity: 0.8; }
+.ann-txt:hover, .ann-txt:focus-visible { opacity: 1; text-decoration: underline; }
+.ann-pop { width: min(320px, calc(100vw - 16px)); padding: 8px 10px 10px; }
+.ann-pop-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.ann-note, .ann-pad { width: 100%; font: inherit; font-size: 0.92rem; color: inherit; background: transparent; border: 1px solid rgba(128,128,128,0.35);
+  padding: 6px 8px; resize: vertical; border-radius: 0; }
+.ann-note:focus, .ann-pad:focus { outline: none; border-color: rgba(128,128,128,0.7); }
+.ann-toast { position: fixed; left: 50%; bottom: 76px; transform: translateX(-50%); padding: 6px 12px; font-size: 0.88rem; }
+
+.ann-fab { position: fixed; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 2050;
+  width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  background: var(--bs-body-bg, #fff); border: 1px solid rgba(128,128,128,0.4); box-shadow: 0 6px 18px -8px rgba(0,0,0,0.35); opacity: 0.85; }
+.ann-fab:hover, .ann-fab:focus-visible, .ann-fab[aria-expanded="true"] { opacity: 1; }
+.ann-count { position: absolute; top: -4px; right: -4px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px; font-size: 11px; line-height: 17px;
+  background: rgba(255, 190, 40, 0.95); color: #3a2a00; }
+.ann-panel { position: fixed !important; top: 0; right: 0; bottom: 0; z-index: 2100 !important; width: min(380px, 100vw); overflow-y: auto;
+  background: var(--bs-body-bg, #fff); border-left: 1px solid rgba(128,128,128,0.3); box-shadow: -12px 0 30px -18px rgba(0,0,0,0.4);
+  padding: calc(14px + env(safe-area-inset-top, 0px)) calc(18px + env(safe-area-inset-right, 0px)) 18px 18px; }
+.ann-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.ann-head h3 { margin: 0; font-size: 1.25rem; font-weight: 400; }
+.ann-close { font: inherit; font-size: 1.5rem; line-height: 1; background: none; border: 0; color: inherit; cursor: pointer; opacity: 0.7; }
+.ann-close:hover { opacity: 1; }
+.ann-label { display: block; margin: 14px 0 6px; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.65; }
+.ann-group h4 { margin: 12px 0 6px; font-size: 0.95rem; font-weight: 600; }
+.ann-item { display: block; padding: 4px 0 4px 10px; margin-bottom: 6px; border-left: 3px solid var(--ann-yellow); color: inherit !important; text-decoration: none !important; }
+.ann-item[data-color="green"] { border-left-color: var(--ann-green); } .ann-item[data-color="blue"] { border-left-color: var(--ann-blue); } .ann-item[data-color="pink"] { border-left-color: var(--ann-pink); }
+.ann-item:hover .ann-q { text-decoration: underline; }
+.ann-q { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-style: italic; font-size: 0.9rem; }
+.ann-n { display: block; font-size: 0.85rem; opacity: 0.8; margin-top: 2px; white-space: pre-wrap; }
+.ann-padprev { font-size: 0.85rem; opacity: 0.75; margin: 0 0 6px; white-space: pre-wrap; }
+.ann-empty { font-size: 0.9rem; font-style: italic; opacity: 0.7; }
+.ann-foot { margin-top: 18px; padding-top: 10px; border-top: 1px solid rgba(128,128,128,0.25); font-size: 0.82rem; }
+.ann-foot p { margin: 0 0 6px; opacity: 0.7; font-style: italic; }
+.ann-btns { display: flex; gap: 14px; }
+.ann-file { position: relative; overflow: hidden; display: inline-block; }
+.ann-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+@media print { .ann-fab, .ann-panel, .ann-bar, .ann-pop { display: none !important; } }
+</style>
+<!-- opened from the bookshelf: the title page dissolves into the notes -->
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem("shelf-open") === "1") {
+      sessionStorage.removeItem("shelf-open");
+      var t = sessionStorage.getItem("shelf-title") || "";
+      if (!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+        document.documentElement.classList.add("from-shelf");
+        document.documentElement.setAttribute("data-shelf-title", t);
+      }
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+html.from-shelf { background: var(--bs-body-bg, #fff); }
+html.from-shelf body { animation: shelf-in 0.9s cubic-bezier(.16,1,.3,1) 0.35s both; }
+html.from-shelf::before, html.from-shelf::after {
+  position: fixed; left: 0; right: 0; z-index: 9999; pointer-events: none; text-align: center; padding: 0 24px;
+  font-family: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", "TeX Gyre Pagella", serif;
+  color: var(--bs-body-color, #222); animation: shelf-out 0.8s cubic-bezier(.4,0,.2,1) 0.3s both; }
+html.from-shelf::before { content: attr(data-shelf-title); top: 0; bottom: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--bs-body-bg, #fff); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; padding-bottom: 2.6rem; }
+html.from-shelf::after { content: "Notes"; top: calc(50% + 0.9rem); font-style: italic; opacity: 0.6; font-size: 18px; }
+@keyframes shelf-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes shelf-out { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { html.from-shelf::before, html.from-shelf::after { display: none; } html.from-shelf body { animation: none; } }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      refreshSafariScrollbar();
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Gravitation and Cosmology</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lecture-09.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The Riemann Tensor</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Section">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Principle of Relativity and the Equivalence Principle</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Special Relativity and Lorentz Transformations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Lorentz Transformations and Tensors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Particle Mechanics in Special Relativity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Electrodynamics and the Affine Connection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Newtonian Limit and Gravitational Redshift</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Derivatives of Tensors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Principle of General Covariance</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-09.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The Riemann Tensor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bianchi Identities and Geodesic Deviation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Einstein Equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Cauchy Problem and Harmonic Coordinates</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">The Schwarzschild Solution</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Geodesics of the Schwarzschild Solution</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Schwarzschild Black Holes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Gravitational Waves</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">The Power of Gravitational Waves</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Sources and Detection of Gravitational Waves, and Killing Vectors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Maximally Symmetric Spaces</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-20.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">The Cosmological Principle</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The Friedmann Equation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./lecture-22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cosmological Parameters and the Action Principle</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#construction-of-the-riemann-tensor" id="toc-construction-of-the-riemann-tensor" class="nav-link active" data-scroll-target="#construction-of-the-riemann-tensor">Construction of the Riemann tensor</a></li>
+  <li><a href="#symmetries" id="toc-symmetries" class="nav-link" data-scroll-target="#symmetries">Symmetries</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">The Riemann Tensor</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>From the metric alone we can build only a few tensors: <span class="math inline">\(g_{\mu\nu}\)</span>, its inverse <span class="math inline">\(g^{\mu\nu}\)</span>, <span class="math inline">\(g^{\mu\nu}g_{\nu\rho} = \delta^\mu_\rho\)</span>, and the tensor <span class="math inline">\(\epsilon^{\mu\nu\rho\sigma}/\sqrt g\)</span>. No new tensor can be built from first derivatives of the metric: at any point they vanish in locally inertial coordinates (<a href="./lecture-05.html#r-5-5">Proposition 5.5</a>), and a tensor that vanishes in one coordinate system vanishes in all. New tensors must therefore involve second derivatives.</p>
+<section id="construction-of-the-riemann-tensor" class="level2">
+<h2 class="anchored" data-anchor-id="construction-of-the-riemann-tensor">Construction of the Riemann tensor</h2>
+<p>Write the transformation law of the connection (<a href="./lecture-07.html#r-7-3">Proposition 7.3</a>) from primed to unprimed coordinates and solve for the second derivative: <span class="math display">\[\frac{\partial^2 x'^\tau}{\partial x^\mu \partial x^\nu} = \frac{\partial x'^\tau}{\partial x^\lambda}\, \Gamma^\lambda_{\mu\nu} - \frac{\partial x'^\rho}{\partial x^\mu}\frac{\partial x'^\sigma}{\partial x^\nu}\, \Gamma'^\tau_{\rho\sigma}. \tag{1}\]</span> Differentiate (1) with respect to <span class="math inline">\(x^\kappa\)</span>, and wherever a second derivative of <span class="math inline">\(x'\)</span> appears on the right-hand side, substitute (1) again. The left-hand side, <span class="math inline">\(\partial^3 x'^\tau/\partial x^\mu \partial x^\nu \partial x^\kappa\)</span>, is symmetric in <span class="math inline">\(\nu \leftrightarrow \kappa\)</span>. Subtracting the same expression with <span class="math inline">\(\nu\)</span> and <span class="math inline">\(\kappa\)</span> exchanged, all mixed products <span class="math inline">\(\Gamma\,\Gamma'\)</span> cancel, and we are left with <span class="math display">\[0 = \frac{\partial x'^\tau}{\partial x^\lambda}\, R^\lambda{}_{\mu\nu\kappa} - \frac{\partial x'^\rho}{\partial x^\mu}\frac{\partial x'^\sigma}{\partial x^\nu}\frac{\partial x'^\eta}{\partial x^\kappa}\, R'^\tau{}_{\rho\sigma\eta},\]</span> where <span class="math inline">\(R\)</span> is the combination defined below. This is precisely the transformation law of a tensor.</p>
+<div id="r-9-1" class="definition-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><strong>Definition 9.1</strong> (Riemann tensor, Ricci tensor, curvature scalar). <a href="#ref-1">[1, Ch. 6]</a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <em>Riemann curvature tensor</em> is <span class="math display">\[R^\lambda{}_{\mu\nu\kappa} = \frac{\partial\Gamma^\lambda_{\mu\nu}}{\partial x^\kappa} - \frac{\partial\Gamma^\lambda_{\mu\kappa}}{\partial x^\nu} + \Gamma^\eta_{\mu\nu}\, \Gamma^\lambda_{\kappa\eta} - \Gamma^\eta_{\mu\kappa}\, \Gamma^\lambda_{\nu\eta}.\]</span> Its contractions are the <em>Ricci tensor</em> and the <em>curvature scalar</em>, <span class="math display">\[R_{\mu\kappa} = R^\lambda{}_{\mu\lambda\kappa}, \qquad R = g^{\mu\nu} R_{\mu\nu}.\]</span></p>
+</div>
+</div>
+<p>We follow Weinberg’s sign conventions throughout. Many other texts define the Riemann tensor with the opposite overall sign, which flips the sign of <span class="math inline">\(R_{\mu\nu}\)</span> and <span class="math inline">\(R\)</span> as well.</p>
+<p>Lowering the first index and inserting (5) of <a href="./lecture-05.html">Lecture 5</a> gives the fully covariant form <span class="math display">\[R_{\mu\nu\rho\sigma} = g_{\mu\lambda}\, R^\lambda{}_{\nu\rho\sigma} = \tfrac12\Bigl(\frac{\partial^2 g_{\mu\rho}}{\partial x^\sigma \partial x^\nu} - \frac{\partial^2 g_{\nu\rho}}{\partial x^\sigma \partial x^\mu} - \frac{\partial^2 g_{\mu\sigma}}{\partial x^\rho \partial x^\nu} + \frac{\partial^2 g_{\nu\sigma}}{\partial x^\rho \partial x^\mu}\Bigr) + g_{\eta\tau}\bigl(\Gamma^\eta_{\rho\mu}\, \Gamma^\tau_{\nu\sigma} - \Gamma^\eta_{\sigma\mu}\, \Gamma^\tau_{\nu\rho}\bigr). \tag{2}\]</span></p>
+</section>
+<section id="symmetries" class="level2">
+<h2 class="anchored" data-anchor-id="symmetries">Symmetries</h2>
+<div id="r-9-2" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span><strong>Proposition 9.2</strong> (Symmetries of the Riemann tensor). <a href="#ref-1">[1, Ch. 6]</a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[\begin{aligned}
+R_{\mu\nu\rho\sigma} &amp;= R_{\rho\sigma\mu\nu}, \\
+R_{\mu\nu\rho\sigma} &amp;= -R_{\nu\mu\rho\sigma} = -R_{\mu\nu\sigma\rho}, \\
+0 &amp;= R_{\mu\nu\rho\sigma} + R_{\mu\sigma\nu\rho} + R_{\mu\rho\sigma\nu}.
+\end{aligned}\]</span> Consequently, the Ricci tensor is symmetric, <span class="math inline">\(R_{\nu\sigma} = R_{\sigma\nu}\)</span>.</p>
+<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>All four identities are tensor equations, so it suffices to check them in locally inertial coordinates at a point, where <span class="math inline">\(\Gamma = 0\)</span> and only the second-derivative terms in (2) survive. There they can be read off directly: exchanging <span class="math inline">\((\mu\nu) \leftrightarrow (\rho\sigma)\)</span> permutes the four terms, exchanging <span class="math inline">\(\mu \leftrightarrow \nu\)</span> or <span class="math inline">\(\rho \leftrightarrow \sigma\)</span> flips the sign of each, and in the cyclic sum each second derivative appears twice with opposite signs. For the Ricci tensor, <span class="math display">\[R_{\nu\sigma} = g^{\mu\rho} R_{\mu\nu\rho\sigma} = g^{\mu\rho} R_{\rho\sigma\mu\nu} = R_{\sigma\nu}. \qquad \square\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The Ricci tensor is, up to sign, the only rank-2 tensor that can be built by contracting the Riemann tensor with the metric, and <span class="math inline">\(R\)</span> is the only such scalar: by the antisymmetries every other contraction vanishes or gives <span class="math inline">\(\pm R_{\mu\nu}\)</span>.</p>
+<div id="r-9-3" class="proposition-box callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span><strong>Proposition 9.3</strong> (Number of independent components). <a href="#ref-1">[1, Ch. 6]</a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In <span class="math inline">\(N\)</span> dimensions the Riemann tensor has <span class="math inline">\(N^2(N^2 - 1)/12\)</span> independent components; in four dimensions, 20.</p>
+<div class="proof-box callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>By the antisymmetries, think of <span class="math inline">\(R_{\mu\nu\rho\sigma}\)</span> as a matrix <span class="math inline">\(R_{(\mu\nu)(\rho\sigma)}\)</span> indexed by antisymmetric pairs. Each pair takes <span class="math inline">\(M = N(N-1)/2\)</span> values, and by the pair symmetry the matrix is symmetric, which leaves <span class="math display">\[\tfrac12 M(M + 1) = \tfrac18 N(N-1)(N^2 - N + 2)\]</span> components. Given the other symmetries, the cyclic identity is a non-trivial condition only when all four indices are distinct, which gives <span class="math inline">\(\binom N4 = N(N-1)(N-2)(N-3)/24\)</span> further constraints. Subtracting, <span class="math display">\[\tfrac18 N(N-1)(N^2 - N + 2) - \tfrac1{24} N(N-1)(N-2)(N-3) = \tfrac1{12} N^2(N^2 - 1). \qquad \square\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li><span id="ref-1"></span>S. Weinberg, <em>Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity</em>, Wiley, New York (1972).</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/tresnjo\.github\.io\/lecture-notes\/gravitation-and-cosmology\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./lecture-08.html" class="pagination-link" aria-label="The Principle of General Covariance">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Principle of General Covariance</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./lecture-10.html" class="pagination-link" aria-label="The Bianchi Identities and Geodesic Deviation">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bianchi Identities and Geodesic Deviation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

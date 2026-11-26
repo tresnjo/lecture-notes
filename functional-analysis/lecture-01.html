@@ -166,7 +166,14 @@ ul.task-list li input[type="checkbox"] {
     "Integration": ["#9cc0dc", "#3a6f99"],
     "Signed Measures and Differentiation": ["#e6d3a3", "#a9862f"],
     "Noether's theorem": ["#d9b6cf", "#7a4570"],
-    "Normed spaces": ["#a9c7b2", "#3d5745"]
+    "Normed spaces": ["#a9c7b2", "#3d5745"],
+    "Interpretation of GR": ["#b9c4d1", "#4c5a6b"],
+    "Covariant phase space": ["#cdbfd9", "#5d4b70"],
+    "Exercises": ["#e3d3ae", "#8a6a2c"],
+    "Foundations": ["#d9cbb0", "#5a4a36"],
+    "Curvature and the Einstein equations": ["#c3cfd9", "#3f5668"],
+    "Applications": ["#dcc0b2", "#7a4532"],
+    "Cosmology": ["#c8d3b8", "#4f6138"]
   };
   var YAW0 = -0.35, PITCH0 = 0.6, MAXP = 9;
 
@@ -188,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
     var cv = document.createElement("canvas"); cv.className = "orbit-canvas"; cv.tabIndex = 0;
     var cap = document.createElement("div"); cap.className = "orbit-caption";
     host.appendChild(cv); host.appendChild(cap);
-    var nums = function (a) { return a.map(function (p) { return p.l.n; }).sort(function (x, y) { return x - y; }).join(", "); };
+    var nums = function (a) { return a.slice().sort(function (x, y) { return x.l.n - y.l.n; }).map(function (p) { return p.l.label || p.l.n; }).join(", "); };
     var rest = (inner.length ? "builds on " + nums(inner) : "") + (inner.length && outer.length ? " · " : "") +
       (outer.length ? "used in " + nums(outer) : "");
     var label = rest || "no connections yet";
@@ -197,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
     cv.setAttribute("role", "img");
     var others = {}; (G.external || []).forEach(function (e) { if (e.local === n) others[((G.books || {})[e.book] || { title: e.book }).title] = 1; });
     var otherList = Object.keys(others);
-    cv.setAttribute("aria-label", "Lecture " + n + " " + label + (otherList.length ? "; linked with " + otherList.join(", ") : "") + ". Drag to rotate, drag a planet to move it.");
+    cv.setAttribute("aria-label", (byN[n].label ? "Exercise " + byN[n].label : "Lecture " + n) + " " + label + (otherList.length ? "; linked with " + otherList.join(", ") : "") + ". Drag to rotate, drag a planet to move it.");
 
     // links between planets (Obsidian-style edges among the neighbours)
     var set = {}; list.forEach(function (p, i) { set[p.l.n] = i; });
@@ -338,7 +345,7 @@ ul.task-list li input[type="checkbox"] {
       b.addColorStop(0, "#fff3d0"); b.addColorStop(0.6, "#efb94e"); b.addColorStop(1, "#c97c22");
       ctx.fillStyle = b; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.2832); ctx.fill();
       ctx.fillStyle = "#5a3306"; ctx.font = font(10); ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText(String(n), cx, cy + 0.5);
+      ctx.fillText(String(byN[n].label || n), cx, cy + 0.5);
     }
     function related(b) {
       if (!hover) return true; if (b === hover) return true; if (hover.ext) return false;
@@ -354,7 +361,7 @@ ul.task-list li input[type="checkbox"] {
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.2832); ctx.fill();
       ctx.fillStyle = c.text; ctx.globalAlpha = (q.d < 0 ? 0.45 : 0.78) * (dim ? 0.3 : 1);
       ctx.font = font(10, true); ctx.textAlign = "left"; ctx.textBaseline = "middle";
-      ctx.fillText(String(b.p.l.n), q.x + r + 2.5, q.y - r * 0.5);
+      ctx.fillText(String(b.p.l.label || b.p.l.n), q.x + r + 2.5, q.y - r * 0.5);
       ctx.globalAlpha = 1; b.rr = r;
     }
     function draw() {
@@ -413,7 +420,7 @@ ul.task-list li input[type="checkbox"] {
       cv.style.cursor = b ? "pointer" : "grab";
       if (!b) { cap.textContent = rest; cap.classList.remove("on"); cap.title = ""; return; }
       if (b.ext) { cap.textContent = b.s.info.title + " · " + b.ext.n + " · " + b.ext.title; cap.classList.add("on"); cap.title = ""; return; }
-      cap.textContent = b.p.l.n + " · " + b.p.l.title; cap.classList.add("on");
+      cap.textContent = (b.p.l.label || b.p.l.n) + " · " + b.p.l.title; cap.classList.add("on");
       cap.title = b.p.via && b.p.via.length ? "via " + b.p.via.join(", ") : "";
     }
     function xy(ev) { var r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; }
@@ -496,9 +503,9 @@ ul.task-list li input[type="checkbox"] {
   window.mountLectureOrbit = mountOrbit;
 })();
 document.addEventListener("DOMContentLoaded", function () {
-  var m = location.pathname.match(/lecture-(\d+)\.html/);
-  if (!m || !window.LECTURE_GRAPH || !window.mountLectureOrbit) return;
-  var n = parseInt(m[1], 10);
+  var m = location.pathname.match(/lecture-(\d+)\.html/), mx = location.pathname.match(/exercise-([a-z])\.html/);
+  if ((!m && !mx) || !window.LECTURE_GRAPH || !window.mountLectureOrbit) return;
+  var n = m ? parseInt(m[1], 10) : 100 + mx[1].charCodeAt(0) - 96;   // exercises are 101, 102, ... labelled A, B, ...
   var box = document.createElement("div"); box.className = "orbit-box";
   box.innerHTML = '<div class="orbit-title">Interactive graph</div><div class="orbit-host"></div>';
   var side = document.getElementById("quarto-margin-sidebar");
@@ -743,8 +750,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var brand = document.querySelector(".navbar .navbar-brand-container") || document.querySelector(".navbar .navbar-brand");
   if (!brand || document.querySelector(".shelf-back")) return;
   var a = document.createElement("a");
-  a.className = "shelf-back"; a.href = "../"; a.title = "Back to all lecture notes";
-  a.innerHTML = '<span class="arrow" aria-hidden="true">←</span><span class="txt">Lecture notes</span>';
+  a.className = "shelf-back"; a.href = "../"; a.title = "Back to all notes";
+  a.innerHTML = '<span class="arrow" aria-hidden="true">←</span><span class="txt">Notes</span>';
   brand.parentNode.insertBefore(a, brand);
   a.addEventListener("click", function (ev) {
     if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button !== 0) return;
@@ -774,6 +781,58 @@ html { background: var(--bs-body-bg, #fff); }
 #quarto-margin-sidebar nav#TOC, #quarto-margin-sidebar nav#TOC * { pointer-events: auto !important; }
 #quarto-margin-sidebar { z-index: 1000 !important; }
 #quarto-margin-sidebar nav#TOC { background: var(--bs-body-bg, #fff); position: relative; z-index: 3; padding-top: 0.5rem; padding-bottom: 0.6rem; box-shadow: 0 -4rem 0 0 var(--bs-body-bg, #fff), 0 0.9rem 0.8rem -0.4rem var(--bs-body-bg, #fff); }
+</style>
+
+<!-- remember the last pages read across all books, and offer a way back to the previous book -->
+<script>
+(function () {
+  var KEY = "ln-trail";
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
+  function save(tr) { try { localStorage.setItem(KEY, JSON.stringify(tr.slice(0, 12))); } catch (e) {} }
+  var parts = location.pathname.split("/"), file = parts.pop() || "index.html", slug = parts.pop() || "";
+  if (!/\.html$/.test(file)) file = "index.html";
+  var key = slug + "/" + file;
+  function entry() {
+    var b = document.querySelector(".navbar-title"), n = document.querySelector("h1.title .chapter-number"),
+        c = document.querySelector("h1.title .chapter-title") || document.querySelector("h1.title");
+    return { k: key, b: b ? b.textContent.trim() : slug, t: ((n ? n.textContent.trim() + " " : "") + (c ? c.textContent.trim() : "")).trim(), y: 0 };
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    var tr = load(), me = entry();
+    var prev = null;
+    for (var i = 0; i < tr.length; i++) if (tr[i].k.split("/")[0] !== slug) { prev = tr[i]; break; }
+    tr = tr.filter(function (e) { return e.k !== key; });
+    tr.unshift(me); save(tr);
+    // keep the reading position of this page up to date
+    var saveY = function () { var t2 = load(); for (var j = 0; j < t2.length; j++) if (t2[j].k === key) { t2[j].y = Math.round(window.scrollY); break; } save(t2); };
+    window.addEventListener("pagehide", saveY);
+    document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") saveY(); });
+    // returning through the chip: restore where the reader was
+    try {
+      var r = JSON.parse(sessionStorage.getItem("ln-restore") || "null");
+      if (r && r.k === key) { sessionStorage.removeItem("ln-restore");
+        window.addEventListener("load", function () { setTimeout(function () { window.scrollTo(0, r.y); }, 60); }); }
+    } catch (e) {}
+    if (!prev) return;
+    var back = document.querySelector(".shelf-back"); if (!back || document.querySelector(".trail-back")) return;
+    var a = document.createElement("a");
+    a.className = "trail-back"; a.href = "../" + prev.k;
+    a.title = "Back to " + prev.b + (prev.t ? ": " + prev.t : "");
+    a.innerHTML = '<span class="arrow" aria-hidden="true">↩</span><span class="txt"></span>';
+    a.querySelector(".txt").textContent = prev.b + (prev.t ? " · " + prev.t : "");
+    a.addEventListener("click", function () { try { sessionStorage.setItem("ln-restore", JSON.stringify({ k: prev.k, y: prev.y || 0 })); } catch (e) {} });
+    back.parentNode.insertBefore(a, back.nextSibling);
+  });
+})();
+</script>
+<style>
+.trail-back { display: inline-flex; align-items: center; gap: 0.4rem; margin-right: 1.1rem; padding-right: 1.1rem; max-width: 22rem;
+  border-right: 1px solid color-mix(in srgb, currentColor 35%, transparent); color: var(--bs-navbar-color, currentColor) !important;
+  opacity: 0.75; text-decoration: none !important; font-size: 0.95rem; font-style: italic; white-space: nowrap; }
+.trail-back .txt { overflow: hidden; text-overflow: ellipsis; }
+.trail-back:hover, .trail-back:focus-visible { opacity: 1; }
+@media (max-width: 991.98px) { .trail-back { max-width: 12rem; } }
+@media (max-width: 575.98px) { .trail-back .txt { display: none; } .trail-back { margin-right: 0.6rem; padding-right: 0.6rem; } }
 </style>
 <!-- personal study layer: highlights, comments and notes, saved only in this browser -->
 <script>
@@ -1154,7 +1213,7 @@ html.from-shelf::before, html.from-shelf::after {
   color: var(--bs-body-color, #222); animation: shelf-out 0.8s cubic-bezier(.4,0,.2,1) 0.3s both; }
 html.from-shelf::before { content: attr(data-shelf-title); top: 0; bottom: 0; display: flex; align-items: center; justify-content: center;
   background: var(--bs-body-bg, #fff); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; padding-bottom: 2.6rem; }
-html.from-shelf::after { content: "Lecture notes"; top: calc(50% + 0.9rem); font-style: italic; opacity: 0.6; font-size: 18px; }
+html.from-shelf::after { content: "Notes"; top: calc(50% + 0.9rem); font-style: italic; opacity: 0.6; font-size: 18px; }
 @keyframes shelf-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes shelf-out { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
 @media (prefers-reduced-motion: reduce) { html.from-shelf::before, html.from-shelf::after { display: none; } html.from-shelf body { animation: none; } }
