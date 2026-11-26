@@ -160,7 +160,7 @@ Why is $\nu(A) = \int_A (2x-1) dx$ a signed measure?
 
 #### **Example 10.11** (Cantor measure minus Lebesgue).
 
-Define $$\nu = \mu_c - m$$on the measurable space $([0,1], \mathcal B_{[0,1]})$ then the Hahn decomposition is simply $P = C$ (the Cantor set) and $N= C^c$ and then we simply have $\nu^+(A) = \mu_c(A \cap C)$ and $\nu^{-1}(A) = m(A \cap C^c)$ for the Jordan decomposition. 
+Define $$\nu = \mu_c - m$$on the measurable space $([0,1], \mathcal B_{[0,1]})$ then the Hahn decomposition is simply $P = \mathfrak C$ (the Cantor set) and $N= \mathfrak C^c$ and then we simply have $\nu^+(A) = \mu_c(A \cap \mathfrak C)$ and $\nu^{-1}(A) = m(A \cap \mathfrak C^c)$ for the Jordan decomposition. 
 :::
 
 ## References {.unnumbered}

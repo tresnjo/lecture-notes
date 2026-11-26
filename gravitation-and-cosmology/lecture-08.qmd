@@ -1,0 +1,129 @@
+---
+title: "The Principle of General Covariance"
+---
+
+## Covariant derivatives along a curve
+
+Let $A^\mu(\tau)$ be a vector along a curve $\tau \mapsto x^\mu(\tau)$ ([Lecture 7](lecture-07.qmd)). Differentiating its transformation law gives
+$$\frac{dA'^\mu}{d\tau} = \frac{\partial x'^\mu}{\partial x^\nu}\frac{dA^\nu}{d\tau} + \frac{\partial^2 x'^\mu}{\partial x^\nu \partial x^\rho}\frac{dx^\rho}{d\tau}\, A^\nu,$$
+and the inhomogeneous term is cancelled, as before, by the connection.
+
+::: {#r-8-1 .callout-note .definition-box}
+
+#### **Definition 8.1** (Covariant derivative along a curve). [[1, Ch. 4]](#ref-1)
+
+The *covariant derivatives along* $x^\mu(\tau)$ of a contravariant and a covariant vector are
+$$\frac{DA^\mu}{D\tau} = \frac{dA^\mu}{d\tau} + \Gamma^\mu_{\rho\sigma}\, \frac{dx^\rho}{d\tau}\, A^\sigma, \qquad \frac{DA_\mu}{D\tau} = \frac{dA_\mu}{d\tau} - \Gamma^\rho_{\mu\sigma}\, \frac{dx^\sigma}{d\tau}\, A_\rho.$$
+:::
+
+For a tensor field restricted to the curve, the two notions of derivative agree:
+$$\frac{DT^\mu{}_\nu}{D\tau} = T^\mu{}_{\nu;\lambda}\, \frac{dx^\lambda}{d\tau}.$$
+
+::: {#r-8-2 .callout-note .definition-box}
+
+#### **Definition 8.2** (Parallel transport). [[1, Ch. 4]](#ref-1)
+
+A vector $A^\mu(\tau)$ is *parallel transported* along $x^\mu(\tau)$ if
+$$\frac{DA^\mu}{D\tau} = \frac{dA^\mu}{d\tau} + \Gamma^\mu_{\rho\sigma}\, \frac{dx^\rho}{d\tau}\, A^\sigma = 0.$$
+:::
+
+This is a first-order differential equation along the curve: given $A^\mu$ at one point, it determines $A^\mu$ everywhere on the curve. It makes precise the informal idea of [Definition 2.4](lecture-02.qmd#r-2-4) of moving a vector "without changing its direction". In this language the geodesic equation says that a freely falling particle parallel transports its own four-velocity.
+
+## The principle of general covariance
+
+The principle of general covariance is a mathematical way of stating the equivalence principle.
+
+::: {#r-8-3 .callout-note .definition-box}
+
+#### **Definition 8.3** (Principle of general covariance). [[1, Ch. 4]](#ref-1)
+
+An equation holds in an arbitrary gravitational field if
+
+1. it holds in the absence of gravity, that is, it agrees with special relativity when $g_{\mu\nu} = \eta_{\mu\nu}$ and $\Gamma^\lambda_{\mu\nu} = 0$; and
+2. it is generally covariant.
+:::
+
+The second condition alone is not enough: an equation can be generally covariant and equally wrong in every coordinate system. The first condition ties it to known physics. Together they imply that the equation holds in a general gravitational field. By the equivalence principle there is a locally inertial coordinate system at each point, in which the equation holds by condition 1; by condition 2 it then holds in every coordinate system.
+
+::: {.callout-tip .remark-box}
+
+#### **Remark 8.4** (Passive and active covariance).
+
+The covariance here is *passive*: it concerns the form of equations under changes of coordinates. The active version, in which diffeomorphisms move the fields themselves around on a fixed manifold, is the subject of the hole argument.
+:::
+
+In practice, a law of special relativity is carried over to general relativity in three steps:
+
+1. write the equation in a locally inertial coordinate system, as predicted by special relativity;
+2. replace all Lorentz tensors by general tensors;
+3. replace partial derivatives (and $d/d\tau$) by covariant derivatives (and $D/D\tau$).
+
+The result is generally covariant and reduces to the original equation in the absence of gravity. The procedure is not unique, however: one could add terms involving the curvature ([Lecture 9](lecture-09.qmd)), which vanish when $g_{\mu\nu} = \eta_{\mu\nu}$. Step 2 works because contracting Lorentz indices with $\partial\xi^\alpha/\partial x^\mu$ produces general tensors. For example,
+$$g_{\mu\nu} = \frac{\partial\xi^\alpha}{\partial x^\mu}\frac{\partial\xi^\beta}{\partial x^\nu}\, \eta_{\alpha\beta}, \qquad T^\mu{}_\nu = \frac{\partial x^\mu}{\partial\xi^\alpha}\frac{\partial\xi^\beta}{\partial x^\nu}\, T^\alpha{}_\beta$$
+transform as tensors under general coordinate transformations, since the Lorentz indices are summed over.
+
+## Particle mechanics
+
+### A freely falling particle
+
+In a locally inertial coordinate system, a freely falling particle with four-velocity $U^\alpha = d\xi^\alpha/d\tau$ and spin $S_\alpha$ ([Definition 4.9](lecture-04.qmd#r-4-9)) moves on a straight line, and its spin does not precess:
+$$\frac{dU^\alpha}{d\tau} = 0, \qquad \frac{dS_\alpha}{d\tau} = 0.$$
+The vectors $U^\mu = \frac{\partial x^\mu}{\partial\xi^\alpha}\, U^\alpha$ and $S_\mu = \frac{\partial\xi^\alpha}{\partial x^\mu}\, S_\alpha$ are general vectors, and step 3 gives
+$$\frac{DU^\mu}{D\tau} = \frac{dU^\mu}{d\tau} + \Gamma^\mu_{\rho\sigma}\, \frac{dx^\rho}{d\tau}\, U^\sigma = 0, \qquad \frac{DS_\mu}{D\tau} = \frac{dS_\mu}{d\tau} - \Gamma^\rho_{\mu\sigma}\, \frac{dx^\sigma}{d\tau}\, S_\rho = 0.$$
+The first is the geodesic equation; the second says that the spin is parallel transported. These are the unique answers if we only allow the connection, that is, first derivatives of the metric. Terms with second derivatives of the metric could be added without spoiling either condition of [Definition 8.3](#r-8-3).
+
+### A particle acted on by a force
+
+If a four-force $f^\alpha$ acts on the particle, special relativity gives $dU^\alpha/d\tau = f^\alpha/m$ in locally inertial coordinates. With $f^\mu = \frac{\partial x^\mu}{\partial\xi^\alpha}\, f^\alpha$,
+$$\frac{DU^\mu}{D\tau} = \frac{f^\mu}{m} \quad\Longleftrightarrow\quad m\, \frac{dU^\mu}{d\tau} = f^\mu - \underbrace{m\, \Gamma^\mu_{\rho\sigma}\, \frac{dx^\rho}{d\tau}\frac{dx^\sigma}{d\tau}}_{\text{gravitational force}}.$$
+
+### Spin under a force without torque
+
+If the force exerts no torque, the angular momentum is conserved in the rest frame, and in a comoving inertial frame, where $U^\alpha = (1, 0, 0, 0)$ and $d\tau = dt$, the spatial components of the spin are constant: $dS^i/d\tau = 0$. Hence
+$$\frac{dS^\alpha}{d\tau} = \Phi\, U^\alpha$$
+for some scalar $\Phi$. Differentiating $S_\alpha U^\alpha = 0$ ([Proposition 4.10](lecture-04.qmd#r-4-10)) and using $U_\alpha U^\alpha = -1$ gives $\Phi = S_\beta\, dU^\beta/d\tau$, so
+$$\frac{dS^\alpha}{d\tau} = U^\alpha\, S_\beta\, \frac{dU^\beta}{d\tau}, \tag{1}$$
+which is Lorentz covariant and so holds in every inertial frame. Equation (1) describes *Thomas precession*.
+
+::: {.callout-tip .remark-box}
+
+#### **Remark 8.5** (Thomas precession).
+
+Thomas precession is a kinematic effect, a special case of *Wigner rotation*: two successive boosts in different directions compose to a boost followed by a rotation. For an electron in an atom it halves the naive spin–orbit coupling, which would otherwise be overestimated by a factor of two.
+:::
+
+::: {#r-8-6 .callout-important .proposition-box}
+
+#### **Proposition 8.6** (Fermi transport). [[1, Ch. 5]](#ref-1)
+
+In a gravitational field, the spin of a particle acted on by a force without torque obeys
+$$\frac{DS^\mu}{D\tau} = U^\mu\, S_\nu\, \frac{DU^\nu}{D\tau}.$$
+When $f^\mu = 0$, so that $DU^\nu/D\tau = 0$, this reduces to parallel transport.
+:::
+
+This follows from (1) by the three steps above, and is called *Fermi transport*.
+
+## Electrodynamics
+
+The same procedure applies to the equations of [Lecture 5](lecture-05.qmd). By (2) of [Lecture 7](lecture-07.qmd), with $F^{\mu\nu}$ antisymmetric, the inhomogeneous Maxwell equation becomes
+$$\frac{\partial}{\partial x^\mu}\bigl(\sqrt g\, F^{\mu\nu}\bigr) = -\sqrt g\, J^\nu,$$
+while the homogeneous equation is unchanged, since its cyclic form is already covariant. The Lorentz force is $f^\mu = e\, F^\mu{}_\nu\, dx^\nu/d\tau$.
+
+Whenever a delta function appears, a factor $1/\sqrt g$ is needed to make the result a tensor, since $\delta^{(4)}(x)$ is a scalar density. Thus the current is
+$$J^\mu(x) = \frac{1}{\sqrt g}\sum_n e_n \int \delta^{(4)}(x - x_n)\, dx_n^\mu,$$
+and charge conservation reads $\partial_\mu(\sqrt g\, J^\mu) = 0$.
+
+## The energy-momentum tensor
+
+In special relativity, $\partial_\mu T^{\mu\nu} = G^\nu$ ([Proposition 4.6](lecture-04.qmd#r-4-6)). In general relativity this becomes $T^{\mu\nu}{}_{;\mu} = G^\nu$, which by (2) of [Lecture 7](lecture-07.qmd) reads
+$$\frac{1}{\sqrt g}\frac{\partial}{\partial x^\mu}\bigl(\sqrt g\, T^{\mu\nu}\bigr) = G^\nu - \Gamma^\nu_{\mu\lambda}\, T^{\mu\lambda}, \tag{2}$$
+with
+$$T^{\mu\nu}(x) = \frac{1}{\sqrt g}\sum_n m_n \int \frac{dx_n^\mu}{d\tau}\, dx_n^\nu\, \delta^{(4)}(x - x_n).$$
+
+One may still define the energy, momentum and angular momentum of a system,
+$$P^\mu = \int d^3x\, \sqrt g\, T^{\mu 0}, \qquad J^{\mu\nu} = \int d^3x\, \sqrt g\, \bigl(x^\mu T^{\nu 0} - x^\nu T^{\mu 0}\bigr),$$
+but these are neither tensors nor conserved, because by (2) the density $\sqrt g\, T^{\mu\nu}$ is not conserved. The extra term describes the exchange of energy and momentum between matter and the gravitational field. We return to this in [Lecture 12](lecture-12.qmd).
+
+## References {.unnumbered}
+
+1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).

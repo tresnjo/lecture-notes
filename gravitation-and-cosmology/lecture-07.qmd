@@ -1,0 +1,134 @@
+---
+title: "Derivatives of Tensors"
+---
+
+An equation is *generally covariant* if it takes the same form in all coordinate systems: $S^\mu = T^\mu$ if and only if $S'^\mu = T'^\mu$. Tensors under general coordinate transformations ([Definition 6.4](lecture-06.qmd#r-6-4)) give generally covariant equations in the same way as Lorentz tensors gave Lorentz covariant ones. This lecture collects the objects that are *not* quite tensors, and shows how to differentiate tensors so that the result is again a tensor.
+
+## Tensor densities
+
+::: {#r-7-1 .callout-note .definition-box}
+
+#### **Definition 7.1** (Tensor density). [[1, Ch. 4]](#ref-1)
+
+A *scalar density of weight $W$* transforms as
+$$S' = \Bigl|\frac{\partial x'}{\partial x}\Bigr|^W S,$$
+where $|\partial x'/\partial x|$ is the Jacobian determinant. A *tensor density* of weight $W$ transforms like a tensor, times the same factor.
+:::
+
+::: {.callout-caution .example-box}
+
+#### **Example 7.2** (The determinant of the metric).
+
+Since $g'_{\mu\nu} = \frac{\partial x^\rho}{\partial x'^\mu}\frac{\partial x^\sigma}{\partial x'^\nu}\, g_{\rho\sigma}$, taking determinants gives
+$$\det g'_{\mu\nu} = \Bigl|\frac{\partial x}{\partial x'}\Bigr|^2 \det g_{\mu\nu},$$
+so $g := -\det g_{\mu\nu}$ is a scalar density of weight $-2$. Since $d^4x' = |\partial x'/\partial x|\, d^4x$, the volume element $\sqrt g\, d^4x$ is invariant. This is how integrals are made generally covariant.
+:::
+
+The Levi-Civita symbol $\epsilon^{\mu\nu\rho\sigma}$ is another example. Under proper Lorentz transformations it is a tensor; under improper ones it picks up a sign and is called a *pseudotensor*; under general coordinate transformations it is a tensor density.
+
+## The connection is not a tensor
+
+::: {#r-7-3 .callout-important .proposition-box}
+
+#### **Proposition 7.3** (Transformation of the connection). [[1, Ch. 4]](#ref-1)
+
+Under a general coordinate transformation,
+$$\Gamma'^\lambda_{\mu\nu} = \frac{\partial x'^\lambda}{\partial x^\rho}\frac{\partial x^\sigma}{\partial x'^\mu}\frac{\partial x^\tau}{\partial x'^\nu}\, \Gamma^\rho_{\sigma\tau} - \frac{\partial^2 x'^\lambda}{\partial x^\sigma \partial x^\rho}\frac{\partial x^\sigma}{\partial x'^\mu}\frac{\partial x^\rho}{\partial x'^\nu}. \tag{1}$$
+The second term means that $\Gamma$ is not a tensor.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+By [Definition 1.11](lecture-01.qmd#r-1-11) and the chain rule,
+$$\Gamma'^\lambda_{\mu\nu} = \frac{\partial x'^\lambda}{\partial\xi^\alpha}\frac{\partial^2\xi^\alpha}{\partial x'^\mu \partial x'^\nu} = \Bigl(\frac{\partial x'^\lambda}{\partial x^\rho}\frac{\partial x^\rho}{\partial\xi^\alpha}\Bigr)\frac{\partial x^\sigma}{\partial x'^\mu}\frac{\partial}{\partial x^\sigma}\Bigl(\frac{\partial x^\tau}{\partial x'^\nu}\frac{\partial\xi^\alpha}{\partial x^\tau}\Bigr).$$
+The derivative acts on both factors in the bracket. Acting on the second it gives the first term of (1); acting on the first it gives $\frac{\partial x'^\lambda}{\partial x^\rho}\frac{\partial^2 x^\rho}{\partial x'^\mu \partial x'^\nu}$. Differentiating $\frac{\partial x'^\lambda}{\partial x^\rho}\frac{\partial x^\rho}{\partial x'^\nu} = \delta^\lambda_\nu$ with respect to $x'^\mu$ gives
+$$\frac{\partial x'^\lambda}{\partial x^\rho}\frac{\partial^2 x^\rho}{\partial x'^\mu \partial x'^\nu} = -\frac{\partial x^\sigma}{\partial x'^\mu}\frac{\partial x^\rho}{\partial x'^\nu}\frac{\partial^2 x'^\lambda}{\partial x^\sigma \partial x^\rho},$$
+which is the second term of (1). $\square$
+:::
+:::
+
+The acceleration $d^2x^\mu/d\tau^2$ is not a vector either:
+$$\frac{d^2x'^\mu}{d\tau^2} = \frac{\partial x'^\mu}{\partial x^\nu}\frac{d^2x^\nu}{d\tau^2} + \frac{\partial^2 x'^\mu}{\partial x^\sigma \partial x^\nu}\frac{dx^\sigma}{d\tau}\frac{dx^\nu}{d\tau}.$$
+The extra term has the opposite sign of the one in (1), so it cancels in the combination
+$$\frac{d^2x^\mu}{d\tau^2} + \Gamma^\mu_{\rho\sigma}\, \frac{dx^\rho}{d\tau}\frac{dx^\sigma}{d\tau},$$
+which is therefore a vector. The geodesic equation ([Definition 5.6](lecture-05.qmd#r-5-6)) is generally covariant, although it is built from two pieces that are not.
+
+## The covariant derivative
+
+The partial derivative of a vector is not a tensor:
+$$\frac{\partial V'^\mu}{\partial x'^\nu} = \frac{\partial x^\rho}{\partial x'^\nu}\frac{\partial x'^\mu}{\partial x^\sigma}\frac{\partial V^\sigma}{\partial x^\rho} + \frac{\partial x^\rho}{\partial x'^\nu}\frac{\partial^2 x'^\mu}{\partial x^\rho \partial x^\sigma}\, V^\sigma.$$
+Again, the second term is cancelled by the inhomogeneous term in (1).
+
+::: {#r-7-4 .callout-note .definition-box}
+
+#### **Definition 7.4** (Covariant derivative). [[1, Ch. 4]](#ref-1)
+
+The *covariant derivatives* of a contravariant and a covariant vector are
+$$V^\mu{}_{;\nu} = \frac{\partial V^\mu}{\partial x^\nu} + \Gamma^\mu_{\nu\rho}\, V^\rho, \qquad U_{\mu;\nu} = \frac{\partial U_\mu}{\partial x^\nu} - \Gamma^\sigma_{\mu\nu}\, U_\sigma.$$
+For a general tensor there is one term for each index, with a plus sign for upper and a minus sign for lower indices, for example
+$$T^{\mu\gamma}{}_{\lambda;\rho} = \frac{\partial T^{\mu\gamma}{}_\lambda}{\partial x^\rho} + \Gamma^\mu_{\rho\eta}\, T^{\eta\gamma}{}_\lambda + \Gamma^\gamma_{\rho\eta}\, T^{\mu\eta}{}_\lambda - \Gamma^\eta_{\lambda\rho}\, T^{\mu\gamma}{}_\eta.$$
+:::
+
+By construction $V'^\mu{}_{;\nu} = \frac{\partial x'^\mu}{\partial x^\lambda}\frac{\partial x^\sigma}{\partial x'^\nu}\, V^\lambda{}_{;\sigma}$: the covariant derivative of a tensor is a tensor with one more lower index.
+
+::: {#r-7-5 .callout-important .proposition-box}
+
+#### **Proposition 7.5** (Properties of the covariant derivative). [[1, Ch. 4]](#ref-1)
+
+1. It is linear and obeys the Leibniz rule.
+2. It commutes with contraction: for instance $T^{\mu\lambda}{}_{\lambda;\rho} = \partial_\rho T^{\mu\lambda}{}_\lambda + \Gamma^\mu_{\rho\eta}\, T^{\eta\lambda}{}_\lambda$, as for a vector.
+3. On scalars it is the partial derivative, $S_{;\rho} = \partial_\rho S$.
+4. The metric is covariantly constant, $g_{\mu\nu;\rho} = 0$. Hence raising and lowering indices commutes with covariant differentiation, for example $(g^{\mu\nu} V_\nu)_{;\rho} = g^{\mu\nu}\, V_{\nu;\rho}$.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+Items 1–3 follow from the definition. For item 4, $g_{\mu\nu;\rho} = \partial_\rho g_{\mu\nu} - \Gamma^\sigma_{\mu\rho}\, g_{\sigma\nu} - \Gamma^\sigma_{\nu\rho}\, g_{\mu\sigma}$ is a tensor, and it vanishes in locally inertial coordinates at any point, where $\partial_\rho g_{\mu\nu} = 0$ and $\Gamma = 0$. A tensor that vanishes in one coordinate system vanishes in all. $\square$
+:::
+:::
+
+## Curl and divergence
+
+For the *covariant curl* of a covariant vector the connection terms cancel, since $\Gamma^\sigma_{\mu\rho}$ is symmetric:
+$$V_{\mu;\rho} - V_{\rho;\mu} = \frac{\partial V_\mu}{\partial x^\rho} - \frac{\partial V_\rho}{\partial x^\mu}.$$
+
+For the *covariant divergence* $V^\mu{}_{;\mu} = \partial_\mu V^\mu + \Gamma^\mu_{\mu\sigma}\, V^\sigma$ we need the contracted connection. By (5) of [Lecture 5](lecture-05.qmd),
+$$\Gamma^\mu_{\mu\sigma} = \tfrac12\, g^{\mu\rho}\, \frac{\partial g_{\rho\mu}}{\partial x^\sigma},$$
+the other two terms cancelling against each other in the contraction with the symmetric $g^{\mu\rho}$.
+
+::: {#r-7-6 .callout-important .proposition-box}
+
+#### **Proposition 7.6** (Covariant divergence). [[1, Ch. 4]](#ref-1)
+
+$$\Gamma^\mu_{\mu\sigma} = \frac{1}{\sqrt g}\frac{\partial\sqrt g}{\partial x^\sigma}, \qquad V^\mu{}_{;\mu} = \frac{1}{\sqrt g}\frac{\partial}{\partial x^\mu}\bigl(\sqrt g\, V^\mu\bigr).$$
+In particular, if $V^\mu$ vanishes at infinity, $\int d^4x\, \sqrt g\, V^\mu{}_{;\mu} = 0$.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+By Jacobi's formula, $\partial_\sigma \ln\det M = \operatorname{tr}(M^{-1}\partial_\sigma M)$ for any invertible matrix $M(x)$. With $M = g_{\mu\nu}$,
+$$\tfrac12\, g^{\mu\rho}\, \partial_\sigma g_{\rho\mu} = \tfrac12\, \partial_\sigma \ln g = \frac{1}{\sqrt g}\, \partial_\sigma\sqrt g.$$
+Inserting this in $V^\mu{}_{;\mu}$ gives the second formula, and the integral vanishes by the divergence theorem. $\square$
+:::
+:::
+
+For a tensor with two upper indices,
+$$T^{\mu\nu}{}_{;\mu} = \frac{1}{\sqrt g}\frac{\partial}{\partial x^\mu}\bigl(\sqrt g\, T^{\mu\nu}\bigr) + \Gamma^\nu_{\mu\rho}\, T^{\mu\rho}. \tag{2}$$
+If $T^{\mu\nu}$ is antisymmetric, such as the field strength $F^{\mu\nu}$, the last term vanishes, since $\Gamma^\nu_{\mu\rho}$ is symmetric in $\mu\rho$.
+
+Similarly, for an antisymmetric tensor $A_{\mu\nu}$ the connection terms in the cyclic sum cancel in pairs:
+$$A_{\mu\nu;\lambda} + A_{\lambda\mu;\nu} + A_{\nu\lambda;\mu} = \frac{\partial A_{\mu\nu}}{\partial x^\lambda} + \frac{\partial A_{\lambda\mu}}{\partial x^\nu} + \frac{\partial A_{\nu\lambda}}{\partial x^\mu}.$$
+Applied to $F_{\mu\nu}$, the homogeneous Maxwell equation (4) of [Lecture 5](lecture-05.qmd) is therefore already generally covariant.
+
+## Tensors along curves
+
+So far we have worked with *tensor fields*, maps $x \mapsto T^\mu{}_\nu(x)$. One can also define tensors along a curve, say the worldline $\tau \mapsto x^\mu(\tau)$ of a massive particle: objects $A^\mu(\tau)$ that transform as
+$$A'^\mu(\tau) = \frac{\partial x'^\mu}{\partial x^\nu}\Big|_{x(\tau)}\, A^\nu(\tau).$$
+An example is the four-velocity $dx^\mu/d\tau$. Such an object need not be the restriction of a tensor field. As before, $dA^\mu/d\tau$ is not a vector, and the next lecture introduces the derivative along a curve that is.
+
+## References {.unnumbered}
+
+1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).

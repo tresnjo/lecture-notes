@@ -151,7 +151,7 @@ With $\epsilon = 1/2$, no $\delta > 0$ works: choosing $n$ with $(2/3)^n < \delt
 Let $f$ be a nonnegative right-continuous increasing function on $[0,1]$ with $f(0) = 0$. Then $f$ is absolutely continuous if and only if $\mu_f << m$ where $m$ is the Lebesgue measure.
 :::
 
-This is consistent with the result for Cantor ternary function (which is n.n. right continuous and increasing). The corresponding Cantor ternary measure (which again is a unique finite Borel measure) where $\mu_C(C) = 1$ and $m(C) = 0$ so clearly $\mu_C$ is not absolutely continuous wrt to $m$. By contrapositive, $F_c$ is therefore not absolutely continuous. 
+This is consistent with the result for Cantor ternary function (which is n.n. right continuous and increasing). The corresponding Cantor ternary measure (which again is a unique finite Borel measure) where $\mu_C(\mathfrak C) = 1$ and $m(\mathfrak C) = 0$ so clearly $\mu_C$ is not absolutely continuous wrt to $m$. By contrapositive, $F_c$ is therefore not absolutely continuous. 
 
 ::: {#r-15-5 .callout-important .proposition-box}
 

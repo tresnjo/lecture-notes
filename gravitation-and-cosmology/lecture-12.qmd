@@ -1,0 +1,143 @@
+---
+title: "The Cauchy Problem and Harmonic Coordinates"
+---
+
+## The Cauchy problem
+
+Suppose $g_{\mu\nu}$ and $\partial_0 g_{\mu\nu}$ are known on a surface $x^0 = t$. Can we find $g_{\mu\nu}$ at later times? Stepping forward in time,
+$$\begin{aligned}
+g_{\mu\nu}(t + \delta t, x^i) &= g_{\mu\nu}(t, x^i) + \partial_0 g_{\mu\nu}(t, x^i)\, \delta t, \\
+\partial_0 g_{\mu\nu}(t + \delta t, x^i) &= \partial_0 g_{\mu\nu}(t, x^i) + \underbrace{\partial_0^2 g_{\mu\nu}(t, x^i)}_{\text{from the Einstein equations}}\, \delta t,
+\end{aligned}$$
+so we need the Einstein equations to give all ten second time derivatives $\partial_0^2 g_{\mu\nu}$. This is the *Cauchy problem*.
+
+The six equations $G^{ij} = -8\pi G\, T^{ij}$ can be solved for the six $\partial_0^2 g_{ij}$. The remaining four, $G^{0\mu} = -8\pi G\, T^{0\mu}$, do not determine $\partial_0^2 g_{0\mu}$.
+
+::: {#r-12-1 .callout-important .proposition-box}
+
+#### **Proposition 12.1** (The $G^{0\mu}$ equations are constraints). [[1, Ch. 7]](#ref-1)
+
+$G^{0\mu}$ contains at most first time derivatives of the metric.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+By the contracted Bianchi identities ([Proposition 10.2](lecture-10.qmd#r-10-2)),
+$$-\frac{\partial G^{0\nu}}{\partial x^0} = \frac{\partial G^{i\nu}}{\partial x^i} + \Gamma^\mu_{\rho\mu}\, G^{\rho\nu} + \Gamma^\nu_{\rho\mu}\, G^{\mu\rho}.$$
+The right-hand side contains at most second time derivatives, since $G^{\mu\nu}$ does. If $G^{0\nu}$ contained a second time derivative, the left-hand side would contain a third. $\square$
+:::
+:::
+
+The four equations $G^{0\mu} = -8\pi G\, T^{0\mu}$ are therefore not evolution equations but *constraints* on the initial data. This leaves four functions undetermined, which correspond to the four functions $x'^\mu(x)$ of a general coordinate transformation: given a solution, any coordinate transformation that is trivial at the initial time gives another solution with the same initial data. To obtain a unique solution, one must fix the coordinate system, that is, break the general covariance of the equations. How best to do so depends on the problem. One convenient choice is the harmonic coordinates.
+
+## Harmonic coordinates
+
+::: {#r-12-2 .callout-note .definition-box}
+
+#### **Definition 12.2** (Harmonic coordinates). [[1, Ch. 7]](#ref-1)
+
+Coordinates are *harmonic* if
+$$\Gamma^\lambda := g^{\mu\nu}\, \Gamma^\lambda_{\mu\nu} = 0.$$
+:::
+
+$\Gamma^\lambda$ is not a vector. Contracting the transformation law (1) of [Lecture 7](lecture-07.qmd) with $g'^{\mu\nu}$ gives
+$$\Gamma'^\lambda = \frac{\partial x'^\lambda}{\partial x^\rho}\, \Gamma^\rho - g^{\rho\sigma}\, \frac{\partial^2 x'^\lambda}{\partial x^\rho \partial x^\sigma}, \tag{1}$$
+so even if $\Gamma^\lambda \neq 0$ in the coordinates $x$, we can look for new coordinates $x'(x)$ in which $\Gamma'^\lambda = 0$.
+
+::: {#r-12-3 .callout-important .proposition-box}
+
+#### **Proposition 12.3** (Why "harmonic"). [[1, Ch. 7]](#ref-1)
+
+$$\Gamma^\lambda = -\frac{1}{\sqrt g}\frac{\partial}{\partial x^\kappa}\bigl(\sqrt g\, g^{\lambda\kappa}\bigr),$$
+and for each coordinate function, viewed as a scalar $x'^\mu(x)$,
+$$\Box\, x'^\mu := \bigl(g^{\rho\sigma}\, x'^\mu{}_{;\rho}\bigr)_{;\sigma} = -\Gamma'^\mu.$$
+Hence $x'^\mu$ are harmonic coordinates if and only if each satisfies the wave equation $\Box\, x'^\mu = 0$.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+By (5) of [Lecture 5](lecture-05.qmd),
+$$\Gamma^\lambda = \tfrac12\, g^{\mu\nu} g^{\lambda\kappa}\bigl(\partial_\mu g_{\kappa\nu} + \partial_\nu g_{\mu\kappa} - \partial_\kappa g_{\mu\nu}\bigr) = g^{\mu\nu} g^{\lambda\kappa}\, \partial_\mu g_{\kappa\nu} - g^{\lambda\kappa}\, \frac{\partial_\kappa\sqrt g}{\sqrt g},$$
+using Jacobi's formula ([Proposition 7.6](lecture-07.qmd#r-7-6)) for the last term. Differentiating $g^{\lambda\kappa}g_{\kappa\nu} = \delta^\lambda_\nu$ gives $g^{\mu\nu}g^{\lambda\kappa}\, \partial_\mu g_{\kappa\nu} = -\partial_\kappa g^{\lambda\kappa}$, and the first formula follows.
+
+For a scalar $x'^\mu$, the covariant divergence formula of [Proposition 7.6](lecture-07.qmd#r-7-6) gives
+$$\Box\, x'^\mu = \frac{1}{\sqrt g}\frac{\partial}{\partial x^\sigma}\Bigl(\sqrt g\, g^{\rho\sigma}\, \frac{\partial x'^\mu}{\partial x^\rho}\Bigr) = -\Gamma^\rho\, \frac{\partial x'^\mu}{\partial x^\rho} + g^{\rho\sigma}\, \frac{\partial^2 x'^\mu}{\partial x^\rho \partial x^\sigma},$$
+which is $-\Gamma'^\mu$ by (1). $\square$
+:::
+:::
+
+In harmonic coordinates, $\partial_\kappa(\sqrt g\, g^{\lambda\kappa}) = 0$, which gives
+$$\frac{\partial^2}{\partial (x^0)^2}\bigl(\sqrt g\, g^{\lambda 0}\bigr) = -\frac{\partial^2}{\partial x^0 \partial x^i}\bigl(\sqrt g\, g^{\lambda i}\bigr).$$
+These are the four missing equations for the second time derivatives. Together with $G^{ij} = -8\pi G\, T^{ij}$ they determine the evolution of all ten components of the metric.
+
+## The non-linearity of the Einstein equations
+
+Maxwell's equations are linear in the four-potential; the Einstein equations are non-linear in the metric. To make this explicit, write
+$$g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu},$$
+without assuming $h$ small, only that it vanishes at infinity. The part of the Ricci tensor linear in $h$ is
+$$R^{(1)}_{\mu\kappa} = \tfrac12\Bigl(\Box\, h_{\mu\kappa} - \frac{\partial^2 h^\lambda{}_\kappa}{\partial x^\lambda \partial x^\mu} - \frac{\partial^2 h^\lambda{}_\mu}{\partial x^\lambda \partial x^\kappa} + \frac{\partial^2 h^\lambda{}_\lambda}{\partial x^\mu \partial x^\kappa}\Bigr), \tag{2}$$
+with indices raised by $\eta$.
+
+::: {#r-12-4 .callout-note .definition-box}
+
+#### **Definition 12.4** (Energy-momentum pseudotensor of gravity). [[1, Ch. 7]](#ref-1)
+
+Define
+$$t_{\mu\nu} = \frac{1}{8\pi G}\Bigl(R_{\mu\nu} - \tfrac12\, g_{\mu\nu} R - R^{(1)}_{\mu\nu} + \tfrac12\, \eta_{\mu\nu}\, R^{(1)\lambda}{}_\lambda\Bigr), \qquad \tau^{\mu\nu} = \eta^{\mu\rho}\eta^{\nu\sigma}\bigl(T_{\rho\sigma} + t_{\rho\sigma}\bigr).$$
+:::
+
+The Einstein equations then take the form
+$$R^{(1)}_{\mu\nu} - \tfrac12\, \eta_{\mu\nu}\, R^{(1)\lambda}{}_\lambda = -8\pi G\bigl(T_{\mu\nu} + t_{\mu\nu}\bigr),$$
+with all the non-linearity moved to the right-hand side. Here $t_{\mu\nu}$ is interpreted as the energy and momentum of the gravitational field itself, and $\tau^{\mu\nu}$ as the total energy-momentum of matter and gravity. Neither is a tensor, but the interpretation is supported by the following.
+
+::: {#r-12-5 .callout-important .proposition-box}
+
+#### **Proposition 12.5** (Conservation of total energy and momentum). [[1, Ch. 7]](#ref-1)
+
+1. $\tau^{\mu\nu}$ is conserved in the ordinary sense, $\partial_\mu \tau^{\mu\nu} = 0$, so the total four-momentum $P^\lambda = \int d^3x\, \tau^{0\lambda}$ is constant.
+2. With $M^{\mu\rho\sigma} = x^\rho \tau^{\sigma\mu} - x^\sigma \tau^{\rho\mu}$, also $\partial_\mu M^{\mu\rho\sigma} = 0$, so the total angular momentum $J^{\rho\sigma} = \int d^3x\, M^{0\rho\sigma}$ is constant.
+3. $P^\lambda$ and $J^{\rho\sigma}$ are not tensors under general coordinate transformations, but they are under Lorentz transformations.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+The linearised Einstein tensor satisfies the linearised Bianchi identity $\partial^\mu\bigl(R^{(1)}_{\mu\nu} - \frac12\eta_{\mu\nu} R^{(1)\lambda}{}_\lambda\bigr) = 0$ identically, as one checks from (2). Hence $\partial_\mu\tau^{\mu\nu} = 0$, and $dP^\lambda/dt = 0$ by the divergence theorem. The left-hand side is also symmetric, so $\tau^{\mu\nu}$ is, and $\partial_\mu M^{\mu\rho\sigma} = \tau^{\sigma\rho} - \tau^{\rho\sigma} = 0$ as in [Lecture 4](lecture-04.qmd). The definitions only involve $\eta_{\mu\nu}$, so they are Lorentz covariant. $\square$
+:::
+:::
+
+This is the essential difference between electromagnetism and gravity. The source of the potential $A^\alpha$ is a conserved current $J^\alpha$ that does not involve $A^\alpha$, since the electromagnetic field carries no charge. The source of $h_{\mu\nu}$ is the conserved $\tau^{\mu\nu}$, which must involve $h_{\mu\nu}$, since the gravitational field carries energy and momentum. Gravity couples to itself, and this makes the equations non-linear. In Wheeler's phrase, matter tells spacetime how to curve, and spacetime tells matter how to move. Black holes give direct evidence of the non-linearity: they are vacuum solutions, whereas a linear theory has no static vacuum solutions that fall off at infinity other than the trivial one.
+
+## Static isotropic metrics
+
+As a first step towards solving the Einstein equations, we determine the general form of a static and isotropic metric. *Static* means $g_{\mu\nu} = g_{\mu\nu}(\vec x)$. *Isotropic* means that $d\tau^2$ depends on $\vec x$ and $d\vec x$ only through the rotational invariants
+$$\vec x\cdot\vec x = r^2, \qquad d\vec x\cdot d\vec x, \qquad \vec x\cdot d\vec x.$$
+Hence
+$$d\tau^2 = F(r)\, dt^2 - 2E(r)\, dt\, \vec x\cdot d\vec x - D(r)\, (\vec x\cdot d\vec x)^2 - C(r)\, d\vec x\cdot d\vec x,$$
+that is,
+$$g_{00} = -F(r), \qquad g_{0i} = E(r)\, x_i, \qquad g_{ij} = D(r)\, x_i x_j + C(r)\, \delta_{ij}.$$
+
+::: {#r-12-6 .callout-important .proposition-box}
+
+#### **Proposition 12.6** (Static isotropic metric in spherical coordinates). [[1, Ch. 8]](#ref-1)
+
+In spherical coordinates $(t, r, \theta, \phi)$,
+$$d\tau^2 = F(r)\, dt^2 - 2rE(r)\, dt\, dr - r^2 D(r)\, dr^2 - C(r)\bigl(dr^2 + r^2 d\theta^2 + r^2\sin^2\theta\, d\phi^2\bigr).$$
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+With $x^1 = r\sin\theta\cos\phi$, $x^2 = r\sin\theta\sin\phi$, $x^3 = r\cos\theta$, we have $\partial x^i/\partial r = x^i/r$, so
+$$g'_{rr} = \frac{x_i x_j}{r^2}\bigl(D x_i x_j + C\delta_{ij}\bigr) = r^2 D + C, \qquad g'_{tr} = E\, x_i\, \frac{x_i}{r} = rE.$$
+Since $r^2 = \vec x\cdot\vec x$ does not depend on $\theta$ or $\phi$, the vectors $\partial\vec x/\partial\theta$ and $\partial\vec x/\partial\phi$ are orthogonal to $\vec x$, so the $D$ and $E$ terms do not contribute to the angular components. What remains is $C(r)$ times the flat metric $d\vec x\cdot d\vec x = dr^2 + r^2 d\theta^2 + r^2\sin^2\theta\, d\phi^2$. $\square$
+:::
+:::
+
+In the next lecture we simplify this further by a choice of coordinates, and solve the vacuum Einstein equations.
+
+## References {.unnumbered}
+
+1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).

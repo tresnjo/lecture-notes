@@ -1,0 +1,73 @@
+---
+title: "The Riemann Tensor"
+---
+
+From the metric alone we can build only a few tensors: $g_{\mu\nu}$, its inverse $g^{\mu\nu}$, $g^{\mu\nu}g_{\nu\rho} = \delta^\mu_\rho$, and the tensor $\epsilon^{\mu\nu\rho\sigma}/\sqrt g$. No new tensor can be built from first derivatives of the metric: at any point they vanish in locally inertial coordinates ([Proposition 5.5](lecture-05.qmd#r-5-5)), and a tensor that vanishes in one coordinate system vanishes in all. New tensors must therefore involve second derivatives.
+
+## Construction of the Riemann tensor
+
+Write the transformation law of the connection ([Proposition 7.3](lecture-07.qmd#r-7-3)) from primed to unprimed coordinates and solve for the second derivative:
+$$\frac{\partial^2 x'^\tau}{\partial x^\mu \partial x^\nu} = \frac{\partial x'^\tau}{\partial x^\lambda}\, \Gamma^\lambda_{\mu\nu} - \frac{\partial x'^\rho}{\partial x^\mu}\frac{\partial x'^\sigma}{\partial x^\nu}\, \Gamma'^\tau_{\rho\sigma}. \tag{1}$$
+Differentiate (1) with respect to $x^\kappa$, and wherever a second derivative of $x'$ appears on the right-hand side, substitute (1) again. The left-hand side, $\partial^3 x'^\tau/\partial x^\mu \partial x^\nu \partial x^\kappa$, is symmetric in $\nu \leftrightarrow \kappa$. Subtracting the same expression with $\nu$ and $\kappa$ exchanged, all mixed products $\Gamma\,\Gamma'$ cancel, and we are left with
+$$0 = \frac{\partial x'^\tau}{\partial x^\lambda}\, R^\lambda{}_{\mu\nu\kappa} - \frac{\partial x'^\rho}{\partial x^\mu}\frac{\partial x'^\sigma}{\partial x^\nu}\frac{\partial x'^\eta}{\partial x^\kappa}\, R'^\tau{}_{\rho\sigma\eta},$$
+where $R$ is the combination defined below. This is precisely the transformation law of a tensor.
+
+::: {#r-9-1 .callout-note .definition-box}
+
+#### **Definition 9.1** (Riemann tensor, Ricci tensor, curvature scalar). [[1, Ch. 6]](#ref-1)
+
+The *Riemann curvature tensor* is
+$$R^\lambda{}_{\mu\nu\kappa} = \frac{\partial\Gamma^\lambda_{\mu\nu}}{\partial x^\kappa} - \frac{\partial\Gamma^\lambda_{\mu\kappa}}{\partial x^\nu} + \Gamma^\eta_{\mu\nu}\, \Gamma^\lambda_{\kappa\eta} - \Gamma^\eta_{\mu\kappa}\, \Gamma^\lambda_{\nu\eta}.$$
+Its contractions are the *Ricci tensor* and the *curvature scalar*,
+$$R_{\mu\kappa} = R^\lambda{}_{\mu\lambda\kappa}, \qquad R = g^{\mu\nu} R_{\mu\nu}.$$
+:::
+
+We follow Weinberg's sign conventions throughout. Many other texts define the Riemann tensor with the opposite overall sign, which flips the sign of $R_{\mu\nu}$ and $R$ as well.
+
+Lowering the first index and inserting (5) of [Lecture 5](lecture-05.qmd) gives the fully covariant form
+$$R_{\mu\nu\rho\sigma} = g_{\mu\lambda}\, R^\lambda{}_{\nu\rho\sigma} = \tfrac12\Bigl(\frac{\partial^2 g_{\mu\rho}}{\partial x^\sigma \partial x^\nu} - \frac{\partial^2 g_{\nu\rho}}{\partial x^\sigma \partial x^\mu} - \frac{\partial^2 g_{\mu\sigma}}{\partial x^\rho \partial x^\nu} + \frac{\partial^2 g_{\nu\sigma}}{\partial x^\rho \partial x^\mu}\Bigr) + g_{\eta\tau}\bigl(\Gamma^\eta_{\rho\mu}\, \Gamma^\tau_{\nu\sigma} - \Gamma^\eta_{\sigma\mu}\, \Gamma^\tau_{\nu\rho}\bigr). \tag{2}$$
+
+## Symmetries
+
+::: {#r-9-2 .callout-important .proposition-box}
+
+#### **Proposition 9.2** (Symmetries of the Riemann tensor). [[1, Ch. 6]](#ref-1)
+
+$$\begin{aligned}
+R_{\mu\nu\rho\sigma} &= R_{\rho\sigma\mu\nu}, \\
+R_{\mu\nu\rho\sigma} &= -R_{\nu\mu\rho\sigma} = -R_{\mu\nu\sigma\rho}, \\
+0 &= R_{\mu\nu\rho\sigma} + R_{\mu\sigma\nu\rho} + R_{\mu\rho\sigma\nu}.
+\end{aligned}$$
+Consequently, the Ricci tensor is symmetric, $R_{\nu\sigma} = R_{\sigma\nu}$.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+All four identities are tensor equations, so it suffices to check them in locally inertial coordinates at a point, where $\Gamma = 0$ and only the second-derivative terms in (2) survive. There they can be read off directly: exchanging $(\mu\nu) \leftrightarrow (\rho\sigma)$ permutes the four terms, exchanging $\mu \leftrightarrow \nu$ or $\rho \leftrightarrow \sigma$ flips the sign of each, and in the cyclic sum each second derivative appears twice with opposite signs. For the Ricci tensor,
+$$R_{\nu\sigma} = g^{\mu\rho} R_{\mu\nu\rho\sigma} = g^{\mu\rho} R_{\rho\sigma\mu\nu} = R_{\sigma\nu}. \qquad \square$$
+:::
+:::
+
+The Ricci tensor is, up to sign, the only rank-2 tensor that can be built by contracting the Riemann tensor with the metric, and $R$ is the only such scalar: by the antisymmetries every other contraction vanishes or gives $\pm R_{\mu\nu}$.
+
+::: {#r-9-3 .callout-important .proposition-box}
+
+#### **Proposition 9.3** (Number of independent components). [[1, Ch. 6]](#ref-1)
+
+In $N$ dimensions the Riemann tensor has $N^2(N^2 - 1)/12$ independent components; in four dimensions, 20.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+By the antisymmetries, think of $R_{\mu\nu\rho\sigma}$ as a matrix $R_{(\mu\nu)(\rho\sigma)}$ indexed by antisymmetric pairs. Each pair takes $M = N(N-1)/2$ values, and by the pair symmetry the matrix is symmetric, which leaves
+$$\tfrac12 M(M + 1) = \tfrac18 N(N-1)(N^2 - N + 2)$$
+components. Given the other symmetries, the cyclic identity is a non-trivial condition only when all four indices are distinct, which gives $\binom N4 = N(N-1)(N-2)(N-3)/24$ further constraints. Subtracting,
+$$\tfrac18 N(N-1)(N^2 - N + 2) - \tfrac1{24} N(N-1)(N-2)(N-3) = \tfrac1{12} N^2(N^2 - 1). \qquad \square$$
+:::
+:::
+
+## References {.unnumbered}
+
+1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).

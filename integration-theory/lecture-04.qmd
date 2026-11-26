@@ -73,7 +73,7 @@ The proposition tells us that given a distribution function, we have an associat
 It turns out that if $F(x) = x$, we get the Lebesgue measure. The $F$ corresponding to a measure $\mu$ will be denoted by $F_\mu$ ([Proposition 4.3](lecture-04.qmd#r-4-3)) and the $\mu$ corresponding to a given $F$ as above will be denoted by $\mu_F$ ([Proposition 4.4](lecture-04.qmd#r-4-4))
 
 ## The Cantor set, the Cantor function and the Cantor measure
-The Cantor set is constructed by splitting the $[0,1]$ interval in three intervals, and removnig the middle third. The process is then repeated for the two intervals, each time removnig the middle third from each of the intervals from the previous set. $C_n$ then consists of $2^n$ disjoint closed intervals, each of length $1/3^n$. The Cantor set is defined to be $$ C\equiv \bigcap_n C_n$$
+The Cantor set is constructed by splitting the $[0,1]$ interval in three intervals, and removnig the middle third. The process is then repeated for the two intervals, each time removnig the middle third from each of the intervals from the previous set. $\mathfrak C_n$ then consists of $2^n$ disjoint closed intervals, each of length $1/3^n$. The Cantor set is defined to be $$ \mathfrak C\equiv \bigcap_n \mathfrak C_n$$
 
 ::: {#fig-viz-cantorset-1}
 ```{=html}
@@ -111,7 +111,7 @@ The Cantor set is constructed by splitting the $[0,1]$ interval in three interva
             segs(lvl).map(([a, b], i) => el("rect", { key: i, x: sx(a), y, width: Math.max(0.6, sx(b) - sx(a)), height: BAR,
               fill: ACCENT, opacity: cur ? 1 : 0.35 })),
             el("text", { x: L - 10, y: y + BAR - 0.5, fill: cur ? TEXT : MUTED, fontSize: 14, fontStyle: "italic", textAnchor: "end", fontFamily: "inherit" },
-              "C", el("tspan", { dy: 4, fontSize: 10 }, String(lvl))));
+              "\u212D", el("tspan", { dy: 4, fontSize: 10 }, String(lvl))));
         }),
         [[0, "0"], [1 / 3, "1/3"], [2 / 3, "2/3"], [1, "1"]].map(([v, s]) => el("text", { key: s, x: sx(v), y: H - 6, fill: MUTED, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }, s))
       )
@@ -138,7 +138,7 @@ The Cantor set is a nonempty compact set with Lebesgue measure of 0 and has no i
 #### Proof
 
 1. Since it is closed, it must be nonempty compact set by elementary topology.
-2. Since $C_n$ consists of $2^n$ disjoint closed intervals of length $1/3^n$, the $C_n$ has Lebesgue measure $(2/3)^n$ and thus $C$ has Lebesgue measure 0.
+2. Since $\mathfrak C_n$ consists of $2^n$ disjoint closed intervals of length $1/3^n$, the $\mathfrak C_n$ has Lebesgue measure $(2/3)^n$ and thus $\mathfrak C$ has Lebesgue measure 0.
 
 We now want to define the Cantor ternary function, or Devil's staircase. The idea is to create a function with $f(0) = 0, f(1) = 1, f' = 0$ that is increasing (and also demand it to be continuous!!). The Cantor ternary function $F_c$ is defined as the limit of the sequence of function $(f_n)$ with $f_0(x) = x$ and $f_1$ constant $1/2$ on middle interval and otherwise linear, $f_2$ will be constant $1/4$ on $(1/9, 2/9)$ and constant 1/2 on $(1/2, 2/3)$ and constant $3/4$ on $(7/9, 8/9)$, and otherwise linear. $\square$
 :::
@@ -295,7 +295,7 @@ The sequence $(f_n)$ converges uniformly to a (necessarily continuous) limit fun
 
 #### Proof
 
-Since each $f_n$ is 0 at 0 and 1 and weakly increasing, the same is true for the limit $F_C$. It is continuous by [Theorem 4.6](lecture-04.qmd#r-4-6). Take $x\notin C$, then there is an $n$ such that $x \notin C_n$ since $C = \bigcap_n C_n$, in which case $f_n$ is constant in an interval around $x$ (since it corresponds to a point that was removed in the construction of the Cantor set, and those intervals where assigned to be constant). Since $f_n$ is constant on that interval, it follows that $f_m$ is also constant on that interval for all $m\geq n$, and this is it certainly true for $F_c$ and hence $F_C'(x) = 0$. Since $x \notin C$ implies $F'_c(x) = 0$ we have that $m\{x\in[0,1]:F'_c(x) \neq 0\}=m(C) = 0$ since $C$ has Lebesgue measure 0, but this is just the definition of the property  $F'_c(x) = 0$ being true Lebesgue-a.e., thus (c) follows. 
+Since each $f_n$ is 0 at 0 and 1 and weakly increasing, the same is true for the limit $F_C$. It is continuous by [Theorem 4.6](lecture-04.qmd#r-4-6). Take $x\notin \mathfrak C$, then there is an $n$ such that $x \notin \mathfrak C_n$ since $\mathfrak C = \bigcap_n \mathfrak C_n$, in which case $f_n$ is constant in an interval around $x$ (since it corresponds to a point that was removed in the construction of the Cantor set, and those intervals where assigned to be constant). Since $f_n$ is constant on that interval, it follows that $f_m$ is also constant on that interval for all $m\geq n$, and this is it certainly true for $F_c$ and hence $F_C'(x) = 0$. Since $x \notin \mathfrak C$ implies $F'_c(x) = 0$ we have that $m\{x\in[0,1]:F'_c(x) \neq 0\}=m(\mathfrak C) = 0$ since $\mathfrak C$ has Lebesgue measure 0, but this is just the definition of the property  $F'_c(x) = 0$ being true Lebesgue-a.e., thus (c) follows. 
 
 We may now define the Cantor Ternary measure denoted by $\mu_C$ as follows $$\mu_C([0,x])\equiv F_c(x)$$using [Proposition 4.4](lecture-04.qmd#r-4-4) since $F_C$ is continuous, weakly increasing and non-negative. $\square$
 :::
@@ -307,10 +307,10 @@ We may now define the Cantor Ternary measure denoted by $\mu_C$ as follows $$\mu
 
 #### **Theorem 4.8** (Properties of the Cantor ternary measure).
 
-$\mu_C$ is a continuous measure and where $\mu_C(C) = 1, \mu_C(C^c) = 0$.
+$\mu_C$ is a continuous measure and where $\mu_C(\mathfrak C) = 1, \mu_C(\mathfrak C^c) = 0$.
 :::
 
-To gain intuition for this result, note that $$\mu_C(C^c) = \mu_C([0,1] \setminus C) = \mu_C(\bigcup_{\mathrm{removed \ intervals}}) = \sum_{\mathrm{removed \ intervals}} \mu_C(I_k) = 0$$where we used the fact that the intervals we removed are disjoint, and specifically, $F_c$ is constant at each removed interval. Hence $\mu(C) = 1$. 
+To gain intuition for this result, note that $$\mu_C(\mathfrak C^c) = \mu_C([0,1] \setminus \mathfrak C) = \mu_C(\bigcup_{\mathrm{removed \ intervals}}) = \sum_{\mathrm{removed \ intervals}} \mu_C(I_k) = 0$$where we used the fact that the intervals we removed are disjoint, and specifically, $F_c$ is constant at each removed interval. Hence $\mu(\mathfrak C) = 1$. 
 
 The fact that it is continuous follows from the fact that $F_c$ is continuous (both left- and right continuous). And since it is also left-continuous, this implies that there are no atoms and thus the measure space is complete.
 

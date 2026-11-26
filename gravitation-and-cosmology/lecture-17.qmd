@@ -1,0 +1,100 @@
+---
+title: "The Power of Gravitational Waves"
+---
+
+## Waves from a source
+
+In harmonic coordinates the linearised Einstein equations with a source are ([Lecture 16](lecture-16.qmd))
+$$\Box\, h_{\mu\nu} = -16\pi G\, S_{\mu\nu}, \qquad S_{\mu\nu} = T_{\mu\nu} - \tfrac12\, \eta_{\mu\nu}\, T^\rho{}_\rho, \qquad \partial_\mu h^\mu{}_\nu = \tfrac12\, \partial_\nu h^\mu{}_\mu.$$
+We consider sources that can be written as a Fourier integral,
+$$T_{\mu\nu}(\vec x, t) = \int_0^\infty d\omega\, T_{\mu\nu}(\vec x, \omega)\, e^{-i\omega t} + \text{c.c.},$$
+or, for periodic sources such as pulsars, as a sum over discrete frequencies (with some care for the zero mode). The equations are linear, so it suffices to treat a single frequency, $T_{\mu\nu}(\vec x, t) = T_{\mu\nu}(\vec x, \omega)\, e^{-i\omega t} + \text{c.c.}$, and superpose the solutions at the end.
+
+With the retarded Green's function of the d'Alembertian,
+$$\Box_x\, G(x - x') = \delta^{(4)}(x - x'), \qquad G(x - x') = -\frac{\delta\bigl(|\vec x - \vec x'| - (x^0 - x'^0)\bigr)\, \theta(x^0 - x'^0)}{4\pi\, |\vec x - \vec x'|},$$
+the solution is
+$$h_{\mu\nu}(\vec x, t) = -16\pi G \int d^4x'\, G(x - x')\, S_{\mu\nu}(x') = 4G \int d^3x'\, \frac{S_{\mu\nu}(\vec x', t - |\vec x - \vec x'|)}{|\vec x - \vec x'|},$$
+the field at $\vec x$ being determined by the source at the retarded time. For a single frequency,
+$$h_{\mu\nu}(\vec x, t) = 4G \int d^3x'\, \frac{S_{\mu\nu}(\vec x', \omega)}{|\vec x - \vec x'|}\, e^{-i\omega t + i\omega|\vec x - \vec x'|} + \text{c.c.}$$
+
+Far from the source, $r = |\vec x| \gg R = \max|\vec x'|$, we have $|\vec x - \vec x'| \approx r - \hat x\cdot\vec x'$ with $\hat x = \vec x/r$. In the denominator we may replace $|\vec x - \vec x'|$ by $r$, but not in the phase.
+
+::: {#r-17-1 .callout-important .proposition-box}
+
+#### **Proposition 17.1** (Far field of a source). [[1, Ch. 10]](#ref-1)
+
+Far from the source, with $k^0 = \omega$ and $\vec k = \omega\hat x$,
+$$h_{\mu\nu}(\vec x, t) = e_{\mu\nu}(\vec x, \omega)\, e^{ik_\rho x^\rho} + \text{c.c.}, \qquad e_{\mu\nu}(\vec x, \omega) = \frac{4G}{r}\Bigl(T_{\mu\nu}(\vec k, \omega) - \tfrac12\, \eta_{\mu\nu}\, T^\rho{}_\rho(\vec k, \omega)\Bigr), \tag{1}$$
+where $T_{\mu\nu}(\vec k, \omega) = \int d^3x'\, T_{\mu\nu}(\vec x', \omega)\, e^{-i\vec k\cdot\vec x'}$. This is locally a plane wave moving radially outwards, and it satisfies the harmonic condition.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+The formula follows by inserting $|\vec x - \vec x'| \approx r - \hat x\cdot\vec x'$ in the phase. For the harmonic condition, conservation $\partial_\mu T^\mu{}_\nu = 0$ becomes $k_\mu T^\mu{}_\nu(\vec k, \omega) = 0$ in Fourier space, so
+$$k_\mu\, e^\mu{}_\nu = \frac{4G}{r}\Bigl(-\tfrac12\, k_\nu\, T^\lambda{}_\lambda\Bigr) = \tfrac12\, k_\nu\, e^\mu{}_\mu,$$
+since $e^\mu{}_\mu = -(4G/r)\, T^\lambda{}_\lambda$. $\square$
+:::
+:::
+
+## Energy carried by gravitational waves
+
+We want the power that a source emits as gravitational waves, crossing a large sphere around it. Far away $R^{(1)}_{\mu\nu} = 0$, and the energy and momentum of the gravitational field is described by the pseudotensor $t_{\mu\nu}$ of [Definition 12.4](lecture-12.qmd#r-12-4). The power per unit solid angle is
+$$\frac{dP}{d\Omega} = r^2\, \hat x_i\, \langle t^{i0}\rangle,$$
+the radial component of the energy flux, averaged over a region of spacetime much larger than a wavelength.
+
+Expanding $t_{\mu\nu}$ in powers of $h$, the terms linear in $h$ cancel by construction, and the quadratic terms are
+$$t_{\mu\nu} = \frac1{8\pi G}\Bigl(-\tfrac12\, h_{\mu\nu}\, R^{(1)\lambda}{}_\lambda + \tfrac12\, \eta_{\mu\nu}\, h^{\rho\sigma} R^{(1)}_{\rho\sigma} + R^{(2)}_{\mu\nu} - \tfrac12\, \eta_{\mu\nu}\, \eta^{\rho\sigma} R^{(2)}_{\rho\sigma}\Bigr) + \mathcal O(h^3),$$
+where $R^{(2)}_{\mu\nu}$ is the part of the Ricci tensor quadratic in $h$. On the sphere $R^{(1)}_{\mu\nu} = 0$, so only the $R^{(2)}$ terms remain. These are products of two factors of the form $A + A^*$, and
+$$(A + A^*)(B + B^*) = AB + A^*B^* + 2\operatorname{Re}(A^*B).$$
+The terms $AB$ and $A^*B^*$ oscillate as $e^{\pm 2ik_\rho x^\rho}$ and average to zero when $r \gg 1/\omega$. Using the harmonic condition, what remains is
+$$\langle t_{\mu\nu}\rangle = \frac{k_\mu k_\nu}{16\pi G}\Bigl(e^{\lambda\rho *}\, e_{\lambda\rho} - \tfrac12\, |e^\lambda{}_\lambda|^2\Bigr).$$
+
+::: {#r-17-2 .callout-important .proposition-box}
+
+#### **Proposition 17.2** (Power per solid angle). [[1, Ch. 10]](#ref-1)
+
+$$\frac{dP}{d\Omega} = \frac{G\omega^2}{\pi}\Bigl(T^{\lambda\rho *}(\vec k, \omega)\, T_{\lambda\rho}(\vec k, \omega) - \tfrac12\, |T^\lambda{}_\lambda(\vec k, \omega)|^2\Bigr) = \frac{G\omega^2}{\pi}\, \Lambda_{ij,lm}(\hat k)\, T^{ij *}(\vec k, \omega)\, T^{lm}(\vec k, \omega),$$
+where
+$$\Lambda_{ij,lm}(\hat k) = \delta_{il}\delta_{jm} - 2\hat k_j\hat k_m\delta_{il} + \tfrac12\hat k_i\hat k_j\hat k_l\hat k_m - \tfrac12\delta_{ij}\delta_{lm} + \tfrac12\delta_{ij}\hat k_l\hat k_m + \tfrac12\delta_{lm}\hat k_i\hat k_j.$$
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+The first form follows from $\langle t^{i0}\rangle$, with $\hat x_i k^i k^0 = \omega^2$, and (1). For the second, conservation $k_\mu T^\mu{}_\nu = 0$ expresses the time components in terms of the space components:
+$$T_{i0} = -\hat k^j\, T_{ij}, \qquad T_{00} = \hat k^i\hat k^j\, T_{ij},$$
+or in position space $\omega^2 T_{00} = -\partial_i\partial_j T^{ij}$. Substituting these and collecting terms gives $\Lambda_{ij,lm}$. $\square$
+:::
+:::
+
+If the source is a sum of Fourier components, the total power is the sum of their contributions.
+
+## The quadrupole formula
+
+For a non-relativistic source, $\omega R \ll 1$, the factor $e^{-i\vec k\cdot\vec x'}$ is close to one over the source.
+
+::: {#r-17-3 .callout-important .theorem-box}
+
+#### **Theorem 17.3** (Quadrupole formula). [[1, Ch. 10]](#ref-1)
+
+For a non-relativistic source, with the quadrupole moment
+$$D^{ij}(\omega) = \int d^3x\, x^i x^j\, T^{00}(\vec x, \omega),$$
+the radiated power is
+$$\frac{dP}{d\Omega} = \frac{G\omega^6}{4\pi}\, \Lambda_{ij,lm}(\hat k)\, D^{ij *}(\omega)\, D^{lm}(\omega), \qquad P = \frac{2G\omega^6}{5}\Bigl(D^{ij *}(\omega)\, D_{ij}(\omega) - \tfrac13\, |D^i{}_i(\omega)|^2\Bigr). \tag{2}$$
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+With $e^{-i\vec k\cdot\vec x'} \approx 1$, two integrations by parts and $\partial_l\partial_m T^{lm} = -\omega^2 T^{00}$ give
+$$T^{ij}(\vec k, \omega) \approx \int d^3x'\, T^{ij}(\vec x', \omega) = \tfrac12\int d^3x'\, x'^i x'^j\, \partial_l\partial_m T^{lm}(\vec x', \omega) = -\frac{\omega^2}{2}\, D^{ij}(\omega),$$
+independent of $\vec k$. Inserting this in [Proposition 17.2](#r-17-2) gives $dP/d\Omega$. Integrating over directions with
+$$\int d\Omega\, \hat k_i\hat k_j = \frac{4\pi}{3}\delta_{ij}, \qquad \int d\Omega\, \hat k_i\hat k_j\hat k_l\hat k_m = \frac{4\pi}{15}\bigl(\delta_{ij}\delta_{lm} + \delta_{il}\delta_{jm} + \delta_{im}\delta_{jl}\bigr)$$
+gives $P$. $\square$
+:::
+:::
+
+## References {.unnumbered}
+
+1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).

@@ -1,3 +1,0 @@
-# Preface {.unnumbered}
-
-These are my own notes from the course **Quantum Field Theory**. The lecture notes will be added here soon.

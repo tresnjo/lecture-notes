@@ -1,0 +1,180 @@
+---
+title: "Particle Mechanics in Special Relativity"
+---
+
+## Four-force and four-momentum
+
+To extend Newton's second law to relativistic speeds, we define the *four-force* on a test particle by
+$$f^\alpha = m\, \frac{d^2x^\alpha}{d\tau^2}, \tag{1}$$
+evaluated at the point $(t_0, \vec x(t_0))$ on its trajectory. Since $m$ and $d\tau$ are invariant, $f^\alpha$ is a contravariant vector. Moreover, given the point and the velocity $\vec v = d\vec x/dt$ there, the boost $\Lambda(-\vec v)$ of [Proposition 3.2](lecture-03.qmd#r-3-2) takes us to coordinates $x'^\alpha$ in which the particle is momentarily at rest:
+$$\frac{dx'^i}{dt'} = 0, \qquad d\tau^2 = dt'^2\Bigl(1 - \Bigl|\frac{d\vec x'}{dt'}\Bigr|^2\Bigr) = dt'^2 \quad \text{at } t' = t'_0.$$
+In these coordinates (1) reads $f'^0 = 0$ and $f'^i = m\, d^2x'^i/dt'^2 = F^i$, the ordinary Newtonian force. The four-force is thus fixed by the Newtonian force in the rest frame.
+
+::: {.callout-tip .remark-box}
+
+#### **Remark 4.1** (Why proper time?).
+
+Parametrising a worldline $X(\tau)$ by proper time makes the *four-velocity* $U = dX/d\tau = \gamma(1, \vec v)$ transform simply, $U' = \Lambda U$, because $d\tau$ is invariant. Had we used $dX/dt$ instead, both $X$ and $t$ would transform, and the result would not be a vector.
+:::
+
+::: {#r-4-2 .callout-note .definition-box}
+
+#### **Definition 4.2** (Four-momentum). [[1, Ch. 2]](#ref-1)
+
+The *energy-momentum four-vector* of a particle of mass $m$ is
+$$p^\alpha = m\, \frac{dx^\alpha}{d\tau}.$$
+:::
+
+Using $d\tau = \gamma^{-1} dt$,
+$$p^0 = m\gamma = m + \tfrac12 m v^2 + \mathcal O(v^4) = E, \qquad p^i = m\gamma v^i = m v^i + \mathcal O(v^3),$$
+the rest energy plus kinetic energy, and the Newtonian momentum. For a photon $d\tau = 0$ and the definition breaks down, but the ratio $v^i = p^i/p^0$ still makes sense.
+
+::: {#r-4-3 .callout-important .proposition-box}
+
+#### **Proposition 4.3** (Mass shell). [[1, Ch. 2]](#ref-1)
+
+The four-velocity and four-momentum of a massive particle satisfy
+$$\eta_{\alpha\beta}\, U^\alpha U^\beta = -1, \qquad \eta_{\alpha\beta}\, p^\alpha p^\beta = -m^2, \qquad E^2 = |\vec p|^2 + m^2.$$
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+Dividing $d\tau^2 = -\eta_{\alpha\beta}\, dx^\alpha dx^\beta$ by $d\tau^2$ gives $\eta_{\alpha\beta}\, U^\alpha U^\beta = -1$, and multiplying by $m^2$ gives $\eta_{\alpha\beta}\, p^\alpha p^\beta = -m^2$. On the other hand $\eta_{\alpha\beta}\, p^\alpha p^\beta = -(p^0)^2 + |\vec p|^2$, and with $p^0 = E$ the last identity follows. Both contractions are scalars, so they hold in every inertial frame. $\square$
+:::
+:::
+
+## The energy-momentum tensor
+
+Consider a set of particles labelled by $n$, with $x_n^0(t) = t$. The *density* of four-momentum is
+$$T^{\alpha 0}(x) = \sum_n p_n^\alpha(t)\, \delta^{(3)}(\vec x - \vec x_n(t)),$$
+with units of momentum per volume, since the delta function has units of inverse volume. The *current* of four-momentum is
+$$T^{\alpha i}(x) = \sum_n p_n^\alpha(t)\, \frac{dx_n^i}{dt}\, \delta^{(3)}(\vec x - \vec x_n(t)),$$
+with units of momentum per area per time.
+
+::: {#r-4-4 .callout-note .definition-box}
+
+#### **Definition 4.4** (Energy-momentum tensor of point particles). [[1, Ch. 2]](#ref-1)
+
+The *energy-momentum tensor* of a system of point particles is
+$$T^{\alpha\beta}(x) = \sum_n p_n^\alpha(t)\, \frac{dx_n^\beta}{dt}\, \delta^{(3)}(\vec x - \vec x_n(t)). \tag{2}$$
+:::
+
+::: {#r-4-5 .callout-important .proposition-box}
+
+#### **Proposition 4.5** (Symmetry and tensor character). [[1, Ch. 2]](#ref-1)
+
+$T^{\alpha\beta}$ is symmetric and is a Lorentz tensor.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+Since $p_n^\alpha = m\, dx_n^\alpha/d\tau$ and $E_n = p_n^0 = m\, dt/d\tau$, we have $dx_n^\beta/dt = p_n^\beta/E_n$, and
+$$T^{\alpha\beta}(x) = \sum_n \frac{p_n^\alpha\, p_n^\beta}{E_n}\, \delta^{(3)}(\vec x - \vec x_n(t)),$$
+which is manifestly symmetric.
+
+For the tensor property, write the three-dimensional delta function as an integral over a four-dimensional one, $\delta^{(4)}(x - x_n(t)) = \delta(x^0 - t)\, \delta^{(3)}(\vec x - \vec x_n(t))$, and change variables to proper time:
+$$T^{\alpha\beta}(x) = \sum_n \int dt\, p_n^\alpha\, \frac{dx_n^\beta}{dt}\, \delta^{(4)}(x - x_n(t)) = \sum_n \int d\tau\, p_n^\alpha\, \frac{dx_n^\beta}{d\tau}\, \delta^{(4)}(x - x_n(\tau)).$$
+The four-dimensional delta function is a Lorentz scalar: $\int d^4x\, \delta^{(4)}(x) = 1$ and $d^4x$ is invariant because $\det\Lambda = 1$. So $T^{\alpha\beta}$ is a product of two contravariant vectors integrated against a scalar. Note that this argument fails for the three-dimensional delta function, and for general coordinate transformations, whose Jacobian need not be one. $\square$
+:::
+:::
+
+The symmetry of $T^{\alpha\beta}$ says that the flux of the $\alpha$-component of momentum across a surface of constant $x^\beta$ equals the flux of the $\beta$-component across a surface of constant $x^\alpha$. It is what makes angular momentum conserved, as we see below.
+
+::: {#r-4-6 .callout-important .proposition-box}
+
+#### **Proposition 4.6** (Conservation of energy and momentum). [[1, Ch. 2]](#ref-1)
+
+If the particles are free, or interact only in collisions localised at points (in which four-momentum is conserved), then
+$$\frac{\partial}{\partial x^\beta}\, T^{\alpha\beta} = 0. \tag{3}$$
+If the particles are acted on by four-forces $f_n^\alpha$, then instead $\partial_\beta T^{\alpha\beta} = G^\alpha$ with
+$$G^\alpha(x) = \sum_n \frac{d\tau_n}{dt}\, f_n^\alpha\, \delta^{(3)}(\vec x - \vec x_n(t)).$$
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+Since $\partial_{x^i}\delta^{(3)}(\vec x - \vec x_n) = -\partial_{x_n^i}\delta^{(3)}(\vec x - \vec x_n)$,
+$$\begin{aligned}
+\partial_i T^{\alpha i} &= -\sum_n p_n^\alpha\, \frac{dx_n^i}{dt}\, \frac{\partial}{\partial x_n^i}\delta^{(3)}(\vec x - \vec x_n(t)) = -\sum_n p_n^\alpha\, \frac{\partial}{\partial t}\delta^{(3)}(\vec x - \vec x_n(t)) \\
+&= -\partial_0 T^{\alpha 0} + \sum_n \frac{dp_n^\alpha}{dt}\, \delta^{(3)}(\vec x - \vec x_n(t)).
+\end{aligned}$$
+For free particles $dp_n^\alpha/dt = 0$; with localised collisions the sum of the changes vanishes at each collision point. Otherwise $dp_n^\alpha/dt = (d\tau_n/dt) f_n^\alpha$, which gives $G^\alpha$. $\square$
+:::
+:::
+
+The energy-momentum tensor is the conserved Noether current of spacetime translations $x^\alpha \mapsto x^\alpha + a^\alpha$ (see [Invariance and conservation](../noethers-wonderful-theorem/lecture-01.html#invariance-and-conservation) in my notes on Noether's theorem): its time components express conservation of energy and its space components conservation of momentum.
+
+::: {#r-4-7 .callout-important .proposition-box}
+
+#### **Proposition 4.7** (Total four-momentum). [[1, Ch. 2]](#ref-1)
+
+If $T^{\alpha\beta}$ vanishes at spatial infinity, the total four-momentum
+$$p^\alpha_{\text{tot}} = \int d^3x\, T^{\alpha 0}(x)$$
+is conserved.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+By (3) and the divergence theorem,
+$$\frac{dp^\alpha_{\text{tot}}}{dt} = \int d^3x\, \partial_0 T^{\alpha 0} = -\int d^3x\, \partial_i T^{\alpha i} = 0. \qquad \square$$
+:::
+:::
+
+## Angular momentum and spin
+
+::: {#r-4-8 .callout-note .definition-box}
+
+#### **Definition 4.8** (Angular momentum). [[1, Ch. 2]](#ref-1)
+
+The *angular momentum density* and the *total angular momentum* are
+$$M^{\gamma\alpha\beta} = x^\alpha T^{\beta\gamma} - x^\beta T^{\alpha\gamma}, \qquad J^{\alpha\beta} = \int d^3x\, M^{0\alpha\beta}.$$
+:::
+
+Using (3), $\partial_\gamma M^{\gamma\alpha\beta} = T^{\beta\alpha} - T^{\alpha\beta} = 0$ by [Proposition 4.5](#r-4-5). Since $M^{\gamma\alpha\beta}$ is antisymmetric in $\alpha\beta$, these are six continuity equations, and $J^{\alpha\beta}$ is conserved.
+
+Of these six, the components $J^{0i} = t\, p^i_{\text{tot}} - \int d^3x\, x^i T^{00}$ carry no new information: choosing the origin so that $\int d^3x\, x^i T^{00} = 0$ at $t = 0$ makes $J^{0i}$ vanish then, and hence at all times, since $p^i_{\text{tot}}$ is conserved. The physical components are
+$$J^{ij} = \int d^3x\, \bigl(x^i T^{j0} - x^j T^{i0}\bigr),$$
+which have the structure of $L_i = \epsilon_{ijk}\, x_j p_k$: we identify $(J^{23}, J^{31}, J^{12})$ with the three components of angular momentum. $J$ contains both an orbital and an intrinsic part.
+
+Under a translation $x^\alpha \mapsto x^\alpha + a^\alpha$,
+$$J^{\alpha\beta} \mapsto J^{\alpha\beta} + a^\alpha p^\beta_{\text{tot}} - a^\beta p^\alpha_{\text{tot}}, \tag{4}$$
+since orbital angular momentum is defined with respect to a centre of rotation. The intrinsic part should not depend on that choice.
+
+::: {#r-4-9 .callout-note .definition-box}
+
+#### **Definition 4.9** (Spin). [[1, Ch. 2]](#ref-1)
+
+The *spin* four-vector is
+$$S_\alpha = \tfrac12\, \epsilon_{\alpha\beta\gamma\delta}\, J^{\beta\gamma}\, U^\delta, \qquad U^\delta = \frac{p^\delta_{\text{tot}}}{\sqrt{-\eta_{\mu\nu}\, p^\mu_{\text{tot}}\, p^\nu_{\text{tot}}}},$$
+where $U^\delta$ is the four-velocity of the centre of mass.
+:::
+
+::: {#r-4-10 .callout-important .proposition-box}
+
+#### **Proposition 4.10** (Properties of spin). [[1, Ch. 2]](#ref-1)
+
+$S_\alpha$ is invariant under translations and satisfies $S_\alpha U^\alpha = 0$. In the centre-of-mass frame, $U = (1, 0, 0, 0)$, it is $S = (0, J^{23}, J^{31}, J^{12})$.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+By (4), a translation adds to $S_\alpha$ terms proportional to $\epsilon_{\alpha\beta\gamma\delta}\, a^\beta U^\gamma U^\delta$ (since $p_{\text{tot}} \propto U$), which vanish because $\epsilon$ is antisymmetric and $U^\gamma U^\delta$ symmetric in $\gamma\delta$. The same argument gives $S_\alpha U^\alpha \propto \epsilon_{\alpha\beta\gamma\delta}\, J^{\beta\gamma} U^\delta U^\alpha = 0$. In the centre-of-mass frame only $\delta = 0$ contributes, and the components can be read off. $\square$
+:::
+:::
+
+## Charges and currents
+
+The same construction applies to electric charge. The *charge density*, the *current density* and the *four-current* of a set of particles with charges $e_n$ are
+$$\varepsilon(x) = \sum_n e_n\, \delta^{(3)}(\vec x - \vec x_n(t)), \qquad \vec j(x) = \sum_n e_n\, \frac{d\vec x_n}{dt}\, \delta^{(3)}(\vec x - \vec x_n(t)),$$
+$$J^\alpha(x) = \sum_n e_n\, \frac{dx_n^\alpha}{dt}\, \delta^{(3)}(\vec x - \vec x_n(t)), \qquad x_n^0 = t,$$
+so that $J^\alpha = (\varepsilon, \vec j)$. Charge is never created or destroyed, and the argument of [Proposition 4.6](#r-4-6), with $p_n^\alpha$ replaced by the constants $e_n$, gives
+$$\partial_\alpha J^\alpha = 0.$$
+Hence the total charge $Q = \int d^3x\, J^0$ is constant in time. The electromagnetic field itself is the subject of the next lecture.
+
+## References {.unnumbered}
+
+1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).

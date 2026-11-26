@@ -1,0 +1,98 @@
+---
+title: "The Einstein Equations"
+---
+
+## Curvature terms in the equations of motion
+
+The principle of general covariance ([Definition 8.3](lecture-08.qmd#r-8-3)) does not by itself fix the equations of motion: terms involving the curvature can be added, since they vanish in the absence of gravity. For a spinning particle, for example,
+$$\frac{d^2x^\lambda}{d\tau^2} + \Gamma^\lambda_{\mu\nu}\, \frac{dx^\mu}{d\tau}\frac{dx^\nu}{d\tau} + f\, R^\lambda{}_{\mu\nu\rho}\, \frac{dx^\mu}{d\tau}\frac{dx^\nu}{d\tau}\, S^\rho = 0 \tag{1}$$
+is generally covariant and reduces to special relativity when gravity is absent.
+
+Such a term can be dismissed by dimensional analysis. The metric is dimensionless, so $[\Gamma] = L^{-1}$ and $[R^\lambda{}_{\mu\nu\rho}] = L^{-2}$, and the constant $f$ (absorbing the normalisation of $S^\rho$) must have dimensions of length. For a body of mass $M$ at distance $r$, the connection is of the order of the gradient of the potential and the curvature of its second derivative:
+$$\Gamma \sim \partial\phi \sim \frac{GM}{r^2}, \qquad R \sim \partial^2\phi \sim \frac{GM}{r^3}.$$
+The ratio of the third to the second term in (1) is therefore of order $f/r$. The only available lengths are $G^{1/2}$ for an elementary particle and the size $d$ of a macroscopic body, and in either case $f/r \ll 1$.
+
+::: {.callout-tip .remark-box}
+
+#### **Remark 11.1** (Why the geodesic equation).
+
+Nothing in principle forbids curvature terms in the equations of motion. But they are suppressed by the ratio of the size of the body to the scale on which the gravitational field varies, which is tiny in all realistic situations. The geodesic equation is the correct equation of motion to excellent accuracy.
+:::
+
+## Deriving the Einstein equations
+
+To complete general relativity we need equations relating $g_{\mu\nu}$ to the sources of the gravitational field. We again follow the principle of general covariance.
+
+**Step 1: a Lorentz covariant Poisson equation.** In the Newtonian limit, $g_{00} = -(1 + 2\phi)$ ([Proposition 6.1](lecture-06.qmd#r-6-1)), and the Poisson equation $\nabla^2\phi = 4\pi G\rho$ becomes
+$$\nabla^2 g_{00} = -8\pi G\, T_{00}, \tag{2}$$
+where $T_{00} = \rho$ is the mass density of a non-relativistic source.
+
+We want to extend (2) to a Lorentz covariant equation valid in every locally inertial coordinate system. First, the weak field approximation is justified there. At a point $X$ we can choose coordinates with $g_{\mu\nu}(X) = \eta_{\mu\nu}$ and $\partial_\lambda g_{\mu\nu}(X) = 0$, and then
+$$g_{\mu\nu}(x) = \eta_{\mu\nu} + \underbrace{\tfrac12\, \frac{\partial^2 g_{\mu\nu}}{\partial x^\rho \partial x^\sigma}\Big|_X (x - X)^\rho (x - X)^\sigma + \cdots}_{h_{\mu\nu}},$$
+which is small in a small enough neighbourhood; how small depends on the field. In a general locally inertial system, however, the field need not be static and the sources need not be slow, so these two assumptions must be dropped. We *assume* that $T_{00}$ generalises to the full tensor $T_{\alpha\beta}$:
+$$G_{\alpha\beta} = -8\pi G\, T_{\alpha\beta},$$
+where $G_{\alpha\beta}$ is a symmetric tensor, built from the metric, that reduces to $\nabla^2 g_{00}$ in the Newtonian limit. Whether this is right must be decided by experiment.
+
+**Step 2: general covariance.** Promoting the indices with $\partial\xi^\alpha/\partial x^\mu$ gives
+$$G_{\mu\nu} = -8\pi G\, T_{\mu\nu}. \tag{3}$$
+To find $G_{\mu\nu}$ explicitly we expand it in terms of the metric and its derivatives. Let $N$ be the number of derivatives in a term. A term with $N$ derivatives must be multiplied by a constant of dimension $L^{N-2}$, and the natural length scale is $G^{1/2}$. On a field varying over a length $L$, such a term compares with the $N = 2$ terms as $(G^{1/2}/L)^{N-2}$, which is negligible for any realistic $L$ unless $N = 2$. We therefore *assume* that $G_{\mu\nu}$ contains exactly two derivatives of the metric. In summary, $G_{\mu\nu}$
+
+1. is a tensor, since $T_{\mu\nu}$ is;
+2. contains only terms with two derivatives of the metric;
+3. is symmetric, since $T_{\mu\nu}$ is;
+4. is covariantly conserved, $G^\mu{}_{\nu;\mu} = 0$, since $T_{\mu\nu}$ is;
+5. satisfies $G_{00} \simeq \nabla^2 g_{00}$ in the Newtonian limit.
+
+These conditions determine $G_{\mu\nu}$. The only tensors linear in second derivatives of the metric are linear combinations of the Riemann tensor (by its construction in [Lecture 9](lecture-09.qmd)), and the only symmetric rank-2 tensors among their contractions are $R_{\mu\nu}$ and $g_{\mu\nu}R$ ([Proposition 9.2](lecture-09.qmd#r-9-2)). So
+$$G_{\mu\nu} = C_1\, R_{\mu\nu} + C_2\, g_{\mu\nu} R. \tag{4}$$
+
+::: {#r-11-2 .callout-important .theorem-box}
+
+#### **Theorem 11.2** (Einstein field equations). [[1, Ch. 7]](#ref-1)
+
+Conditions 1–5 force $C_1 = 1$ and $C_2 = -\frac12$, so that
+$$R_{\mu\nu} - \tfrac12\, g_{\mu\nu} R = -8\pi G\, T_{\mu\nu}. \tag{5}$$
+Equivalently,
+$$R_{\mu\nu} = -8\pi G\Bigl(T_{\mu\nu} - \tfrac12\, g_{\mu\nu}\, T^\lambda{}_\lambda\Bigr). \tag{6}$$
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+*Conservation.* By the contracted Bianchi identities ([Proposition 10.2](lecture-10.qmd#r-10-2)), $R^\mu{}_{\nu;\mu} = \frac12 R_{;\nu}$, so
+$$G^\mu{}_{\nu;\mu} = C_1\, R^\mu{}_{\nu;\mu} + C_2\, R_{;\nu} = \bigl(\tfrac12 C_1 + C_2\bigr) R_{;\nu}.$$
+Either $C_2 = -\frac12 C_1$, or $R_{;\nu} = 0$. The trace of (3) and (4) gives $(C_1 + 4C_2) R = -8\pi G\, T^\mu{}_\mu$, so
+$$R_{;\nu} = -\frac{8\pi G}{C_1 + 4C_2}\, \bigl(T^\mu{}_\mu\bigr)_{;\nu},$$
+which does not vanish for inhomogeneous sources. Hence $C_2 = -\frac12 C_1$.
+
+*Newtonian limit.* For non-relativistic sources $|T_{ij}| \ll |T_{00}|$, so $G_{ij} \approx 0$, that is, $R_{ij} \approx \frac12 g_{ij} R$. In the weak field approximation, to first order in $h$,
+$$R = \eta^{\mu\nu} R_{\mu\nu} = -R_{00} + R_{ii} = -R_{00} + \tfrac32 R,$$
+so $R = 2R_{00}$ and $G_{00} = C_1(R_{00} + \frac12 R) = 2C_1 R_{00}$. For a static field, using (2) of [Lecture 9](lecture-09.qmd) to first order,
+$$R_{00} = \eta^{\mu\nu} R_{\mu 0\nu 0} = -R_{0000} + R_{i0i0}, \qquad R_{0000} = 0, \qquad R_{i0j0} \approx \tfrac12\, \frac{\partial^2 g_{00}}{\partial x^i \partial x^j},$$
+so $R_{00} = \frac12\nabla^2 g_{00}$ and $G_{00} = C_1\nabla^2 g_{00}$. Condition 5 gives $C_1 = 1$.
+
+*Trace-reversed form.* The trace of (5) is $-R = -8\pi G\, T^\lambda{}_\lambda$, that is, $R = 8\pi G\, T^\lambda{}_\lambda$. Substituting back gives (6). $\square$
+:::
+:::
+
+In vacuum, $T_{\mu\nu} = 0$, and (6) reduces to
+$$R_{\mu\nu} = 0.$$
+This does not mean that the Riemann tensor vanishes: in four dimensions it has 20 components and the Ricci tensor only 10, so gravitational fields can exist in empty space. The Schwarzschild solution of [Lecture 13](lecture-13.qmd) and the gravitational waves of [Lecture 16](lecture-16.qmd) are examples.
+
+## The cosmological constant
+
+Terms with one derivative cannot contribute, since they vanish in locally inertial coordinates. But a term with $N = 0$ derivatives is allowed: the metric itself.
+
+::: {#r-11-3 .callout-note .definition-box}
+
+#### **Definition 11.3** (Cosmological constant). [[1, Ch. 7]](#ref-1)
+
+With a *cosmological constant* $\lambda$, the Einstein equations read
+$$R_{\mu\nu} - \tfrac12\, g_{\mu\nu} R - \lambda\, g_{\mu\nu} = -8\pi G\, T_{\mu\nu}.$$
+:::
+
+The new term is still conserved, since $g_{\mu\nu;\lambda} = 0$. Einstein introduced it to allow a static, non-expanding universe. When the expansion of the Universe was discovered the term was dropped, but the later discovery that the expansion is accelerating brought it back ([Lecture 21](lecture-21.qmd)). It must be small, so as not to conflict with Newtonian gravity on the scale of the solar system.
+
+## References {.unnumbered}
+
+1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).

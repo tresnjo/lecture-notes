@@ -1,3 +1,30 @@
 # Preface {.unnumbered}
 
-These are my own notes from the course **Gravitation and Cosmology**. The lecture notes will be added here soon.
+These are my notes from the course **Gravitation and Cosmology**. They are based on S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity* (Wiley, 1972), with the black holes of [Lecture 15](lecture-15.qmd) following S. M. Carroll, *Spacetime and Geometry* (Addison-Wesley, 2004). The course builds general relativity from the principle of relativity and the equivalence principle, derives the Einstein equations, and applies them to the tests in the solar system, black holes, gravitational waves and the expansion of the Universe.
+
+## Lectures
+
+**Part I — Foundations**
+: Lecture 1, The principle of relativity and the equivalence principle · Lecture 2, Special relativity and Lorentz transformations · Lecture 3, Lorentz transformations and tensors · Lecture 4, Particle mechanics in special relativity · Lecture 5, Electrodynamics and the affine connection · Lecture 6, The Newtonian limit and gravitational redshift · Lecture 7, Derivatives of tensors · Lecture 8, The principle of general covariance
+
+**Part II — Curvature and the Einstein equations**
+: Lecture 9, The Riemann tensor · Lecture 10, The Bianchi identities and geodesic deviation · Lecture 11, The Einstein equations · Lecture 12, The Cauchy problem and harmonic coordinates
+
+**Part III — Applications**
+: Lecture 13, The Schwarzschild solution · Lecture 14, Geodesics of the Schwarzschild solution · Lecture 15, Schwarzschild black holes · Lecture 16, Gravitational waves · Lecture 17, The power of gravitational waves · Lecture 18, Sources and detection of gravitational waves, and Killing vectors
+
+**Part IV — Cosmology**
+: Lecture 19, Maximally symmetric spaces · Lecture 20, The cosmological principle · Lecture 21, The Friedmann equation · Lecture 22, Cosmological parameters and the action principle
+
+## Conventions
+
+We use units with $c = 1$ and follow Weinberg's sign conventions throughout. Many other texts, Carroll's among them, define the Riemann tensor with the opposite sign, which flips the signs in the Einstein equations.
+
+| Quantity | Convention |
+|----------|------------|
+| Minkowski metric | $\eta_{\alpha\beta} = \operatorname{diag}(-1, 1, 1, 1)$ |
+| Proper time | $d\tau^2 = -g_{\mu\nu}\, dx^\mu dx^\nu$ |
+| Determinant | $g = -\det g_{\mu\nu}$ |
+| Riemann tensor | $R^\lambda{}_{\mu\nu\kappa} = \partial_\kappa\Gamma^\lambda_{\mu\nu} - \partial_\nu\Gamma^\lambda_{\mu\kappa} + \Gamma^\eta_{\mu\nu}\Gamma^\lambda_{\kappa\eta} - \Gamma^\eta_{\mu\kappa}\Gamma^\lambda_{\nu\eta}$ |
+| Ricci tensor and scalar | $R_{\mu\kappa} = R^\lambda{}_{\mu\lambda\kappa}$, $\quad R = g^{\mu\nu}R_{\mu\nu}$ |
+| Einstein equations | $R_{\mu\nu} - \frac12 g_{\mu\nu}R = -8\pi G\, T_{\mu\nu}$ |

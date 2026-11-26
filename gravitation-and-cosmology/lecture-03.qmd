@@ -1,0 +1,120 @@
+---
+title: "Lorentz Transformations and Tensors"
+---
+
+## The Lorentz group
+
+Consider a homogeneous Lorentz transformation $x'^\alpha = \Lambda^\alpha{}_\beta\, x^\beta$, so that
+$$\eta_{\alpha\beta} = \Lambda^\gamma{}_\alpha\, \Lambda^\delta{}_\beta\, \eta_{\gamma\delta}. \tag{1}$$
+The matrix $\Lambda$ has 16 entries. Both sides of (1) are symmetric in $\alpha \leftrightarrow \beta$, so (1) is only $4\cdot 5/2 = 10$ independent conditions, and a Lorentz transformation has $16 - 10 = 6$ free parameters: three for rotations and three for boosts.
+
+::: {#r-3-1 .callout-important .proposition-box}
+
+#### **Proposition 3.1** (Two properties of Lorentz transformations). [[1, Ch. 2]](#ref-1)
+
+Every Lorentz transformation satisfies $(\Lambda^0{}_0)^2 \geq 1$ and $(\det\Lambda)^2 = 1$.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+The $\alpha = \beta = 0$ component of (1) reads
+$$-1 = \Lambda^\gamma{}_0\, \Lambda^\delta{}_0\, \eta_{\gamma\delta} = -(\Lambda^0{}_0)^2 + \sum_{j=1}^3 (\Lambda^j{}_0)^2,$$
+so $(\Lambda^0{}_0)^2 = 1 + \sum_j (\Lambda^j{}_0)^2 \geq 1$. In matrix form (1) is $\eta = \Lambda^T \eta\, \Lambda$, and taking determinants gives $\det\eta = (\det\Lambda)^2 \det\eta$. $\square$
+:::
+:::
+
+In special relativity one restricts to $\Lambda^0{}_0 \geq 1$, the *orthochronous* transformations, which do not reverse the direction of time, and $\det\Lambda = 1$, the *proper* ones, which do not change the handedness of space. The proper orthochronous Lorentz transformations form the group $SO^+(1,3)$, whose double cover is $SL(2, \mathbb C)$ [[2]](#ref-2).
+
+## Boosts
+
+Let a test particle be at rest in the coordinates $x^\alpha$ and move with velocity $\vec v = d\vec x'/dt'$ in the coordinates $x'^\alpha$. Along its path $d\vec x = 0$, so $dx'^i = \Lambda^i{}_0\, dt$ and $dt' = \Lambda^0{}_0\, dt$, and the ratio gives
+$$\Lambda^i{}_0 = v^i\, \Lambda^0{}_0. \tag{2}$$
+
+::: {#r-3-2 .callout-important .proposition-box}
+
+#### **Proposition 3.2** (The boost matrix). [[1, Ch. 2]](#ref-1)
+
+The Lorentz transformation that takes a particle from rest to velocity $\vec v$ can be taken to be
+$$\Lambda^0{}_0 = \gamma, \qquad \Lambda^i{}_0 = \Lambda^0{}_i = \gamma v^i, \qquad \Lambda^i{}_j = \delta^i_j + v^i v_j\, \frac{\gamma - 1}{v^2},$$
+where $\gamma = (1 - v^2)^{-1/2}$.
+
+::: {.callout-note .proof-box collapse="true"}
+
+#### Proof
+
+Inserting (2) into the $\alpha = \beta = 0$ component of (1) gives $-1 = (\Lambda^0{}_0)^2(v^2 - 1)$, so $\Lambda^0{}_0 = \gamma$ (taking the orthochronous root). The $(\alpha, \beta) = (i, 0)$ component gives
+$$0 = -\Lambda^0{}_i\, \Lambda^0{}_0 + \sum_j \Lambda^j{}_i\, \Lambda^j{}_0 = \gamma\Bigl(-\Lambda^0{}_i + \sum_j \Lambda^j{}_i\, v_j\Bigr),$$
+and the $(i, j)$ components give a quadratic condition on $\Lambda^i{}_j$. One checks directly that the stated matrix satisfies all of these. $\square$
+:::
+:::
+
+The spatial part $\Lambda^i{}_j$ is not unique: if $\Lambda$ takes a particle from rest to velocity $\vec v$, so does $\Lambda R$ for any rotation $R$ (a rotation acts only on the spatial coordinates and preserves $\eta_{\alpha\beta}$, so it is itself a Lorentz transformation).
+
+## Time dilation and the Doppler effect
+
+Let a clock be at rest in the frame $\mathcal O$ and let $dt'$ be the coordinate time between two ticks in the frame $\mathcal O'$, in which the clock moves with speed $v$. By [Proposition 3.2](#r-3-2), $dt' = \gamma\, dt$. This alone does not yet say anything physical, since coordinate time is neither invariant nor directly observable. What observers measure is proper time. In $\mathcal O$ the clock is at rest, so
+$$d\tau^2 = dt^2\Bigl(1 - \Bigl|\frac{d\vec x}{dt}\Bigr|^2\Bigr) = dt^2,$$
+and proper time and coordinate time agree. The interval $dt'$ is measured by the clocks of $\mathcal O'$, which are at rest in $\mathcal O'$, so $dt' = \gamma\, dt$ is a comparison of measured times: the moving clock runs slow, by the factor $\gamma$.
+
+Now replace the clock by a star emitting monochromatic light, and the ticks by successive wave crests. They are emitted a time $dt' = \gamma\, dt$ apart. Between the two emissions the source moves a distance $v_r\, dt'$ along the line of sight, where $v_r$ is the component of $\vec v$ away from the observer, so the crests arrive a time $(1 + v_r)\gamma\, dt$ apart.
+
+::: {#r-3-3 .callout-important .proposition-box}
+
+#### **Proposition 3.3** (Relativistic Doppler effect). [[1, Ch. 2]](#ref-1)
+
+The observed frequency $\nu'$ and the emitted frequency $\nu$ are related by
+$$\frac{\nu'}{\nu} = \underbrace{(1 + v_r)^{-1}}_{\text{Doppler}}\, \underbrace{(1 - v^2)^{1/2}}_{\text{time dilation}}.$$
+For motion along the line of sight, $v_r = v$, this becomes $\nu'/\nu = \sqrt{(1 - v)/(1 + v)} \approx 1 - v$ for small $v$.
+:::
+
+Measuring the shifts of spectral lines in starlight in this way gives the velocities of stars along the line of sight. The two effects are different in nature. The Doppler factor depends on the direction of motion and is already present in non-relativistic physics: it comes from the changing travel time of successive signals. Time dilation depends only on the speed.
+
+## Vectors and tensors
+
+Let $x^\alpha \mapsto x'^\alpha = \Lambda^\alpha{}_\beta\, x^\beta$ be a Lorentz transformation and define
+$$\Lambda_\alpha{}^\beta = \eta_{\alpha\gamma}\, \eta^{\beta\delta}\, \Lambda^\gamma{}_\delta.$$
+Here $\eta^{\alpha\beta}$ is the inverse of $\eta_{\alpha\beta}$, $\eta_{\alpha\gamma}\eta^{\gamma\beta} = \delta^\beta_\alpha$; numerically $\eta^{\alpha\beta} = \eta_{\alpha\beta}$. From (1) it follows that $\Lambda_\alpha{}^\gamma\, \Lambda^\alpha{}_\beta = \delta^\gamma_\beta$, so $\Lambda_\alpha{}^\beta$ is the inverse transformation.
+
+::: {#r-3-4 .callout-note .definition-box}
+
+#### **Definition 3.4** (Lorentz vectors and tensors). [[1, Ch. 2]](#ref-1)
+
+A *contravariant vector* transforms as $V'^\alpha = \Lambda^\alpha{}_\beta\, V^\beta$, and a *covariant vector* as $U'_\alpha = \Lambda_\alpha{}^\beta\, U_\beta$. More generally, a *tensor* is an object with upper and lower indices, each of which transforms in this way; for example
+$$T'^\gamma{}_{\alpha\beta} = \Lambda^\gamma{}_\delta\, \Lambda_\alpha{}^\epsilon\, \Lambda_\beta{}^\zeta\, T^\delta{}_{\epsilon\zeta}.$$
+:::
+
+Note that "covariant" here describes how an object transforms; a covariant equation ([Definition 1.4](lecture-01.qmd#r-1-4)) is one whose two sides transform in the same way. Not everything with indices is a tensor: the affine connection of [Definition 1.11](lecture-01.qmd#r-1-11) does not obey a transformation law of this form.
+
+The contraction of a covariant with a contravariant vector is a scalar:
+$$U'_\alpha V'^\alpha = \Lambda_\alpha{}^\beta\, \Lambda^\alpha{}_\gamma\, U_\beta V^\gamma = \delta^\beta_\gamma\, U_\beta V^\gamma = U_\beta V^\beta.$$
+
+::: {.callout-caution .example-box}
+
+#### **Example 3.5** (Derivatives).
+
+By the chain rule, $\dfrac{\partial}{\partial x'^\alpha} = \dfrac{\partial x^\beta}{\partial x'^\alpha}\dfrac{\partial}{\partial x^\beta} = \Lambda_\alpha{}^\beta\, \dfrac{\partial}{\partial x^\beta}$, so the gradient is a covariant vector. Contracting two of them gives the d'Alembertian
+$$\Box = \eta^{\alpha\beta}\, \frac{\partial}{\partial x^\alpha}\frac{\partial}{\partial x^\beta} = \nabla^2 - \frac{\partial^2}{\partial t^2},$$
+which is a scalar operator.
+:::
+
+::: {#r-3-6 .callout-important .proposition-box}
+
+#### **Proposition 3.6** (Tensor algebra). [[1, Ch. 2]](#ref-1)
+
+1. Linear combinations $a R^\alpha{}_\beta + b S^\alpha{}_\beta$ of tensors of the same type are tensors.
+2. Direct products, such as $A^\alpha{}_\beta\, B^\gamma$, are tensors.
+3. Contracting an upper with a lower index gives a tensor; in particular indices can be raised and lowered with $\eta$, for example $T^\alpha{}_\beta{}^{\gamma\beta} = \eta^{\beta\delta}\, T^\alpha{}_\beta{}^\gamma{}_\delta$.
+4. Derivatives $\partial_\alpha T^{\beta\gamma}$ are tensors under Lorentz transformations, but not under general coordinate transformations; this is what the covariant derivative of [Lecture 7](lecture-07.qmd) will fix.
+:::
+
+Examples of Lorentz tensors are the metric $\eta_{\alpha\beta}$, which is invariant by (1), the zero tensor, and the totally antisymmetric Levi-Civita symbol $\epsilon^{\alpha\beta\gamma\delta}$. The latter is a tensor under proper Lorentz transformations only; under general coordinate transformations it is a *tensor density* ([Lecture 8](lecture-08.qmd)).
+
+The point of tensors is that a tensor equation which holds in one frame holds in all. If $T^\alpha{}_\beta = S^\alpha{}_\beta$ in the coordinates $(t, \vec x)$, then
+$$T'^\alpha{}_\beta = \Lambda^\alpha{}_\gamma\, \Lambda_\beta{}^\epsilon\, T^\gamma{}_\epsilon = \Lambda^\alpha{}_\gamma\, \Lambda_\beta{}^\epsilon\, S^\gamma{}_\epsilon = S'^\alpha{}_\beta$$
+in the coordinates $(t', \vec x')$.
+
+## References {.unnumbered}
+
+1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).
+2. []{#ref-2}J. Schwichtenberg, *Physics from Symmetry*, 2nd ed., Springer (2018).
