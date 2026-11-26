@@ -70,6 +70,16 @@
     ]
   },
   {
+    "objectID": "lecture-01.html#gravity-as-geometry",
+    "href": "lecture-01.html#gravity-as-geometry",
+    "title": "1  The Principle of Relativity and the Equivalence Principle",
+    "section": "Gravity as geometry",
+    "text": "Gravity as geometry\nThe equivalence principle suggests a change of perspective, which the following example makes concrete.\n\n\n\n\n\n\nCautionExample 1.14 (An apple falling from a tree).\n\n\n\nIn the Newtonian picture, the Earth produces a gravitational field that accelerates the apple towards the ground. In general relativity the apple is in free fall: by Proposition 1.12 it moves on a geodesic, and its worldline is as “straight” as a worldline can be. It is the observer standing on the ground who is accelerated, pushed upwards by the ground, and from their point of view the apple appears to fall (Figure 1.2). Light needs no separate treatment: it also moves on geodesics, so to the observer on the ground it too appears to bend.\n\n\n\n\n\n\n\n\nFigure 1.2: Worldlines of the Earth’s surface, an observer on it and an apple. Left: the Newtonian picture, in which the apple accelerates. Right: the free-fall picture, in which the apple moves on a straight line and the surface accelerates. (Schematic: a flat diagram cannot show curvature.)\n\n\n\nThe second picture also explains why inertial and gravitational mass are equal: the observed acceleration does not depend on the falling object at all, just as for the inertial forces of Examples 1.8 and 1.9.\n\n\n\n\n\n\nTipRemark 1.15 (Spacetime becomes dynamical).\n\n\n\nIn Newtonian mechanics and in special relativity, space and time form a fixed background: the arena in which particles and fields move, but which is not itself affected by them. In general relativity, space and time are combined into spacetime, a manifold with a metric \\(g_{\\mu\\nu}\\), and the metric is a dynamical field in its own right. It tells matter how to move, through the geodesic equation (6), and is in turn determined by the distribution of energy and momentum, through the Einstein equations \\[R_{\\mu\\nu} - \\tfrac12\\, g_{\\mu\\nu} R = -8\\pi G\\, T_{\\mu\\nu}\\] of Lecture 11. Gravity is then not a force acting in spacetime, but the curvature of spacetime itself. Even without any matter, the metric has degrees of freedom of its own: gravitational waves (Lecture 16) are ripples of spacetime that propagate through empty space.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>The Principle of Relativity and the Equivalence Principle</span>"
+    ]
+  },
+  {
     "objectID": "lecture-01.html#references",
     "href": "lecture-01.html#references",
     "title": "1  The Principle of Relativity and the Equivalence Principle",

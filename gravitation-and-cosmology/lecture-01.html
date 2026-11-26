@@ -1630,6 +1630,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#the-equivalence-principle" id="toc-the-equivalence-principle" class="nav-link" data-scroll-target="#the-equivalence-principle">The equivalence principle</a></li>
   <li><a href="#free-fall-in-a-gravitational-field" id="toc-free-fall-in-a-gravitational-field" class="nav-link" data-scroll-target="#free-fall-in-a-gravitational-field">Free fall in a gravitational field</a></li>
+  <li><a href="#gravity-as-geometry" id="toc-gravity-as-geometry" class="nav-link" data-scroll-target="#gravity-as-geometry">Gravity as geometry</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -1884,6 +1885,47 @@ Figure&nbsp;1.1: Left: in a box at rest on the Earth, a released ball falls to t
 </div>
 <div class="callout-body-container callout-body">
 <p>In Newtonian gravity a particle obeys <span class="math inline">\(d^2\vec x/dt^2 = -\nabla\phi\)</span>, which cannot be solved without knowing the potential <span class="math inline">\(\phi\)</span>. The potential is fixed by the mass density <span class="math inline">\(\rho\)</span> through the Poisson equation <span class="math inline">\(\nabla^2\phi = 4\pi G\rho\)</span>. In general relativity the metric plays the role of the potential, and the Einstein equations (<a href="./lecture-11.html">Lecture 11</a>) play the role of the Poisson equation: given the distribution of energy and momentum, they determine the metric, and with it the motion of particles.</p>
+</div>
+</div>
+</section>
+<section id="gravity-as-geometry" class="level2">
+<h2 class="anchored" data-anchor-id="gravity-as-geometry">Gravity as geometry</h2>
+<p>The equivalence principle suggests a change of perspective, which the following example makes concrete.</p>
+<div class="example-box callout callout-style-default callout-caution no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span><strong>Example 1.14</strong> (An apple falling from a tree).
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the Newtonian picture, the Earth produces a gravitational field that accelerates the apple towards the ground. In general relativity the apple is in free fall: by <a href="#r-1-12">Proposition 1.12</a> it moves on a geodesic, and its worldline is as “straight” as a worldline can be. It is the observer standing on the ground who is accelerated, pushed upwards by the ground, and from their point of view the apple appears to fall (<a href="#fig-l01-apple" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>). Light needs no separate treatment: it also moves on geodesics, so to the observer on the ground it too appears to bend.</p>
+</div>
+</div>
+<div id="fig-l01-apple" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-l01-apple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="themed-figure" style="max-width: 600px; margin: 0 auto;"><img src="images/l01-apple-light.svg" class="light-content figure-img" alt="Two spacetime diagrams. Left: the Earth's surface and an observer at rest, the apple accelerating towards the surface. Right: the apple's worldline straight, the surface and observer curving towards it."><img src="images/l01-apple-dark.svg" class="dark-content figure-img" alt="Two spacetime diagrams. Left: the Earth's surface and an observer at rest, the apple accelerating towards the surface. Right: the apple's worldline straight, the surface and observer curving towards it."></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-l01-apple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Worldlines of the Earth’s surface, an observer on it and an apple. Left: the Newtonian picture, in which the apple accelerates. Right: the free-fall picture, in which the apple moves on a straight line and the surface accelerates. (Schematic: a flat diagram cannot show curvature.)
+</figcaption>
+</figure>
+</div>
+<p>The second picture also explains why inertial and gravitational mass are equal: the observed acceleration does not depend on the falling object at all, just as for the inertial forces of Examples 1.8 and 1.9.</p>
+<div class="remark-box callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span><strong>Remark 1.15</strong> (Spacetime becomes dynamical).
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Newtonian mechanics and in special relativity, space and time form a fixed background: the arena in which particles and fields move, but which is not itself affected by them. In general relativity, space and time are combined into <em>spacetime</em>, a manifold with a metric <span class="math inline">\(g_{\mu\nu}\)</span>, and the metric is a dynamical field in its own right. It tells matter how to move, through the geodesic equation (6), and is in turn determined by the distribution of energy and momentum, through the Einstein equations <span class="math display">\[R_{\mu\nu} - \tfrac12\, g_{\mu\nu} R = -8\pi G\, T_{\mu\nu}\]</span> of <a href="./lecture-11.html">Lecture 11</a>. Gravity is then not a force acting in spacetime, but the curvature of spacetime itself. Even without any matter, the metric has degrees of freedom of its own: gravitational waves (<a href="./lecture-16.html">Lecture 16</a>) are ripples of spacetime that propagate through empty space.</p>
 </div>
 </div>
 </section>
