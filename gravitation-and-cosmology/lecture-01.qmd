@@ -193,6 +193,36 @@ Equation (6) cannot be solved until we know how $g_{\mu\nu}$ and $\Gamma^\lambda
 In Newtonian gravity a particle obeys $d^2\vec x/dt^2 = -\nabla\phi$, which cannot be solved without knowing the potential $\phi$. The potential is fixed by the mass density $\rho$ through the Poisson equation $\nabla^2\phi = 4\pi G\rho$. In general relativity the metric plays the role of the potential, and the Einstein equations ([Lecture 11](lecture-11.qmd)) play the role of the Poisson equation: given the distribution of energy and momentum, they determine the metric, and with it the motion of particles.
 :::
 
+## Gravity as geometry
+
+The equivalence principle suggests a change of perspective, which the following example makes concrete.
+
+::: {.callout-caution .example-box}
+
+#### **Example 1.14** (An apple falling from a tree).
+
+In the Newtonian picture, the Earth produces a gravitational field that accelerates the apple towards the ground. In general relativity the apple is in free fall: by [Proposition 1.12](#r-1-12) it moves on a geodesic, and its worldline is as "straight" as a worldline can be. It is the observer standing on the ground who is accelerated, pushed upwards by the ground, and from their point of view the apple appears to fall ([@fig-l01-apple]). Light needs no separate treatment: it also moves on geodesics, so to the observer on the ground it too appears to bend.
+:::
+
+::: {#fig-l01-apple}
+```{=html}
+<div class="themed-figure" style="max-width: 600px; margin: 0 auto;"><img src="images/l01-apple-light.svg" class="light-content figure-img" alt="Two spacetime diagrams. Left: the Earth's surface and an observer at rest, the apple accelerating towards the surface. Right: the apple's worldline straight, the surface and observer curving towards it."><img src="images/l01-apple-dark.svg" class="dark-content figure-img" alt="Two spacetime diagrams. Left: the Earth's surface and an observer at rest, the apple accelerating towards the surface. Right: the apple's worldline straight, the surface and observer curving towards it."></div>
+```
+
+Worldlines of the Earth's surface, an observer on it and an apple. Left: the Newtonian picture, in which the apple accelerates. Right: the free-fall picture, in which the apple moves on a straight line and the surface accelerates. (Schematic: a flat diagram cannot show curvature.)
+:::
+
+The second picture also explains why inertial and gravitational mass are equal: the observed acceleration does not depend on the falling object at all, just as for the inertial forces of Examples 1.8 and 1.9.
+
+::: {.callout-tip .remark-box}
+
+#### **Remark 1.15** (Spacetime becomes dynamical).
+
+In Newtonian mechanics and in special relativity, space and time form a fixed background: the arena in which particles and fields move, but which is not itself affected by them. In general relativity, space and time are combined into *spacetime*, a manifold with a metric $g_{\mu\nu}$, and the metric is a dynamical field in its own right. It tells matter how to move, through the geodesic equation (6), and is in turn determined by the distribution of energy and momentum, through the Einstein equations
+$$R_{\mu\nu} - \tfrac12\, g_{\mu\nu} R = -8\pi G\, T_{\mu\nu}$$
+of [Lecture 11](lecture-11.qmd). Gravity is then not a force acting in spacetime, but the curvature of spacetime itself. Even without any matter, the metric has degrees of freedom of its own: gravitational waves ([Lecture 16](lecture-16.qmd)) are ripples of spacetime that propagate through empty space.
+:::
+
 ## References {.unnumbered}
 
 1. []{#ref-1}S. Weinberg, *Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity*, Wiley, New York (1972).
